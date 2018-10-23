@@ -50,19 +50,22 @@ $$
 $$
 a{x_1}^2 + b{x_1}{x_2} + c{x_2}^2 + d{x_1}{x_3} + e{x_2}{x_3} + f{x_3}^2 = 0 \quad (2.1) 
 $$
-<br> or in matrix form
+<br> or in matrix form <br>
 $$
 x^\intercal C x = 0 \quad (2.2) 
 $$
-<br>where the conic coefficient matrix $$C$$ is given by
+<br>where the conic coefficient matrix $$C$$ is given by <br>
 $$
 C = \begin{bmatrix} a & b/2 & d/2 \\ b/2 & c & e/2 \\ d/2 & e/2 & f \end{bmatrix} \quad (2.3) 
 $$
 <br> Note that the conic coefficient matrix is symmetric. C is a homogeneous representation of a conic. The conic has five degrees of freedom which can be thought of as the ratios $$ \big\{a : b : c : d ： e : f\big\} $$ or equivalently the six elemnts of a symmetric matrix less one for scale.
 
-9. What is the conic coefficient matrix $$ C $$ and its dof?
+14. __Five points define a conic.__ Stacking the constraints from five points we obtain <br>
+$$
+\begin{bmatrix} {x_1}^2 & x_1 y_1 & {y_1}^2 & x_1 & y_1 & 1 \\ {x_2}^2 & x_2 y_2 & {y_2}^2 & x_2 & y_2 & 1 \\ {x_3}^2 & x_3 y_3 & {y_3}^2 & x_3 & y_3 & 1 \\ {x_4}^2 & x_4 y_4 & {y_4}^2 & x_4 & y_4 & 1 \\ {x_5}^2 & x_5 y_5 & {y_5}^2 & x_5 & y_5 & 1\end{bmatrix} c = 0 \quad (2.4) 
+$$
 
-10. __Result 2.7__ _The line $$ l $$ tangent to $$ C $$ at a point $$ x $$ on $$ C $$ is given by $$ l = Cx $$._
+15. __Result 2.7__ _The line $$ l $$ tangent to $$ C $$ at a point $$ x $$ on $$ C $$ is given by $$ l = Cx $$._
 
 11. What are _dual conics_?
 
