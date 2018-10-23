@@ -36,6 +36,7 @@ tags:
 
 11. __A model for the projective plane.__ A fruitful way of thinking of $$ \mathbb{P^2} $$ is as a set of rays in $$ \mathbb{R^3} $$. <br>
 	![Fig. 2.1. __A model of the projective plane__](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-ray_model.png)
+	*Fig. 2.1. __A model of the projective plane__*
 
 8. What is _Duality_ principle?
 
