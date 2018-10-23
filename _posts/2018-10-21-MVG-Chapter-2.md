@@ -8,25 +8,40 @@ tags:
     - MVG
 ---
 
+## 2.1 Planar geometry
 1. What is _Tensor_? 
 
-2. What is homogeneous representation of lines?
+2. A significant advantage of the algebraic approach to geometry is that results derived in this way may more easily be used to derive algorithms and practical computational methods.
 
-3. What is homogeneous representation of points?
+## 2.2 The 2D projective plane
+### 2.2.1 Points and lines
 
-4. __Result 2.1.__ _The points_ $$\mathbf{ x } $$ _lies on the line_ $$\mathbf{ l } $$ _if and only if_ $$\mathbf{ {x}^\intercal l } = 0 $$.
+3. __Homogeneous representation of lines.__ $$ ax + by + c = 0 $$ and $$ (ka)x + (kb)y + (kc) = 0 $$ are the same, for any non-zero constant $$k$$. Thus, the vectors $$ (a, b, c)^\intercal $$ and $$ k(a, b, c)^\intercal $$ represent the same line, for any non-zero $$k$$.
 
-5. How can we calculate the _degrees of freedom_ (_dof_)?
+4. __Homogeneous representation of points.__ $$ (x,y,1)^\intercal $$.
 
-6. __Result 2.2.__ _The intersection of two lines_ $$\mathbf{ l } $$ _and_ $$\mathbf{ {l^\prime} } $$ _is the point_ $$\mathbf{ x } = \mathbf{ l \times {l^\prime}} $$.
+5. __Result 2.1.__ _The points $$ x $$ lies on the line $$ l $$ if and only if $$ x^\intercal l = 0 $$.
 
-7. __Result 2.4.__ _The line through two points_ $$\mathbf{ x } $$ _and_ $$\mathbf{ {x^\prime} } $$ _is the point_ $$\mathbf{ l } = \mathbf{ x \times {x^\prime}} $$.
+6.__Degrees of freedom (dof).__ A line is specified by two parameters (the two independent ratios $$ \big\{a : b : c\big\} $$) and so has two degrees of freedom.
+
+7. __Result 2.2.__ _The intersection of two lines $$ l $$ and $$ l^\prime $$ is the point $$ x =  l \times {l^\prime} $$._
+
+8. __Result 2.4.__ _The line through two points $$ x $$ and $$ x^\prime $$ is the point $$ l =  x \times x^\prime $$._
+
+### 2.2.2 Ideal points and the line at infinity
+
+9. __Intersection of parallel lines.__ E.g. $$ ax+by+c = 0 $$ and $$ ax+by+c^\prime = 0 $$, represented by vectors $$ l = (a,b,c)^\intercal $$ and $$ l^\prime = (a,b,c^\prime)^\intercal $$. The intersection is $$ l \times l^\prime = (c^\prime - c)(b,-a,0)^\intercal $$, and igoring the scale factor $$ (c^\prime - c) $$, this is the point $$ (b,-a,0)^\intercal $$.
+
+10. __Ideal points and the line at infinity.__ Homogeneous vectors $$ x = (x_1,x_2,x_3)^\intercal $$ such that $$ x_3 \neq 0 $$ correspond to finite points in $$ \mathbb{R^2} $$. One may augment $$ \mathbb{R^2} $$ by adding points with last coordinate $$x_3 = 0$$. The resulting space is the set of all homogeneous 3/vectors, namely the projective space $$ \mathbb{P^2} $$. The points with last coordinate $$ x_3 = 0 $$ are known as _ideal_ points, or points at infinity. The set of all ideal points may be written $$ (x_1,x_2,0)^\intercal $$, with a particular point specified by the ratio $$x_1:x_2$$. Note this set lies on a single line, the _line of infinity_, denoted by the vector $$l_\infty = (0,0,1)^\intercal$$. The line at inifinity can be also thought of as the set of directions of lines in the plane.
+
+11.
+
 
 8. What is _Duality_ principle?
 
-9. What is the conic coefficient matrix $$\mathbf{ C } $$ and its dof?
+9. What is the conic coefficient matrix $$ C $$ and its dof?
 
-10. __Result 2.7__ _The line_ $$\mathbf{ l } $$ _tangent to_ $$\mathbf{ C } $$ _at a point_ $$\mathbf{ x } $$ _on_ $$\mathbf{ C } $$ _is given by_ $$\mathbf{ l } = \mathbf{ C  x } $$.
+10. __Result 2.7__ _The line $$ l $$ tangent to $$ C $$ at a point $$ x $$ on $$ C $$ is given by $$ l = Cx $$._
 
 11. What are _dual conics_?
 
@@ -86,7 +101,7 @@ such that for any point in $$ \mathbb{ P^2 } $$ represented by a vector $$ \math
 
 38. __Result 2.16.__ _The number of functionally independent invariants is equal to, or greater than, the number of degrees of freedom of the configuration less the number of degrees of freedom of the transformation._
 
-
+39. 
 
 
 
