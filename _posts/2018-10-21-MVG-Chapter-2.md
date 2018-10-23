@@ -77,18 +77,15 @@ $$
 ## 2.3 Projective transformations
 
 18. __Defition 2.9.__ A _projectivity_ is an invertible mapping _h_ from $$ \mathbb{ P^2 } $$ to itself such that three points $$x_1$$, $$x_2$$ and $$x_3$$ lie on the same line if and only if $$h(x_1), h(x_2), h(x_3)$$do.
+<br> Projectivities form a group since the inverse of a projectivity is also a projectivity, and so is the composition of two projectivities. A projectivity is also called a _collineation_, a _projective transformation_ or a _homography_.
 
-19. 
+19. __Theorem 2.10.__ _A mapping h : $$ \mathbb{ P^2 } \rightarrow \mathbb{ P^2 } $$ is a projectivity if and only if there exists a non-singular 3 $$ \times $$ 3 matrix $$ \mathbf{H} $$ such that for any point in $$ \mathbb{ P^2 } $$ represented by a vector $$x$$ it is true that $$ h(x) = Hx $$_.
 
-
-
-
-
-
-14. __Theorem 2.10.__ _A mapping h : $$ \mathbb{ P^2 } \rightarrow \mathbb{ P^2 } $$ is a projectivity if and only if there exists a non-singular 3 $$ \times $$ 3 matrix $$ \mathbf{H} $$ 
-such that for any point in $$ \mathbb{ P^2 } $$ represented by a vector $$ \mathbf{x} $$ it is true that h($$ \mathbf{x} $$) $$ \mathbf{ = Hx }$$_.
-
-15. __Definition 2.11. Projective transformation.__
+15. __Definition 2.11. Projective transformation.__ A planar projective transformation is a linear transformation on homogeneous 3-vectors represented by a non-singular $$3 \times 3$$ matrix:<br>
+$$
+\begin{pmatrix} x^\prime_1 \\ x^\prime_2 \\ x^\prime_3 \end{pmatrix} = \begin{bmatrix} h_{11} & h_{12} & h_{13} \\ h_{21} & h_{22} & h_{23} \\ h_{31} & h_{32} & h_{33} \end{bmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} \quad (2.5) 
+$$
+<br>or more briefly, $$x^\prime = Hx$$
 
 16. What is a _homogeneous_ matrix?
 
