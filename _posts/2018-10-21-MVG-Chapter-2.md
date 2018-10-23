@@ -175,7 +175,7 @@ $$
 <br> with $$A$$ a $$2 \times 2$$ non-singular. A planar affine transformation has six degrees of freedom corresponding to the six matrix elements. The transformation can be computed from three point correspondences.
 <br> A helpful way to understand the geometric effects of the linear component $$A$$ of an affine transformation is as the composition of two fundamental transformations, namely rotations and non-isotropic scalings. The affine matrix $$A$$ can always be decomposed as 
 $$
-A = R(\theta) R(-\phi) D R(\phi)
+A = R(\theta) R(-\phi) D R(\phi) \quad (2.12)
 $$
 <br> where $$R(\theta)$$ and $$R(\phi)$$ are rotations by $$\theta$$ and $$\phi$$ respectively, and $$D$$ is a diagonal matrix:
 $$
@@ -195,6 +195,46 @@ $$
 36. An affinity is orientation-preserving or -reversing according to whether $$\det A$$ is positive or negative respectively. Since $$\det A = \lambda_1 \lambda_2$$ the property depends only on the sign of the scalings.
 
 ### 2.4.4 Class IV: Projective transformations
+
+37. A projective transformation was defined in (2.5). It is a general non-singular linear transformation of _homogeneous_ coordiantes. This generalizes an affine transformation, which is the composition of a general non-singular linear transformation of _inhomogeneous_ coordinates and a translation. Here we examine its block form
+$$
+x^\prime = H_P x = \begin{bmatrix} A & t \\ \mathbf{v}^\intercal & \upsilon \end{bmatrix} x  \quad (2.13)
+$$
+<br> where the vector $$\mathbf{v} = (\upsilon_1,\upsilon_2)^\intercal$$. The matrix has nine elements with only their ratio significant, so the transformation is specified by eight parameters. Note, it is not always possible to sclae the matrix such that $$\upsilon$$ is unity since $$\upsilon$$ might be zero. A projective transformation between two planes can be computed from four point correspondences, with no three collinear on either plane.
+<br> Unlike the case of affinity, it is not possible to distinguish between orientation preserving and orientation reversing projectivities in $$\mathbb{P^2}$$. 
+
+38. __Invariants.__ The most fundamental projective invariant is the cross ratio of four collinear points: a ratio of lengths on a line is invariant under affinities, but not under projectivities. However, a ratio of ratios or _cross ratio_ of lengths on a line is a projective invariant.
+
+### 2.4.5 Summary and comparison
+
+39. The key difference between a projective and affine transformation is that the vector $$\mathbf{v}$$ is not null for a projectivity.This is responsible for the non-linear effects of the projectivity. Compare the mapping of an ideal point $$(x_1,x_2,0)^\intercal$$ under an affinity and projectivity: 
+<br> First the affine transformation
+$$
+\begin{bmatrix} A & t \\ 0^\intercal & 1 \end{bmatrix} \begin{pmatrix} x_1 \\ x_2 \\ 0 \end{pmatrix} = \begin{pmatrix} A \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}  \\ 0 \end{pmatrix}   \quad (2.14)
+$$
+<br> Second the projective transformation
+$$
+\begin{bmatrix} A & t \\ \mathbf{v}^\intercal & \upsilon \end{bmatrix} \begin{pmatrix} x_1 \\ x_2 \\ 0 \end{pmatrix} = \begin{pmatrix} A \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}  \\ \upsilon_1 x_1 + \upsilon_2 x_2 \end{pmatrix} \quad (2.15)
+$$
+<br> In the first case the ideal point remains ideal (i.e. at infinity). In the second it is mapped to a finite point. It is this ability which allows a projective transformation to model vanishing points.
+
+### 2.4.6 Decomposition of a projective transformation
+
+40. A projective transformation can be decomposed into a chain of transformations, where each matrix in the chain represents a transformation higher in the hierarchy than the previous one.
+$$
+H = H_S H_A H_P = \begin{bmatrix} sR & t \\ 0^\intercal & 1 \end{bmatrix}  \begin{bmatrix} K & 0 \\ 0^\intercal & 1 \end{bmatrix} \begin{bmatrix} I & 0 \\ \mathbf{v}^\intercal & \upsilon \end{bmatrix}  = \begin{bmatrix} A & t \\ \mathbf{v}^\intercal & \upsilon \end{bmatrix}   \quad (2.16)
+$$
+<br> with $$A$$ a non-singular matrix given by $$A = sRK + t \mathbf{v}^\intercal$$, and $$K$$ an upper-triangular matrix normalized as $$\det K = 1$$. This decomposition is valid provided $$\upsilon \neq 0$$, and is unique if $$s$$ is chosen positive.
+<br> Each of the matrices $$H_S, H_A, H_P$$ is the "essence" of a transformation of that type. Consider the process of rectifying the perspective image of a plane: $$H_P$$ (2 dof) moves the line at infinity; $$H_A$$ (2 dof) affects the affine properties, but does not move the line at infinity; and finally, $$H_S$$ is a general similarity transformation (4 dof) which does not affect the affine or projective properties. The transformation $$H_P$$ is an _elation_.
+<br> This decomposition can be employed when the objective is to only partially determine the transformation. For example, if one wants to measure length ratios from the perspective image of a plane, then it is only neccessary to determine (rectify) the transformation up to similarity.
+
+41. Taking the inverse of $$H$$ in (2.16) gives $$H^{-1} = H_P^{-1} H_A^{-1} H_S^{-1}. Since $$H_P^{-1}, H_A^{-1}$$ and $$H_S^{-1}$$ are still projective, affine and similarity transformations respectively, a general projective transformation may also be decomposed in the form
+$$
+H = H_S H_A H_P = \begin{bmatrix} I & 0 \\ \mathbf{v}^\intercal & \upsilon \end{bmatrix}  \begin{bmatrix} K & 0 \\ 0^\intercal & 1 \end{bmatrix}  \begin{bmatrix} sR & t \\ 0^\intercal & 1 \end{bmatrix}  \quad (2.17)
+$$ 
+<br> Note that the actual values of $$K， T， t$$ and $$\mathbf{v}$$ will be different from those of (2.16).
+
+### 2.4.7 The number of invariants
 
 
 30. What is _cross ratio_?
