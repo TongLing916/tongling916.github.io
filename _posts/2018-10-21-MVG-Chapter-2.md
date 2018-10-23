@@ -87,10 +87,11 @@ $$
 \begin{pmatrix} x^\prime_1 \\ x^\prime_2 \\ x^\prime_3 \end{pmatrix} = \begin{bmatrix} h_{11} & h_{12} & h_{13} \\ h_{21} & h_{22} & h_{23} \\ h_{31} & h_{32} & h_{33} \end{bmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} \quad (2.5) 
 $$
 <br>or more briefly, $$x^\prime = Hx$$
+<br>Note that the matrix $$H$$ in this equation may be changed by multiplication by an arbitrary non-zero sclae factor without altering the projective transformation. Consequently we say that $$H$$ is a _homography_ matrix, since as in the homogeneous representation of a point, only the ratio of the matrix elements is significant. There are eight independent ratios amongst the nine elements of $$H$$, and it follows that a projective transformation has eight degrees of freedom.
+<br>A projective transformation projects every figure into a projectively equivalent figure, leaving all its projective properties invariant.
 
-16. What is a _homogeneous_ matrix?
-
-17. What is _perspectivity_?
+21. __Mappings between planes.__ Projection along rays through a common point (the centre of projection) defines a mapping from one plane to another. If a coordinate system is defined in each plane and points are represented in homogeneous coordinates, then the _central projection_ mapping may be expressed by $$x^\prime = Hx$$ where $$H$$ is a non-singular $$3 \times 3$$ matrix.
+<br> Actually, if the two coordinate systems defined in the two planes are both Euclidean (rectilinear) coordinate systems then the mapping defined by central projection is more restricted than an arbitrary projective transformation. It is called _perspectivity_ rather than a full projectivity, and may be represented by a transformation with six degrees of freedom.
 
 18. What does _contravariant or covariant_ mean?
 
