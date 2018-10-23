@@ -15,7 +15,7 @@ tags:
 相信历史遗留问题还是会慢慢解决的。最重要的，我个人偏向于通过写代码了解某样东西，
 所以今天在网上找来了一个小程序，就当打响研究SLAM的第一枪吧。
 
-该项目[MonoVO][monovo-python]严格来说并不是一个完整的SLAM，它只是一个一个Mono Odometry,
+该项目[MonoVO][monovo-python]严格来说并不是一个完整的SLAM，它只是一个一个Monocular Visual Odometry,
 不包含Loop Closure等，为了便于理解，我特意先研究了python的代码，
 类似的一种C++的实现方式也可以在[这个网址][monovo-c++]找到。 
 其中，所有程序都在Ubuntu 16.04 下运行。
