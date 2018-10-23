@@ -164,7 +164,7 @@ $$
 
 ### 2.4.3 Class III: Affine transformation
 
-34.An affine transformation (or more simply an _affinity_) is a non-singular linear transformation followed by a translation. It has the matrix representation
+34. An affine transformation (or more simply an _affinity_) is a non-singular linear transformation followed by a translation. It has the matrix representation
 $$
 \begin{pmatrix} x^\prime \\ y^\prime \\ 1 \end{pmatrix} = \begin{bmatrix} a_{11} & a_{12} & t_x \\ a_{21} & a_{22} & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} x \\ y \\ 1 \end{pmatrix} \quad (2.10)
 $$
@@ -228,7 +228,7 @@ $$
 <br> Each of the matrices $$H_S, H_A, H_P$$ is the "essence" of a transformation of that type. Consider the process of rectifying the perspective image of a plane: $$H_P$$ (2 dof) moves the line at infinity; $$H_A$$ (2 dof) affects the affine properties, but does not move the line at infinity; and finally, $$H_S$$ is a general similarity transformation (4 dof) which does not affect the affine or projective properties. The transformation $$H_P$$ is an _elation_.
 <br> This decomposition can be employed when the objective is to only partially determine the transformation. For example, if one wants to measure length ratios from the perspective image of a plane, then it is only neccessary to determine (rectify) the transformation up to similarity.
 
-41. Taking the inverse of $$H$$ in (2.16) gives $$H^{-1} = H_P^{-1} H_A^{-1} H_S^{-1}. Since $$H_P^{-1}, H_A^{-1}$$ and $$H_S^{-1}$$ are still projective, affine and similarity transformations respectively, a general projective transformation may also be decomposed in the form
+41. Taking the inverse of $$H$$ in (2.16) gives $$H^{-1} = H_P^{-1} H_A^{-1} H_S^{-1}$$. Since $$H_P^{-1}, H_A^{-1}$$ and $$H_S^{-1}$$ are still projective, affine and similarity transformations respectively, a general projective transformation may also be decomposed in the form
 $$
 H = H_S H_A H_P = \begin{bmatrix} I & 0 \\ \mathbf{v}^\intercal & \upsilon \end{bmatrix}  \begin{bmatrix} K & 0 \\ 0^\intercal & 1 \end{bmatrix}  \begin{bmatrix} sR & t \\ 0^\intercal & 1 \end{bmatrix}  \quad (2.17)
 $$ 
@@ -237,7 +237,7 @@ $$
 ### 2.4.7 The number of invariants
 
 42. __Result 2.16.__ _The number of functionally independent invariants is equal to, or greater than, the number of degrees of freedom of the configuration less the number of degrees of freedom of the transformation._
-![][https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-geometric-properties-invariant.PNG]
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-geometric-properties-invariant.PNG)
 *Tab. Geometric properties invariant to commonly occurring _planar_ transformations.*
 
 ## 2.5 The projective geometry of 1D
@@ -248,7 +248,7 @@ $$
 $$
 <br> and has 3 degrees of freedom corresponding to the four elements of the matrix less one for overall scaling. A projective transformation of a line may be determined from three corresponding points.
 
-44. __The cross ratio.__ The cross ratio is the basic projective invariant of $$\mathbb{P^1}$$. Given 4 points $$\overline{x_i}$$ the _cross ratio_ is defined as
+44. __The cross ratio.__ The cross ratio is the basic projective invariant of $$\mathbb{P^1}$$. Given 4 points $$\overline{x_i}$$ the _cross ratio_ is defined as <br>
 $$
 Cross(\overline{x_1},\overline{x_2},\overline{x_3},\overline{x_4}) = \frac{\mid\overline{x_1}\overline{x_2}\mid \mid\overline{x_3}\overline{x_4}\mid}{\mid\overline{x_1}\overline{x_3}\mid \mid\overline{x_2}\overline{x_4}\mid}
 $$
@@ -257,16 +257,16 @@ $$
 	- The value of the cross ratio is not dependent on which particular homogeneous representative of a point $$\overline{x_i}$$ is used, since the scale cancels between numerator and denominator.
 	- If each point $$\overline{x_i}$$ is a finite point and the homogeneous representative is chosen such that $$x_2 = 1$$, then $$\mid\overline{x_i}\overline{x_j}\mid$$ represents the signed distance from $$\overline{x_i}$$ to $$\overline{x_j}$$.
 	- The definition of the cross ratio is also valid if one of the points $$\overline{x_i}$$ is an ideal point.
-	- The value of the cross ratio is invariant under any projective transformation of the line: if $$\overline{x^\intercal} = H_{2 \times 2} \overline{x}$$ then
+	- The value of the cross ratio is invariant under any projective transformation of the line: if $$\overline{x^\intercal} = H_{2 \times 2} \overline{x}$$ then <br>
 	$$
-		Cross(\overline{x_1}^\prime,\overline{x_2}^\prime,\overline{x_3}^\prime,\overline{x_4}^\prime) = Cross(\overline{x_1},\overline{x_2},\overline{x_3},\overline{x_4})
+		Cross(\overline{x_1}^\prime,\overline{x_2}^\prime,\overline{x_3}^\prime,\overline{x_4}^\prime) = Cross(\overline{x_1},\overline{x_2},\overline{x_3},\overline{x_4})   \quad (2.18)
 	$$
 
 45. __Concurrent lines.__ A configuration of concurrent lines is dual to collinear points on a line. This means that concurrent lines on a plane also have the geometry $$\mathbb{P^1}$$. In particular four concurrent lines have a cross ratio as illustrated in next figure.
-![][http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-concurrent_lines.png]
+![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-concurrent_lines.png)
 *Fig. Concurrent lines.*
 
-![][http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-line_camera.png]
+![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-line_camera.png)
 *Fig. Projection of points in $$\mathbb{P^2}$$ into a 1-dimensional image.*
 
 ## 2.6 Topology of the projective plane
