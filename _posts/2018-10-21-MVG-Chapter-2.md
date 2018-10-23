@@ -236,24 +236,42 @@ $$
 
 ### 2.4.7 The number of invariants
 
+42. __Result 2.16.__ _The number of functionally independent invariants is equal to, or greater than, the number of degrees of freedom of the configuration less the number of degrees of freedom of the transformation._
+![][https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-geometric-properties-invariant.PNG]
+*Tab. Geometric properties invariant to commonly occurring _planar_ transformations.*
 
-30. What is _cross ratio_?
+## 2.5 The projective geometry of 1D
 
-31. What is the key diffrence between a projective and affine transformation?
+43. The development of the projective geometry of a line, $$\mathbb{P^1}$$, proceeds in much the same way as that of the plane. A point $$x$$ on the line is represented by homogeneous coordiantes $$(x_1,x_2)^\intercal$$, and a point for which $$x_2 = 0$$ is an ideal point of the line. We will use the notation $$\overline{x}$$ to represent the 2-vector $$(x_1,x_2)^\intercal$$. A projective transformation of a line is represented by a $$2 \times 2$$ homogeneous matrix,
+$$
+\overline{x}^\prime = H_{2 \times 2} \overline{x}
+$$
+<br> and has 3 degrees of freedom corresponding to the four elements of the matrix less one for overall scaling. A projective transformation of a line may be determined from three corresponding points.
 
-32. What is the decomposition of a projective transformation?
+44. __The cross ratio.__ The cross ratio is the basic projective invariant of $$\mathbb{P^1}$$. Given 4 points $$\overline{x_i}$$ the _cross ratio_ is defined as
+$$
+Cross(\overline{x_1},\overline{x_2},\overline{x_3},\overline{x_4}) = \frac{\mid\overline{x_1}\overline{x_2}\mid \mid\overline{x_3}\overline{x_4}\mid}{\mid\overline{x_1}\overline{x_3}\mid \mid\overline{x_2}\overline{x_4}\mid}
+$$
+<br> where $$\mid\overline{x_i}\overline{x_j}\mid = \det \begin{bmatrix} x_{i1} & x_{j1} \\ x_{i2} & x_{j2} \end{bmatrix}$$
+<br> A few comments on the cross ratio.
+	- The value of the cross ratio is not dependent on which particular homogeneous representative of a point $$\overline{x_i}$$ is used, since the scale cancels between numerator and denominator.
+	- If each point $$\overline{x_i}$$ is a finite point and the homogeneous representative is chosen such that $$x_2 = 1$$, then $$\mid\overline{x_i}\overline{x_j}\mid$$ represents the signed distance from $$\overline{x_i}$$ to $$\overline{x_j}$$.
+	- The definition of the cross ratio is also valid if one of the points $$\overline{x_i}$$ is an ideal point.
+	- The value of the cross ratio is invariant under any projective transformation of the line: if $$\overline{x^\intercal} = H_{2 \times 2} \overline{x}$$ then
+	$$
+		Cross(\overline{x_1}^\prime,\overline{x_2}^\prime,\overline{x_3}^\prime,\overline{x_4}^\prime) = Cross(\overline{x_1},\overline{x_2},\overline{x_3},\overline{x_4})
+	$$
 
-33. How can we calculate the number of invariants?
+45. __Concurrent lines.__ A configuration of concurrent lines is dual to collinear points on a line. This means that concurrent lines on a plane also have the geometry $$\mathbb{P^1}$$. In particular four concurrent lines have a cross ratio as illustrated in next figure.
+![][http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-concurrent_lines.png]
+*Fig. Concurrent lines.*
 
-34. What are concurrent lines?
+![][http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-line_camera.png]
+*Fig. Projection of points in $$\mathbb{P^2}$$ into a 1-dimensional image.*
 
+## 2.6 Topology of the projective plane
 
-38. __Result 2.16.__ _The number of functionally independent invariants is equal to, or greater than, the number of degrees of freedom of the configuration less the number of degrees of freedom of the transformation._
-
-39. 
-
-
-
+## 2.7 Recovery of affine and metric properties from images
 
 
 
