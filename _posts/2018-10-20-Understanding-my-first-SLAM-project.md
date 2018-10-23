@@ -24,6 +24,7 @@ tags:
 ## Libraries
 为了运行这个python程序，要求都栽Readme中可以看到，要注意的是，如果电脑同时装了ROS和多个版本的Python，
 直接运行`python test.py`可能会报出现下面的错误：
+
 {% highlight bash %}
 ImportError: /opt/ros/kinetic/lib/python2.7/dist-packages/cv2.so: undefined symbol: PyCObject_Type
 {% endhighlight %}
@@ -62,8 +63,173 @@ for img_id in xrange(4541):
 实际运行过程中，发现轨迹的转向与实际视频中的转向正好相反，这是为什么？
 
 # Discussion
-要想搞清楚，我们先来一步一步分析代码。
+要想搞清楚，我们先来一步一步分析代码。首先来看`visual_odometry.py`.
 
+{% highlight python%}
+#some codes...
+import numpy as np 
+import cv2
+
+STAGE_FIRST_FRAME = 0
+STAGE_SECOND_FRAME = 1
+STAGE_DEFAULT_FRAME = 2
+kMinNumFeature = 1500
+
+lk_params = dict(winSize  = (21, 21), 
+				#maxLevel = 3,
+             	criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 30, 0.01))
+
+def featureTracking(image_ref, image_cur, px_ref):
+	#https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_video/py_lucas_kanade/py_lucas_kanade.html
+	#<<视觉SLAM十四讲>> P.187-188
+	#learning opencv 3, P507
+	#kp2: next points(2d end points, CV_32F)
+	#st: status, for each points, found = 1, else = 0
+	#err: Error measure for found points
+	kp2, st, err = cv2.calcOpticalFlowPyrLK(image_ref, image_cur, px_ref, None, **lk_params)  #shape: [k,2] [k,1] [k,1]
+
+	st = st.reshape(st.shape[0])
+	kp1 = px_ref[st == 1]
+	kp2 = kp2[st == 1]
+
+	return kp1, kp2
+
+
+class PinholeCamera:
+	def __init__(self, width, height, fx, fy, cx, cy, 
+				k1=0.0, k2=0.0, p1=0.0, p2=0.0, k3=0.0):
+		self.width = width
+		self.height = height
+		self.fx = fx
+		self.fy = fy
+		self.cx = cx
+		self.cy = cy
+		self.distortion = (abs(k1) > 0.0000001)
+		self.d = [k1, k2, p1, p2, k3]
+
+
+class VisualOdometry:
+	def __init__(self, cam, annotations):
+		self.frame_stage = 0
+		self.cam = cam
+		self.new_frame = None
+		self.last_frame = None
+		self.cur_R = None
+		self.cur_t = None
+		self.px_ref = None
+		self.px_cur = None
+		self.focal = cam.fx
+		self.pp = (cam.cx, cam.cy)   #Principle point of the camera. 光圈中心
+		self.trueX, self.trueY, self.trueZ = 0, 0, 0
+		
+		#the basics of FAST algorithm: https://docs.opencv.org/3.4.3/df/d0c/tutorial_py_fast.html
+		#nonmaxSuppression 设置成true，来解决多个feature在相邻的位置被检测到
+		#https://blog.csdn.net/tengfei461807914/article/details/79492012
+		#opencv-python-tutroals P.156
+		self.detector = cv2.FastFeatureDetector_create(threshold=25, nonmaxSuppression=True)
+		with open(annotations) as f:
+			self.annotations = f.readlines()
+
+	def getAbsoluteScale(self, frame_id):  #specialized for KITTI odometry dataset
+		ss = self.annotations[frame_id-1].strip().split()
+		x_prev = float(ss[3])
+		y_prev = float(ss[7])
+		z_prev = float(ss[11])
+		ss = self.annotations[frame_id].strip().split()
+		x = float(ss[3])
+		y = float(ss[7])
+		z = float(ss[11])
+		self.trueX, self.trueY, self.trueZ = x, y, z
+		return np.sqrt((x - x_prev)*(x - x_prev) + (y - y_prev)*(y - y_prev) + (z - z_prev)*(z - z_prev))
+
+	def processFirstFrame(self):
+		self.px_ref = self.detector.detect(self.new_frame)
+		self.px_ref = np.array([x.pt for x in self.px_ref], dtype=np.float32)
+		self.frame_stage = STAGE_SECOND_FRAME
+
+	def processSecondFrame(self):
+		self.px_ref, self.px_cur = featureTracking(self.last_frame, self.new_frame, self.px_ref)
+		E, mask = cv2.findEssentialMat(self.px_cur, self.px_ref, focal=self.focal, pp=self.pp, method=cv2.RANSAC, prob=0.999, threshold=1.0)
+		_, self.cur_R, self.cur_t, mask = cv2.recoverPose(E, self.px_cur, self.px_ref, focal=self.focal, pp = self.pp)
+		self.frame_stage = STAGE_DEFAULT_FRAME 
+		self.px_ref = self.px_cur
+
+	def processFrame(self, frame_id):
+		self.px_ref, self.px_cur = featureTracking(self.last_frame, self.new_frame, self.px_ref)
+		#Essential Matrix, fundamental matrix. See <<Visual SLAM 14 Lectures>> P.145
+		E, mask = cv2.findEssentialMat(self.px_cur, self.px_ref, focal=self.focal, pp=self.pp, method=cv2.RANSAC, prob=0.999, threshold=1.0)
+		
+		#https://docs.opencv.org/3.0-beta/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#nister03
+		_, R, t, mask = cv2.recoverPose(E, self.px_cur, self.px_ref, focal=self.focal, pp = self.pp)
+		absolute_scale = self.getAbsoluteScale(frame_id)
+		if(absolute_scale > 0.1):
+			self.cur_t = self.cur_t + absolute_scale*self.cur_R.dot(t) 
+			self.cur_R = R.dot(self.cur_R)
+		if(self.px_ref.shape[0] < kMinNumFeature):      #为什么小于某个值后更新px_cur?
+			self.px_cur = self.detector.detect(self.new_frame)
+			self.px_cur = np.array([x.pt for x in self.px_cur], dtype=np.float32)
+		self.px_ref = self.px_cur
+
+	def update(self, img, frame_id):
+		#确认是grayscale，以及有相同的height(x方向，index0)和width(y方向，index1)
+		assert(img.ndim==2 and img.shape[0]==self.cam.height and img.shape[1]==self.cam.width), "Frame: provided image has not the same size as the camera model or image is not grayscale"
+		self.new_frame = img
+		if(self.frame_stage == STAGE_DEFAULT_FRAME):
+			self.processFrame(frame_id)
+		elif(self.frame_stage == STAGE_SECOND_FRAME):
+			self.processSecondFrame()
+		elif(self.frame_stage == STAGE_FIRST_FRAME):
+			self.processFirstFrame()
+		self.last_frame = self.new_frame
+
+{% endhighlight %}
+
+然后是`test.py`.
+
+{% highlight python%}
+import numpy as np 
+import cv2
+
+from visual_odometry import PinholeCamera, VisualOdometry
+
+
+cam = PinholeCamera(1241.0, 376.0, 718.8560, 718.8560, 607.1928, 185.2157)    #init a pinhole camera (width, height, fx, fy, cx, cy)
+vo = VisualOdometry(cam, '/home/tong/datasets/KITTI/poses/00.txt')    #init a visual odometry (cam, ground truth poses) 
+
+traj = np.zeros((600,600,3), dtype=np.uint8)
+
+for img_id in xrange(4541):   #we have total 4541 images in image_0
+	#Python zfill() 方法返回指定长度的字符串，原字符串右对齐，前面填充0。
+	#cv.imread(path_to_image, flag_how_image_should_be_read) https://docs.opencv.org/3.1.0/dc/d2e/tutorial_py_image_display.html
+	#https://docs.opencv.org/3.0-beta/modules/imgcodecs/doc/reading_and_writing_images.html
+	#cv2.IMREAD_COLOR：    1, default
+	#cv2.IMREAD_GRAYSCALE：0
+	#cv2.IMREAD_UNCHANGED：-1, 包括alpha
+	#The depth of the grayscale image is 1, but grayscale is actually composed of 2 dimentions: x and y. Color image composed of 3 dimentions. x, y, and depth of 3
+	img = cv2.imread('/home/tong/datasets/KITTI/sequences/00/image_0/'+str(img_id).zfill(6)+'.png', 0)  
+
+	vo.update(img, img_id)
+
+	cur_t = vo.cur_t
+	if(img_id > 2):
+		x, y, z = cur_t[0], cur_t[1], cur_t[2]
+	else:
+		x, y, z = 0., 0., 0.
+	draw_x, draw_y = int(x)+290, int(z)+90
+	true_x, true_y = int(vo.trueX)+290, int(vo.trueZ)+90
+
+	cv2.circle(traj, (draw_x,draw_y), 1, (img_id*255/4540,255-img_id*255/4540,0), 1)
+	cv2.circle(traj, (true_x,true_y), 1, (0,0,255), 2)
+	cv2.rectangle(traj, (10, 20), (600, 60), (0,0,0), -1)
+	text = "Coordinates: x=%2fm y=%2fm z=%2fm"%(x,y,z)
+	cv2.putText(traj, text, (20,40), cv2.FONT_HERSHEY_PLAIN, 1, (255,255,255), 1, 8)
+
+	cv2.imshow('Road facing camera', img)
+	cv2.imshow('Trajectory', traj)
+	cv2.waitKey(1)
+
+cv2.imwrite('map.png', traj)
+{% endhighlight %}
 
 [monovo-python]: https://github.com/uoip/monoVO-python
 [monovo-c++]: https://github.com/avisingh599/mono-vo
