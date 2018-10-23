@@ -1,7 +1,11 @@
 ---
 layout: post
 title: "Understanding My First SLAM Project"
-categories: SLAM
+date:       2018-10-20
+author:     Tong
+catalog: true
+tags:
+    - SLAM
 ---
 
 最近看完了《视觉SLAM十四讲》，感觉这本书对入门SLAM还是有一定的帮助，

@@ -1,9 +1,9 @@
 # Site settings
 title: Tong's Blog
 SEOTitle: Tong's This Is It
-header-img: img/post-bg-desk.jpg
+header-img: img/mallorca.jpg
 email: ling_tong@outlook.com
-description: "Every failure is leading towards success."
+description: "Learning by doing."
 keyword: "SLAM, CV, KF, EKF, PK, Deutsch, English"
 url: "http://tongling916.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'

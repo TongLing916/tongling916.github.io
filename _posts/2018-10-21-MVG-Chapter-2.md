@@ -1,7 +1,11 @@
 ---
 layout: post
 title: "MVG Chapter 2-Projective Geometry and Transformations of 2D"
-categories: MVG
+date:       2018-10-20
+author:     Tong
+catalog: true
+tags:
+    - MVG
 ---
 
 1. What is _Tensor_? 

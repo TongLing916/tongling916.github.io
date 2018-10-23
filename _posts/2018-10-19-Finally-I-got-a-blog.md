@@ -1,7 +1,12 @@
 ---
-layout: post
-title: "Finally I Got A Blog!"
-categories: general
+layout:     post
+title:      "Finally I Got A Blog!"
+date:       2018-10-19
+author:     Tong
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - Personal
 ---
 
 在上学期见到某个同学（同事）的个人网站后，就萌生了自己搭建个人网站的想法，另外其实还有几个原因:
