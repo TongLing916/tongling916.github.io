@@ -36,11 +36,11 @@ tags:
 
 11. __A model for the projective plane.__ A fruitful way of thinking of $$ \mathbb{P^2} $$ is as a set of rays in $$ \mathbb{R^3} $$. <br>
 ![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-ray_model.png)
-*Fig. 2.1. __A model of the projective plane__*
+*Fig. A model of the projective plane*
 	
 12. __Reuslt 2.6. Duality principle.__ _To any theorem of 2-dimensional projective geometry there corresponds a dual theorem, which may be derived by interchanging the roles of points and lines in the original theorem._ Example: Result 2.2 and 2.4.
 
-### 2.2.3 Conics and dual conics_
+### 2.2.3 Conics and dual conics
 
 13. The euqation of a conic in inhomogeneous coordinate is
 $$
@@ -60,16 +60,19 @@ C = \begin{bmatrix} a & b/2 & d/2 \\ b/2 & c & e/2 \\ d/2 & e/2 & f \end{bmatrix
 $$
 <br> Note that the conic coefficient matrix is symmetric. C is a homogeneous representation of a conic. The conic has five degrees of freedom which can be thought of as the ratios $$ \big\{a : b : c : d ： e : f\big\} $$ or equivalently the six elemnts of a symmetric matrix less one for scale.
 
-14. __Five points define a conic.__ Stacking the constraints from five points we obtain <br>
+14. __Five points define a conic.__ Stacking the constraints from five points we obtain, where $$c=(a,b,c,d,e,f)^\intercal$$<br>
 $$
 \begin{bmatrix} {x_1}^2 & x_1 y_1 & {y_1}^2 & x_1 & y_1 & 1 \\ {x_2}^2 & x_2 y_2 & {y_2}^2 & x_2 & y_2 & 1 \\ {x_3}^2 & x_3 y_3 & {y_3}^2 & x_3 & y_3 & 1 \\ {x_4}^2 & x_4 y_4 & {y_4}^2 & x_4 & y_4 & 1 \\ {x_5}^2 & x_5 y_5 & {y_5}^2 & x_5 & y_5 & 1\end{bmatrix} c = 0 \quad (2.4) 
 $$
 
 15. __Result 2.7__ _The line $$ l $$ tangent to $$ C $$ at a point $$ x $$ on $$ C $$ is given by $$ l = Cx $$._
 
-11. What are _dual conics_?
+16. __Dual conics.__ The conic $$C$$ defined above is more properly termed a _point_ conic, as it defines an equation on points. Given the duality result 2.6 of $$\mathbb{P^2} $$ it is not surprising that there is also a conic which defines an equation on lines. This _dual_ (or line) conic is also represented by a $$3 \times 3$$ matrix, which we denote as $$C^*$$. A line $$l$$ _tangent_ to the conic $$C$$ satisfies $$l^\intercal C^* l = 0$$. The notation $$C^*$$ indicates that $$C^*$$ is the adjoint matrix of $$C$$. For a non-singular symmetric matrix $$C^*=\inv{C}$$.
+<br>Note> The equation for a dual conic is straightforward to derive in the case that $$C$$ has full rank.
+![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-line_conic.png)
+*Fig. Dual conics are also known as conic envelopes.*
 
-12. What are _degenerate conics_?
+17. __Degenerate conics.__ If the matrix $$C$$ is not of full rank, then the conic is termed degenerate. Degenerate point conics include two lines (rank 2), and a repeated line (rank 1).
 	
 13. __Defition 2.9.__ A _projectivity_ is an invertible mapping _h_ from $$ \mathbb{ P^2 } $$ to itself such that three points $$ \mathbf{x_1} $$,
  $$ \mathbf{x_2} $$ and $$ \mathbf{x_3} $$ lie on the same line if and only if _h($$ x_1 $$)_, _h($$ x_2 $$)_, _h($$ x_3 $$)_ do.
