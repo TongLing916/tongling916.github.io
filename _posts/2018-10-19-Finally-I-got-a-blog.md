@@ -3,7 +3,6 @@ layout:     post
 title:      "Finally I Got A Blog!"
 date:       2018-10-19
 author:     Tong
-header-img: img/post-bg-cook.jpg
 catalog: true
 tags:
     - Personal
