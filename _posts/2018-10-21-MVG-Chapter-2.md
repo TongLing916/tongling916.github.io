@@ -106,42 +106,96 @@ $$
 $$
 \begin{align}
 x^\intercal C x & = x^{\prime \intercal}[H^{-1}]^\intercal C H^{-1} x^\prime  \\
-                & =  
+                & = x^{\prime \intercal}H^{-\intercal} C H^{-1} x^\prime
 \end{align}
 $$
+<br> which is a quadratic form $$x^{\prime T} C^\prime x\prime$$ with $$C^\prime = H^{-\intercal} C H^{-1}$$
 
 24. __Result 2.13.__ _Under a point transformation $$ x^\prime = Hx $$, a conic $$ C $$ transforms to $$ C^\prime = H^{-\intercal}CH^{-1} $$._
+<br> THe presence of $$H^{-1}$$ in this transformation may be expressed by saying that a conic transforms _covariantly_.
 
 25. __Result 2.14.__ _Under a point transformation x^\prime = Hx, a dual conic $$ C^* $$ transforms to $$ C^{*\prime} = HC^*H^\intercal $$._
 
+## 2.4 A hierarchy of transformations
 
+26. The group of invertible  $$n \times n$$ matrices with real elements is the (real) _general linear group_ on $$n$$ dimensions, or $$GL(n)$$. To obtain the _projective linear group_ the matrices related by a scalar multiplier are identified, giving $$PL(n)$$ (this is a quotient group of $$GL(n)$$). In the case of projective transformations of the plane $$n = 3$$.
+<br> The important subgroups of $$PL(3)$$ include _affine group_, which is the subgroup of $$PL(3)$$ consisting of matrices for which the last row is (0, 0, 1), 
+<br> and the _Euclidean group_, which is a subgroup of the affine group for which in addition the upper left hand $$2 \times 2$$ matrix is orthogonal. 
+<br> One may also identify the _oriented Euclidean group_ in which the upper left hand $$2 \times 2$$ matrix has determinant 1.
 
+27. __Invariants.__ An alternative to describing the transformation _algebraically_, i.e. as a matrix acting on coordiantes of a point or curve, is to describe the transformation in terms of those elements or quantities that are preserved or _invariant_.
+<br>Note: a Euclidean transformation (translation and rotation). A similarity (e.g. translation, rotation and isotropic scaling).
 
+### 2.4.1 Class I: Isometries
 
+28. Isometries are transformations of the plane $$\mathbb{R^2}$$ that preserve Euclidean distance (from _iso_ = same, _metric_ = measure). An isometry is represented as
+$$
+\begin{pmatrix} x^\prime \\ y^\prime \\ 1 \end{pmatrix} = \begin{bmatrix} \epsilon \cos \theta & - \sin \theta & t_x \\ \epsilon \sin \theta & \cos \theta & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} x \\ y \\ 1 \end{pmatrix} 
+$$
+<br> where $$\epsilon = \pm 1$$. If $$\epsilon = 1$$ then the isometry is _orientation-preserving_ and is a _Euclidean_ transformation (a composition of a translation and rotation). If $$\epsilon = -1$$ then the isometry reverses orientation. An example is the composition of a reflection.
+<br> Euclidean transformations model the motion of a rigid object. However, the orientation reversing isometries often arise as ambiguities in structure recovery.
+<br> A planar Euclidean transformation can be written more concisely in block form as 
+$$
+x^\prime = H_E x = \begin{bmatrix} R & t \\ 0^\intercal & 1 \end{bmatrix} x  \quad (2.7)
+$$
+<br> where $$R$$ is a $$2 \times 2$$ rotation matrix (an orthogonal matrix such that $$R^\intercal R = R R^\intercal = I$$), $$t$$ a translation 2-vector, and $$0$$ a null 2-vector. 
+<br> A Euclidean transformation is also known as a _displacement_.
+<br> A planar Euclidean transformation has three degrees of freedom, one for the rotation and two for the translation. Thus three parameters must be specified in order to define the transformation. The transformation can be computed from two point correspondences (because one point can provide two equations).
 
-18. What does _contravariant or covariant_ mean?
+29. __Invariants.__ Length (the distance between two points), angle (the angle between two lines), and area.
 
-19. What is _projective linear group_?
+30. __Groups and orientation.__ An isometry is orientation-preserving if the upper left hand $$2 \times 2$$ matrix has determinant 1. Orientation-_preserving_ isometries form a group, orientation-_reversing_ ones do not.
 
-20. What is _general linear group_?
+### 2.4.2 Class II: Similarity transformations
 
-21. What is _affine group_?
+31. A similarity transformation (or more simply a _similarity_) is an isometry composed with an isotropic scaling. In the case of a Euclidean transformation composed with a scaling (i.e. no reflection) the similarity has matrix representation
+$$
+\begin{pmatrix} x^\prime \\ y^\prime \\ 1 \end{pmatrix} = \begin{bmatrix} s \cos \theta & - s \sin \theta & t_x \\ s \sin \theta & s \cos \theta & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} x \\ y \\ 1 \end{pmatrix} \quad (2.8)
+$$
+<br> This can be written more concisely in block form as 
+$$
+x^\prime = H_S x = \begin{bmatrix} sR & t \\ 0^\intercal & 1 \end{bmatrix} x  \quad (2.9)
+$$
+<br> where the scalar _s_ represents the isotropic scaling. A similarity transformation is also known as an _equi-form_ transformation, because it preserves "shape"(form). A planar similarity transformation has four degrees of freedom, the scaling accounting for one more degree of freedom tham a Euclidean transformation. A similarity can be computed from two point correspondences.
 
-22. What is _Euclidean group_?
+32. __Invariants.__ Angles between lines are not affected by rotation, translation or isotropic scaling, and so are similarity invariants. In particular parallel lines are mapped to parallel lines. The length between two points is not a similarity invariant, but the _ratio_ of two lengths/areas is an invariant.
 
-23. What is _oriented Euclidean group_?
+33. __Metric structure.__ The description _metric structure_ implies that the structure is defined up to a similarity.
 
-24. What is _invariant_?
+### 2.4.3 Class III: Affine transformation
 
-25. What are _isometries_?
+34.An affine transformation (or more simply an _affinity_) is a non-singular linear transformation followed by a translation. It has the matrix representation
+$$
+\begin{pmatrix} x^\prime \\ y^\prime \\ 1 \end{pmatrix} = \begin{bmatrix} a_{11} & a_{12} & t_x \\ a_{21} & a_{22} & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} x \\ y \\ 1 \end{pmatrix} \quad (2.10)
+$$
+<br> or in block form
+$$
+x^\prime = H_A x = \begin{bmatrix} A & t \\ 0^\intercal & 1 \end{bmatrix} x  \quad (2.11)
+$$
+<br> with $$A$$ a $$2 \times 2$$ non-singular. A planar affine transformation has six degrees of freedom corresponding to the six matrix elements. The transformation can be computed from three point correspondences.
+<br> A helpful way to understand the geometric effects of the linear component $$A$$ of an affine transformation is as the composition of two fundamental transformations, namely rotations and non-isotropic scalings. The affine matrix $$A$$ can always be decomposed as 
+$$
+A = R(\theta) R(-\phi) D R(\phi)
+$$
+<br> where $$R(\theta)$$ and $$R(\phi)$$ are rotations by $$\theta$$ and $$\phi$$ respectively, and $$D$$ is a diagonal matrix:
+$$
+D = \begin{bmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{bmatrix}
+$$
+<br> This decomposition follows directly from the SVD.
+<br> The affine matrix $$A$$ is hence seen to be the concatenation of a rotation (by $$\phi$$); a scaling by $$\lambda_1$$ and $$\lambda_2$$ respectively in the (rotated) $$x$$ and $$y$$ directions; a rotation back (by $$-\phi$$); and a finally another rotation (by $$\theta$$). The only "new" geometry, compared to a similarity, is the non-isotropic scaling. This accounts for the two extra degrees of freedom possessed by an affinity over a similarity. They are the angle $$\phi$$ specifying the scaling direction, and the ratio of the scaling parameters $$\lambda_1 : \lambda_2$$. 
+<br> The essence of an affinity is this scaling in orthogonal directions, oriented at a particular angle.
+![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-affine_def_all.png)
+*Fig. Distortions arising from a planar affine transformation*
 
-26. What is _similarity_?
+35. __Invariants.__ Because an affine transformation includes non-isotropic scaling, the similarity invariants of length ratios and angles between lines are not preserved under an affinity. Three important invariants are:
+	- __Parallel lines.__ 
+	- __Ratio of lengths of parallel line segments.__
+	- __Ratio of areas.__
+	
+36. An affinity is orientation-preserving or -reversing according to whether $$\det A$$ is positive or negative respectively. Since $$\det A = \lambda_1 \lambda_2$$ the property depends only on the sign of the scalings.
 
-27. What is _metric structure_?
+### 2.4.4 Class IV: Projective transformations
 
-28. What is _affinity_?
-
-29. What is _SVD_?
 
 30. What is _cross ratio_?
 
@@ -153,9 +207,6 @@ $$
 
 34. What are concurrent lines?
 
-36. __Result 2.13.__ _Under a point transformation $$ x^\prime = Hx $$, a conic $$ C $$ transforms to $$ C^\prime = H^{-\intercal}CH^{-1} $$._
-
-37. __Result 2.14.__ _Under a point transformation x^\prime = Hx, a dual conic $$ C^* $$ transforms to $$ C^{*\prime} = HC^*H^\intercal $$._
 
 38. __Result 2.16.__ _The number of functionally independent invariants is equal to, or greater than, the number of degrees of freedom of the configuration less the number of degrees of freedom of the transformation._
 
