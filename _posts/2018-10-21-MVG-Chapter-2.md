@@ -80,11 +80,11 @@ such that for any point in $$ \mathbb{ P^2 } $$ represented by a vector $$ \math
 
 35. __Transformation of lines.__
 
-36. __Result 2.13.__
+36. __Result 2.13.__ _Under a point transformation $$ x^\prime = Hx $$, a conic $$ C $$ transforms to $$ C^\prime = H^{-\intercal}CH^{-1} $$._
 
-37. __Result 2.14.__
+37. __Result 2.14.__ _Under a point transformation x^\prime = Hx, a dual conic $$ C^* $$ transforms to $$ C^{*\prime} = HC^*H^\intercal $$._
 
-38. __Result 2.16.__
+38. __Result 2.16.__ _The number of functionally independent invariants is equal to, or greater than, the number of degrees of freedom of the configuration less the number of degrees of freedom of the transformation._
 
 
 
