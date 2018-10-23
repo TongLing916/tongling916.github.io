@@ -63,10 +63,11 @@ for img_id in xrange(4541):
 实际运行过程中，发现轨迹的转向与实际视频中的转向正好相反，这是为什么？
 
 # Discussion
-要想搞清楚，我们先来一步一步分析代码。首先来看`visual_odometry.py`.
+要想搞清楚，我们先来一步一步分析代码。更详细的解释可以参考这篇[博客][blog-avi]。
+
+首先来看`visual_odometry.py`.
 
 {% highlight python%}
-#some codes...
 import numpy as np 
 import cv2
 
@@ -86,9 +87,12 @@ def featureTracking(image_ref, image_cur, px_ref):
 	#kp2: next points(2d end points, CV_32F)
 	#st: status, for each points, found = 1, else = 0
 	#err: Error measure for found points
+	#This is a KLT tracker (https://cecas.clemson.edu/~stb/klt/)
 	kp2, st, err = cv2.calcOpticalFlowPyrLK(image_ref, image_cur, px_ref, None, **lk_params)  #shape: [k,2] [k,1] [k,1]
 
 	st = st.reshape(st.shape[0])
+	
+	#We only need the points that match correctly
 	kp1 = px_ref[st == 1]
 	kp2 = kp2[st == 1]
 
@@ -127,6 +131,7 @@ class VisualOdometry:
 		#https://blog.csdn.net/tengfei461807914/article/details/79492012
 		#opencv-python-tutroals P.156
 		self.detector = cv2.FastFeatureDetector_create(threshold=25, nonmaxSuppression=True)
+		
 		with open(annotations) as f:
 			self.annotations = f.readlines()
 
@@ -156,15 +161,23 @@ class VisualOdometry:
 
 	def processFrame(self, frame_id):
 		self.px_ref, self.px_cur = featureTracking(self.last_frame, self.new_frame, self.px_ref)
+		
 		#Essential Matrix, fundamental matrix. See <<Visual SLAM 14 Lectures>> P.145
+		#https://docs.opencv.org/3.3.1/d9/d0c/group__calib3d.html#ga13f7e34de8fa516a686a56af1196247f
+		#Mat cv::findEssentialMat (InputArray points1, InputArray points2, double focal=1.0, Point2d pp=Point2d(0, 0), int method=RANSAC, double prob=0.999, double threshold=1.0, OutputArray mask=noArray())
 		E, mask = cv2.findEssentialMat(self.px_cur, self.px_ref, focal=self.focal, pp=self.pp, method=cv2.RANSAC, prob=0.999, threshold=1.0)
 		
-		#https://docs.opencv.org/3.0-beta/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#nister03
+		#https://docs.opencv.org/3.0-beta/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#recoverpose
+		#int recoverPose(InputArray E, InputArray points1, InputArray points2, OutputArray R, OutputArray t, double focal=1.0, Point2d pp=Point2d(0, 0), InputOutputArray mask=noArray())
+		#https://hackernoon.com/understanding-the-underscore-of-python-309d1a029edc
 		_, R, t, mask = cv2.recoverPose(E, self.px_cur, self.px_ref, focal=self.focal, pp = self.pp)
+		
 		absolute_scale = self.getAbsoluteScale(frame_id)
 		if(absolute_scale > 0.1):
 			self.cur_t = self.cur_t + absolute_scale*self.cur_R.dot(t) 
 			self.cur_R = R.dot(self.cur_R)
+			
+		#Note that while doing KLT tracking, we will eventually lose some points (as they move out of the field of view of the car), and we thus trigger a redetection whenver the total number of features go below a certain threshold (2000 in my implementation).
 		if(self.px_ref.shape[0] < kMinNumFeature):      #为什么小于某个值后更新px_cur?
 			self.px_cur = self.detector.detect(self.new_frame)
 			self.px_cur = np.array([x.pt for x in self.px_cur], dtype=np.float32)
@@ -184,7 +197,7 @@ class VisualOdometry:
 
 {% endhighlight %}
 
-然后是`test.py`.
+然后是`test.py`。
 
 {% highlight python%}
 import numpy as np 
@@ -192,7 +205,7 @@ import cv2
 
 from visual_odometry import PinholeCamera, VisualOdometry
 
-
+#width, height are the size of image taken. fx, fy and cx, cy can be fount in sequences/00/calib.txt
 cam = PinholeCamera(1241.0, 376.0, 718.8560, 718.8560, 607.1928, 185.2157)    #init a pinhole camera (width, height, fx, fy, cx, cy)
 vo = VisualOdometry(cam, '/home/tong/datasets/KITTI/poses/00.txt')    #init a visual odometry (cam, ground truth poses) 
 
@@ -214,10 +227,11 @@ for img_id in xrange(4541):   #we have total 4541 images in image_0
 	if(img_id > 2):
 		x, y, z = cur_t[0], cur_t[1], cur_t[2]
 	else:
-		x, y, z = 0., 0., 0.
-	draw_x, draw_y = int(x)+290, int(z)+90
+		x, y, z = 0., 0., 0.      #初始两桢我们当作起始点
+	draw_x, draw_y = int(x)+290, int(z)+90    #适当偏移，使轨迹居中
 	true_x, true_y = int(vo.trueX)+290, int(vo.trueZ)+90
 
+	#cv2.circle(img, center, radius, color[, thickness[, lineType[, shift]]]) → img
 	cv2.circle(traj, (draw_x,draw_y), 1, (img_id*255/4540,255-img_id*255/4540,0), 1)
 	cv2.circle(traj, (true_x,true_y), 1, (0,0,255), 2)
 	cv2.rectangle(traj, (10, 20), (600, 60), (0,0,0), -1)
@@ -236,7 +250,7 @@ cv2.imwrite('map.png', traj)
 [pycobject]: https://stackoverflow.com/questions/43019951/after-install-ros-kinetic-cannot-import-opencv
 [kitti]: http://www.cvlibs.net/datasets/kitti/eval_odometry.php
 [monovo-trajectory]: https://raw.githubusercontent.com/uoip/monoVO-python/master/map.png
-
+[blog-avi]: https://avisingh599.github.io/vision/monocular-vo/
 
 
 
