@@ -43,13 +43,9 @@ tags:
 ### 2.2.3 Conics and dual conics_
 
 13. The euqation of a conic in inhomogeneous coordinate is
-$$
-	ax^2 + bxy + cy^2 + dx + ey + f = 0
-$$
+$$ax^2 + bxy + cy^2 + dx + ey + f = 0$$
 i.e. a polynomial of degree 2. "Homogenizing" this by the replacements: $$ x \mapsto x_1/x_3, y \mapsto x_2/x_3 $$ gives
-$$
-	a{x_1}^2 + b{x_1}{x_2} + c{x_2}^2 + d{x_1}{x_3} + e{x_2}{x_3} + f{x_3}^2 = 0
-$$
+$$a{x_1}^2 + b{x_1}{x_2} + c{x_2}^2 + d{x_1}{x_3} + e{x_2}{x_3} + f{x_3}^2 = 0$$
 
 9. What is the conic coefficient matrix $$ C $$ and its dof?
 
