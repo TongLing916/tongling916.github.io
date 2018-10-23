@@ -80,7 +80,8 @@ $$
 <br> Projectivities form a group since the inverse of a projectivity is also a projectivity, and so is the composition of two projectivities. A projectivity is also called a _collineation_, a _projective transformation_ or a _homography_.
 
 19. __Theorem 2.10.__ _A mapping h : $$ \mathbb{ P^2 } \rightarrow \mathbb{ P^2 } $$ is a projectivity if and only if there exists a non-singular 3 $$ \times $$ 3 matrix $$ \mathbf{H} $$ such that for any point in $$ \mathbb{ P^2 } $$ represented by a vector $$x$$ it is true that $$ h(x) = Hx $$_.
-<br> To interpret this theorem, any point in $$\mathbb{P^2}$$ is represented as a homogeneous 3-vector. $$x$$, and $$Hx$$ is a linear mapping of homogeneous coordinates.
+<br> To interpret this theorem, any point in $$\mathbb{P^2}$$ is represented as a homogeneous 3-vector, $$x$$, and $$Hx$$ is a linear mapping of homogeneous coordinates.
+<br> __Proof.__ Let $$x_1,x_2$$ and $$x_3$$ lie on a line $$l$$. Thus $$l^\intercal x_i = 0$$ for $$i = 1,...,3$$. Let $$H$$ be a non-singular $$3 \times 3$$ matrix. One verifies that $$l^\intercal H^{-1} H x_i = 0$$. Thus, the points $$H x_i$$ all lie on the line $$ H^{-\intercal} l $$, and collinearity is preserved by the transformation.
 
 20. __Definition 2.11. Projective transformation.__ A planar projective transformation is a linear transformation on homogeneous 3-vectors represented by a non-singular $$3 \times 3$$ matrix:<br>
 $$
@@ -92,6 +93,31 @@ $$
 
 21. __Mappings between planes.__ Projection along rays through a common point (the centre of projection) defines a mapping from one plane to another. If a coordinate system is defined in each plane and points are represented in homogeneous coordinates, then the _central projection_ mapping may be expressed by $$x^\prime = Hx$$ where $$H$$ is a non-singular $$3 \times 3$$ matrix.
 <br> Actually, if the two coordinate systems defined in the two planes are both Euclidean (rectilinear) coordinate systems then the mapping defined by central projection is more restricted than an arbitrary projective transformation. It is called _perspectivity_ rather than a full projectivity, and may be represented by a transformation with six degrees of freedom.
+
+### 2.3.1 Transformations of lines and conics
+
+22. __Transformation of lines.__ According to the proof of theorem 2.10, under the point transformation $$x^\prime = Hx$$, a line transforms as 
+$$
+l^\prime = H^{-\intercal} l  \quad (2.6)
+$$
+<br> One may alternatively write $$l^{\prime \intercal} = l^\intercal H^{-1}$$. Note the fundamentally different way in which lines and points transform. Points transform according to $$H$$, whereas lines (as rows) transform according to $$H^{-1}$$. This may be explained in terms of "covariant" or "contravariant" behaviour. One says that points transform _contravariantly_ and lines transform _covariantly_.
+
+23. __Transformation of conics.__ Under a point transformation $$x^\prime = Hx$$, (2.2) becomes
+$$
+\begin{align}
+x^\intercal C x & = x^{\prime \intercal}[H^{-1}]^\intercal C H^{-1} x^\prime  \\
+                & =  
+\end{align}
+$$
+
+24. __Result 2.13.__ _Under a point transformation $$ x^\prime = Hx $$, a conic $$ C $$ transforms to $$ C^\prime = H^{-\intercal}CH^{-1} $$._
+
+25. __Result 2.14.__ _Under a point transformation x^\prime = Hx, a dual conic $$ C^* $$ transforms to $$ C^{*\prime} = HC^*H^\intercal $$._
+
+
+
+
+
 
 18. What does _contravariant or covariant_ mean?
 
@@ -126,8 +152,6 @@ $$
 33. How can we calculate the number of invariants?
 
 34. What are concurrent lines?
-
-35. __Transformation of lines.__
 
 36. __Result 2.13.__ _Under a point transformation $$ x^\prime = Hx $$, a conic $$ C $$ transforms to $$ C^\prime = H^{-\intercal}CH^{-1} $$._
 
