@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "MVG Chapter 2-Projective Geometry and Transformations of 2D"
-date:       2018-10-20
+date:       2018-10-24
 author:     Tong
 catalog: true
 tags:
@@ -272,6 +272,72 @@ $$
 ## 2.6 Topology of the projective plane
 
 ## 2.7 Recovery of affine and metric properties from images
+
+46. A projective transformation has only 4 degrees of freedom more than a similarity, so it is only neccessary to specify 4 degrees of freedom (not 8) in order to determine metric properties. In projective geometry these 4 degrees of freedom are given "physical substance" by being associated with geometric objects: the line at infinity $$l_infty$$ (2 dof), and the two _circular points_ (2 dof) on $$l_infty$$.
+
+47. In the following it is shown that the projective distortion may be removed once the image of $$l_infty$$ is specified, and the affine distortion removed once the image of the circular points is specified. Then the only remaining distortion is a similarity.
+
+### 2.7.1  The line at inifinity
+
+
+### 2.7.2 Recovery of affine properties from images
+
+
+### 2.7.3 The circular points and their dual
+
+
+### 2.7.4 Angles on the projective plane
+
+
+### 2.7.5 Recovery of metric properties from images
+
+## 2.8 More properties of conics
+
+### 2.8.1 The pole-polar relationship
+
+
+### 2.8.2 Classification of conics
+
+
+## 2.9 Fixed points and lines
+
+
+## 2.10 Closure
+### 2.10.1 The literature
+
+
+### 2.10.2 Notes and exercises
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
