@@ -324,7 +324,7 @@ The vanishing points may also be computed by a purely geometric construction con
 <br> (3) Join $$b b^\prime$$ and $$c c^\prime$$ and intersect in $$o$$.
 <br> (4) The line through $$o$$ parallel to $$l$$ meets the line $$a^\prime c^\prime$$ in the vanishing point $$v^\prime$$.
 ![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-construction_lengthratio.png)
-*Fig. _A geometric construction to determine the image of the point at infinity on a line given a known length ratio._*
+*Fig. A geometric construction to determine the image of the point at infinity on a line given a known length ratio.*
 
 ### 2.7.3 The circular points and their dual
 
