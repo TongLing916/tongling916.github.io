@@ -297,7 +297,7 @@ $$
 52. However, a less tortuous path which is better suited to computational algorithms is simply to transform the identified $$l_\infty$$ to its canonical position of $$l_\infty = (0,0,1)^\intercal$$. The (projective） matrix which achieves this transformation can be applied to every point in the image in order to affinely rectify the image, i.e. after the transformation, affine measurements can be made directly from the rectified image. The key idea here is in the following figure:
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-Affine-rectification-via-the-vanishing-line.PNG)
 
-53. If the imaged line at inifinity is the line $$l = (l_1, l_2, l_3)^\intercal$$, then provided $$l_3 \neq 0$$ a suitable projective point transformation which will map $$l$$ back to $$l_\infty = (0,0,1)^\intercal$$ is <br>
+53. If the imaged line at inifinity is the line $$ l = (l_1, l_2, l_3)^\intercal $$, then provided $$l_3 \neq 0$$ a suitable projective point transformation which will map $$l$$ back to $$l_\infty = (0,0,1)^\intercal$$ is
 $$
 H = H_A \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ l_1 & l_2 & l_3 \end{bmatrix}  \quad (2.19)
 $$ 
