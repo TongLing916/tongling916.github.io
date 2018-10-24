@@ -328,6 +328,48 @@ The vanishing points may also be computed by a purely geometric construction con
 
 ### 2.7.3 The circular points and their dual
 
+57. Under any similarity transformation there are two points on $$l_\infty$$ which are fixed. These are the _circular points_ (also called the _absolute points_) $$I, J$$, with canonical coordinates <br>
+$$
+I = \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \quad J = \begin{pmatrix} 1 \\ \mathrm{-i} \\ 0 \end{pmatrix} 
+$$
+<br> The circular points are a pair of complex conjugate ideal points. To see that they are fixed under an orientation-preserving similarity: <br>
+$$
+\begin{align}
+I^\prime & = H_S I  \\
+         & = \begin{bmatrix} s \cos \theta & -s \sin \theta & t_x \\ s \sin \theta & s \cos \theta & t_y \\ 0 & 0 && 1 \end{bmatrix} \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \\
+		 & = s e^{-\mathrm{i} \theta} \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} = I
+\end{align}
+$$
+<br> with an analogous proof for $$J$$. A reflection swaps $$I$$ and $$J$$. The converse is also true, i.e. if the circular points are fixed then the linear transformation is a similarity.
+
+58. __Result 2.21.__ _The circular points, $$I$$, $$J$$, are fixed points under the projective transformation $$H$$ if and only if $$H$$ is a similarity._
+<br> The name "circular points" arises because every circle intertersects $$l_\infty$$ at the circular points.
+
+59. Algebraically, the circular points are the orthogonal directions of Euclidean geometry, $$(1,0,0)^\intercal$$ and $$(0,1,0)^\intercal$$, packaged into a single complex conjugate entity, e.g. <br>
+$$
+I = (1,0,0)^\intercal + \mathrm{i}(0,1,0)^\intercal.
+$$
+<br> Consequently, it is not surprising that once the circular points are identified, orthogonality, and other metric properties, are then determined.
+
+60. __The conic dual to the circular points.__ The conic <br>
+$$
+C_\infty^{*} = I J^\intercal + J I^\intercal \quad (2.20)
+$$
+<br> is dual to the circular points.The conic $$C_\infty^{*}$$ is a degenerate (rank 2) line conic (see section 2.2.3), which consists of the two points. In a Euclidean coordiante system it is given by <br>
+$$
+C_\infty^{*} = \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \begin{pmatrix} 1 & \mathrm{-i} & 0 \end{pmatrix} + \begin{pmatrix} 1 \\ \mathrm{-i} \\ 0 \end{pmatrix} \begin{pmatrix} 1 & \mathrm{i} & 0 \end{pmatrix} = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\0 & 0 & 0 \end{bmatrix}
+$$
+
+61. The conic $$C_\infty^{*}$$ is fixed under similarity transformations in an analogous fashion to the fixed properties of circular points. A conic is fixed if the same matrix results (up to scale) under the transformation rules . Since $$C_\infty^{*}$$ is a dual conic it transforms according to result 2.14 ($$C^{* \prime} = H C^{\prime} H^\intercal $$), and one can verify that under the point transformation $$x^\prime = H_S x$$, <br>
+$$
+{C_\infty^{*}}^\prime = H_S C_\infty^{*} H_S^\intercal = C_\infty^{*}
+$$
+<br> The converse is also true.
+
+62. __Result 2.22.__ _The dual conic $$C_\infty^{*}$$ is fixed under the projective transformation H if and only if H is a similarity._
+<br> Some properties of $$C_\infty^{*}$$ in any projective frame:
+	- $$C_\infty^{*}$$ has 4 degrees of freedom.
+	- $$l_\infty$$ is the null vector of $$C_\infty^{*}$$. I.e. $$C_\infty^{*} l_\infty = 0$$
 
 ### 2.7.4 Angles on the projective plane
 
