@@ -273,14 +273,31 @@ $$
 
 ## 2.7 Recovery of affine and metric properties from images
 
-46. A projective transformation has only 4 degrees of freedom more than a similarity, so it is only neccessary to specify 4 degrees of freedom (not 8) in order to determine metric properties. In projective geometry these 4 degrees of freedom are given "physical substance" by being associated with geometric objects: the line at infinity $$l_infty$$ (2 dof), and the two _circular points_ (2 dof) on $$l_infty$$.
+46. A projective transformation has only 4 degrees of freedom more than a similarity, so it is only neccessary to specify 4 degrees of freedom (not 8) in order to determine metric properties. In projective geometry these 4 degrees of freedom are given "physical substance" by being associated with geometric objects: the line at infinity $$l_\infty$$ (2 dof), and the two _circular points_ (2 dof) on $$l_\infty$$.
 
-47. In the following it is shown that the projective distortion may be removed once the image of $$l_infty$$ is specified, and the affine distortion removed once the image of the circular points is specified. Then the only remaining distortion is a similarity.
+47. In the following it is shown that the projective distortion may be removed once the image of $$l_\infty$$ is specified, and the affine distortion removed once the image of the circular points is specified. Then the only remaining distortion is a similarity.
 
 ### 2.7.1  The line at inifinity
 
+48. Under a projective transformation ideal points may be mapped to finite points (2.15), and consequently $$l_\infty$$ is mapped to a finite line. However, if the transformation is an affinity, then $$l_\infty$$ is not mapped to a finite line, but remains at inifinity. According to the line transformation (2.6): <br>
+$$
+l_\infty^\prime = H_A^{-\intercal} l_\infty = \begin{bmatrix} A^{-\intercal} & 0 \\ -t^\intercal A^{-\intercal} & 1 \end{bmatrix} \begin{pmatrix} 0 \\ 0 \\ 1\end{pmatrix} = \begin{pmatrix} 0 \\ 0 \\ 1\end{pmatrix} = l_\infty
+$$
+<br> An affine transformation is the most general linear transformation that fixes $$l_\infty$$.
+
+49. __Result 2.17.__ _The line at infinity, $$l_\infty$$, is a fixed line under the projective transformation $$H$$ if and only if $$H$$ is an affinity._
+<br> However, $$l_\infty$$ is not fixed pointwise under an affine transformation: (2.14) showed that under an affinity a point on $$l_\infty$$ (an ideal point) is mapped to a point on $$l_\infty$$, but it is not the same point undless $$A(x_1,x_2)^\intercal = k(x_1,x_2)^\intercal$$. 
 
 ### 2.7.2 Recovery of affine properties from images
+
+50. Once the imaged line at inifinity is identified in an image of a plane, it is then possible to make affine measurements on the original plane. For example, lines may be identified as parallel on the original plane if the images lines intersect on the imaged $$l_\infty$$. This follows because parallel lines  on the Euclidean plane on $$l_\infty$$, and after a projective transformation the lines still intersect on the images $$l_\infty$$ since intersections are preserved by projectivities.
+
+51. Similarly, once $$l_\infty$$ is identified a length ratio on a line may be computed from the cross ratio of the three points specifying the lengths together with the intersection of the line with $$l_\infty$$ (which provides the fourth point for the cross ratio).
+
+52. However, a less tortuous path which is better suited to computational algorithms is simply to transform the identified $$l_\infty$$ to its canonical position of $$l_\infty = (0,0,1)^\intercal$$. The (projective） matrix which achieves this transformation can be applied to every point in the image in order to affinely rectify the image, i.e. after the transformation, affine measurements can be made directly from the rectified image. The key idea here is in the following figure:
+![]()
+
+53. 
 
 
 ### 2.7.3 The circular points and their dual
