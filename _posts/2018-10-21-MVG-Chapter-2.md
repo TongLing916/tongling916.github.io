@@ -390,14 +390,42 @@ $$
 
 ### 2.7.5 Recovery of metric properties from images
 
+67. __Metric rectification using $$C_\infty^{*}$$.__ The dual conic $$C_\infty^{*}$$ neatly packages all the information required for a metric rectification. It enables both the projective and affine components of a projective transformation to be determined, leaving only similarity distortions. If the point transformation is $$x^\prime = Hx$$, where the $$x$$-coordinate frame is Euclidean and $$x^\prime$$ projective, $$C_\infty^{*}$$ transforms according to result 2.14 ($$C^{* \prime} = H C^* H^\prime $$). Using the decomposition chain (2.17):<br>
+$$
+\begin{align}
+{C_\infty^*}^\prime & = (H_P H_A H_S) C_\infty^* (H_P H_A H_S)^\intercal = (H_P H_A) (H_S C_\infty^* H_S^\intercal) (H_A^\intercal H_P^\intercal) \\
+					& = (H_P H_A) C_\infty^* (H_A^\intercal H_P^\intercal) \\
+					& = \begin{bmatrix} KK^\intercal & KK^\intercal v \\ v^\intercal K K^\intercal &  v^\intercal K K^\intercal v\end{bmatrix} \quad (2.23)
+\end{align}
+$$
 
+68. __Result 2.25.__ _Once the conic $$C_\infty^*$$ is identified on the projective plane then projective distortion may be rectified up to a similarity._
+<br> Actually, a suitable rectifying homography may be obtained directly from the identified $$C_\infty^{*\prime}$$ in an image using the SVD （section A4.4): writing the SVD of $$C_\infty^{*\prime}$$ as <br>
+$$
+C_\infty^{*\prime} = U \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \end{bmatrix} U^\intercal
+$$
+<br> then by inspection from (2.23) the rectifying projectivity is $$H = U$$ up to a similarity.
+
+69. __Stratification.__ First the projective and subsequently the affine distortions were removed. This two-approach is termed _stratified_.
 
 ## 2.8 More properties of conics
 
 ### 2.8.1 The pole-polar relationship
 
+70. A point $$x$$ and a conic $$C$$ define a line $$l = Cx$$. The line $$l$$ is called the _polar_ of $$x$$ with respect to $$C$$, and the point $$x$$ is the _pole_ of $$l$$ with respect to C.
+
+71. _The polar line $$l = Cx$$ of the point $$x$$ with respect to a conic $$C$$ intersects the conic in two points. The two lines tangent to $$C$$ at these points intersect at $$x$$.
+
+72. _If the point $$x$$ is on $$C$$ then the polar is the tangent line to the conic at $$x$$._
+
+73. __Definition 2.29.__ A _correlation_ is an invertible mapping from points of $$\mathbb{P^2}$$ to lines of $$\mathbb{P^2}$$. It is represented by a $$3 \times 3$$ non-singular matrix $$A$$ as $$l = Ax$$.
+
+74. __Conjugate points.__ _If the point y is on the line $$l = Cx$$ then $$y^\intercal l = y^\intercal Cx = 0$$. Any two points $$x, y$$ satisfying $$y^\intercal Cx = 0$$ are conjugate with respect to the conic C._
+
+75. _If $$x$$ is on the polar of $$y$$ then $$y$$ is on the polar of x._ <br> This follows simply because of the symmetry of the conic matrix.
 
 ### 2.8.2 Classification of conics
+
 
 
 ## 2.9 Fixed points and lines
