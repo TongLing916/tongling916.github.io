@@ -311,8 +311,12 @@ In a perspective image of a plane, the line at infinity on the world plane is im
 <br> This example shows that affine properties may be recovered by simply specifying a line (2 dof).
 
 55. __Example 2.19. Computing a vanishing point from a length ratio__ <br>
-
-
+Given two intervals on a line with a known length ratio, the point at infinity on the line may be determined. A typical case is where three points $$ a^\prime, b^\prime, c^\prime$$ are identified on a line in an image. Suppose $$a, b$$ and $$c$$ are the corresponding collinear points on the world line, and the length ratio $$d(a,b) : d(b,c) = a:b$$ is known (where $$d(x,y)$$ is the Euclidean distance between the points $$x$$ and $$y$$). It is possible to find the vanishing point using the cross ratio. 
+	(1) Measure the distance ratio in the image, $$ d(a^\prime, b^\prime):d(b^\prime,c^\prime) = a^\prime:b^\prime$$.
+	(2) Points $$a, b$$ and $$c$$ may be represented as coordinates $$0, a$$ and $$a+b$$ in a coordinate frame on the line $$<a,b,c>$$. For computational purposes, these points are represented by homogeneous 2-vectors $$(0,1)^\intercal, (a,1)^\intercal$$ and $$(a+b,1)^\intercal$$. Similarly, $$a^\prime, b^\prime$$ and $$c^\prime$$ have coordinates $$0, a^\prime$$ and $$a^\prime + b^\prime$$, which may also be expressed as homogeneous vectors.
+	(3) Relative to these coordiantes frames, compute the 1D projective transformation $$H_{2 \times 2}$$ mapping $$ a \mapsto a^\prime, b \mapsto b^\prime$$ and $$c \mapsto c^\prime$$.
+	(4) The image of the point at inifinity (with coordinates $$(1,0)^\intercal$$) under $$H_{2 \times 2}$$ is the vanishing point on the line $$<a^\prime,b^\prime,c^\prime>$$.
+	
 56. __Example 2.20. Geometric construction of vanishing points from a length ratio.__ <br>
 
 ### 2.7.3 The circular points and their dual
