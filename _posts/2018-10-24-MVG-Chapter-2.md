@@ -336,7 +336,7 @@ $$
 $$
 \begin{align}
 I^\prime & = H_S I  \\
-         & = \begin{bmatrix} s \cos \theta & -s \sin \theta & t_x \\ s \sin \theta & s \cos \theta & t_y \\ 0 & 0 && 1 \end{bmatrix} \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \\
+         & = \begin{bmatrix} s \cos \theta & -s \sin \theta & t_x \\ s \sin \theta & s \cos \theta & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \\
 		 & = s e^{-\mathrm{i} \theta} \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} = I
 \end{align}
 $$
