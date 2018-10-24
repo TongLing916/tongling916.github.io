@@ -295,10 +295,25 @@ $$
 51. Similarly, once $$l_\infty$$ is identified a length ratio on a line may be computed from the cross ratio of the three points specifying the lengths together with the intersection of the line with $$l_\infty$$ (which provides the fourth point for the cross ratio).
 
 52. However, a less tortuous path which is better suited to computational algorithms is simply to transform the identified $$l_\infty$$ to its canonical position of $$l_\infty = (0,0,1)^\intercal$$. The (projective） matrix which achieves this transformation can be applied to every point in the image in order to affinely rectify the image, i.e. after the transformation, affine measurements can be made directly from the rectified image. The key idea here is in the following figure:
-![]()
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-Affine-rectification-via-the-vanishing-line.PNG)
 
-53. 
+53. If the imaged line at inifinity is the line $$l = (l_1, l_2, l_3)^\intercal$$, then provided $$l_3 \neq 0$$ a suitable projective point transformation which will map $$l$$ back to $$l_\infty = (0,0,1)^\intercal$$ is <br>
+$$
+H = H_A \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ l_1 & l_2 & l_3 \end{bmatrix}  \quad (2.19)
+$$ 
+<br> where $$H_A$$ is any affine transformation (the last row of $$H$$ is $$l^\intercal$$). One can verify that under the line transformation (2.6): <br>
+$$
+H^{-\intercal} (l_1,l_2,l_3)^\intercal = (0,0,1)^\intercal = l_\infty
+$$
 
+54. __Example 2.18. Affine rectification__ <br>
+In a perspective image of a plane, the line at infinity on the world plane is imaged as the vanishing line of the plane. The vanishing line $$l$$ may be computed by intersecting imaged parallel lines. The image is then rectified by applying a projective warping (2.19) such that $$l$$ is mapped to its canonical position $$l_\infty = (0,0,1)^\intercal$$
+<br> This example shows that affine properties may be recovered by simply specifying a line (2 dof).
+
+55. __Example 2.19. Computing a vanishing point from a length ratio__ <br>
+
+
+56. __Example 2.20. Geometric construction of vanishing points from a length ratio.__ <br>
 
 ### 2.7.3 The circular points and their dual
 
