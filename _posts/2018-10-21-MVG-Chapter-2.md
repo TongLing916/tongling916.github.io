@@ -373,8 +373,24 @@ $$
 
 ### 2.7.4 Angles on the projective plane
 
+63. For the lines $$l = (l_1,l_2,l_3)^\intercal$$ and $$m = (m_1,m_2,m_3)^\T$$ with normals parallel to $$(l_1,l_2)^\intercal, (m_1,m_2)^\intercal$$ respectively, the angle is <br>
+$$
+\cos \theta = \frac{l_1 m_1 + l_2 m_2}{\sqrt{(l_1^2 + l_2^2)(m_1^2 + m_2^2)}}  \quad (2.21)
+$$
+<br> The problem with this expression is that the first two components of $$l$$ and $$m$$ do not have well defined transformation properties under projective transformations (they are not tensors), and so (2.21) cannot be applied after an affine or projective transformation of the plane. However, an analogous expression to (2.21) which is invariant to projective transformation is <br>
+$$
+\cos \theta = \frac{l^\intercal C_\infty^{*} m}{\sqrt{(l^\intercal C_\infty^{*} l)(m^\intercal C_\infty^{*} m)}}  \quad (2.22)
+$$
+
+64. __Result 2.23.__ _Once the conic $$C_\infty^{*}$$ is identified on the projective plane then Euclidean angles may be measured by (2.22)._
+
+65. __Result 2.24.__ _Lines $$l$$ and $$m$$ are orthogonal if $$l^\intercal C_\infty^{*} m$$._
+
+66. __Length ratios__ may also be measured once $$C_\infty^{*}$$ is identified.
 
 ### 2.7.5 Recovery of metric properties from images
+
+
 
 ## 2.8 More properties of conics
 
