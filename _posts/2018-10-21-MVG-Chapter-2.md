@@ -426,17 +426,47 @@ $$
 
 ### 2.8.2 Classification of conics
 
+76. __Projective normal form for a conic__.
 
+77. __Affine classification of conics.__
 
 ## 2.9 Fixed points and lines
 
+78. The key idea is that an _eigenvector_ corresponds to a _fixed point_ of the transformation, since for an eigenvector $$e$$ with eigenvalue $$\lambda$$,<br>
+$$
+He = \lambda e
+$$
+<br> and $$e$$ and $$\lambda e$$ represent the same point.
+
+79. __A Euclidean matrix.__ The two ideal fixed points are the complex conjugate pair of circular points $$I, J$$, with corresponding eigenvalues $$\big\{e^{i \theta}, e^{-i \theta}}\big\}$$, where $$\theta$$ is the rotation angle. The third eigenvector, which has unit eigenvalue, is called the _pole_. The Euclidean transformation is equal to a pure rotation by $$\theta$$ about this point with no translation.
+<br> A special case is that of a pure translation (i.e. where $$\theta = 0$$). Here the eigenvlaues are triply degenerate.
+
+80. __A similarity matrix.__ The two ideal fixed points are again the circular points. The eigenvalues are $$\big\{1, se^{i \theta}, se^{-i \theta}}\big\}$$. The action can be understood as a rotation and isotropic scaling by $$s$$ about the finite fixed point.
+
+81. __An affine matrix.__ The two ideal fixed points can be real or complex conjugates, but the fixed line $$ l_\infty = (0,0,1)^\intercal$$ through these points is real in either case.
 
 ## 2.10 Closure
 ### 2.10.1 The literature
 
-
 ### 2.10.2 Notes and exercises
 
+1. __Affine transformations.__ <br>
+	
+2. __Projective transformations.__ <br>
+
+3. __Isotropies.__ <br>
+
+4. __Invariants.__ <br>
+
+5. __The cross ratio.__ <br>
+
+6. __Polarity.__ <br>
+
+7. __Conics.__ <br>
+
+8. __Dual conics.__ <br>
+
+9. __Special projective transformations.__ <br>
 
 
 
