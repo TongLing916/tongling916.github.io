@@ -20,7 +20,7 @@ tags:
 
 4. __Homogeneous representation of points.__ $$ (x,y,1)^\intercal $$.
 
-5. __Result 2.1.__ _The points $$ x $$ lies on the line $$ l $$ if and only if $$ x^\intercal l = 0 $$.
+5. __Result 2.1.__ _The points $$ x $$ lies on the line $$ l $$ if and only if $$ x^\intercal l = 0 $$._
 
 6. __Degrees of freedom (dof).__ A line is specified by two parameters (the two independent ratios $$ \big\{a : b : c\big\} $$) and so has two degrees of freedom.
 
@@ -112,7 +112,7 @@ $$
 <br> which is a quadratic form $$x^{\prime T} C^\prime x\prime$$ with $$C^\prime = H^{-\intercal} C H^{-1}$$
 
 24. __Result 2.13.__ _Under a point transformation $$ x^\prime = Hx $$, a conic $$ C $$ transforms to $$ C^\prime = H^{-\intercal}CH^{-1} $$._
-<br> THe presence of $$H^{-1}$$ in this transformation may be expressed by saying that a conic transforms _covariantly_.
+<br> The presence of $$H^{-1}$$ in this transformation may be expressed by saying that a conic transforms _covariantly_.
 
 25. __Result 2.14.__ _Under a point transformation x^\prime = Hx, a dual conic $$ C^* $$ transforms to $$ C^{*\prime} = HC^*H^\intercal $$._
 
