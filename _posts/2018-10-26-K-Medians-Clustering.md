@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "K-Means Clustering"
+title:      "K-Medians Clustering"
 date:       2018-10-26
 author:     Tong
 catalog: true

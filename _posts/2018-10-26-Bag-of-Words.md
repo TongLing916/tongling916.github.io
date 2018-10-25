@@ -36,7 +36,7 @@ tags:
 <br> The objective here is to vector quantize the descriptors into clusters which will be the visual 'words' for text retrieval. Then when a new frame is observed each descriptor of the frame is assigned to the nearest cluster, and this immediately generates matches for all frames.
 
 9. _How is the vector quantization done?_
-<br> By K-means clustering, though other methods (K-medoids, histogram binning, etc) are possible.
+<br> By [K-means clustering][website-k-means], though other methods (K-medoids, histogram binning, etc) are possible.
 
 10. __ 
 
@@ -47,3 +47,4 @@ tags:
 
 [paper-Bag-of-Words]: http://www.robots.ox.ac.uk/~vgg/publications/papers/sivic03.pdf
 [paper-vocabulary-tree]: http://www-inst.eecs.berkeley.edu/~cs294-6/fa06/papers/nister_stewenius_cvpr2006.pdf
+[website-k-means]: http://lingtong.de/2018/10/26/K-Means-Clustering/
