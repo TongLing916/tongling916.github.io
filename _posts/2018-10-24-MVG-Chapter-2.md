@@ -10,7 +10,7 @@ tags:
 
 ## 2.1 Planar geometry
 1. What is _Tensor_? 
-<br> [Youtube: Tensors for Beginners][https://www.youtube.com/playlist?list=PLJHszsWbB6hrkmmq57lX8BV-o-YIOFsiG]
+<br> [Youtube: Tensors for Beginners][youtube-tensors]
 2. A significant advantage of the algebraic approach to geometry is that results derived in this way may more easily be used to derive algorithms and practical computational methods.
 
 ## 2.2 The 2D projective plane
@@ -470,7 +470,7 @@ $$
 
 
 
-
+[youtube-tensors]: https://www.youtube.com/playlist?list=PLJHszsWbB6hrkmmq57lX8BV-o-YIOFsiG
 
 
 
