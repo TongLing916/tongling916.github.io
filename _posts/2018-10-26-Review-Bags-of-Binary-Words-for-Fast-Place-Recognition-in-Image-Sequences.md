@@ -30,7 +30,14 @@ This paper can be found in this [website][paper-Bag-of-Words]
 5. Where does the main speed improvement come from?
 <br> The use of a slightly modified version of the [BRIEF descriptor][] with FAST keypoints [10].
 
-6. 
+6. What is special in bag of words in this paper?
+<br> The bag of words in this paper discretizes a binary space, and augment it with a direct index, in addition to the usual inverse index. The inverse index is used for fast retrieval of images potentially similar to a given one. The direct index to efficiently obtain point correspondences between images, speeding up the geometrical check during the loop verification.
+
+
+
+## 2. Related work
+
+## 3. Binary features
 
 [paper-Bag-of-Words]: http://doriangalvez.com/papers/GalvezTRO12.pdf
 [paper-comparison-loop-closing-tech]: http://webdiis.unizar.es/GRPTR/pubs/2008_Williams_RSS_IDA.pdf
