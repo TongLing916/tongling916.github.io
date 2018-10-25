@@ -20,7 +20,7 @@ tags:
 
 1. A variant that chooses centers at random from the data points, but weighs the data points according to their squared distance squared from the closet center already chosen. This augmentation improves both the speed and the accuracy of `k-means`.
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-k-means%2B%2B.PNG）
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-k-means%2B%2B.PNG)
 
 
 [youtube-k-means-clustering]: https://www.youtube.com/watch?v=9991JlKnFmk
