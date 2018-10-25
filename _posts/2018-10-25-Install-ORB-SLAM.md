@@ -9,6 +9,7 @@ tags:
 ---
 
 ## Bug 1
+
 {% highlight bash %}
 /home/tong/ORB_SLAM/src/ORBextractor.cc: In member function ‘void ORB_SLAM::ORBextractor::ComputeKeyPoints(std::vector<std::vector<cv::KeyPoint> >&)’:
 /home/tong/ORB_SLAM/src/ORBextractor.cc:607:63: error: ‘FAST’ was not declared in this scope
@@ -48,6 +49,7 @@ make: *** [all] Error 2
 Solution: include two `.hpp` file
 
 ## Bug 2
+
 {% highlight bash %}
 /usr/include/eigen3/Eigen/src/Core/util/StaticAssert.h:119:9: error: ‘YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY’ is not a member of ‘Eigen::internal::static_assertion<false>’
          if (Eigen::internal::static_assertion<static_cast<bool>(CONDITION)>::MSG) {}
@@ -69,6 +71,7 @@ make: *** [all] Error 2
 Solution: install a older version of Eigen3
 
 ## Bug 3
+
 {% highlight bash %}
 /usr/bin/ld: CMakeFiles/ORB_SLAM.dir/src/main.cc.o: undefined reference to symbol '_ZN5boost6system15system_categoryEv'
 /usr/lib/x86_64-linux-gnu/libboost_system.so: error adding symbols: DSO missing from command line
@@ -84,6 +87,7 @@ make: *** [all] Error 2
 Solution: Modify the CMakeLists.txt add -lboost
 
 ## Bug 4
+
 {% highlight bash %}
 ORB-SLAM Copyright (C) 2014 Raul Mur-Artal
 This program comes with ABSOLUTELY NO WARRANTY;
