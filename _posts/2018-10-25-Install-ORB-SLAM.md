@@ -10,7 +10,7 @@ tags:
 
 今天根据[ORB-SLAM][github-orb-slam]上面的提示，在VMWare中的Ubuntu16.04上安装了ORB-SLAM，下面是安装过程中遇到的一些问题。（注意：由于是Ubuntu16.04，所以本人ROS安装的版本是kinect，而不是indigo）
 
-## Bug 1
+## Error 1
 
 {% highlight bash %}
 /home/tong/ORB_SLAM/src/ORBextractor.cc: In member function ‘void ORB_SLAM::ORBextractor::ComputeKeyPoints(std::vector<std::vector<cv::KeyPoint> >&)’:
@@ -48,9 +48,14 @@ Makefile:127: recipe for target 'all' failed
 make: *** [all] Error 2
 {% endhighlight %}
 
-Solution: include two `.hpp` file
+Solution: （安装的opencv版本为2.4.13.6） 此错误出现的原因是一些函数没有找到，需要修改`/src/ORBextractor.cc`，在include处加上两行
 
-## Bug 2
+{% highlight c %}
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/features2d/features2d.hpp>
+{% endhighlight %}
+
+## Error 2
 
 {% highlight bash %}
 /usr/include/eigen3/Eigen/src/Core/util/StaticAssert.h:119:9: error: ‘YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY’ is not a member of ‘Eigen::internal::static_assertion<false>’
@@ -70,9 +75,9 @@ Makefile:127: recipe for target 'all' failed
 make: *** [all] Error 2
 {% endhighlight %}
 
-Solution: install a older version of Eigen3
+Solution: 第二个错误的原因就像这个[回答][stackoverflow-eigen3]里说的,需要下载一个旧版本的Eigen3，这里推荐libeigen3-dev_3.2.0-8。 下载前可以参考这篇[博客][blog-eigen3-uninstall]删除已经安装好的Eigen3。
 
-## Bug 3
+## Error 3
 
 {% highlight bash %}
 /usr/bin/ld: CMakeFiles/ORB_SLAM.dir/src/main.cc.o: undefined reference to symbol '_ZN5boost6system15system_categoryEv'
@@ -86,9 +91,20 @@ Makefile:127: recipe for target 'all' failed
 make: *** [all] Error 2
 {% endhighlight %}
 
-Solution: Modify the CMakeLists.txt add -lboost
+Solution: 参考这个[issue][github-bug-lboost_system]，修改`CMakeLists.txt`， 添加`-lboost_system`。
 
-## Bug 4
+{% highlight bash %}
+target_link_libraries(${PROJECT_NAME}
+${OpenCV_LIBS}
+${EIGEN3_LIBS}
+${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
+-lboost_system
+)
+{% endhighlight %}
+
+
+## Error 4
 
 {% highlight bash %}
 ORB-SLAM Copyright (C) 2014 Raul Mur-Artal
@@ -98,9 +114,17 @@ under certain conditions. See LICENSE.txt.
 [ERROR] [1540478413.140194980]: Wrong path to settings. Path must be absolut or relative to ORB_SLAM package directory.
 {% endhighlight %}
 
-Solution: modify ~/.bashrc and use relative path
+Solution: 打开`~/.bashrc`, 在最后添加一行
+{% highlight bash %}
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/home/tong/ORB_SLAM
+{% endhighlight %}
 
+并且运行的时候使用相对路径，比如
 
-[timesync]: https://github.com/TongLing916/Timesync
+{% highlight bash %}
+rosrun ORB_SLAM ORB_SLAM /Data/ORBvoc.txt /Data/Settings.yaml 
+{% endhighlight %}
 
-
+[stackoverflow-eigen3]: https://stackoverflow.com/questions/38647114/orb-slam-installation-on-ubuntu-xenial-16-04
+[blog-eigen3-uninstall]: https://blog.csdn.net/j_____j/article/details/80622570
+[github-bug-lboost_system]: https://github.com/raulmur/ORB_SLAM2/issues/535
