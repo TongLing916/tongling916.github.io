@@ -7,6 +7,7 @@ catalog: true
 tags:
     - SLAM
 ---
+
 ## Bug 1
 {% highlight bash %}
 /home/tong/ORB_SLAM/src/ORBextractor.cc: In member function ‘void ORB_SLAM::ORBextractor::ComputeKeyPoints(std::vector<std::vector<cv::KeyPoint> >&)’:
