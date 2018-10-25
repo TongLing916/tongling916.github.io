@@ -8,7 +8,7 @@ tags:
     - SLAM
 ---
 
-<blockquote><p><<Bags of Binary Words for Fast Place Recognition in Image Sequences>> 读后感</p></blockquote>
+> <<Bags of Binary Words for Fast Place Recognition in Image Sequences>> 读后感
 
 This paper can be found in this [website][paper-Bag-of-Words]
 
