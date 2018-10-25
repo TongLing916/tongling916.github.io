@@ -336,7 +336,7 @@ $$
 $$
 \begin{align}
 I^\prime & = H_S I  \\
-         & = \begin{bmatrix} s \cos \theta & -s \sin \theta & t_x \\ s \sin \theta & s \cos \theta & t_y \\ 0 & 0 && 1 \end{bmatrix} \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \\
+         & = \begin{bmatrix} s \cos \theta & -s \sin \theta & t_x \\ s \sin \theta & s \cos \theta & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \\
 		 & = s e^{-\mathrm{i} \theta} \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} = I
 \end{align}
 $$
@@ -438,10 +438,10 @@ He = \lambda e
 $$
 <br> and $$e$$ and $$\lambda e$$ represent the same point.
 
-79. __A Euclidean matrix.__ The two ideal fixed points are the complex conjugate pair of circular points $$I, J$$, with corresponding eigenvalues $$\big\{e^{i \theta}, e^{-i \theta}}\big\}$$, where $$\theta$$ is the rotation angle. The third eigenvector, which has unit eigenvalue, is called the _pole_. The Euclidean transformation is equal to a pure rotation by $$\theta$$ about this point with no translation.
+79. __A Euclidean matrix.__ The two ideal fixed points are the complex conjugate pair of circular points $$I, J$$, with corresponding eigenvalues $$\big\{e^{i \theta}, e^{-i \theta}\big\}$$, where $$\theta$$ is the rotation angle. The third eigenvector, which has unit eigenvalue, is called the _pole_. The Euclidean transformation is equal to a pure rotation by $$\theta$$ about this point with no translation.
 <br> A special case is that of a pure translation (i.e. where $$\theta = 0$$). Here the eigenvlaues are triply degenerate.
 
-80. __A similarity matrix.__ The two ideal fixed points are again the circular points. The eigenvalues are $$\big\{1, se^{i \theta}, se^{-i \theta}}\big\}$$. The action can be understood as a rotation and isotropic scaling by $$s$$ about the finite fixed point.
+80. __A similarity matrix.__ The two ideal fixed points are again the circular points. The eigenvalues are $$\big\{1, se^{i \theta}, se^{-i \theta}\big\}$$. The action can be understood as a rotation and isotropic scaling by $$s$$ about the finite fixed point.
 
 81. __An affine matrix.__ The two ideal fixed points can be real or complex conjugates, but the fixed line $$ l_\infty = (0,0,1)^\intercal$$ through these points is real in either case.
 
