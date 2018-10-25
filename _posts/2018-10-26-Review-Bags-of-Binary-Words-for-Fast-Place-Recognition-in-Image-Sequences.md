@@ -28,7 +28,7 @@ This paper can be found in this [website][paper-Bag-of-Words].
 <br> Based on [bag of words][website-bag-of-words] and geometrical check, with several novelties that make it much faster than current approaches.
 
 5. _Where does the main speed improvement come from?_
-<br> The use of a slightly modified version of the [BRIEF descriptor][website-BRIEF] with FAST keypoints [website-FAST].
+<br> The use of a slightly modified version of the [BRIEF descriptor][website-BRIEF] with [FAST keypoints][website-FAST].
 
 6. _What is special in bag of words in this paper?_
 <br> The bag of words in this paper discretizes a binary space, and augment it with a direct index, in addition to the usual inverse index. The inverse index is used for fast retrieval of images potentially similar to a given one. The direct index to efficiently obtain point correspondences between images, speeding up the geometrical check during the loop verification.
