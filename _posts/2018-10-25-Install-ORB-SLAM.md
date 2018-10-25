@@ -50,7 +50,7 @@ make: *** [all] Error 2
 
 Solution: （安装的opencv版本为2.4.13.6） 此错误出现的原因是一些函数没有找到，需要修改`/src/ORBextractor.cc`，在include处加上两行
 
-{% highlight c %}
+{% highlight bash %}
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/features2d/features2d.hpp>
 {% endhighlight %}
@@ -125,6 +125,7 @@ export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/home/tong/ORB_SLAM
 rosrun ORB_SLAM ORB_SLAM /Data/ORBvoc.txt /Data/Settings.yaml 
 {% endhighlight %}
 
+[github-orb-slam]: https://github.com/raulmur/ORB_SLAM
 [stackoverflow-eigen3]: https://stackoverflow.com/questions/38647114/orb-slam-installation-on-ubuntu-xenial-16-04
 [blog-eigen3-uninstall]: https://blog.csdn.net/j_____j/article/details/80622570
 [github-bug-lboost_system]: https://github.com/raulmur/ORB_SLAM2/issues/535
