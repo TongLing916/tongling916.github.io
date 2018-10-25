@@ -10,7 +10,17 @@ tags:
 
 ## Basics
 
-## k-means++: The Advantages of Careful Seeding
+1. 参考[视频][youtube-k-means-clustering]
+
+2. [Wikipedia][wiki-k-means]
+
+## [k-means++: The Advantages of Careful Seeding][paper-k-means++]
+
+1. A variant that chooses centers at random from the data points, but weighs the data points according to their squared distance squared from the closet center already chosen.
+
+2. 
 
 
 [youtube-k-means-clustering]: https://www.youtube.com/watch?v=9991JlKnFmk
+[wiki-k-means]: https://zh.wikipedia.org/wiki/K-%E5%B9%B3%E5%9D%87%E7%AE%97%E6%B3%95
+[paper-k-means++]: http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
