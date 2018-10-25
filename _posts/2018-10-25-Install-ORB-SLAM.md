@@ -8,6 +8,8 @@ tags:
     - SLAM
 ---
 
+今天根据[ORB-SLAM][github-orb-slam]上面的提示，在VMWare中的Ubuntu16.04上安装了ORB-SLAM，下面是安装过程中遇到的一些问题。（注意：由于是Ubuntu16.04，所以本人ROS安装的版本是kinect，而不是indigo）
+
 ## Bug 1
 
 {% highlight bash %}
