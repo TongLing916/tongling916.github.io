@@ -8,7 +8,7 @@ tags:
     - SLAM
 ---
 
-## 1. [Video Google: A Text Retrieval Approach to Object Matching in Videos][[paper-Bag-of-Words]]
+## 1. [Video Google: A Text Retrieval Approach to Object Matching in Videos][paper-Bag-of-Words]
 
 1. _What is the objective of the approach?_
 <br> An approach to object and scene retrieval which searches for and localizes all the occurrences of a user outlined object in a video.
