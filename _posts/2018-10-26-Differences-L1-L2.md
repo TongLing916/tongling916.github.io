@@ -8,8 +8,7 @@ tags:
     - Algorithm
 ---
 
-1. 参考这篇[博客][blog-difference]，我们可以的到以下的结论
-
+1. 参考这篇[博客][blog-difference]，我们可以的到以下结论:<br>
 $$
 \begin{array}{|c|c|}
 \hline
@@ -20,7 +19,7 @@ Always one solution       & Possibly mutiple solutions (参考Euclidean distance
 \end{array}
 $$
 
-2. 这篇[博客][medium-difference]通俗地讲解了为什么L1 norm regularization有sparsity
+2. 这篇[博客][medium-difference]通俗地讲解了为什么L1 norm regularization有sparsity.
 
 
 [blog-difference]: http://www.chioka.in/differences-between-l1-and-l2-as-loss-function-and-regularization/
