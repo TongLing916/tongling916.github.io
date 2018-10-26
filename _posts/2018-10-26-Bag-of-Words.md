@@ -89,7 +89,7 @@ tags:
 <br> Once the quantization is defined, we wish to determine the relevance of a database image to the query image based on how similar the paths down the vocabulary tree are for the descriptors from the database image and the query image. 
 <br> Most of the schemes we have tried can be thought of as assigning a weight $$w_i$$ to each node $$i$$ in the vocabulary tree, typically based on [entropy][zhihu-entropy], and then define both query $$q_i$$ and database vectors $$d_i$$ according to the assigned weights as <br>
 $$
-q_i = n_i w_i
+q_i = n_i w_i  \newline
 d_i = m_i w_i
 $$
 <br> where $$n_i$$ and $$m_i$$ are the number of descriptor vectors of the query and database image, respectively, with a path through node _i_.
