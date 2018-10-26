@@ -60,9 +60,19 @@ tags:
 
 2. The approach belongs to a currently very popular class of algorithms that work with local image regions and represent an object with descriptors extracted from these local regions. The strength of this class of algorithms is natural robustness against occlusion and background clutter.
 
-3. The most important contribution of this paper is an indexing mechanism that enables extremely efficient retrieval.
+3. The most important contribution of this paper is an indexing mechanism that enables extremely efficient retrieval. We propose a hierarchical TF-IDF scoring using hierarchiacally defined visual words that form a vocabulary tree. This allows much more efficient lookup of visual words.
 
+4. We use hierarchical scoring, meaning that other nodes than the leaf nodes are considered, but the number of images attached to the inverted file of a node are limited to a fixed number, since larger inverted files are expensive and provide little entropy in the TF-IDF scoring.
 
+5. We can insert images into the database at the same rate as reported for the feature extraction, i.e. around 5Hz for 640 x 480 resolution. This potential for on-the-fly insertion of new objects into the database is a result of the quantization into visual words, which is defined once and for all, while still allowing general high retrieval performance.
+
+6. We use proximity of the descriptor vectors to various cluster centers defining the vocabulary tree. We use an offline unsupervised training stage to define the vocabulary tree, but once the vocabulary tree is determined, new images can be inserted on-the-fly into the database.
+
+7. The compactness of the database is very important for query efficiency in a large database. With our vocabulary tree approach, the representation of an image is simply one or two integers, which should be contrasted to the hundreds of bytes or floats used for a descriptor vector.
+
+8. For feature extraction, we use our own implementation of Maximally Stable Extremal Regions ([MSERs][paper-mser]). We warp an elliptical patch around each MSER region into a circular patch. The remaining portion of our feature extraction is then implemented according the [SIFT][paper-sift] feature extraction pipeline. Canonical directions are found based on an orientation histogram formed on the image gradients. SIFT descriptors are then extracted relative to the canonical directions. The normalized SIFT descriptors are then quantized with the vocabulary tree. Finally, a hierarchical scoring scheme is applied to retrieve images from a database.
+
+9. 
 
 [paper-Bag-of-Words]: http://www.robots.ox.ac.uk/~vgg/publications/papers/sivic03.pdf
 [paper-vocabulary-tree]: http://www-inst.eecs.berkeley.edu/~cs294-6/fa06/papers/nister_stewenius_cvpr2006.pdf
@@ -70,3 +80,5 @@ tags:
 [book-modern-information-retrieval]: http://people.ischool.berkeley.edu/~hearst/irbook/print/chap10.pdf
 [website-inverted-file]: http://orion.lcg.ufrj.br/Dr.Dobbs/books/book5/chap03.htm
 [wiki-tf-idf]: https://zh.wikipedia.org/wiki/Tf-idf
+[paper-mser]: http://cmp.felk.cvut.cz/~matas/papers/matas-bmvc02.pdf
+[paper-sift]: https://www.cs.ubc.ca/~lowe/papers/ijcv04.pdf
