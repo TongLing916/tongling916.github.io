@@ -11,15 +11,13 @@ tags:
 1. 参考这篇[博客][blog-difference]，我们可以的到以下的结论
 
 $$
-\begin{table}[]
-\begin{tabular}{|l|l|}
+\begin{array}{|c|c|}
 \hline
 \textbf{L2 loss function} & \textbf{L1 loss function}                                              \\ \hline
 not robust                & robust (就算error很大，与L2的平方相比还是相对小很多)                                     \\ \hline
 stable                    & not stable (当Outlier和Inlier不是差很多，L1受Outlier位置的影响比较大)                   \\ \hline
 Always one solution       & Possibly mutiple solutions (参考Euclidean distance 和 Manhattan distance) \\ \hline
-\end{tabular}
-\end{table}
+\end{array}
 $$
 
 2. 这篇[博客][medium-difference]通俗地讲解了为什么L1 norm regularization有sparsity
