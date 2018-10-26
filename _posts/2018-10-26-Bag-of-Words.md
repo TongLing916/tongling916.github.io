@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Bag of Words"
+title:      "Bag of Words for Visual SLAM"
 date:       2018-10-26
 author:     Tong
 catalog: true
@@ -72,7 +72,21 @@ tags:
 
 8. For feature extraction, we use our own implementation of Maximally Stable Extremal Regions ([MSERs][paper-mser]). We warp an elliptical patch around each MSER region into a circular patch. The remaining portion of our feature extraction is then implemented according the [SIFT][paper-sift] feature extraction pipeline. Canonical directions are found based on an orientation histogram formed on the image gradients. SIFT descriptors are then extracted relative to the canonical directions. The normalized SIFT descriptors are then quantized with the vocabulary tree. Finally, a hierarchical scoring scheme is applied to retrieve images from a database.
 
-9. 
+9. _How to build the vocabulary tree?_
+<br> The vocabulary tree defines a hierarchical quantization that is build by hierarchical _k_-means clustering. Instead of _k_ defining the final number of clusters or quantization cells, _k_ defines the branch factor (number of children of each node) of the tree. First, an initial _k_-means process is run on the training data, defining _k_ cluster centers. Then training data is then partitioned into _k_ groups, where each group consists of the descriptor vectors closest to a particular cluster center.
+<br> The same process is then recursively applied to each group of descriptor vectors, recursively defining quantization cells by splitting each quantization cell into _k_ new parts. The tree is determined level by level, up to some maximum number of levels _L_, and each division into _k_ parts is only defined by the distribution of the descriptor vectors that belong to the parent quantization cell.
+
+10. _How to use the vocabulary tree?_
+<br> In the online phase, each descriptor vector is simply propagated down the tree by at each level comparing the descriptor vector to the _k_ candidate cluster centers (represented by _k_ children in the tree) and choosing the closest one. This is a simple matter of performing _k_ dot products at each level, resulting in a total of _kL_ dot products. The path down the tree can be encoded by a single integer and is then available for use in scoring.
+
+11. _What is special in the vocabulary tree?_
+<br> The tree directly defines the visual vocabulary and an efficient search procedure in an integrated manner. This is different from for example defininig a visual vocabulary non-hierarchiacally, and then devising an approximate nearest neighbor search in order to find visual words efficiently. The hierarchical approach also gives more flexibility to the subsequent scoring procedure. 
+<br> While the computational cost of increasing the size of the vocabulary in a non-hierarchical manner would be very high, the computational cost in the hierarchical approach is logarithmic in the number of leaf nodes. The memory usage is linear in the number of leaf nodes $$k^L$$.
+
+12. 
+
+
+
 
 [paper-Bag-of-Words]: http://www.robots.ox.ac.uk/~vgg/publications/papers/sivic03.pdf
 [paper-vocabulary-tree]: http://www-inst.eecs.berkeley.edu/~cs294-6/fa06/papers/nister_stewenius_cvpr2006.pdf
