@@ -55,6 +55,7 @@ tags:
 ## 2. [Scalable Recognition with a Vocabulary Tree][paper-vocabulary-tree]
 
 
+
 [paper-Bag-of-Words]: http://www.robots.ox.ac.uk/~vgg/publications/papers/sivic03.pdf
 [paper-vocabulary-tree]: http://www-inst.eecs.berkeley.edu/~cs294-6/fa06/papers/nister_stewenius_cvpr2006.pdf
 [website-k-means]: http://lingtong.de/2018/10/26/K-Means-Clustering/

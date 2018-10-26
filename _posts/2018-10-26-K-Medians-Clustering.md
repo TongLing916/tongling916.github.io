@@ -18,4 +18,4 @@ tags:
 
 [quora-difference]: https://www.quora.com/What-is-key-difference-two-kmeans-variance-K-center-clustering-and-K-medians-clustering
 [stackexchange-difference]: https://stats.stackexchange.com/questions/109547/k-means-vs-k-median
-[website-l1-l2]: 
+[website-l1-l2]: http://lingtong.de/2018/10/26/Differences-L1-L2/
