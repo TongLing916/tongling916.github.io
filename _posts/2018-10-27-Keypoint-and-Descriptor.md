@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Keypoint and Descriptor"
+title:      "Keypoints and Descriptors"
 date:       2018-10-27
 author:     Tong
 catalog: true
