@@ -50,9 +50,17 @@ tags:
 <br> In a classcical file structure all words are stored in the document they appear in. An inverted file structure has an entry (hit list) for each word where all occurrences of the word in all documents are stored. In our case the inverted file has an entry for each visual word, which stores all the matches, i.e. occurrences of the same word in all frames. The document vector is very sparse and use of an inverted file makes the retrieval very fast.
 <br> You can find more details about an inverted file in this [website][website-inverted-file].
 
+14. Summary: They perform retrieval of shots from a movie using a text retrieval approach. Descriptors extracted from local affine invariant regions are quantized into visual words, which are defined by _k_-means performed on the descriptor vectors from a number of training frames. The collection of visual words are used in Term Frequency Inverse Document Frequency ([TF-IDF][wiki-tf-idf]) scoring of the relevance of an image to the query. The scoring is accomplished using inverted files.
+
 <br>
 <br>
 ## 2. [Scalable Recognition with a Vocabulary Tree][paper-vocabulary-tree]
+
+1. The most significant property of the scheme is that the tree directly defines the quantization. The quantization and the indexing are therefore fully integrated, essentially being one and the same.
+
+2. The approach belongs to a currently very popular class of algorithms that work with local image regions and represent an object with descriptors extracted from these local regions. The strength of this class of algorithms is natural robustness against occlusion and background clutter.
+
+3. The most important contribution of this paper is an indexing mechanism that enables extremely efficient retrieval.
 
 
 
@@ -61,3 +69,4 @@ tags:
 [website-k-means]: http://lingtong.de/2018/10/26/K-Means-Clustering/
 [book-modern-information-retrieval]: http://people.ischool.berkeley.edu/~hearst/irbook/print/chap10.pdf
 [website-inverted-file]: http://orion.lcg.ufrj.br/Dr.Dobbs/books/book5/chap03.htm
+[wiki-tf-idf]: https://zh.wikipedia.org/wiki/Tf-idf
