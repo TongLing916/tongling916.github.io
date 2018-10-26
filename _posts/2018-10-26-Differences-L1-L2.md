@@ -10,6 +10,7 @@ tags:
 
 1. 参考这篇[博客][blog-difference]，我们可以的到以下的结论
 
+$$
 \begin{table}[]
 \begin{tabular}{|l|l|}
 \hline
@@ -19,7 +20,7 @@ stable                    & not stable (当Outlier和Inlier不是差很多，L1�
 Always one solution       & Possibly mutiple solutions (参考Euclidean distance 和 Manhattan distance) \\ \hline
 \end{tabular}
 \end{table}
-
+$$
 
 2. 这篇[博客][medium-difference]通俗地讲解了为什么L1 norm regularization有sparsity
 
