@@ -83,9 +83,10 @@ tags:
 <br> The tree directly defines the visual vocabulary and an efficient search procedure in an integrated manner. This is different from for example defininig a visual vocabulary non-hierarchiacally, and then devising an approximate nearest neighbor search in order to find visual words efficiently. The hierarchical approach also gives more flexibility to the subsequent scoring procedure. 
 <br> While the computational cost of increasing the size of the vocabulary in a non-hierarchical manner would be very high, the computational cost in the hierarchical approach is logarithmic in the number of leaf nodes. The memory usage is linear in the number of leaf nodes $$k^L$$.
 
-12. 
+12. _How to define scoring?_
+<br> 
 
-
+13. 
 
 
 [paper-Bag-of-Words]: http://www.robots.ox.ac.uk/~vgg/publications/papers/sivic03.pdf
