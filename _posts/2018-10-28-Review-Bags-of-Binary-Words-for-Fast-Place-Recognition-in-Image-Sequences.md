@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Review - Bags of Binary Words for Fast Place Recognition in Image Sequences"
-date:       2018-10-26
+date:       2018-10-28
 author:     Tong
 catalog: true
 tags:
@@ -44,5 +44,5 @@ This paper can be found in this [website][paper-Bag-of-Words].
 [paper-comparison-loop-closing-tech]: http://webdiis.unizar.es/GRPTR/pubs/2008_Williams_RSS_IDA.pdf
 [paper-FAB-MAP]: http://www.robots.ox.ac.uk/~pnewman/papers/IJRRFabMap.pdf
 [website-bag-of-words]: http://lingtong.de/2018/10/26/Bag-of-Words/
-[website-FAST]: http://lingtong.de/2018/10/26/FAST-keypoints/
-[website-BRIEF]: http://lingtong.de/2018/10/26/BRIEF-descriptor/
+[website-FAST]: http://lingtong.de/2018/10/27/Keypoint-and-Descriptor/
+[website-BRIEF]: http://lingtong.de/2018/10/27/Keypoint-and-Descriptor/
