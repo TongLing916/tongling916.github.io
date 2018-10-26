@@ -56,6 +56,8 @@ tags:
 <br>
 ## 2. [Scalable Recognition with a Vocabulary Tree][paper-vocabulary-tree]
 
+0. There is a [blog][website-vocabulary-tree] which also describes this paper.
+
 1. The most significant property of the scheme is that the tree directly defines the quantization. The quantization and the indexing are therefore fully integrated, essentially being one and the same.
 
 2. The approach belongs to a currently very popular class of algorithms that work with local image regions and represent an object with descriptors extracted from these local regions. The strength of this class of algorithms is natural robustness against occlusion and background clutter.
@@ -84,16 +86,48 @@ tags:
 <br> While the computational cost of increasing the size of the vocabulary in a non-hierarchical manner would be very high, the computational cost in the hierarchical approach is logarithmic in the number of leaf nodes. The memory usage is linear in the number of leaf nodes $$k^L$$.
 
 12. _How to define scoring?_
-<br> 
+<br> Once the quantization is defined, we wish to determine the relevance of a database image to the query image based on how similar the paths down the vocabulary tree are for the descriptors from the database image and the query image. 
+<br> Most of the schemes we have tried can be thought of as assigning a weight $$w_i$$ to each node $$i$$ in the vocabulary tree, typically based on [entropy][zhihu-entropy], and then define both query $$q_i$$ and database vectors $$d_i$$ according to the assigned weights as <br>
+$$
+q_i = n_i w_i
+d_i = m_i w_i
+$$
+<br> where $$n_i$$ and $$m_i$$ are the number of descriptor vectors of the query and database image, respectively, with a path through node _i_.
+<br> A database image is then given a relevance score $$s$$ based on the normalized difference between the query and database vectors: <br>
+$$
+s(q,d)=\left \| \frac{q}{\left \| q \right \|} - \frac{d}{\left \| d \right \|} \right \|
+$$
+<br> The normalization can be in any desired norm and is used to achieve fairness between database images with few and many descriptor vectors. We have found that $$L_1$$-norm gives better results than the more standard $$L_2$$-norm.
 
-13. 
+13. _How to determine the weights $$w_i$$?_
+<br> In the simplest case, the weights $$w_i$$ are set to a constant, but retrieval performance is typically improved by an entropy weighting like
+$$
+w_i = \ln \frac{N}{N_i}
+$$
+<br> where $$N$$ is the number of images in the database, and $$N_i$$ is the number of images in the database with at least one descriptor vector path through node $$i$$. This results in a TF-IDF scheme. (We also tried to use the frequency of occurrence of node $$i$$ in place of $$N_i$$, but it seeems not to make much difference).
+
+14. _How to handle the weights for the different levels of the vocabulary tree?_
+<br> Assign the entropy of each node relative to the root of the tree and ignore dependencies within the path. It is also possible to block some of the levels in the tree by setting their weights to zero and only use the levels closest to the leaves.
+
+15. _What is important for the retrieval quality?_
+<br> Most important for the retrieval quality is to have a large vocabulary (large number of leaf nodes), and not give overly strong weights to the inner nodes of the vocabulary tree. In principle, the vocabulary size must eventually grow too large, so that the variability and noise in the descriptor vectors frequently move the descriptor vectors between different quantization cells.
+<br> The trade-off here is distinctiveness (requiring small quantization cells and a deep vocabulary tree) versus repeatability (requiring large quantization cells).
+
+16. A benefit of hierarchical scoring is that the risk of overdoing the size of the vocabulary is lessened.
+
+17. It is also possible to use stop lists, where $$w_i$$ is set to zero for the most frequent and/or infrequent symbols. When using inverted files, we block the longer lists. This can be done since symbols in very densely populated lists do not contribute much entropy. We do this maily to retain efficiency.
+
+18. To score efficiently with large databases we use inverted files. Every node in the vocabulary tree is associated with an inverted file. The inverted file store the id-numbers of the image in which a particular node occurs, as well as for each image the term frequency $$m_i$$. Forward files can also be used as a complement, in order to look up which visual words are present in a particular image.
+<br> Only the leaf nodes are expliciyly represented in our implementation, while the inverted file of inner nodes simply are the concatenation of the inverted file of the leaf nodes.
 
 
 [paper-Bag-of-Words]: http://www.robots.ox.ac.uk/~vgg/publications/papers/sivic03.pdf
 [paper-vocabulary-tree]: http://www-inst.eecs.berkeley.edu/~cs294-6/fa06/papers/nister_stewenius_cvpr2006.pdf
+[website-vocabulary-tree]: https://blog.csdn.net/yc461515457/article/details/48707919
 [website-k-means]: http://lingtong.de/2018/10/26/K-Means-Clustering/
 [book-modern-information-retrieval]: http://people.ischool.berkeley.edu/~hearst/irbook/print/chap10.pdf
 [website-inverted-file]: http://orion.lcg.ufrj.br/Dr.Dobbs/books/book5/chap03.htm
 [wiki-tf-idf]: https://zh.wikipedia.org/wiki/Tf-idf
 [paper-mser]: http://cmp.felk.cvut.cz/~matas/papers/matas-bmvc02.pdf
 [paper-sift]: https://www.cs.ubc.ca/~lowe/papers/ijcv04.pdf
+[zhihu-entropy]: https://www.zhihu.com/question/22178202
