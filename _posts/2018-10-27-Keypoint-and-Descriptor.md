@@ -8,9 +8,11 @@ tags:
     - SLAM
 ---
 ## [FAST][paper-FAST]
-<br> You can find a short description of this description on the [opencv tutorial][opencv-FAST].
+
+You can find a short description of this description on the [opencv tutorial][opencv-FAST].
 
 ## [BRIEF][paper-BRIEF]
+
 The BRIEF descriptor is a binary vector where each bit is the result of an intesity comparison between a given pair of pixels around the keypoint. They are hardly invariant to scale and rotation.
 <br> You can find a short description of this description on the [opencv tutorial][opencv-BRIEF].
 
