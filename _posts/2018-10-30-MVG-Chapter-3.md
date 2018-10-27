@@ -87,7 +87,7 @@ $$
 $$
 \pi = L^* X
 $$
-<br> and $$L^* X = 0$$ if, and only if, $$X$$ is on L.
+<br> and $$L^* X = 0$$ if, and only if, $$X$$ is on $$L$$.
 
 5. The point define by the intersection of the line $$L$$ with the plane $$\pi$$ is <br>
 $$
@@ -182,7 +182,24 @@ $$
 
 ## 3.5 The plane at infinity
 
+1. The plane at infinity has the canonical position $$\pi_infty = (0,0,0,1)^\intercal$$ in affine 3-space.It contains the directions $$D = (x_1,x_2,x_3,0)^\intercal$$, and enables the identification of affine properties such as parallelism. In particular:
+	- Two palnes are parallel if, and only if, their line of intersection is on $$\pi_\infty$$.
+	- A line is parallel to another line, or to a plane, if the point of intersection is on $$\pi_\infty$$.
+	
+2. The plane $$\pi_\infty$$ is a geometric representation of the 3 degrees of freedom required to specify affine properties in a projective coordinate frame. In loose terms, the plane at infinity is a fixed plane under any affine transformation, but "sees" (is moved by) a projective transformation.
+
+3. __Result 3.7.__ _The plane at infinity, $$\pi_\infty$$, is a fixed plane under the projective transformation $$H$$ if, and only if, $$H$$ is an affinity._
+
+4. __Affine properties of a reconstruction.__ Once $$\pi_\infty$$ is identified in projective 3-space, i.e. its projective coordinates are known, it is then possible to determine affine properties of the reconstruction such as whether geometric entities are parallel - they are parallel if they intersect on $$\pi_\infty$$.
+
 ## 3.6 The absolute conic
+
+1. The absolute conic, $$\Omega_\infty$$, is a (point) conic on $$\pi_\infty$$. Points on $$\Omega_\infty$$ satisfy <br>
+$$
+\left.\begin{matrix} X_1^2 + X_2^2 + X_3^2 \\ X_4  \end{matrix}\right\} = 0  \quad (3.21)
+$$
+
+2. For directions on $$\pi_\infty$$ (i.e. points with X_4 = 0) the defining equation can be written 
 
 ## 3.7 The absolute dual quadric
 
