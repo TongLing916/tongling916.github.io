@@ -171,7 +171,7 @@ $$
 
 
 ## 3.4 The hierarchy of transformations
-![](https://github.com/TongLing916/tongling916.github.io/blob/master/img/post-geometric-properties-invariant-3D.JPG)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-geometric-properties-invariant-3D.JPG)
 
 ### 3.4.1 The screw decomposition
 
