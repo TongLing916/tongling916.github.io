@@ -8,9 +8,9 @@ tags:
     - SLAM
 ---
 
-## Part I: The First 30 Years and Fundamentals
+## [Part I: The First 30 Years and Fundamentals][paper-part-1]
 
-## Part II: Matching, Robustness, and Applications
+## [Part II: Matching, Robustness, and Applications][paper-part-2]
 
 
 [paper-part-1]: https://www.ifi.uzh.ch/dam/jcr:5759a719-55db-4930-8051-4cc534f812b1/VO_Part_I_Scaramuzza.pdf

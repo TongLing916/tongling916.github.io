@@ -8,9 +8,9 @@ tags:
     - SLAM
 ---
 
-## Part I - The Essential Algorithms
+## [Part I - The Essential Algorithms][paper-part-1]
 
-## Part II
+## [Part II][paper-part-2]
 
 
 [paper-part-1]: https://people.eecs.berkeley.edu/~pabbeel/cs287-fa09/readings/Durrant-Whyte_Bailey_SLAM-tutorial-I.pdf
