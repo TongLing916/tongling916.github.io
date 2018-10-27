@@ -78,7 +78,7 @@ $$
 $$
 L^* = P Q^\intercal - Q P^\intercal \quad (3.9)
 $$
-<br> Under the point transformation $$X^\prime = HX$$, the matrix $$L^*$$ transforms as $$L^{*\prime} = H^\T L H^\{-1}$$. The matrix $$L^*$$ can be obtained directly from $$L$$ by a simple rewrite rule: <br>
+<br> Under the point transformation $$X^\prime = HX$$, the matrix $$L^*$$ transforms as $$L^{*\prime} = H^\intercal L H^{-1}$$. The matrix $$L^*$$ can be obtained directly from $$L$$ by a simple rewrite rule: <br>
 $$
 l_{12} : l_{13} : l_{14} : l_{23} : l_{42} : l_{34} = l^*_{34} : l^*_{42} : l^*_{23} : l^*_{14} : l^*_{13} : l^*_{12}  \quad (3.10)
 $$
