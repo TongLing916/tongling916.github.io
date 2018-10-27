@@ -221,18 +221,18 @@ $$
 
 ## 3.7 The absolute dual quadric
 
-1. The dual of the absolute conic $$\Omega_\infty$$ is a degenerate dual _quadric_ in 3-space called the _absolute dual quadric_, and denoted $$\Q_\infty^*$$. Geometrically $$Q_\infty^*$$ consists of the planes tangent to $$\Omega_\infty$$, so that $$\Omega_\infty$$ is the "rim" of $$\Q_\infty^*$$. This is called a _rim quadric_.
+1. The dual of the absolute conic $$\Omega_\infty$$ is a degenerate dual _quadric_ in 3-space called the _absolute dual quadric_, and denoted $$Q_\infty^*$$. Geometrically $$Q_\infty^*$$ consists of the planes tangent to $$\Omega_\infty$$, so that $$\Omega_\infty$$ is the "rim" of $$Q_\infty^*$$. This is called a _rim quadric_.
 
-2. $$\Q_\infty^*$$ is represented by a $$4 \times 4$$ homogeneous matrix of rank 3, which in metirc 3-space has the canonical form <br>
+2. $$Q_\infty^*$$ is represented by a $$4 \times 4$$ homogeneous matrix of rank 3, which in metirc 3-space has the canonical form <br>
 $$
-\Q_\infty^* = \begin{bmatrix} I & 0 \\ 0^\intercal & 0 \end{bmatrix}   \quad (3.24)
+Q_\infty^* = \begin{bmatrix} I & 0 \\ 0^\intercal & 0 \end{bmatrix}   \quad (3.24)
 $$ 
 
-3. The dual quadric $$\Q_\infty^*$$ is a degenerate quadric and has 8 degrees of freedom (a symmetric matrix has 10 independent elements, but irrelevant scale and zero determinant condition each reduce the degrees of freedom by 1).
+3. The dual quadric $$Q_\infty^*$$ is a degenerate quadric and has 8 degrees of freedom (a symmetric matrix has 10 independent elements, but irrelevant scale and zero determinant condition each reduce the degrees of freedom by 1).
 
-4. __Result 3.10.__ _The absolute dual quadric, $$\Q_\infty^*$$, is fixed under the projective transformation $$H$$ if, and only if, $$H$$ is a similarity._
+4. __Result 3.10.__ _The absolute dual quadric, $$Q_\infty^*$$, is fixed under the projective transformation $$H$$ if, and only if, $$H$$ is a similarity._
 
-5. __Result 3.11.__ _The plane at infinity $$\pi_\infty$$ is the null-vector of $$\Q_\infty^*$$._
+5. __Result 3.11.__ _The plane at infinity $$\pi_\infty$$ is the null-vector of $$Q_\infty^*$$._
 
 6. __Result 3.12.__ _The angle between two planes $$\pi_1$$ and $$\pi_2$$ is given by_ <br>
 $$
