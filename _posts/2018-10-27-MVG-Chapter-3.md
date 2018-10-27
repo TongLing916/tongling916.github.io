@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "MVG Chapter 3-Projective Geometry and Transformations of 3D"
-date:       2018-10-30
+date:       2018-10-27
 author:     Tong
 catalog: true
 tags:
