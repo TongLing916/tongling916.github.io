@@ -38,7 +38,23 @@ This paper can be found in this [website][paper-Bag-of-Words].
 
 ## 2. Related work
 
+1. We rely on a temporal consistency check to consider previous matches and enhance the reliability of the detections.
+
+2. We use a bag of binary words for the first time, as well as propose a technique to prevent images collected close in time and depicting the same place from competing between them during the matching, so that we can work at a higher frequency.
+
+3. To verify loop closing candidates, a geometrical check is usually performed. We apply an epipolar constraint to the best matching candidate as in this [paper][paper-loop-detection], but we take advantage of a direct index to calculate correspondence points faster.
+
+4. We reduce the excution time by using efficient features. BRIEF descriptor, along with other recent descriptors as BRISK or ORB, are binary and require very little time to be computed. As an advantage, their information is very compact, so that they occupy less memory and are faster to compare. This allows a much faster conversion into the bag-of-words space.
+
 ## 3. Binary features
+
+1. 
+
+## 4. Image database
+
+1. 
+
+## 5. Loop detection algorithm
 
 [paper-Bag-of-Words]: http://doriangalvez.com/papers/GalvezTRO12.pdf
 [paper-comparison-loop-closing-tech]: http://webdiis.unizar.es/GRPTR/pubs/2008_Williams_RSS_IDA.pdf
@@ -46,3 +62,4 @@ This paper can be found in this [website][paper-Bag-of-Words].
 [website-bag-of-words]: http://lingtong.de/2018/10/26/Bag-of-Words/
 [website-FAST]: http://lingtong.de/2018/10/27/Keypoint-and-Descriptor/
 [website-BRIEF]: http://lingtong.de/2018/10/27/Keypoint-and-Descriptor/
+[paper-loop-detection]: http://perso.ensta-paristech.fr/~filliat/papers/Angeli_IEEETRO2008.pdf
