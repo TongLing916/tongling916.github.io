@@ -112,7 +112,7 @@ $$
 \end{align}
 $$
 
-7. __Result 3.5.__ _Two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are coplanar (and thus intersect) if and only if $$(\mathcal{L}|\mathcal{\hat{L}}) = 0$$._
+7. __Result 3.5.__ Two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are coplanar (and thus intersect) if and only if $$ (\mathcal{L}|\mathcal{\hat{L}}) = 0 $$.
 
 8. Suppose two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are the intersections of the planes $$P, Q$$ and $$\hat{P}, \hat{Q}$$ respectively. Then <br>
 $$
@@ -171,8 +171,11 @@ $$
 
 
 ## 3.4 The hierarchy of transformations
+![](https://github.com/TongLing916/tongling916.github.io/blob/master/img/post-geometric-properties-invariant-3D.JPG)
 
 ### 3.4.1 The screw decomposition
+
+1. __Result 3.6.__ _Any particular translation and rotation is equivalent to a rotation about a screw axis together with a translation along the screw axis. The screw axis is parallel to the rotation axis._
 
 ## 3.5 The plane at infinity
 
@@ -185,7 +188,7 @@ $$
 
 
 
-[youtube-tensors]: https://www.youtube.com/playlist?list=PLJHszsWbB6hrkmmq57lX8BV-o-YIOFsiG
+
 
 
 
