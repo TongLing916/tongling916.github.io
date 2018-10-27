@@ -112,7 +112,7 @@ $$
 \end{align}
 $$
 
-7. __Result 3.5.__ _Two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are coplanar (and thus intersect) if and only if $$(\mathcal{L} | \mathcal{\hat{L}}) = 0$$._
+7. __Result 3.5.__ _Two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are coplanar (and thus intersect) if and only if $$(\mathcal{L}|\mathcal{\hat{L}}) = 0$$._
 
 8. Suppose two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are the intersections of the planes $$P, Q$$ and $$\hat{P}, \hat{Q}$$ respectively. Then <br>
 $$
@@ -155,14 +155,14 @@ $$
 1. A conic in the 2-dimensional projective plane may be described as a parametrized curve given by the equation <br>
 $$
 \begin{pmatrix}x_1 \\ x_2 \\ x_3\end{pmatrix} = A \begin{pmatrix} 1\\ \theta\\ \theta ^2 \end{pmatrix} = \begin{pmatrix}
-a_{11} + a_{12} \theta + a_{13} \theta ^2\\ a_{21} + a_{22} \theta + a_{23} \theta ^2 \\ a_{31} + a_{32} \theta + a_{33} \theta ^2 \end{pmatrix}
+a_{11} + a_{12} \theta + a_{13} \theta ^2\\ a_{21} + a_{22} \theta + a_{23} \theta ^2 \\ a_{31} + a_{32} \theta + a_{33} \theta ^2 \end{pmatrix}   \quad (3.18)
 $$
 <br> where $$A$$ is a non-singular $$3 \times 3$$ matrix.
 
 2. A twisted cubic is defined to be a curve in $$\mathbb{P^3}$$ given in parametric form as <br>
 $$
 \begin{pmatrix}X_1 \\ X_2 \\ X_3 \\ X_4 \end{pmatrix} = A \begin{pmatrix} 1\\ \theta\\ \theta ^2 \\ \theta ^3 \end{pmatrix} = \begin{pmatrix}
-a_{11} + a_{12} \theta + a_{13} \theta ^2 + a_{14} \theta ^3\\ a_{21} + a_{22} \theta + a_{23} \theta ^2 + a_{24} \theta ^3\\ a_{31} + a_{32} \theta + a_{33} \theta ^2 + a_{34} \theta ^3 \\ a_{41} + a_{42} \theta + a_{43} \theta ^2 + a_{44} \theta ^3 \end{pmatrix}
+a_{11} + a_{12} \theta + a_{13} \theta ^2 + a_{14} \theta ^3\\ a_{21} + a_{22} \theta + a_{23} \theta ^2 + a_{24} \theta ^3\\ a_{31} + a_{32} \theta + a_{33} \theta ^2 + a_{34} \theta ^3 \\ a_{41} + a_{42} \theta + a_{43} \theta ^2 + a_{44} \theta ^3 \end{pmatrix}  \quad (3.19)
 $$
 
 3. A twisted cubic has 12 degrees of freedom (counted as 15 for the matri A, less 3 for a 1D projectivity on the parametrization $$\theta$$, which leaves the curve unaltered).
