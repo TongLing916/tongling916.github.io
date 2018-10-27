@@ -199,10 +199,47 @@ $$
 \left.\begin{matrix} X_1^2 + X_2^2 + X_3^2 \\ X_4  \end{matrix}\right\} = 0  \quad (3.21)
 $$
 
-2. For directions on $$\pi_\infty$$ (i.e. points with X_4 = 0) the defining equation can be written 
+2. For directions on $$\pi_\infty$$ (i.e. points with $$X_4 = 0$$) the defining equation can be written <br>
+$$
+(X_1,X_2,X_3)I(X_1,X_2,X_3)^\intercal = 0
+$$
+<br> so that $$\Omega_\infty$$ corresponds to a conic $$C$$ with matrix $$C = I$$. It is thus a conic of purely imaginary points on $$\pi_\infty$$.
+
+3. The conic $$\Omega_\infty$$ is a geometric representation of the 5 additional degrees of freedom that are required to specify metric properties in an affine coordinate frame. A key property of $$\Omega_\infty$$ is that it is a fixed conic under any similarity transformation.
+
+4. __Result 3.9.__ _The absolute conic, $$\Omega_\infty$$, is a fixed conic under the projective transformation $$H$$ if, and only if, $$H$$ is a similarity transformation._
+
+5. __Metric properties.__ Consider two lines with directions (3-vectors) $$d_1$$ and $$d_2$$. The angle between these directions in a Euclidean world frame is given by <br>
+$$
+\cos\theta = \frac{d_1^\intercal d_2}{\sqrt{(d_1^\intercal d_1)(d_2^\intercal d_2))}} \quad (3.22)
+$$
+<br> This may be written as <br>
+$$
+\cos\theta = \frac{d_1^\intercal \Omega_\infty d_2}{\sqrt{(d_1^\intercal \Omega_\infty d_1)(d_2^\intercal \Omega_\infty d_2))}} \quad (3.23)
+$$
+<br> where $$d_1$$ and $$d_2$$ are the points of intersections of the lines with the plane $$\pi_\infty$$ containing the conic $$\Omega_\infty$$, and $$\Omega_\infty$$ is the matrix representation of the absolute conic in that plane.
 
 ## 3.7 The absolute dual quadric
 
+1. The dual of the absolute conic $$\Omega_\infty$$ is a degenerate dual _quadric_ in 3-space called the _absolute dual quadric_, and denoted $$\Q_\infty^*$$. Geometrically $$Q_\infty^*$$ consists of the planes tangent to $$\Omega_\infty$$, so that $$\Omega_\infty$$ is the "rim" of $$\Q_\infty^*$$. This is called a _rim quadric_.
+
+2. $$\Q_\infty^*$$ is represented by a $$4 \times 4$$ homogeneous matrix of rank 3, which in metirc 3-space has the canonical form <br>
+$$
+\Q_\infty^* = \begin{bmatrix} I & 0 \\ 0^\intercal & 0 \end{bmatrix}   \quad (3.24)
+$$ 
+
+3. The dual quadric $$\Q_\infty^*$$ is a degenerate quadric and has 8 degrees of freedom (a symmetric matrix has 10 independent elements, but irrelevant scale and zero determinant condition each reduce the degrees of freedom by 1).
+
+4. __Result 3.10.__ _The absolute dual quadric, $$\Q_\infty^*$$, is fixed under the projective transformation $$H$$ if, and only if, $$H$$ is a similarity._
+
+5. __Result 3.11.__ _The plane at infinity $$\pi_\infty$$ is the null-vector of $$\Q_\infty^*$$._
+
+6. __Result 3.12.__ _The angle between two planes $$\pi_1$$ and $$\pi_2$$ is given by_ <br>
+$$
+\cos\theta = \frac{\pi_1^\intercal Q_\infty^* \pi_2}{\sqrt{(\pi_1^\intercal Q_\infty^* \pi_1)(\pi_2^\intercal Q_\infty^* \pi_2))}} \quad (3.25)
+$$
+ 
+ 
 ## 3.8 Closure
 
 
