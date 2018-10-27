@@ -65,11 +65,110 @@ $$
 
 ### 3.2.2 Lines
 
-1. 
+0. A line is defined by the _join_ of two points or the intersection of two planes. Lines have 4 degrees of freedom in 3-space.
+
+1. __Null-space and span representation.__
+
+2. __Plücker matrices.__ Here a line is represented by a $$4 \times 4$$ skew-symmetric homogeneous matrix. In particular,  the line joining the two points $$A, B$$ is represented by <br>
+$$
+L = A B^\intercal - B A^\intercal \quad (3.8)
+$$
+
+3. A dual Plücker representation $$L^*$$ is obtained for a line formed by the intersection of two planes. <br>
+$$
+L^* = P Q^\intercal - Q P^\intercal \quad (3.9)
+$$
+<br> Under the point transformation $$X^\prime = HX$$, the matrix $$L^*$$ transforms as $$L^{*\prime} = H^\T L H^\{-1}$$. The matrix $$L^*$$ can be obtained directly from $$L$$ by a simple rewrite rule: <br>
+$$
+l_{12} : l_{13} : l_{14} : l_{23} : l_{42} : l_{34} = l^*_{34} : l^*_{42} : l^*_{23} : l^*_{14} : l^*_{13} : l^*_{12}  \quad (3.10)
+$$
+
+4. The plane defined by the join of the point $$X$$ and line $$L$$ is <br>
+$$
+\pi = L^* X
+$$
+<br> and $$L^* X = 0$$ if, and only if, $$X$$ is on L.
+
+5. The point define by the intersection of the line $$L$$ with the plane $$\pi$$ is <br>
+$$
+X = L \pi
+$$
+<br> and $$L \pi = 0$$ if, and only if, $$L$$ is on $$\pi$$.
+
+5. __Plücker line coordinates.__ The Plücker line coordinates are the six non-zero elements of the $$4 \times 4$$ skew -symmetric Plücker matrix (3.8) $$L$$, namely <br>
+$$
+\mathcal{L} = \left \{ l_{12},l_{13},l_{14},l_{23},l_{42},l_{34} \right \}  \quad (3.11)
+$$
+<br> This is a homogeneous 6-vector, and thus is an element of $$\mathbb{P^5}$$. It follows from evaluating $$\det L = 0$$ that the coordinates satisfy the equation <br>
+$$
+l_{12}l_{34} + l_{13}l_{42} + l_{14}l_{23} = 0 \quad (3.12)
+$$
+
+6. Suppose two lines $$\mathcal{L}, \mathcal{\hat{L}}$$ are the joins of points $$A, B$$ and $$\hat{A}, \hat{B}$$ respectively. The lines intersect if and only if the four points are coplanar. It can be shown as <br>
+$$
+\begin{align}
+\det [A,B,\hat{A},\hat{B}] & = l_{12}\hat{l_{34}} + l_{13}\hat{l_{42}} + l_{14}\hat{l_{23}} + \hat{l_{12}}l_{34} + \hat{l_{13}}l_{42} + \hat{l_{14}}l_{23}  \\
+						   & = (\mathcal{L} | \mathcal{\hat{L}})  \quad \quad (3.13)
+\end{align}
+$$
+
+7. __Result 3.5.__ _Two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are coplanar (and thus intersect) if and only if $$(\mathcal{L} | \mathcal{\hat{L}}) = 0$$._
+
+8. Suppose two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are the intersections of the planes $$P, Q$$ and $$\hat{P}, \hat{Q}$$ respectively. Then <br>
+$$
+(\mathcal{L} | \mathcal{\hat{L}}) = \det [P,Q,\hat{P},\hat{Q}]
+$$
+
+9. if $$\mathcal{L}$$ is the intersection of two planes $$P$$ and $$Q$$ and $$\mathcal{\hat{L}}$$ is the join of two points $$A$$ and $$B$$, then <br>
+$$
+(\mathcal{L} | \mathcal{\hat{L}}) = (P^\intercal A)(Q^\intercal B) - (Q^\intercal A)(P^\intercal B) \quad (3.14)
+$$
 
 ### 3.2.3 Quadrics and dual quadrics
 
+1. A quadric is a surface in $$\mathbb{P^3}$$ defined by the equation <br>
+$$
+X^\intercal Q X = 0 \quad (3.15)
+$$
+<br> where $$Q$$ is a symmetric $$4 \times 4$$ matrix.
+
+2. A quadric has 9 degrees of freedom. These correspond to the ten independent elements of a $$4 \times 4$$ symmetric matrix less one for scale.
+
+3. If the matrix $$Q$$ is singular, then the quadric is _degenerate_, and may be defined by fewer points.
+
+4. Under the point transformation $$X^\prime = HX$$, a (point) quadric transforms as <br>
+$$
+Q^\prime = H^{-\intercal} Q H^{-1} \quad (3.16)
+$$
+
+5. The dual of a quadric is also a quadric. Dual quadrics are equations on planes: the tangent planes $$\pi$$ to the point quadric $$Q$$ satisfy $$\pi ^\intercal Q^* \pi = 0$$, where $$Q^* = adjoint Q$$, or $$Q^{-1}$$ if $$Q$$ is invertible. Under the point transformation $$X^\prime = HX$$, a dual quadric transforms as <br>
+$$
+Q^{* \prime} = H Q^* H^\intercal \quad (3.17)
+$$
+
+### 3.2.4 Classification of quadrics
+
+1. __Ruled quadrics.__ Quadrics fall into two classes - ruled and unruled quadrics. A ruled quadric is one that contains a straight line.
+
 ## 3.3 Twisted cubics
+
+1. A conic in the 2-dimensional projective plane may be described as a parametrized curve given by the equation <br>
+$$
+\begin{pmatrix}x_1 \\ x_2 \\ x_3\end{pmatrix} = A \begin{pmatrix} 1\\ \theta\\ \theta ^2 \end{pmatrix} = \begin{pmatrix}
+a_{11} + a_{12} \theta + a_{13} \theta ^2\\ a_{21} + a_{22} \theta + a_{23} \theta ^2 \\ a_{31} + a_{32} \theta + a_{33} \theta ^2 \end{pmatrix}
+$$
+<br> where $$A$$ is a non-singular $$3 \times 3$$ matrix.
+
+2. A twisted cubic is defined to be a curve in $$\mathbb{P^3}$$ given in parametric form as <br>
+$$
+\begin{pmatrix}X_1 \\ X_2 \\ X_3 \\ X_4 \end{pmatrix} = A \begin{pmatrix} 1\\ \theta\\ \theta ^2 \\ \theta ^3 \end{pmatrix} = \begin{pmatrix}
+a_{11} + a_{12} \theta + a_{13} \theta ^2 + a_{14} \theta ^3\\ a_{21} + a_{22} \theta + a_{23} \theta ^2 + a_{24} \theta ^3\\ a_{31} + a_{32} \theta + a_{33} \theta ^2 + a_{34} \theta ^3 \\ a_{41} + a_{42} \theta + a_{43} \theta ^2 + a_{44} \theta ^3 \end{pmatrix}
+$$
+
+3. A twisted cubic has 12 degrees of freedom (counted as 15 for the matri A, less 3 for a 1D projectivity on the parametrization $$\theta$$, which leaves the curve unaltered).
+
+4. All twisted cubics are projectively equivalent. 
+
 
 ## 3.4 The hierarchy of transformations
 
