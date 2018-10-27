@@ -112,7 +112,10 @@ $$
 \end{align}
 $$
 
-7. __Result 3.5.__ Two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are coplanar (and thus intersect) if and only if $$ (\mathcal{L}|\mathcal{\hat{L}}) = 0 $$.
+7. __Result 3.5.__ Two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are coplanar (and thus intersect) if and only if <br>
+$$ 
+(\mathcal{L}|\mathcal{\hat{L}}) = 0 
+$$
 
 8. Suppose two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are the intersections of the planes $$P, Q$$ and $$\hat{P}, \hat{Q}$$ respectively. Then <br>
 $$
