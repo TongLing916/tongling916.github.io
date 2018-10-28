@@ -31,6 +31,8 @@ $$\quad$$ 在单目相机情况下，只有bearing （the orientation of a robot
 
 #### 1.1 Stereo VO
 
+> Keyframe selection is a very important step in VO and should always be done before updating the motion.
+
 $$\quad$$ 很多双目VO都是对每一对双目图像采用三角测量法测量3D点，再把这个作为一个3D-3D point registration 
 (the process of finding a spatial transformation that aligns two point sets)的问题算出相对运动。[Nister等][paper-nister]提出了一种不同的方法。首先，不像以前的工作，
 他们并没有追踪帧之间的features，而是独立地检测所有帧中的features（[Harris corner][website-harris-corner]），并且只允许features之间配对。
@@ -57,35 +59,61 @@ $$\quad$$ 所有上面提到的方法原本都是给无限制的运动（6 DOF�
 
 #### 1.3 Reducing the Drift
 
-$$\quad$$ 
+$$\quad$$ 由于VO是累加地计算相机的路径(一个接一个的位置),所以每次帧到帧的误差会随着时间而累加.这就会造成估计的轨迹对于实际路径的一个漂移. 对一些应用来说,使这个漂移尽可能的小至关重要,我们可以
+对最后的m个相机位置采取局部优化的方式.这种方法称为_sliding window bundle adjustment_或者_windowed bundle adjustment_.
 
 #### 1.4 V-SLAM 
 
+> VO is only concerned with the local consistency of the trajectory, whereas SLAM with the global consistency.
+
+$$\quad$$ V-SLAM中有两种占主导的方法:
+	- Filtering methods fuse the information from all the images with a probability distribution
+	- Nonfiltering methods (also called _keyframe methods_) retain the optimization of global bundle adjustment to selected keyframes.
+
+$$\quad$$ 两种方法的优劣可以参考这篇[论文][paper-why-filter].
+
 #### 1.5 VO Versus V-SLAM
 
-### 2. Camera Modeling and Calibration
+> In the motion estimation step, the camera motion between the current and the previous image is computed.
 
-#### 2.1 Perspective Camera Model
+$$\quad$$ SLAM的目标通常是得到一个全局的,一致的机器人路径估计.这意味这需要保存整个地图上的路径轨迹(即使它本身不需要这个地图),因为它需要识别出它以前经过的地点(这也称作_loop closure_.
+当一个回环被检测到时,这个信息可以用来减少地图和相机路径的漂移.Understanding wehn a loop closure occurs和effciently integrating this new constraint 
+into current map时SLAM中两个主要的问题). 
 
-#### 2.2 Omnidirectional Camera Model
+$$\quad$$ 相反,VO的目的时持续地回复路径,一个位置接一个位置,以及还可能对最后n个位置进行优化(_window bundle adjustment_).这个sliding window optimization可以看作时SLAM中的
+建立局部地图.然而,这里的思想是不同的:在VO中,我们只考虑轨迹的局部一致性,局部地图是用来获得对于局部轨迹更精确的一个估计;然而SLAM中考虑更多的是全局地图的一致性.
 
-#### 2.3 Spherical Model
+$$\quad$$ VO可以被用来当作SLAM中的一部分,用来恢复相机持续的运动.然而,要想完成一个SLAM,我们还得加回环检测以及可能全局优化以此来保证地图度量的一致性.
 
-#### 2.4 Camera Calibration
+$$\quad$$ 一个V-SLAM方法可能会更精确,因为它对路径实施了更多的限制,但是可能不会更加鲁棒(比如说,回环检测中outlier能严重影响地图的一致性).另外,它更复杂而且计算量更大.
 
-### 3. Motion Estimation
+### 2. Formulation of the VO Problem
 
-#### 3.1 2D-to-2D: Motion from Image Feature Correspondences
+$$\quad$$
 
-#### 3.2 3D-to-3D: Motion from 3-D Structure Correspondences
+### 3. Camera Modeling and Calibration
 
-#### 3.3 3D-to-2D: Motion from 3-D Structure and Image Feature Correspondences
+#### 3.1 Perspective Camera Model
 
-#### 3.4 Triangulation and Keyframe Selection
+#### 3.2 Omnidirectional Camera Model
 
-#### 3.5 Discussion
+#### 3.3 Spherical Model
 
-### 4. Conclusions
+#### 3.4 Camera Calibration
+
+### 4. Motion Estimation
+
+#### 4.1 2D-to-2D: Motion from Image Feature Correspondences
+
+#### 4.2 3D-to-3D: Motion from 3-D Structure Correspondences
+
+#### 4.3 3D-to-2D: Motion from 3-D Structure and Image Feature Correspondences
+
+#### 4.4 Triangulation and Keyframe Selection
+
+#### 4.5 Discussion
+
+### 5. Conclusions
 
 
 <br>
@@ -104,3 +132,4 @@ $$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会
 [website-harris-corner]: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html
 [paper-comport]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.331.9823&rep=rep1&type=pdf
 [website-ransac]: http://lingtong.de/2018/10/29/RANSAC/
+[paper-why-filter]: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5509636
