@@ -31,6 +31,13 @@ $$\quad$$ 在单目相机情况下，只有bearing （the orientation of a robot
 
 #### 1.1 Stereo VO
 
+$$\quad$$ 很多双目VO都是对每一对双目图像采用三角测量法测量3D点，再把这个作为一个3D-3D point registration 
+(the process of finding a spatial transformation that aligns two point sets)的问题算出相对运动。[Nister等][paper-nister]提出了一种不同的方法。首先，不像以前的工作，
+他们并没有追踪帧之间的features，而是独立地检测所有帧中的features（[Harris corner][[website-harris-corner]]），并且只允许features之间配对。
+这种方法有效地避免了cross-correlation-based tracking间的feature drift. 第二点，他们没用对待3D-to-3D point regestration问题的方法来计算相对运动，而是把这看作是一个
+3D-to-2D camera-pose estimation问题。最后，他们还在motion estimation的一步中结合了RANSAC outlier rejection。
+
+
 #### 1.2 Monocular VO
 
 #### 1.3 Reducing the Drift
@@ -75,3 +82,5 @@ $$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会
 
 [paper-part-1]: https://www.ifi.uzh.ch/dam/jcr:5759a719-55db-4930-8051-4cc534f812b1/VO_Part_I_Scaramuzza.pdf
 [paper-part-2]: http://rpg.ifi.uzh.ch/docs/VO_Part_II_Scaramuzza.pdf
+[paper-nister]: https://www.computer.org/csdl/proceedings/cvpr/2004/2158/01/01315094.pdf
+[website-harris-corner]: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html
