@@ -89,14 +89,14 @@ $$\quad$$ 一个V-SLAM方法可能会更精确,因为它对路径实施了更多
 
 ### 2. Formulation of the VO Problem
 
-> Feature matching: Detecting features independently in all the images and then matching them based on some similarity metrics.
+> Feature matching: Detecting features independently in all the images and then matching them based on some similarity metrics. <br>
 > Featuer tracking: Finding features in one image and then tracking them in the next images using a local search technique, such as correlation.
 
 $$\quad$$ VO中主要任务是从两个照片中计算relative transformation $$T_k$$,然后利用这算出来的变换矩阵来算出相机经过的整个轨迹.在算出一个位置后,可以使用一个迭代的优化方法来获取一个更加准确的
-局部轨迹的估计.这个迭代的方法是减少最近10张图中重构的3D点的重投影误差的平方和(也称为_windowed-bundle adjustment_).这些3D点是通过对图像点进行三角测量得到的.
+局部轨迹的估计.这个迭代的方法是减少最近10张图中重构的3D点的重投影误差的平方和(也称为 _windowed-bundle adjustment_ ).这些3D点是通过对图像点进行三角测量得到的.
 
-$$\quad$$ 主要有两种方法来计算相对运动$$T_k$$:
-	- appearance-based (or global) methods,利用两幅输入图中所有像素强度信息
+$$\quad$$ 主要有两种方法来计算相对运动$$T_k$$: <br>
+	- appearance-based (or global) methods,利用两幅输入图中所有像素强度信息  <br>
 	- feature-based methods,只利用从图像中提取出的突出的,重复的特征.
 
 $$\quad$$ Global methods相比feature-based不够准确,而且运算量太大.Feature-based methods需要能够稳定地匹配(或追踪)帧之间的特征,与global methods相比更精确,更快.
