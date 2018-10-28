@@ -43,9 +43,21 @@ $$\quad$$ [Comport等][paper-comport]还提出了一种motion estimation的方�
 
 #### 1.2 Monocular VO
 
+$$\quad$$ 与双目方法不同，单目VO要求相对运动和3D结构从2D bearing数据计算获得。由于absolute scale不知道，所以初始两个相机的位置通常设置为1。当一张新的图像到来时，
+相对尺寸和相机对于初始两帧的位置便能确定，要么用3D结构的知识或者用trifocal tensor。
+
+$$\quad$$ 单目方法可以分为以下几种：feature-based methods, appearance-based methods以及hybrid methods。Feature-based method是基于追踪每一帧中显著并且重复的feature；
+Appearance-based methods是利用一张图片或者图片中一个区域的所有像素的强度信息；Hyrbid methods将这两个方法联合了起来。
+
+$$\quad$$ 在feature-based methods中，很多人采用了[five-point minimal sovler][website-ransac]来计算RANSAC中的运动假设。Five-point RANSAC可以用来出去outliers。
+Appearance-based methods有一个很大的问题是它们对于极易被遮挡影响。
+
+$$\quad$$ 所有上面提到的方法原本都是给无限制的运动（6 DOF）设计的。然而，也有一些VO的方法是专门给那些有限制的物体的设计的。这个好处是降低了计算时间以及提高了运动准确性.
 
 
 #### 1.3 Reducing the Drift
+
+$$\quad$$ 
 
 #### 1.4 V-SLAM 
 
@@ -82,7 +94,8 @@ $$\quad$$ [Comport等][paper-comport]还提出了一种motion estimation的方�
 
 ## [Part II: Matching, Robustness, and Applications][paper-part-2]
 
-$$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会回顾在VO中经常使用的point-feature detectors和不同的outlier-rejection schemes。重点还会讲random sample consensus (RANSAC)，以及一些用来提升它速度的独特的tricks。其他会提到的有error modeling, location recognition (or loop-closure detection)以及bundle adjustment.
+$$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会回顾在VO中经常使用的point-feature detectors和不同的outlier-rejection schemes。
+重点还会讲random sample consensus ([RANSAC][website-ransac])，以及一些用来提升它速度的独特的tricks。其他会提到的有error modeling, location recognition (or loop-closure detection)以及bundle adjustment.
 
 
 [paper-part-1]: https://www.ifi.uzh.ch/dam/jcr:5759a719-55db-4930-8051-4cc534f812b1/VO_Part_I_Scaramuzza.pdf
@@ -90,3 +103,4 @@ $$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会
 [paper-nister]: https://www.computer.org/csdl/proceedings/cvpr/2004/2158/01/01315094.pdf
 [website-harris-corner]: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html
 [paper-comport]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.331.9823&rep=rep1&type=pdf
+[website-ransac]: http://lingtong.de/2018/10/29/RANSAC/
