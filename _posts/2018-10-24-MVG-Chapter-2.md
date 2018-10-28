@@ -8,13 +8,13 @@ tags:
     - MVG
 ---
 
-## 2.1 Planar geometry
+### 2.1 Planar geometry
 1. What is _Tensor_? 
 <br> [Youtube: Tensors for Beginners][youtube-tensors]
 2. A significant advantage of the algebraic approach to geometry is that results derived in this way may more easily be used to derive algorithms and practical computational methods.
 
-## 2.2 The 2D projective plane
-### 2.2.1 Points and lines
+### 2.2 The 2D projective plane
+#### 2.2.1 Points and lines
 
 3. __Homogeneous representation of lines.__ $$ ax + by + c = 0 $$ and $$ (ka)x + (kb)y + (kc) = 0 $$ are the same, for any non-zero constant $$k$$. Thus, the vectors $$ (a, b, c)^\intercal $$ and $$ k(a, b, c)^\intercal $$ represent the same line, for any non-zero $$k$$.
 
@@ -28,7 +28,7 @@ tags:
 
 8. __Result 2.4.__ _The line through two points $$ x $$ and $$ x^\prime $$ is the point $$ l =  x \times x^\prime $$._
 
-### 2.2.2 Ideal points and the line at infinity
+#### 2.2.2 Ideal points and the line at infinity
 
 9. __Intersection of parallel lines.__ E.g. $$ ax+by+c = 0 $$ and $$ ax+by+c^\prime = 0 $$, represented by vectors $$ l = (a,b,c)^\intercal $$ and $$ l^\prime = (a,b,c^\prime)^\intercal $$. The intersection is $$ l \times l^\prime = (c^\prime - c)(b,-a,0)^\intercal $$, and igoring the scale factor $$ (c^\prime - c) $$, this is the point $$ (b,-a,0)^\intercal $$.
 
@@ -40,7 +40,7 @@ tags:
 	
 12. __Reuslt 2.6. Duality principle.__ _To any theorem of 2-dimensional projective geometry there corresponds a dual theorem, which may be derived by interchanging the roles of points and lines in the original theorem._ Example: Result 2.2 and 2.4.
 
-### 2.2.3 Conics and dual conics
+#### 2.2.3 Conics and dual conics
 
 13. The euqation of a conic in inhomogeneous coordinate is
 $$
@@ -74,7 +74,7 @@ $$
 
 17. __Degenerate conics.__ If the matrix $$C$$ is not of full rank, then the conic is termed degenerate. Degenerate point conics include two lines (rank 2), and a repeated line (rank 1). E.g. $$C = l m^\intercal + m l^\intercal$$.
 	
-## 2.3 Projective transformations
+### 2.3 Projective transformations
 
 18. __Defition 2.9.__ A _projectivity_ is an invertible mapping _h_ from $$ \mathbb{ P^2 } $$ to itself such that three points $$x_1$$, $$x_2$$ and $$x_3$$ lie on the same line if and only if $$h(x_1), h(x_2), h(x_3)$$do.
 <br> Projectivities form a group since the inverse of a projectivity is also a projectivity, and so is the composition of two projectivities. A projectivity is also called a _collineation_, a _projective transformation_ or a _homography_.
@@ -94,7 +94,7 @@ $$
 21. __Mappings between planes.__ Projection along rays through a common point (the centre of projection) defines a mapping from one plane to another. If a coordinate system is defined in each plane and points are represented in homogeneous coordinates, then the _central projection_ mapping may be expressed by $$x^\prime = Hx$$ where $$H$$ is a non-singular $$3 \times 3$$ matrix.
 <br> Actually, if the two coordinate systems defined in the two planes are both Euclidean (rectilinear) coordinate systems then the mapping defined by central projection is more restricted than an arbitrary projective transformation. It is called _perspectivity_ rather than a full projectivity, and may be represented by a transformation with six degrees of freedom.
 
-### 2.3.1 Transformations of lines and conics
+#### 2.3.1 Transformations of lines and conics
 
 22. __Transformation of lines.__ According to the proof of theorem 2.10, under the point transformation $$x^\prime = Hx$$, a line transforms as 
 $$
@@ -116,7 +116,7 @@ $$
 
 25. __Result 2.14.__ _Under a point transformation x^\prime = Hx, a dual conic $$ C^* $$ transforms to $$ C^{*\prime} = HC^*H^\intercal $$._
 
-## 2.4 A hierarchy of transformations
+### 2.4 A hierarchy of transformations
 
 26. The group of invertible  $$n \times n$$ matrices with real elements is the (real) _general linear group_ on $$n$$ dimensions, or $$GL(n)$$. To obtain the _projective linear group_ the matrices related by a scalar multiplier are identified, giving $$PL(n)$$ (this is a quotient group of $$GL(n)$$). In the case of projective transformations of the plane $$n = 3$$.
 <br> The important subgroups of $$PL(3)$$ include _affine group_, which is the subgroup of $$PL(3)$$ consisting of matrices for which the last row is (0, 0, 1), 
@@ -126,7 +126,7 @@ $$
 27. __Invariants.__ An alternative to describing the transformation _algebraically_, i.e. as a matrix acting on coordiantes of a point or curve, is to describe the transformation in terms of those elements or quantities that are preserved or _invariant_.
 <br>Note: a Euclidean transformation (translation and rotation). A similarity (e.g. translation, rotation and isotropic scaling).
 
-### 2.4.1 Class I: Isometries
+#### 2.4.1 Class I: Isometries
 
 28. Isometries are transformations of the plane $$\mathbb{R^2}$$ that preserve Euclidean distance (from _iso_ = same, _metric_ = measure). An isometry is represented as
 $$
@@ -146,7 +146,7 @@ $$
 
 30. __Groups and orientation.__ An isometry is orientation-preserving if the upper left hand $$2 \times 2$$ matrix has determinant 1. Orientation-_preserving_ isometries form a group, orientation-_reversing_ ones do not.
 
-### 2.4.2 Class II: Similarity transformations
+#### 2.4.2 Class II: Similarity transformations
 
 31. A similarity transformation (or more simply a _similarity_) is an isometry composed with an isotropic scaling. In the case of a Euclidean transformation composed with a scaling (i.e. no reflection) the similarity has matrix representation
 $$
@@ -162,7 +162,7 @@ $$
 
 33. __Metric structure.__ The description _metric structure_ implies that the structure is defined up to a similarity.
 
-### 2.4.3 Class III: Affine transformation
+#### 2.4.3 Class III: Affine transformation
 
 34. An affine transformation (or more simply an _affinity_) is a non-singular linear transformation followed by a translation. It has the matrix representation
 $$
@@ -194,7 +194,7 @@ $$
 	
 36. An affinity is orientation-preserving or -reversing according to whether $$\det A$$ is positive or negative respectively. Since $$\det A = \lambda_1 \lambda_2$$ the property depends only on the sign of the scalings.
 
-### 2.4.4 Class IV: Projective transformations
+#### 2.4.4 Class IV: Projective transformations
 
 37. A projective transformation was defined in (2.5). It is a general non-singular linear transformation of _homogeneous_ coordiantes. This generalizes an affine transformation, which is the composition of a general non-singular linear transformation of _inhomogeneous_ coordinates and a translation. Here we examine its block form
 $$
@@ -205,7 +205,7 @@ $$
 
 38. __Invariants.__ The most fundamental projective invariant is the cross ratio of four collinear points: a ratio of lengths on a line is invariant under affinities, but not under projectivities. However, a ratio of ratios or _cross ratio_ of lengths on a line is a projective invariant.
 
-### 2.4.5 Summary and comparison
+#### 2.4.5 Summary and comparison
 
 39. The key difference between a projective and affine transformation is that the vector $$\mathbf{v}$$ is not null for a projectivity.This is responsible for the non-linear effects of the projectivity. Compare the mapping of an ideal point $$(x_1,x_2,0)^\intercal$$ under an affinity and projectivity: 
 <br> First the affine transformation
@@ -218,7 +218,7 @@ $$
 $$
 <br> In the first case the ideal point remains ideal (i.e. at infinity). In the second it is mapped to a finite point. It is this ability which allows a projective transformation to model vanishing points.
 
-### 2.4.6 Decomposition of a projective transformation
+#### 2.4.6 Decomposition of a projective transformation
 
 40. A projective transformation can be decomposed into a chain of transformations, where each matrix in the chain represents a transformation higher in the hierarchy than the previous one.
 $$
@@ -234,13 +234,13 @@ H = H_S H_A H_P = \begin{bmatrix} I & 0 \\ \mathbf{v}^\intercal & \upsilon \end{
 $$ 
 <br> Note that the actual values of $$K， T， t$$ and $$\mathbf{v}$$ will be different from those of (2.16).
 
-### 2.4.7 The number of invariants
+#### 2.4.7 The number of invariants
 
 42. __Result 2.16.__ _The number of functionally independent invariants is equal to, or greater than, the number of degrees of freedom of the configuration less the number of degrees of freedom of the transformation._
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-geometric-properties-invariant.PNG)
 *Tab. Geometric properties invariant to commonly occurring _planar_ transformations.*
 
-## 2.5 The projective geometry of 1D
+### 2.5 The projective geometry of 1D
 
 43. The development of the projective geometry of a line, $$\mathbb{P^1}$$, proceeds in much the same way as that of the plane. A point $$x$$ on the line is represented by homogeneous coordiantes $$(x_1,x_2)^\intercal$$, and a point for which $$x_2 = 0$$ is an ideal point of the line. We will use the notation $$\overline{x}$$ to represent the 2-vector $$(x_1,x_2)^\intercal$$. A projective transformation of a line is represented by a $$2 \times 2$$ homogeneous matrix,
 $$
@@ -269,15 +269,15 @@ $$
 ![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-line_camera.png)
 *Fig. Projection of points in $$\mathbb{P^2}$$ into a 1-dimensional image.*
 
-## 2.6 Topology of the projective plane
+### 2.6 Topology of the projective plane
 
-## 2.7 Recovery of affine and metric properties from images
+### 2.7 Recovery of affine and metric properties from images
 
 46. A projective transformation has only 4 degrees of freedom more than a similarity, so it is only neccessary to specify 4 degrees of freedom (not 8) in order to determine metric properties. In projective geometry these 4 degrees of freedom are given "physical substance" by being associated with geometric objects: the line at infinity $$l_\infty$$ (2 dof), and the two _circular points_ (2 dof) on $$l_\infty$$.
 
 47. In the following it is shown that the projective distortion may be removed once the image of $$l_\infty$$ is specified, and the affine distortion removed once the image of the circular points is specified. Then the only remaining distortion is a similarity.
 
-### 2.7.1  The line at inifinity
+#### 2.7.1  The line at inifinity
 
 48. Under a projective transformation ideal points may be mapped to finite points (2.15), and consequently $$l_\infty$$ is mapped to a finite line. However, if the transformation is an affinity, then $$l_\infty$$ is not mapped to a finite line, but remains at inifinity. According to the line transformation (2.6): <br>
 $$
@@ -288,7 +288,7 @@ $$
 49. __Result 2.17.__ _The line at infinity, $$l_\infty$$, is a fixed line under the projective transformation $$H$$ if and only if $$H$$ is an affinity._
 <br> However, $$l_\infty$$ is not fixed pointwise under an affine transformation: (2.14) showed that under an affinity a point on $$l_\infty$$ (an ideal point) is mapped to a point on $$l_\infty$$, but it is not the same point undless $$A(x_1,x_2)^\intercal = k(x_1,x_2)^\intercal$$. 
 
-### 2.7.2 Recovery of affine properties from images
+#### 2.7.2 Recovery of affine properties from images
 
 50. Once the imaged line at inifinity is identified in an image of a plane, it is then possible to make affine measurements on the original plane. For example, lines may be identified as parallel on the original plane if the images lines intersect on the imaged $$l_\infty$$. This follows because parallel lines  on the Euclidean plane on $$l_\infty$$, and after a projective transformation the lines still intersect on the images $$l_\infty$$ since intersections are preserved by projectivities.
 
@@ -326,7 +326,7 @@ The vanishing points may also be computed by a purely geometric construction con
 ![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-construction_lengthratio.png)
 *Fig. A geometric construction to determine the image of the point at infinity on a line given a known length ratio.*
 
-### 2.7.3 The circular points and their dual
+#### 2.7.3 The circular points and their dual
 
 57. Under any similarity transformation there are two points on $$l_\infty$$ which are fixed. These are the _circular points_ (also called the _absolute points_) $$I, J$$, with canonical coordinates <br>
 $$
@@ -371,7 +371,7 @@ $$
 	- $$C_\infty^{*}$$ has 4 degrees of freedom.
 	- $$l_\infty$$ is the null vector of $$C_\infty^{*}$$. I.e. $$C_\infty^{*} l_\infty = 0$$
 
-### 2.7.4 Angles on the projective plane
+#### 2.7.4 Angles on the projective plane
 
 63. For the lines $$l = (l_1,l_2,l_3)^\intercal$$ and $$m = (m_1,m_2,m_3)^\T$$ with normals parallel to $$(l_1,l_2)^\intercal, (m_1,m_2)^\intercal$$ respectively, the angle is <br>
 $$
@@ -388,7 +388,7 @@ $$
 
 66. __Length ratios__ may also be measured once $$C_\infty^{*}$$ is identified.
 
-### 2.7.5 Recovery of metric properties from images
+#### 2.7.5 Recovery of metric properties from images
 
 67. __Metric rectification using $$C_\infty^{*}$$.__ The dual conic $$C_\infty^{*}$$ neatly packages all the information required for a metric rectification. It enables both the projective and affine components of a projective transformation to be determined, leaving only similarity distortions. If the point transformation is $$x^\prime = Hx$$, where the $$x$$-coordinate frame is Euclidean and $$x^\prime$$ projective, $$C_\infty^{*}$$ transforms according to result 2.14 ($$C^{* \prime} = H C^* H^\prime $$). Using the decomposition chain (2.17):<br>
 $$
@@ -408,9 +408,9 @@ $$
 
 69. __Stratification.__ First the projective and subsequently the affine distortions were removed. This two-approach is termed _stratified_.
 
-## 2.8 More properties of conics
+### 2.8 More properties of conics
 
-### 2.8.1 The pole-polar relationship
+#### 2.8.1 The pole-polar relationship
 
 70. A point $$x$$ and a conic $$C$$ define a line $$l = Cx$$. The line $$l$$ is called the _polar_ of $$x$$ with respect to $$C$$, and the point $$x$$ is the _pole_ of $$l$$ with respect to C.
 
@@ -424,13 +424,13 @@ $$
 
 75. _If $$x$$ is on the polar of $$y$$ then $$y$$ is on the polar of x._ <br> This follows simply because of the symmetry of the conic matrix.
 
-### 2.8.2 Classification of conics
+#### 2.8.2 Classification of conics
 
 76. __Projective normal form for a conic__.
 
 77. __Affine classification of conics.__
 
-## 2.9 Fixed points and lines
+### 2.9 Fixed points and lines
 
 78. The key idea is that an _eigenvector_ corresponds to a _fixed point_ of the transformation, since for an eigenvector $$e$$ with eigenvalue $$\lambda$$,<br>
 $$
@@ -445,10 +445,10 @@ $$
 
 81. __An affine matrix.__ The two ideal fixed points can be real or complex conjugates, but the fixed line $$ l_\infty = (0,0,1)^\intercal$$ through these points is real in either case.
 
-## 2.10 Closure
-### 2.10.1 The literature
+### 2.10 Closure
+#### 2.10.1 The literature
 
-### 2.10.2 Notes and exercises
+#### 2.10.2 Notes and exercises
 
 1. __Affine transformations.__ <br>
 	

@@ -8,13 +8,13 @@ tags:
     - MVG
 ---
 
+### 3.1 Points and projective transformations
+
 1. In $$\mathbb{P^3}$$ Euclidean 3-space is augmented with a set of ideal points which are on a _plane_ at infinity, $$\pi_\infty$$. Parallel lines, and now parallel _planes_, intersect on $$\pi_\infty$$.
 
-## 3.1 Points and projective transformations
+### 3.2 Representing and transforming planes, lines and quadrics
 
-## 3.2 Representing and transforming planes, lines and quadrics
-
-### 3.2.1 Planes
+#### 3.2.1 Planes
 
 1. A plane in 3-space may be written as <br>
 $$
@@ -63,7 +63,7 @@ $$
 <br> where the columns of the $$4 \times 3$$ matrix $$M$$ generate the rank 3 null-space of $$\pi^\intercal$$, i.e. $$\pi^\intercal M = 0$$, and the 3-vector $$x$$ (which is a point on the projective plane $$\mathbb{P^2}$$) parametrizes point on the plane $$\pi$$.
 
 
-### 3.2.2 Lines
+#### 3.2.2 Lines
 
 0. A line is defined by the _join_ of two points or the intersection of two planes. Lines have 4 degrees of freedom in 3-space.
 
@@ -127,7 +127,7 @@ $$
 (\mathcal{L} | \mathcal{\hat{L}}) = (P^\intercal A)(Q^\intercal B) - (Q^\intercal A)(P^\intercal B) \quad (3.14)
 $$
 
-### 3.2.3 Quadrics and dual quadrics
+#### 3.2.3 Quadrics and dual quadrics
 
 1. A quadric is a surface in $$\mathbb{P^3}$$ defined by the equation <br>
 $$
@@ -149,11 +149,11 @@ $$
 Q^{* \prime} = H Q^* H^\intercal \quad (3.17)
 $$
 
-### 3.2.4 Classification of quadrics
+#### 3.2.4 Classification of quadrics
 
 1. __Ruled quadrics.__ Quadrics fall into two classes - ruled and unruled quadrics. A ruled quadric is one that contains a straight line.
 
-## 3.3 Twisted cubics
+### 3.3 Twisted cubics
 
 1. A conic in the 2-dimensional projective plane may be described as a parametrized curve given by the equation <br>
 $$
@@ -173,14 +173,14 @@ $$
 4. All twisted cubics are projectively equivalent. 
 
 
-## 3.4 The hierarchy of transformations
+### 3.4 The hierarchy of transformations
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-geometric-properties-invariant-3D.JPG)
 
-### 3.4.1 The screw decomposition
+#### 3.4.1 The screw decomposition
 
 1. __Result 3.6.__ _Any particular translation and rotation is equivalent to a rotation about a screw axis together with a translation along the screw axis. The screw axis is parallel to the rotation axis._
 
-## 3.5 The plane at infinity
+### 3.5 The plane at infinity
 
 1. The plane at infinity has the canonical position $$\pi_infty = (0,0,0,1)^\intercal$$ in affine 3-space.It contains the directions $$D = (x_1,x_2,x_3,0)^\intercal$$, and enables the identification of affine properties such as parallelism. In particular:
 	- Two palnes are parallel if, and only if, their line of intersection is on $$\pi_\infty$$.
@@ -192,7 +192,7 @@ $$
 
 4. __Affine properties of a reconstruction.__ Once $$\pi_\infty$$ is identified in projective 3-space, i.e. its projective coordinates are known, it is then possible to determine affine properties of the reconstruction such as whether geometric entities are parallel - they are parallel if they intersect on $$\pi_\infty$$.
 
-## 3.6 The absolute conic
+### 3.6 The absolute conic
 
 1. The absolute conic, $$\Omega_\infty$$, is a (point) conic on $$\pi_\infty$$. Points on $$\Omega_\infty$$ satisfy <br>
 $$
@@ -219,7 +219,7 @@ $$
 $$
 <br> where $$d_1$$ and $$d_2$$ are the points of intersections of the lines with the plane $$\pi_\infty$$ containing the conic $$\Omega_\infty$$, and $$\Omega_\infty$$ is the matrix representation of the absolute conic in that plane.
 
-## 3.7 The absolute dual quadric
+### 3.7 The absolute dual quadric
 
 1. The dual of the absolute conic $$\Omega_\infty$$ is a degenerate dual _quadric_ in 3-space called the _absolute dual quadric_, and denoted $$Q_\infty^*$$. Geometrically $$Q_\infty^*$$ consists of the planes tangent to $$\Omega_\infty$$, so that $$\Omega_\infty$$ is the "rim" of $$Q_\infty^*$$. This is called a _rim quadric_.
 
@@ -240,7 +240,7 @@ $$
 $$
  
  
-## 3.8 Closure
+### 3.8 Closure
 
 
 
