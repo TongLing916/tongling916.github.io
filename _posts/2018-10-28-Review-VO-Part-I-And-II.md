@@ -89,6 +89,9 @@ $$\quad$$ 一个V-SLAM方法可能会更精确,因为它对路径实施了更多
 
 ### 2. Formulation of the VO Problem
 
+> Feature matching: Detecting features independently in all the images and then matching them based on some similarity metrics.
+> Featuer tracking: Finding features in one image and then tracking them in the next images using a local search technique, such as correlation.
+
 $$\quad$$ VO中主要任务是从两个照片中计算relative transformation $$T_k$$,然后利用这算出来的变换矩阵来算出相机经过的整个轨迹.在算出一个位置后,可以使用一个迭代的优化方法来获取一个更加准确的
 局部轨迹的估计.这个迭代的方法是减少最近10张图中重构的3D点的重投影误差的平方和(也称为_windowed-bundle adjustment_).这些3D点是通过对图像点进行三角测量得到的.
 
@@ -98,7 +101,10 @@ $$\quad$$ 主要有两种方法来计算相对运动$$T_k$$:
 
 $$\quad$$ Global methods相比feature-based不够准确,而且运算量太大.Feature-based methods需要能够稳定地匹配(或追踪)帧之间的特征,与global methods相比更精确,更快.
 
-$$\quad$$ 一个VO工作的示意图如下图所示.
+$$\quad$$ 一个VO工作的示意图如下图所示.对于每张新图片$$I_k$$,首先两步是检测和匹配其中与之前帧中对应的2D特征.从不同帧中3D特征通过重投影得到的2D特征称为_image correspondences_.第三步是
+计算两帧之间的相对运动$$T_k$$。根据不同的对应类型，一共有三种不同的方法解决这个问题。最后，一个迭代的优化可以对最后m帧实施。
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-vo.PNG)
 
  
 
