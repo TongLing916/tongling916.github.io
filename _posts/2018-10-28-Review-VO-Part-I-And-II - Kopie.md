@@ -29,37 +29,39 @@ $$\quad$$ 在单目相机情况下，只有bearing （the orientation of a robot
 无效，我们则必须使用单目方法。
 
 
-### 1.1 Stereo VO
+#### 1.1 Stereo VO
 
-### 1.2 Monocular VO
+#### 1.2 Monocular VO
 
-### 1.3 Reducing the Drift
+#### 1.3 Reducing the Drift
 
-### 1.4 V-SLAM 
+#### 1.4 V-SLAM 
 
-### 1.5 VO Versus V-SLAM
+#### 1.5 VO Versus V-SLAM
 
 ### 2. Camera Modeling and Calibration
 
-### 2.1 Perspective Camera Model
+#### 2.1 Perspective Camera Model
 
-### 2.2 Omnidirectional Camera Model
+#### 2.2 Omnidirectional Camera Model
 
-### 2.3 Spherical Model
+#### 2.3 Spherical Model
 
-### 2.4 Camera Calibration
+#### 2.4 Camera Calibration
 
-### 2.5 2D-to-2D: Motion from Image Feature Correspondences
+### 3. Motion Estimation
 
-### 2.6 3D-to-3D: Motion from 3-D Structure Correspondences
+#### 3.1 2D-to-2D: Motion from Image Feature Correspondences
 
-### 2.7 3D-to-2D: Motion from 3-D Structure and Image Feature Correspondences
+#### 3.2 3D-to-3D: Motion from 3-D Structure Correspondences
 
-### 2.8 Triangulation and Keyframe Selection
+#### 3.3 3D-to-2D: Motion from 3-D Structure and Image Feature Correspondences
 
-### 2.9 Discussion
+#### 3.4 Triangulation and Keyframe Selection
 
-### 3. Conclusions
+#### 3.5 Discussion
+
+### 4. Conclusions
 
 
 <br>
