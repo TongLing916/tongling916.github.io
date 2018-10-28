@@ -37,8 +37,13 @@ $$\quad$$ 很多双目VO都是对每一对双目图像采用三角测量法测�
 这种方法有效地避免了cross-correlation-based tracking间的feature drift. 第二点，他们没用对待3D-to-3D point regestration问题的方法来计算相对运动，而是把这看作是一个
 3D-to-2D camera-pose estimation问题。最后，他们还在motion estimation的一步中结合了RANSAC outlier rejection。
 
+$$\quad$$ [Comport等][paper-comport]还提出了一种motion estimation的方案，他们用了quadrifocal tensor，使得可以利用2D-to-2D的图片对应来计算运动，
+而不再需要用三角测量的方法计算任何3D的点。这种直接使用原生2D点的方法可以得到更加精确的运动。
+
 
 #### 1.2 Monocular VO
+
+
 
 #### 1.3 Reducing the Drift
 
@@ -84,3 +89,4 @@ $$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会
 [paper-part-2]: http://rpg.ifi.uzh.ch/docs/VO_Part_II_Scaramuzza.pdf
 [paper-nister]: https://www.computer.org/csdl/proceedings/cvpr/2004/2158/01/01315094.pdf
 [website-harris-corner]: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html
+[paper-comport]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.331.9823&rep=rep1&type=pdf
