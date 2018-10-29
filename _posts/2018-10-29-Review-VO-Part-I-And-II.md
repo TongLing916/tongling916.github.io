@@ -154,7 +154,7 @@ $$\quad$$ 注意，特征可以是点也可以是线。通常，由于结构很�
 > 4) Decompose essential matrix into $$R_k$$ and $$t_k$$, and form $$T_k$$ <br>
 > 5) Compute relative sclae and rescale $$t_k$$ accordingly <br>
 > 6) Concatenate transformation by computing $$C_k = C_{k-1} T_k$$ <br>
-> 7) Repeat from 1).
+> 7) Repeat from 1)
 
 #### 4.2 3D-to-3D: Motion from 3-D Structure Correspondences
 
@@ -164,7 +164,7 @@ $$\quad$$ 注意，特征可以是点也可以是线。通常，由于结构很�
 > 3) Triangulate matched features for each stereo pair$ <br>
 > 4) Compute $$T_k$$ from 3D features $$X_{k-1}$$ and $$X_k$$ <br>
 > 5) Concatenate transformation by computing $$C_k = C_{k-1} T_k$$ <br>
-> 6) Repeat from 1).
+> 6) Repeat from 1)
 
 #### 4.3 3D-to-2D: Motion from 3-D Structure and Image Feature 
 
@@ -249,7 +249,7 @@ $$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会
 
 ### 6. Applications
 
-### 7。 Conclusions 
+### 7. Conclusions 
 
 [paper-part-1]: https://www.ifi.uzh.ch/dam/jcr:5759a719-55db-4930-8051-4cc534f812b1/VO_Part_I_Scaramuzza.pdf
 [paper-part-2]: http://rpg.ifi.uzh.ch/docs/VO_Part_II_Scaramuzza.pdf
