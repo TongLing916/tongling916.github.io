@@ -243,17 +243,60 @@ $$\quad$$ 一个对于不同检测器的概览可以参考这篇[文献][book-in
 在城市里面经常会有拐角的出现。基于这些理由，我们在选择检测器时，应该考虑computational constraints, real-time requirementss, environment type, and motion baseline (i.e.
 how nearby images are taken).下图是对不同检测器的对比，另外还可以参考这篇[论文][paper-comparison-detector]。
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-comparison-detector.PNG)
+
+$$\quad$$ 每个检测器都有两步。第一步时对整个图像使用一个 _feature-response_ function，例如Harris detector的corner response function或者是SIFT的difference-of-Gaussian
+operator。第二步时确认所有的local minima (or maxima) of the feature-response function。Non-maxima suppression后的输出便是检测到的特征。要想使得检测器不被尺度变化所影响，
+我们可以将检测器作用在同样图像的lower-sclae和upper-scale的版本上。要想不被透视变化（perspective change）所影响，我们得把透视畸变近似于仿射变换。
+
 #### 2.2 Feature Descriptor 
 
-$$\quad$$ 
+$$\quad$$ 在特征描述这一步里，每个被检测到的特征周围的区域会被转换成一个紧密的描述器，这个描述器可以用来与其他描述器进行配对。
+
+$$\quad$$ 最简单的的描述一个特征的方法是用它的外观，也就是说这个特征点那一块所有像素的强度值。在这个情况下，误差可以用[sum of squared differences (SSD)或者
+normalized cross correlation (NCC)][book-digital-image-processing]来比较强度。相比SSD，NCC可以更好地抵消亮度变化。还有一种测量图片相似度
+的方法-[Census transform][paper-census]。这个方法将每个图片块用一个binary vector来表示，其中的值表示邻近的点比中心像素高或低。两个图片块的相似度便可以通过汉明距离来表示。
+
+$$\quad$$ 很多情况下，其实特征的局部外貌并不是一个好的描述器，因为它的外貌容易随着方向，尺度以及视点的改变而改变。实际上，NCC和SSD对这个变化都没有不变性，因此，它们只能作用于处于邻近位置的相片。
+一种很受欢迎的描述特征点的描述器是[SIFT][website-sift]。除此之外，还出现了[ORB，BRIEF][website-keypoint-descriptor]。
 
 #### 2.3 Feature Matching
 
-$$\quad$$ 
+$$\quad$$ 特征匹配这一步里，我们寻找其他图片中对应的特征。最简单的方法就是比较两幅图片所有的描述器，比较它们的相似度(similarity measure)。
+
+1) _Mutual consistency:_ 在匹配两幅图的特征点的过程中，可能会在第二幅图中找到多个特征与第一幅图对应，要想找到合适的对应特征，我们要采取the _mutual consistency check_。
+也就是说，我们要在图一中找到与图二对应的特征点。一对特征成功匹配的要求是，它们互相是对方最相似的特征点。
+
+2) _Constrained matching:_ 之前匹配的缺点是太耗时间了，它随着特征数的数量平方而增长。一个更好的方式是使用an indexing structure, such as a multi-dimensional 
+search tree or a hash table。一种更快的搜索方式是只找寻第二幅图中特征图应该在的一些区域。这些区域我们可以通过一个运动模型和3D特征点的位置（如果有）预测获得。<br>
+如果只知道运动模型，但不知道3D特征点的位置，我们便可以采取 _epipolar matching_ 的方法。 <br>
+在双目视觉中，我们不需要为每个特征算epipolar line，因为这些图像通常都已经被矫正了。Image rectification是一个将一对图进行重映射到一对新图上的过程，新的左右两图上的epipolar lines
+都会水平并且互相对齐。这对特征匹配很有帮助。然而，如果运动也具有不确定性，那么epipolar search通常会称为一个与epipolar line有确定距离的矩形的区域。
 
 #### 2.4 Feature Tracking
 
+$$\quad$$ An alternative to independently finding features in all candidate images and then matching them is to detect features in the first image and,
+then, search for their corresponding matches in the next images. This _detect-then-track_ approach is suitable for VO applications where 
+images are taken at nearby locations, where the amount of motion and appearance deformation between adjancent frames is small. 
+
+$$\quad$$ However, if features are tracked over long image sequences, their appearance can undergo larger changes. In this case, the solution 
+is to apply an affine-distortion model to each feature. The resulting tracker is often called [KanadeLucasTomasi （KLT） tracker][paper-klt-tracker].
+
 #### 2.5 Discussion
+
+_1) SIFT matching:_ In many cases it might be beneficial to skip the ratio test and let RANSAC take care of the outliers.
+
+_2) Lines and edgelets:_ Contrary to points, lines are more difficult to match because lines are more likely to be occluded than points. Furthermore,
+the origin and end of a line segment of edgelet may not exist.
+
+_3) Number of features and distribution:_ The distribution of the features in the image affect the VO results remarkably. In particular, more features
+provide more stable motion-estimation results than with fewer features, but at the same time the keypoints should cover as evenly as possible the 
+image . In order to do this, the image can be partitioned into a grid and the feature detector is applied to each cell by tuning the detection 
+threshholds untile a minimum number of feature is found in each subimage. As a rule of the thumb, one thousand features is a good number for a 
+640 x 480-pixel image.
+
+_4) Dense and correspondence-free methods:_ An alternative to _sparse_-feature extraction is to use dense methods, such as optical flow. Another 
+alternative is feature-less motion-estimation methods.
 
 ### 3. Outlier Removal
 
@@ -288,3 +331,7 @@ $$\quad$$
 [book-introduction-robot]: https://mitpress.mit.edu/books/introduction-autonomous-mobile-robots-second-edition
 [website-sift]: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html
 [paper-comparison-detector]: https://pdfs.semanticscholar.org/fdb0/f0abbb6ec7d7b9076adab6c69d8f40ad6e02.pdf
+[book-digital-image-processing]: http://web.ipac.caltech.edu/staff/fmasci/home/astro_refs/Digital_Image_Processing_2ndEd.pdf
+[paper-census]: http://www.cs.cornell.edu/~rdz/Papers/ZW-ECCV94.pdf
+[website-keypoint-descriptor]: http://lingtong.de/2018/10/27/Keypoint-and-Descriptor/
+[paper-klt-tracker]: http://www.ai.mit.edu/courses/6.891/handouts/shi94good.pdf
