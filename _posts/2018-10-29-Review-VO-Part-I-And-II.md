@@ -25,7 +25,7 @@ VO是SFM中一种特殊的情况。SFM更加的宽泛，它解决的问题是通
 
 $$\quad$$ 在单目相机情况下，只有bearing （the orientation of a robot）信息能被获取到。缺点是运动只能回复到一个相对的状态，还需要确定一个scale factor。这个absolute scale可以
 通过不同的手段获得，比如直接测量场景中某个物体的实际大小，运动限制（motion constraints） 或者是其他的传感器，例如IMU（Inertial Measurement Unit），气压以及距离传感器（range sensors）。
-之所以有单目相机的方法是因为，双目VO在某些情况会退化成弹幕情况，例如当场景中的距离比双目的baseline（the distance betweeen the two cameras）的距离大得多。在这种情况下，双目视觉就会变得
+之所以有单目相机的方法是因为，双目VO在某些情况会退化成弹幕情况，例如当场景中的距离比双目的baseline（the distance between the two cameras）的距离大得多。在这种情况下，双目视觉就会变得
 无效，我们则必须使用单目方法。
 
 
@@ -147,20 +147,42 @@ $$\quad$$ 注意，特征可以是点也可以是线。通常，由于结构很�
 
 #### 4.1 2D-to-2D: Motion from Image Feature Correspondences
 
-> __Algorithm 1. VO from 2D-to-2D correspondences___ <br>
+> __Algorithm 1. VO from 2D-to-2D correspondences__ <br>
 > 1) Capture new frame $$I_k$$ <br>
 > 2) Extract and match features between $$I_{k-1}$$ and $$I_k$$  <br>
 > 3) Compute essential matrix for image pair $$I_{k-1}$$, $$I_k$$ <br>
-> 4) Decompose essential matrix into $$R_k$$ and $$t_k$$, and form $$T_k$$
-> 5) Compute relative sclae and rescale $$t_k$$ accordingly
-> 6) Concatenate transformation by computing $$C_k = C_{k-1} T_k$$
+> 4) Decompose essential matrix into $$R_k$$ and $$t_k$$, and form $$T_k$$ <br>
+> 5) Compute relative sclae and rescale $$t_k$$ accordingly <br>
+> 6) Concatenate transformation by computing $$C_k = C_{k-1} T_k$$ <br>
 > 7) Repeat from 1).
 
 #### 4.2 3D-to-3D: Motion from 3-D Structure Correspondences
 
-#### 4.3 3D-to-2D: Motion from 3-D Structure and Image Feature Correspondences
+> __Algorithm 2. VO from 3D-to-3D correspondences__ <br>
+> 1) Capture two stereo image pairs $$I_{l,k-1}, I_{r,k-1}$$ and $$I_{l,k}, I_{r,k}$$ <br>
+> 2) Extract and match features between $$I_{l, k-1}$$ and $$I_{l,k}$$  <br>
+> 3) Triangulate matched features for each stereo pair$ <br>
+> 4) Compute $$T_k$$ from 3D features $$X_{k-1}$$ and $$X_k$$ <br>
+> 5) Concatenate transformation by computing $$C_k = C_{k-1} T_k$$ <br>
+> 6) Repeat from 1).
+
+#### 4.3 3D-to-2D: Motion from 3-D Structure and Image Feature 
+
+> __Algorithm 3. VO from 3D-to-2D correspondences__ <br>
+> 1) Do only once: <br>
+> 1.1) Capture two frames $$I_{k-2},I_{k-1}$$<br>
+> 1.2) Extract and match features between them <br>
+> 1.3) Triangulate features from $$I_{k-2},I_{k-1}$$ <br>
+> 2) Do at each iteration:
+> 2.1) Capture new frame $$I_k$$ <br>
+> 2.2) Extract features and match with previous frame $$I_{k-1}$$ <br>
+> 2.3) Compute camera pose (PnP) from 3D-to-2D matches <br>
+> 2.4) Triangulate all new feature matches between $$I_k$$ and $$I_{k-1}$$ <br>
+> 2.5) Iterate from 2.1)
 
 #### 4.4 Triangulation and Keyframe Selection
+
+
 
 #### 4.5 Discussion
 
