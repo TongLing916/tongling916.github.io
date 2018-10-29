@@ -219,11 +219,20 @@ $$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会
 
 ### 2. Feature Selection and Matching
 
+$$\quad$$ 要想找到特征点以及确定它们的对应点主要有两种方法。第一种是在某幅图中先找到一些特征，再在接下来的一些帧中利用局部搜索的方式跟踪它们，例如correlation。第二个方法是随意地检测所有图像中
+的特征，然后基于它们descriptors的相似度比较来对它们进行匹配。第一种方法更适用于在临近视角拍的图像，后一种更适于远距离的运动以及视角的改变。
+
 #### 2.1 Feaure Detection
+
+$$\quad$$ 
 
 #### 2.2 Feature Descriptor 
 
+$$\quad$$ 
+
 #### 2.3 Feature Matching
+
+$$\quad$$ 
 
 #### 2.4 Feature Tracking
 
