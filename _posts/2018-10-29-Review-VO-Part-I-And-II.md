@@ -182,13 +182,30 @@ $$\quad$$ 注意，特征可以是点也可以是线。通常，由于结构很�
 
 #### 4.4 Triangulation and Keyframe Selection
 
-
+$$\quad$$ 通过把至少两帧的图像对应处的back-projected rays相交，我们可以得到三角测量的3D点。在完美的情况下，这些射线会相交于一点。然而，因为图片的噪声，相机模型和标定错误记忆特征匹配
+的不确定性，它们从来都不会相交。因此，我们必须对这个3D点做出估计，使得它与其它相交射线具有最小二乘。这个3D的好坏可以通过该点与其他射线的距离的标准差来判断。带有很强不确定性的点会被抛弃。这种情况
+尤其在相对场景点距离很近的两帧中出现。当这个发生时，这个3D点会具有很大的不确定性。为了避免这种情况发生，有一种方法是跳过一些帧，知道3D点的平均不确定性降低过一个阈值。这剩下所选的帧称为关键帧（_keyframes_）
+关键帧的选区是VO中非常重要的一步，它永远都必须在更新运动前执行。
 
 #### 4.5 Discussion
 
+$$\quad$$ 根据[Nister][paper-nister]，在运动计算中用2D-to-2D和3D-to-2D比用3D-to-3D更好。因为三角测量得到的3D点通常在深度方向具有不确定性。如果3D-to-3D用在运动计算中，那么这种
+误差就会对运动估计有着很坏的影响。
+
+$$\quad$$ 在单目方法中，2D-to-2D的方法比3D-to-2D更受欢迎，因为它避免了三角测量。然而实际上，3D-to-2D用的更多。因为它可以更快的进行数据关联。
+
+$$\quad$$ 对于运动计算来说，输入数据中不能包含outlier，这一点十分重要。Outlier rejection是需要非常小心处理的，同时，它的计算时间和要用来计算运动所需要最少的点的数量有关。 2D-to-2D的方法
+需要最少[5对点][website-ransac],然而，3D-to-2D只需要[3对][paper-three-point]。由于更少的点数，我们能更快地估计出运动。
+
+$$\quad$$ 双目和单目相比，其中一个优势是，3D特征可以直接根据absolute scale算出，除此之外，单目要求必须要有3个视角图，而双目只需要有2个。另外，由于3D结构在双目中可以直接从单幅双目图中求得，
+而不需要像单目一样从临近的帧中求出，所以双目算法在短程运动中具有更少的漂移量。单目方法之所以存在，是因为双目VO会在一些情况退化成单目，例如，到场景的距离远比双目baseline（两个相机的距离）的距离大。
+在这种情况下，我们必须使用单目方法。
+
+$$\quad$$ 不管选择哪种方法， local bundle adjustment (over the last m frames)必须永远使用，这样才能对轨迹做出一个更加精确的估计。在bundle adjustment后，运动估计的影响
+会被大大减轻。
+
 ### 5. Conclusions
-
-
+	
 <br>
 <br>
 <br>
@@ -206,3 +223,4 @@ $$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会
 [paper-comport]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.331.9823&rep=rep1&type=pdf
 [website-ransac]: http://lingtong.de/2018/10/30/RANSAC/
 [paper-why-filter]: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5509636
+[paper-three-point]: http://rpg.ifi.uzh.ch/docs/CVPR11_kneip.pdf
