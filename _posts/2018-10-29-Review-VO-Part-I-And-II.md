@@ -215,6 +215,41 @@ $$\quad$$ 不管选择哪种方法， local bundle adjustment (over the last m f
 $$\quad$$ 本篇主要介绍feature matching, robustness和applications。它会回顾在VO中经常使用的point-feature detectors和不同的outlier-rejection schemes。
 重点还会讲random sample consensus ([RANSAC][website-ransac])，以及一些用来提升它速度的独特的tricks。其他会提到的有error modeling, location recognition (or loop-closure detection)以及bundle adjustment.
 
+### 1. Introduction
+
+### 2. Feature Selection and Matching
+
+#### 2.1 Feaure Detection
+
+#### 2.2 Feature Descriptor 
+
+#### 2.3 Feature Matching
+
+#### 2.4 Feature Tracking
+
+#### 2.5 Discussion
+
+### 3. Outlier Removal
+
+#### 3.1 RANSAC
+
+#### 3.2 Minimal Model Parameterizations: 8, 7, 6, 5, 4, 2, and 1-point RANSAC
+
+#### 3.3 Reducing the Iterations of RANSAC
+
+#### 3.4 Is it really better to use a minimal set in RANSAC?
+
+### 4. Error Propagation
+
+### 5. Camera Pose Optimization 
+
+#### 5.1 Pose-Graph Optimization
+
+#### 5.2 Windowed (or Local) Bundle Adjustment
+
+### 6. Applications
+
+### 7。 Conclusions 
 
 [paper-part-1]: https://www.ifi.uzh.ch/dam/jcr:5759a719-55db-4930-8051-4cc534f812b1/VO_Part_I_Scaramuzza.pdf
 [paper-part-2]: http://rpg.ifi.uzh.ch/docs/VO_Part_II_Scaramuzza.pdf
