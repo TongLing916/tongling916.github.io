@@ -224,7 +224,24 @@ $$\quad$$ 要想找到特征点以及确定它们的对应点主要有两种方�
 
 #### 2.1 Feaure Detection
 
-$$\quad$$ 
+$$\quad$$ 在特征检测这一步中，图像上那些突出的，容易与其他图像进行匹配的特征点会被搜寻出来。
+
+$$\quad$$ 一个局部特征是指图像上某个与它临近部位明显不同的图像纹路，不同的地方可以是强度，颜色，质地。对于VO来说，检测特征点，例如拐角或者斑点，是非常重要的，因为通常能很精确地测量到它们在图像中的位置。
+
+$$\quad$$ 一个拐角（corner）定义为处于两条或多条边相交的点。一个半点（blob）是指图像上在强度，颜色和质地方面与周围不同的图案。
+
+$$\quad$$ 一个好的特征应该具有以下性质： 
+	- localization accuracy (both in position and scale)
+	- repeatablility (a large number of features should be re-detected in the next images)
+	- computational efficiency
+	- robustness (to noise, compression artifacts, blur)
+	- distinctiveness (so that features can be matched accurately across different images)
+	- invariance (to both photometric changes such as illumination and geometric changes such as rotation, sclae and perspective distortion)
+
+$$\quad$$ 一个对于不同检测器的概览可以参考这篇[文献][book-introduction-robot]。角检测器通常运算很快，但是区分度不够高，相反的，斑点检测器区分度更高，但运算很慢。另外，角在图像中更容易被定位，但是
+它们在尺寸变化后更难定位。这意味着，角不能像斑点一样，经过长时间的尺度变化或者视角变化，还能被重新检测出来。然而，斑点对于某些环境来说也不是最好的选择，例如，[SIFT][website-sift]会自动忽略拐角，然而，
+在城市里面经常会有拐角的出现。基于这些理由，我们在选择检测器时，应该考虑computational constraints, real-time requirementss, environment type, and motion baseline (i.e.
+how nearby images are taken).下图是对不同检测器的对比，另外还可以参考这篇[论文][paper-comparison-detector]。
 
 #### 2.2 Feature Descriptor 
 
@@ -268,3 +285,6 @@ $$\quad$$
 [website-ransac]: http://lingtong.de/2018/10/30/RANSAC/
 [paper-why-filter]: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5509636
 [paper-three-point]: http://rpg.ifi.uzh.ch/docs/CVPR11_kneip.pdf
+[book-introduction-robot]: https://mitpress.mit.edu/books/introduction-autonomous-mobile-robots-second-edition
+[website-sift]: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html
+[paper-comparison-detector]: https://pdfs.semanticscholar.org/fdb0/f0abbb6ec7d7b9076adab6c69d8f40ad6e02.pdf
