@@ -147,7 +147,14 @@ $$\quad$$ 注意，特征可以是点也可以是线。通常，由于结构很�
 
 #### 4.1 2D-to-2D: Motion from Image Feature Correspondences
 
-
+> __Algorithm 1. VO from 2D-to-2D correspondences___ <br>
+> 1) Capture new frame $$I_k$$ <br>
+> 2) Extract and match features between $$I_{k-1}$$ and $$I_k$$  <br>
+> 3) Compute essential matrix for image pair $$I_{k-1}$$, $$I_k$$ <br>
+> 4) Decompose essential matrix into $$R_k$$ and $$t_k$$, and form $$T_k$$
+> 5) Compute relative sclae and rescale $$t_k$$ accordingly
+> 6) Concatenate transformation by computing $$C_k = C_{k-1} T_k$$
+> 7) Repeat from 1).
 
 #### 4.2 3D-to-3D: Motion from 3-D Structure Correspondences
 
