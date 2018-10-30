@@ -6,6 +6,7 @@ author:     Tong
 catalog: true
 tags:
     - SLAM
+	- Review
 ---
 
 ## [Part I: The First 30 Years and Fundamentals][paper-part-1]
@@ -300,21 +301,85 @@ alternative is feature-less motion-estimation methods.
 
 ### 3. Outlier Removal
 
+$$\quad$$ 我们匹配得到的点通常包含一些异常值（outlier），也就是说错误的数据关联（wrong data association）。 造成这个的原因可能是image noise, occlusions,blur, and changes 
+in view point and illumination for which the mathematical model of the feature detector or descriptor does not account for。要想准确地对运动进行估计，
+我们必须要进行outlier rejction。
+
+
 #### 3.1 RANSAC
+
+$$\quad$$ [The _random sample consensus_(RANSAC)][website-ransac]就是一种在存在outlier的情况下对模型进行估计的方法。
+
+$$\quad$$ RANSAC的思想是，每次从数据集中随意地抽取一些点，算出一个模型猜想。然后通过与其他未选中的的点进行比较，来验证这些猜想。与未选中点具有最高一致性的猜想就被当作最终的结果。
+
+> __Algorithm 1. RANSAC <br>
+> 1) Initial: let A be a set of N feature correspondences <br>
+> 2) Repeat  <br>
+> 2.1) Randomly select a sample of $$s$$ points from A <br>
+> 2.2) Fit a model to these points <br>
+> 2.3) Compute the distance of all other points to this model <br>
+> 2.4) Construct the inlier set (i.e. count the number of points whose distance from the model $$< d$$) <br>
+> 2.5) Store these inliers <br>
+> 2.6) untile maximum number of iterations reached <br>
+> 3) The set with the maximum number of inliers is chosen as a solution to the problem <br>
+> 4) Estimatethe model using all the inliers <br>
+
+$$\quad$$ The number of subsets (iterations) $$N$$ that is neccessary to guarantee that a correct solution is found can be computed by <br>
+$$
+N = \frac{\log (1-p)}{\log (1-(1-\varepsilon )^s)}
+$$
+<br> where $$s$$ is the number of data points from which the model can be instantiated, $$\varepsilon$$ is the percentage of outliers in the data
+points, and $$p$$ is the requested probability of succes. 为了更好的鲁棒性，通过会把算得的$$N$$再乘以10.
 
 #### 3.2 Minimal Model Parameterizations: 8, 7, 6, 5, 4, 2, and 1-point RANSAC
 
+$$\quad$$ 如果相机的运动不受限制，那么我们至少有5个点来估计运动，也就是5-point RANSAC.参考这篇[论文][paper-evaluation-ransac]，我们可以对不同的RANSAC算法的性能有个了解。
+
 #### 3.3 Reducing the Iterations of RANSAC
+
+$$\quad$$ 在所有提升RANSAC速度的算法里，[preemptive RANSAC][paper-preemptive-ransac]称为最流行的一种，因为循环数可以被提前定好，这对有实时要求的系统十分有必要。
 
 #### 3.4 Is it really better to use a minimal set in RANSAC?
 
+$$\quad$$ 如果我们考虑到一定的运算速度需求，用的点越少当然越好。但是，5-point RANSAC也不是任何情况下都是最好的，例如当相片匹配具有很大噪声。这种情况下，用更多的效果更好（得到更多的inlier）。
+
 ### 4. Error Propagation
+
+$$\quad$$ 当我们一步步通过变换计算相机位置的时候，相机位置的不确定性也会跟着增加。因此，把单个变换的不确定性控制的尽可能小是很有必要的。
 
 ### 5. Camera Pose Optimization 
 
+$$\quad$$ 大部分情况下，我们计算的是连续两帧的位置变换，但是，有时候也可以计算任意两帧的变换。如果这些变换都是已知的，纳闷我们通过一个pose-graph optimization的方法，增加限制，以此来
+提高相机位置的精度。
+
 #### 5.1 Pose-Graph Optimization
 
+$$\quad$$ 从VO中计算出来的相机的位置可以用一个[位姿图][paper-pose-graph]表示。在这个图中，相机位置作为nodes，位姿间的刚体变换(rigid-body transformation)作为edges。每得到
+一个新的变换都能作为一条边加进位姿图里面。The edge constraints $$e_{ij}$$ define the following cost function: <br>
+$$
+\sum_{e_{ij}}\left \| C_i - T_{e_{ij}C_j}\right \|^2
+$$
+<br> Where $$T_{e_{ij}$$ is the transformation between the pose $$i$$ and $$j$$. Pose graph optimization seeks the camera pose parameters that
+minimize this cost function.
+
+1) _Loop Contraints for Pose-Graph Optimization:_ 回环限制对于位姿图优化来说十分有用。其中，越来越流行用visual words来描述图像。图像的相似度便可以用distance of visual words来
+计算视觉相似度。这个相似度检测中还会采用一个[inverted-file datastructure][website-bag-of-words]。视觉相似度计算通常是回环检测的第一步，在找到匹配的n个图像后，
+我们再根据eipolar constraint进行几何检测，然后，对于匹配好的图像，我们通过wide-baseline feature matches between the two images算出刚体变换。这个刚体变换便被当作来回环限制加到
+位姿图里面。
+
+
 #### 5.2 Windowed (or Local) Bundle Adjustment
+
+$$\quad$$ [Windowed bundle adjustment][website-bundle-adjustment]和位姿图优化有点类似，因为它也会优化相机的参数，但除此之外，它还优化3D-landmark parameters。
+它被应用于某些特征被超过两帧追踪的情况。Windowed bundle adjustment considers a so called "window" of $$n$$ image frames and then does a parameter 
+optimization of camera poses and 3D landmarks for this set of image frames. In bundle adjustment, the error function to minimize is the image
+reprojection error: <br>
+$$
+\arg \underset{X^i,C_k}{\min} \sum_{i,k}\left \| p_k^i - g(X^i,C_k))\right \|^2
+$$
+<br> where $$p_k^i$$ is the $$i^th$$ image point of the 3D landmark $$X^i$$ measured in the $$k^th$$ image and $$g(X^i,C_k)$$ is its 
+image reprojection according to the current camera pose $$C_k$$.
+<br> The reprojection error is a non-linear function and the optimization is usually carried out using Levenberg-Marquardt.
 
 ### 6. Applications
 
@@ -335,3 +400,8 @@ alternative is feature-less motion-estimation methods.
 [paper-census]: http://www.cs.cornell.edu/~rdz/Papers/ZW-ECCV94.pdf
 [website-keypoint-descriptor]: http://lingtong.de/2018/10/27/Keypoint-and-Descriptor/
 [paper-klt-tracker]: http://www.ai.mit.edu/courses/6.891/handouts/shi94good.pdf
+[paper-evaluation-ransac]: http://rpg.ifi.uzh.ch/docs/JFR11_scaramuzza.pdf
+[paper-preemptive-ransac]: https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1238341
+[paper-pose-graph]: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1642040
+[website-bag-of-words]: http://lingtong.de/2018/10/28/Review-Bags-of-Binary-Words-for-Fast-Place-Recognition-in-Image-Sequences/
+[website-bundle-adjustment]: http://lingtong.de/2018/11/01/Bundle-Adjustment/

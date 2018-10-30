@@ -6,6 +6,7 @@ author:     Tong
 catalog: true
 tags:
     - SLAM
+	- Review
 ---
 
 > <<Bags of Binary Words for Fast Place Recognition in Image Sequences>> 读后感
