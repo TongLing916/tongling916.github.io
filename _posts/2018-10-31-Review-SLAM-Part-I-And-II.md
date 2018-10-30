@@ -66,41 +66,65 @@ importance weight.
 
 ## [Part II][paper-part-2]
 
+$$\quad$$ Focus on three key areas: computational complexity, data association, and environment representation.
+
 ### 1. Computational Complexity
 
-### 2. State Augmentation
+$$\quad$$ The direct approach to reducing computational complexity involves exploting the structure of the SLAM problem in re-formulating 
+the essential time- and observation-update equations to limit required computation. 
 
-### 3. Partitioned Updates
+$$\quad$$ The time-update computation can be limited using _state-augmentation_ methods. 
 
-### 4. Sparsification
+$$\quad$$ The observation-update computation can be limited using a _partitioned form_ of the update equations. 
 
-### 5. Global Submaps
+$$\quad$$ Re-formulation of the standard space-space SLAM representation into information form allows _sparsification_ of the resulting information 
+matrix to be exploited in reducing computation. 
 
-### 6. Relative Submaps 
+$$\quad$$ _Submapping_ methods exploit the idea that a map can be broken up into regions with local coordinate systems and arranged in a hierarchical 
+manner. Updates can occur in a local frame with periodic interframe updates.
 
-### 7. Data Association
 
-### 8. Batch Validation
+#### 1.1 State Augmentation
 
-### 9. Appearance Signatures
+#### 1.2 Partitioned Updates
 
-### 10. Multihypothesis Data Association
+$$\quad$$ The submap method has a number of advantages. First, the number of landmarks that must be updated at any on time is limitted to only 
+those that are described in the local submap coordinate frame. Thus, the observation-rate update is independent of local estimates. The full update, 
+and the propagation of local estimates, can be carried out as a background task at a much lower update rate while still permitting observation-rate 
+global localization. A second advantage is that there is lower uncertainty in a locally referenced frame, so approximations due to linearization 
+are reduced. Finally, submap registration can use batch-validation gating, thereby improving association robustness. 
 
-### 11. Environment Representation
+#### 1.3 Sparsification
 
-### 12. Partial Observability and Delayed Mapping
+$$\quad$$ The key to exact sparsification of the information form of the SLAM problem is to notice that state augmentation is a sparse operation.
 
-### 13. Nongeometric Landmarks
+#### 1.4 Global Submaps
 
-### 14. 3D SLAM
+#### 1.5 Relative Submaps 
 
-### 15. Trajectory-Oriented SLAM
+### 2. Data Association
 
-### 16. Embedded Auxiliary Information
+#### 2.1. Batch Validation
 
-### 17. Dynamic Environments
+#### 2.2. Appearance Signatures
 
-### 18. SLAM: Where to Next? 
+#### 2.3 Multihypothesis Data Association
+
+### 3. Environment Representation
+
+#### 3.1 Partial Observability and Delayed Mapping
+
+#### 3.2 Nongeometric Landmarks
+
+#### 3.3 3D SLAM
+
+#### 3.4 Trajectory-Oriented SLAM
+
+#### 3.5 Embedded Auxiliary Information
+
+#### 3.6 Dynamic Environments
+
+### 4. SLAM: Where to Next? 
 
 [paper-part-1]: https://people.eecs.berkeley.edu/~pabbeel/cs287-fa09/readings/Durrant-Whyte_Bailey_SLAM-tutorial-I.pdf
 [paper-part-2]: https://ieeexplore.ieee.org/document/1678144
