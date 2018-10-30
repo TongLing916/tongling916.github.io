@@ -5,7 +5,8 @@ date:       2018-10-28
 author:     Tong
 catalog: true
 tags:
-	- SLAM
+   - SLAM
+   - Review
 ---
 
 > <<Bags of Binary Words for Fast Place Recognition in Image Sequences>> 读后感
