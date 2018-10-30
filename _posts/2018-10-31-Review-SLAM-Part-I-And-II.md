@@ -5,7 +5,7 @@ date:       2018-10-31
 author:     Tong
 catalog: true
 tags:
-	- Review
+	- SLAM
 ---
 
 ## [Part I - The Essential Algorithms][paper-part-1]

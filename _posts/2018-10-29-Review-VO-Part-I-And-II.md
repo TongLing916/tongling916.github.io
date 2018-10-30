@@ -5,7 +5,7 @@ date:       2018-10-29
 author:     Tong
 catalog: true
 tags:
-	- Review
+	- SLAM
 ---
 
 ## [Part I: The First 30 Years and Fundamentals][paper-part-1]
