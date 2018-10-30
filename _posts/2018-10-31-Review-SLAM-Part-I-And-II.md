@@ -77,7 +77,7 @@ $$\quad$$ The time-update computation can be limited using _state-augmentation_ 
 
 $$\quad$$ The observation-update computation can be limited using a _partitioned form_ of the update equations. 
 
-$$\quad$$ Re-formulation of the standard space-space SLAM representation into information form allows _sparsification_ of the resulting information 
+$$\quad$$ Re-formulation of the standard state-space SLAM representation into information form allows _sparsification_ of the resulting information 
 matrix to be exploited in reducing computation. 
 
 $$\quad$$ _Submapping_ methods exploit the idea that a map can be broken up into regions with local coordinate systems and arranged in a hierarchical 
