@@ -5,7 +5,6 @@ date:       2018-10-29
 author:     Tong
 catalog: true
 tags:
-    - SLAM
 	- Review
 ---
 
