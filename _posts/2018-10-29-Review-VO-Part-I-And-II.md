@@ -359,7 +359,7 @@ $$\quad$$ 从VO中计算出来的相机的位置可以用一个[位姿图][paper
 $$
 \sum_{e_{ij}}\left \| C_i - T_{e_{ij}C_j}\right \|^2
 $$
-<br> Where $$T_{e_{ij}$$ is the transformation between the pose $$i$$ and $$j$$. Pose graph optimization seeks the camera pose parameters that
+<br> Where $$T_{e_{ij}}$$ is the transformation between the pose $$i$$ and $$j$$. Pose graph optimization seeks the camera pose parameters that
 minimize this cost function.
 
 1) _Loop Contraints for Pose-Graph Optimization:_ 回环限制对于位姿图优化来说十分有用。其中，越来越流行用visual words来描述图像。图像的相似度便可以用distance of visual words来
