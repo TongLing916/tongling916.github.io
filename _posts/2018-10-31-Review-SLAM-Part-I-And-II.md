@@ -17,9 +17,9 @@ this tutorial will be concerned with recent advances in computational methods an
 
 ### 1. Introduction
 
-$$\quad$$ 
-
 ### 2. History of the SLAM Problem
+
+$$\quad$$ The correlations between landmarks were actually the critical part of the problem and the more these correlations grew, the better the solution. 
 
 ### 3. Formulation and Structure of the SLAM problem
 
@@ -29,11 +29,36 @@ $$\quad$$
 
 #### 3.3 Structure of Probablistic SLAM
 
+$$\quad$$ The most important insight in SLAM was to realize that the correlations between landmark estimates increase _monotonically_ as 
+more and more observations are made.
+
 ### 4. Solutions to the SLAM Problem
 
 #### 4.1 EKF-SLAM
 
+__Convergence:__ In the EKF-SLAM algorithm, convergence of the map is manifest in the monotonic convergence of the determinant of the map 
+covariance matrix $$P_{mm,k}$$, and all landmark variances converge toward a lower bound determined by initial uncertainties in robot position 
+and observations.
+
+__Computational Effort:__ Computation grows quadraticallly with the number of landmarks.
+
+__Data Association:__ The standard formulation of the EKF-SLAM solution specially fragile to incorrect association of observations to landmarks. 
+The "loop-closure" problem, when a robot returns to re-observe landmarks after a large traverse, is especially difficult. The association problem is 
+compounded in environments where landmarks are not simple points and indeed look different from different view-points.
+
+__Non-linearity:__ Non-linearity can be a significant problem in EKF-SLAM and leads to inevitable, and sometimes dramatic, inconsistency in solutions. 
+Convergence and consistency can only be guaranteed in the linear case.
+
 #### 4.2 Rao-Blackwellised Filter
+
+$$\quad$$ Fast-SLAM with its basis on recursive Monte Carlo sampling, or particle filtering, was the first to directly represent the non-linear 
+process model and non-Gaussian pose distribution. 
+
+$$\quad$$ When conditioned on the trajectory, the map landmarks become independent. This is a key property of FastSLAM, and the reason for its speed: 
+the map is represented as a set of independent Gaussians, with linear complexity, rather than a joint map covariance with quadratic complexity.
+
+$$\quad$$ There are two versions of FastSLAM. They differ only in terms of the form of their proposal distribution and, consequently in their 
+importance weight.
 
 ### 5. Implementationsof SLAM
 
