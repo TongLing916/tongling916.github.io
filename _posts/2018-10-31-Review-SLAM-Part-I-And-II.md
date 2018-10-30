@@ -6,6 +6,7 @@ author:     Tong
 catalog: true
 tags:
    - SLAM
+   - Review
 ---
 
 ## [Part I - The Essential Algorithms][paper-part-1]
