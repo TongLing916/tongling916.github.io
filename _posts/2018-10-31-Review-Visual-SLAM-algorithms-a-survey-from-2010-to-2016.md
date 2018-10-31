@@ -21,7 +21,9 @@ a whole image for tracking and mapping.
 1. Initialization: define the global coordinate system for camera pose estimation and a part of the environment is reconstructed as an initial 
 map in the global coordinate system.
  
-2. Tracking: the reconstructed map is tracked in the image to estimate the camera pose of the image with respect to the map. Note that most of vSLAM 
+2. Tracking: the reconstructed map is tracked in the image to estimate the camera pose of the image with respect to the map. In order to do this, 
+2D-3D correspondences between the image and the map are first obtained from feature matching or feature tracking in the image. Then, the 
+camera pose is computed from correspondences by solving the Perspective-n-point ([PnP][paper-pnp]) problem. Note that most of vSLAM 
 algorithms assumes that intrinsic camera parameters are calibrated beforehand so that they are known. Therefore, a camera pose is normally 
 equivalent to extrinsic camera parameters with translation and rotation of the camera in the global coordinate system.
  
@@ -97,17 +99,48 @@ $$\quad$$ As an extension of PTAM, ORB-SLAM includes BA, vision-based closed-loo
 
 ### 5. Direct methods
 
-#### 5.1 DTAM
+$$\quad$$ In general, photometric consistency is used as an error measurement in direct methods whereas geometric consistency such as positions 
+of feature points in an image is used feature-based methods. 
 
-#### 5.2 LSD-SLAM
+#### 5.1 [DTAM][paper-dtam]
 
-#### 5.3 SVO and DSO
+$$\quad$$ In summary, DTAM is composed of the following three components.
+
+- Map initialization is done by the stereo measurement. 
+- Camera motion is estimated by synthetic view generation from the reconstructed map.
+- Depth information is estimated for every pixels by using multi-baseline stereo, and then, it is optimized by considering space continuity.
+
+#### 5.2 [LSD-SLAM][paper-lsd-slam]
+
+$$\quad$$ In summary, LSD-SLAM is composed of the following four components.
+
+- Random values are set as an initial depth value for each pixel.
+- Camera motion is estimated by synthetic view generation from the reconstructed map.
+- Reconstructed areas are limited to high-intensity gradient areas.
+- 7 DoF pose-graph optimization is employed to obtain geometrically consistent map.
+
+#### 5.3 [SVO][paper-svo] and [DSO][paper-dso]
+
+$$\quad$$ SVO: although the tracking is done by feature point matching, the mapping is done by the direct method. Camera motion is estimated 
+by minimizing photometric methods surrounding feature points.
+
+$$\quad$$ DSO is a fully direct method. In order to suppress accumulative error, DSO removes error factors as much as possible from geometric 
+and photometric perspectives. In DSO, the input image is divided into several blocks, and then, high intensity points are selected as reconstruction 
+candidates. By using this strategy, points are spread within the whole image. In addition, to achieve highly accurate estimation, DSO use both 
+geometric and photometric camera calibration results. It should be noted that DSO considers local geometric consistency only. Therefore, DSO is 
+classfied into VO, not vSLAM.
 
 #### 5.4 Summary
 
 ### 6. RGB-D vSLAM
 
-#### 6.1 RGB-D vSLAM
+#### 6.1 Difference with monocular vSLAM
+
+$$\quad$$ By using RGB-D cameras, 3D structure of the environment with its texture information can be obtained directly. In addition, in contrast to 
+monocular vSLAM algorithms, the scale of the coordinate system is known because 3D structure can be acquired in the metric space.
+
+$$\quad$$ The basic framework of depth (D)-based vSLAM is as follows. An iterativ closest point ([ICP][paper-icp]) algorithm have widely been used 
+to estimate camera motion. Then, the 3D structure of the environment is reconstructed by combining multiple depth maps. 
 
 #### 6.2 KinectFusion
 
@@ -119,13 +152,26 @@ $$\quad$$ As an extension of PTAM, ORB-SLAM includes BA, vision-based closed-loo
 
 #### 7.1 Pure rotation
 
+$$\quad$$ This is a problem because disparities cannot be observed durign purely rotational motion with monocular vSLAM.
+
 #### 7.2 Map initialization
+
+$$\quad$$ Map initialization is important to achieve accurate estimation in vSLAM. Basically, in order to obtain 
+an accurate initial map, baseline should be wide.
 
 #### 7.3 Estimating intrinsic camera parameters
 
+$$\quad$$ Camera calibration should be done before using vSLAM applications, and intrinsic camera parameters should be fixed during vSLAM estimation 
+process.
+
 #### 7.4 Rolling shutter distortion
 
+$$\quad$$ In rolling shutter, each row of a captured image is taken by different camera poses. It is obviously difficult to estimate camera poses of 
+each row directly.
+
 #### 7.5 Scale ambiguity
+
+$$\quad$$ Absolute scale information is needed in some vSLAM applications with monocular vSLAM.
 
 ### 8. Benchmarking
 
@@ -141,3 +187,9 @@ $$\quad$$ As an extension of PTAM, ORB-SLAM includes BA, vision-based closed-loo
 [website-vo]: http://lingtong.de/2018/10/29/Review-VO-Part-I-And-II/
 [paper-why-filter]: https://www.doc.ic.ac.uk/~ajd/Publications/strasdat_etal_ivc2012.pdf
 [paper-7-DoF]: http://roboticsproceedings.org/rss06/p10.pdf
+[paper-dtam]: https://www.robots.ox.ac.uk/~vgg/rg/papers/newcombe_davison__2011__dtam.pdf
+[paper-lsd-slam]: https://vision.in.tum.de/_media/spezial/bib/engel14eccv.pdf
+[paper-svo]: https://www.ifi.uzh.ch/dam/jcr:e9b12a61-5dc8-48d2-a5f6-bd8ab49d1986/ICRA14_Forster.pdf
+[paper-dso]: https://arxiv.org/pdf/1607.02565.pdf
+[paper-icp]: http://www-evasion.inrialpes.fr/people/Franck.Hetroy/Teaching/ProjetsImage/2007/Bib/besl_mckay-pami1992.pdf
+[paper-pnp]: https://ieeexplore.ieee.org/document/1315081
