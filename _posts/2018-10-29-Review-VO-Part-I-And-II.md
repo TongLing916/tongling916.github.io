@@ -230,13 +230,13 @@ $$\quad$$ 一个局部特征是指图像上某个与它临近部位明显不同�
 
 $$\quad$$ 一个拐角（corner）定义为处于两条或多条边相交的点。一个半点（blob）是指图像上在强度，颜色和质地方面与周围不同的图案。
 
-$$\quad$$ 一个好的特征应该具有以下性质： 
-	1） localization accuracy (both in position and scale)
-	2） repeatablility (a large number of features should be re-detected in the next images)
-	3） computational efficiency
-	4） robustness (to noise, compression artifacts, blur)
-	5） distinctiveness (so that features can be matched accurately across different images)
-	6） invariance (to both photometric changes such as illumination and geometric changes such as rotation, sclae and perspective distortion)
+$$\quad$$ 一个好的特征应该具有以下性质： <br>
+	1） localization accuracy (both in position and scale)<br>
+	2） repeatablility (a large number of features should be re-detected in the next images)<br>
+	3） computational efficiency<br>
+	4） robustness (to noise, compression artifacts, blur)<br>
+	5） distinctiveness (so that features can be matched accurately across different images)<br>
+	6） invariance (to both photometric changes such as illumination and geometric changes such as rotation, sclae and perspective distortion)<br>
 
 $$\quad$$ 一个对于不同检测器的概览可以参考这篇[文献][book-introduction-robot]。角检测器通常运算很快，但是区分度不够高，相反的，斑点检测器区分度更高，但运算很慢。另外，角在图像中更容易被定位，但是
 它们在尺寸变化后更难定位。这意味着，角不能像斑点一样，经过长时间的尺度变化或者视角变化，还能被重新检测出来。然而，斑点对于某些环境来说也不是最好的选择，例如，[SIFT][website-sift]会自动忽略拐角，然而，
