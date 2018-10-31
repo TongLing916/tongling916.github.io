@@ -93,6 +93,7 @@ $$\quad$$ As an extension of PTAM, ORB-SLAM includes BA, vision-based closed-loo
 
 #### 4.5 Summary
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-feature-based-methods.PNG)
 
 ### 5. Direct methods
 
