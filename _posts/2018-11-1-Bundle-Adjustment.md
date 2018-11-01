@@ -14,7 +14,7 @@ tags:
 ### 1 Introduction
 
 $$\quad$$ __Bundle adjustment__ is the problem of refining a visual reconstruction to produce _jointly optimal_ 3D structure and viewing parameter (camera pose and/or calibration) estimates. _Optimal_ 
-meas that the parameter estimates are found by minimizing some cost function that quantifies the model fitting error, and _jointly_ that the solution is simultaneously optimal with respect to both 
+means that the parameter estimates are found by minimizing some cost function that quantifies the model fitting error, and _jointly_ that the solution is simultaneously optimal with respect to both 
 structure and camera variations. The name refers to the "bundle" of light rays leaving each 3D feature and converging on each camera centre, which are "adjusted" optimally with respect to both 
 features and camera positions.
 
@@ -33,7 +33,19 @@ $$\quad$$ Why should you use bundle adjustment? <br>
 
 #### 2.1 The Projection Model
 
+$$\quad$$ One of the great strengths of adjustment computations is their ability to take such complex and heterogeneous models in their stride. Almost any _predictive parametric_ models 
+can be handled, i.e. any model that _predicts_ the values of some known measurements or descriptors on the basis of some continuous _parametric_ representation of the world, which is to 
+be estimated from the measurements.
 
+$$\quad$$ For each observation $$\underline x_{ip}$$ , we assume that we have a __predictive model__ $$x_{ip} = x(C_c,P_i,X_p)$$ based on the parameters, that can be used to 
+derive a __feature prediction error__:
+$$
+\triangle x_{ip}(C_c,P_i,X_p) \equiv \underline x_{ip} - x(C_c,P_i,X_p)   \quad\quad\quad (1)
+$$
+<br> where $$X_p$$ are individual static 3D features, $$P_i$$ are internal calibration parameters, and $$C_c$$ are calibration parameters.
+
+<br> To estimate the unknown 3D feature and camera parameters from the observations, and hence reconstruct the scene, we minimize some measure of their total prediction error. Bundle adjustment is 
+the model refinement part of this.
 
 #### 2.2 Bundle Parametrization
 
