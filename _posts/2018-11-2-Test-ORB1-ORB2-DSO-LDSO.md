@@ -75,6 +75,8 @@ mode=0
 
 ### LDSO
 
+> cd /home/tong/LDSO
+
 #### [TUM Dataset][dataset-tum]
 {% highlight bash %}
 ./bin/run_dso_tum_mono \
@@ -83,6 +85,11 @@ files=/home/tong/Datasets/sequence_34/images.zip \
 vignette=/home/tong/Datasets/sequence_34/vignette.png \
 calib=/home/tong/Datasets/sequence_34/camera.txt \
 gamma=/home/tong/Datasets/sequence_34/pcalib.txt 
+{% endhighlight %}
+
+#### [KITTI Dataset][dataset-kitti]
+{% highlight bash %}
+./bin/run_dso_kitti preset=0 files=/home/tong/Datasets/kitti/sequences/00/ calib=./examples/Kitti/Kitti00-02.txt 
 {% endhighlight %}
 
 [dataset-tum]: https://vision.in.tum.de/data/datasets/rgbd-dataset/download
