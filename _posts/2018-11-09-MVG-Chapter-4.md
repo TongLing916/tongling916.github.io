@@ -75,10 +75,20 @@ where $$h$$ and $$\tilde{h}$$ are the vectors fo entries of $$H$$ and $$\tilde{H
 
 2. Data normalization is an essential step in the DLT algorithm. It must not be considered optional.
 
-3. 
+3. Algorithm 4.2. The normalized DLT for 2D homographies.
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-normalized-DLT.PNG)
 
 
 ### 4.5 Iterative minimization methods
+
+1. The technique of iterative minization generally consists of five steps: <br>
+(i) __Cost function.__ A cost function is chosen as the basis for minimization.<br>
+(ii) __Parameterization.__ The transformation (or other entity) to be computed is expressed in terms of a finite number of parameters. It is not 
+general neccessary that this is a minimum set of parameters, and there are in fact often advantages to over-parametrization.<br>
+(iii) __Function specification.__ A function must be specified that expresses the cost in terms of the set of parameters.<br>
+(iv) __Initialization.__ A suitable initial parameter estimate is computed. This will generally be done using a linear algorithm such as the DLT algorithm.<br>
+(v) __Iteration.__ Starting from the initial solution, the parameters are iteratively refined with the goal of minimizing the cost function.
 
 ### 4.6 Experimental comparison of the algorithms
 
