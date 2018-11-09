@@ -69,6 +69,14 @@ $$
 
 ### 4.4 Transformation invariance and normalization
 
+1. __Reuslt 4.4.__ Let $$T^\prime$$ be a similarity transformation with sclae factor $$s$$, and let $$T$$ be an arbitrary projective transformation. 
+Further, suppose $$H$$ is any 2D homography and let $$\tilde{H}$$ be defined by $$\tilde{H} = T^\prime H T^{-1}$$. Then $$\left \| \tilde{A} \tilde{h} \right \| = s\left \| Ah \right \|$$ 
+where $$h$$ and $$\tilde{h}$$ are the vectors fo entries of $$H$$ and $$\tilde{H}$$.
+
+2. Data normalization is an essential step in the DLT algorithm. It must not be considered optional.
+
+
+
 ### 4.5 Iterative minimization methods
 
 ### 4.6 Experimental comparison of the algorithms
