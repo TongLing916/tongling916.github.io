@@ -8,6 +8,8 @@ tags:
     - MVG
 ---
 
+> All contents come from <<Multiple View Geometry in Computer Vision>>.
+
 ### 4.1 The Direct Linear Transformation (DLT) algorithm
 
 1. $$\begin{bmatrix}0^\intercal & -\omega _i^\prime x_i^\intercal & y_i^\prime x_i^\intercal\\ \omega _i^\prime x_i^\intercal & 0^\intercal & -x_i^\prime x_i^\intercal\\ -y_i^\prime x_i^\intercal & x_i^\prime x_i^\intercal & 0^\intercal \end{bmatrix} \begin{pmatrix}h^1\\ h^2 \\ h^3 \end{pmatrix} = 0    \quad \quad (4.1)$$

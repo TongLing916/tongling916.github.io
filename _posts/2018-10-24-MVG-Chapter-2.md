@@ -8,6 +8,8 @@ tags:
     - MVG
 ---
 
+> All contents come from <<Multiple View Geometry in Computer Vision>>.
+
 ### 2.1 Planar geometry
 1. What is _Tensor_? 
 <br> [Youtube: Tensors for Beginners][youtube-tensors]

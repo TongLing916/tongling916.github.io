@@ -8,6 +8,8 @@ tags:
     - MVG
 ---
 
+> All contents come from <<Multiple View Geometry in Computer Vision>>.
+
 ### 3.1 Points and projective transformations
 
 1. In $$\mathbb{P^3}$$ Euclidean 3-space is augmented with a set of ideal points which are on a _plane_ at infinity, $$\pi_\infty$$. Parallel lines, and now parallel _planes_, intersect on $$\pi_\infty$$.
