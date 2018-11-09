@@ -12,15 +12,9 @@ tags:
 
 1. $$\begin{bmatrix}0^\intercal & -\omega _i^\prime x_i^\intercal & y_i^\prime x_i^\intercal\\ \omega _i^\prime x_i^\intercal & 0^\intercal & -x_i^\prime x_i^\intercal\\ -y_i^\prime x_i^\intercal & x_i^\prime x_i^\intercal & 0^\intercal \end{bmatrix} \begin{pmatrix}h^1\\ h^2 \\ h^3 \end{pmatrix} = 0    \quad \quad (4.1)$$
 
-2. $$h = \begin{pmatrix}
-h^1\\ h^2 \\ h^3
-\end{pmatrix}, H = \begin{bmatrix}
-h_1 & h_2 & h_3 \\ 
-h_4 & h_5 & h_6 \\ 
-h_7 & h_8 & h_9
-\end{bmatrix}    \quad \quad$$ (4.2)
+2. $$h = \begin{pmatrix} h^1\\ h^2 \\ h^3 \end{pmatrix}, H = \begin{bmatrix} h_1 & h_2 & h_3 \\ h_4 & h_5 & h_6 \\ h_7 & h_8 & h_9 \end{bmatrix}    \quad \quad$$ (4.2)
 
-> Algorithm 4.1. The basic DLT for H (but see algorithm 4.2 which includes normalization <br>
+3. Algorithm 4.1. The basic DLT for H (but see algorithm 4.2 which includes normalization <br>
 > $$ \underline{Objective} $$ <br>
 > Given $$n \geq 4$$ 2D to 2D point correspondences $$\left \{ x_i \leftrightarrow x_i^\prime \right \}$$, determine the 2D homography matrix H such that $$x_i^\prime = Hx_i$$.<br>
 > $$ \underline{Algorithm} $$ <br>
@@ -34,7 +28,35 @@ h_7 & h_8 & h_9
 
 ### 4.2 Different cost functions
 
+0. __Notation.__ Vectors $$x$$ represent the _measured_ image coordinates; $$\hat{x}$$ represent estimated values of the points and $$\bar{x}$$ represent true values of the points.
+
+1. Algebraic distance: 
+$$
+d_{alg}(x_i^\prime,Hx_i)^2 = \left \| \epsilon _i \right \|^2 = \left \| \begin{bmatrix}
+0^\intercal & -\omega _i^\prime x_i^\intercal & y_i^\prime x_i^\intercal\\ \omega _i^\prime x_i^\intercal & 0^\intercal & -x_i^\prime x_i^\intercal
+\end{bmatrix} h \right \|    \quad \quad (4.4)
+$$
+
+2. Geometric distance - error in one image:
+$$
+\sum_{i} d(x_i^\prime,H \bar{x_i})^2     \quad \quad (4.6)
+$$
+
+3. Geometric distance - symmetric transfer error:  
+$$
+\sum_{i} d(x_i,H^{-1} x_i^\prime)^2 + d(x_i^\prime,H x_i)^2    \quad \quad (4.7)
+$$
+
+4. Reprojection error - both images:
+$$
+\sum_{i} d(x_i,\hat{x_i})^2 + d(x_i^\prime,\hat{x_i}^\prime)^2 \;\; \; \;   subject\;  to \;  \hat{x_i}^\prime = \hat{H}\hat{x_i}\quad \quad (4.8)
+$$
+
+![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/estimationfigs-error.png)
+
 ### 4.3 Statistical cost functions and Maximum Likelihood estimation
+
+1. The _Maximum Likelihood estimation_ is equivalent to minimizing the geometric error function / reprojection error function / Mahalanobis distance.
 
 ### 4.4 Transformation invariance and normalization
 
