@@ -14,7 +14,16 @@ tags:
 
 2. $$h = \begin{pmatrix} h^1\\ h^2 \\ h^3 \end{pmatrix}, H = \begin{bmatrix} h_1 & h_2 & h_3 \\ h_4 & h_5 & h_6 \\ h_7 & h_8 & h_9 \end{bmatrix}    \quad \quad$$ (4.2)
 
-3. Algorithm 4.1. The basic DLT for H (but see algorithm 4.2 which includes normalization <br>
+3. $$\begin{align}
+\begin{bmatrix}
+0^\intercal & -\omega _i^\prime x_i^\intercal & y_i^\prime x_i^\intercal \\ 
+\omega _i^\prime x_i^\intercal & 0^\intercal & -x_i^\prime x_i^\intercal 
+\end{bmatrix}
+\begin{pmatrix} h^1\\ h^2 \\ h^3 \end{pmatrix} & = 0    \\
+A_i h & = 0
+\end{align} \quad \quad (4.3) $$
+
+4. Algorithm 4.1. The basic DLT for H (but see algorithm 4.2 which includes normalization <br>
 > $$ \underline{Objective} $$ <br>
 > Given $$n \geq 4$$ 2D to 2D point correspondences $$\left \{ x_i \leftrightarrow x_i^\prime \right \}$$, determine the 2D homography matrix H such that $$x_i^\prime = Hx_i$$.<br>
 > $$ \underline{Algorithm} $$ <br>
@@ -23,7 +32,7 @@ tags:
 > (iii) Obtain the SVD of A. The unit singular vector corresponding to the smallest singular value is the solution $$h$$. Sepcifically, if $$A = UDV^\intercal$$ with $$D$$ diagonal with positive diagonal entries, arranged in descending order down the diagonal, then $$h$$ is the last colomn of $$V$$.<br>
 > (iv) The matrix $$H$$ is determined from $$h$$ as in (4.2).
 
-3. A situation where a configuration does not determine a unique solution for a particular class of transformation is termed _degenerate_.
+5. A situation where a configuration does not determine a unique solution for a particular class of transformation is termed _degenerate_.
 
 
 ### 4.2 Different cost functions
