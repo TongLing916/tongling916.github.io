@@ -90,15 +90,34 @@ general neccessary that this is a minimum set of parameters, and there are in fa
 (iv) __Initialization.__ A suitable initial parameter estimate is computed. This will generally be done using a linear algorithm such as the DLT algorithm.<br>
 (v) __Iteration.__ Starting from the initial solution, the parameters are iteratively refined with the goal of minimizing the cost function.
 
+2. The Gold Standard algorithm and variations for estimating $$H$$ from image correspondences. The Gold Standard algorithm is preferred to the Sampson 
+method for 2D homography computation.
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-gold-standard.PNG)
+
 ### 4.6 Experimental comparison of the algorithms
 
 ### 4.7 Robust estimation 
 
+1. Algorithm 4.4. The _RANSAC_ robust estimation algorithm. A minimum of $$s$$ data points are required to instantiate the free parameters of the model.
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-ransac-robust-estimation.PNG)
+
+2. Algorithm 4.5. Adaptive algorithm for determining the number of RANSAC samples.
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-adaptive-ransac.PNG)
+
 ### 4.8 Automatic computation of a homography
 
+1. Algorithm 4.6. Automatic estimation of a homography between two images using RANSAC.
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-automatic-estimation.PNG)
  
 ### 4.9 Closure
 
+1. The Gold Standard Algorithm for estimating an affine homography $$H_A$$ from image correspondences.
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-gold-standard-affine.PNG)
 
 
 
