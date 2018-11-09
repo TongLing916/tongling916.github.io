@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "MVG Chapter 2-Projective Geometry and Transformations of 2D"
+title: "Chapter 2: Projective Geometry and Transformations of 2D"
 date:       2018-10-24
 author:     Tong
 catalog: true
