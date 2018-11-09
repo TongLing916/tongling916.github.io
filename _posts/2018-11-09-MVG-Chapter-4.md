@@ -25,7 +25,7 @@ h_7 & h_8 & h_9
 > Given $$n \geq 4$$ 2D to 2D point correspondences $$\left \{ x_i \leftrightarrow x_i^\prime \right \}$$, determine the 2D homography matrix H such that $$x_i^\prime = Hx_i$$.<br>
 > $$ \underline{Algorithm} $$ <br>
 > (i) For each correspondence $$ x_i \leftrightarrow x_i^\prime $$ compute the matrix $$A_i$$ from(4.1). Only the first two rows end need be used in general.   <br>
-> (ii) Assemble the $$n 2 \times 9$$ matrices $$A_i$$ into a single $$2n \times 9$$ matrix A.<br>
+> (ii) Assemble the $$n \: 2 \times 9$$ matrices $$A_i$$ into a single $$2n \times 9$$ matrix A.<br>
 > (iii) Obtain the SVD of A. The unit singular vector corresponding to the smallest singular value is the solution $$h$$. Sepcifically, if $$A = UDV^\intercal$$ with $$D$$ diagonal with positive diagonal entries, arranged in descending order down the diagonal, then $$h$$ is the last colomn of $$V$$.<br>
 > (iv) The matrix $$H$$ is determined from $$h$$ as in (4.2).
 
