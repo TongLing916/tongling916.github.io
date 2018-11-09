@@ -75,6 +75,7 @@ where $$h$$ and $$\tilde{h}$$ are the vectors fo entries of $$H$$ and $$\tilde{H
 
 2. Data normalization is an essential step in the DLT algorithm. It must not be considered optional.
 
+3. 
 
 
 ### 4.5 Iterative minimization methods
