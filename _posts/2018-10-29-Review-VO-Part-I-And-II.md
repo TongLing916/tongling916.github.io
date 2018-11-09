@@ -173,7 +173,7 @@ $$\quad$$ 注意，特征可以是点也可以是线。通常，由于结构很�
 > 1.1) Capture two frames $$I_{k-2},I_{k-1}$$<br>
 > 1.2) Extract and match features between them <br>
 > 1.3) Triangulate features from $$I_{k-2},I_{k-1}$$ <br>
-> 2) Do at each iteration:
+> 2) Do at each iteration: <br>
 > 2.1) Capture new frame $$I_k$$ <br>
 > 2.2) Extract features and match with previous frame $$I_{k-1}$$ <br>
 > 2.3) Compute camera pose (PnP) from 3D-to-2D matches <br>
