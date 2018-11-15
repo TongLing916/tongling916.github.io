@@ -103,67 +103,102 @@ Direct Sparse Odometry (DSO) is a visual odometry method based on a novel, highl
 
 
 
-## [Part II][paper-part-2]
-
-$$\quad$$ Focus on three key areas: computational complexity, data association, and environment representation.
-
-### 1. Computational Complexity
-
-$$\quad$$ The direct approach to reducing computational complexity involves exploting the structure of the SLAM problem in re-formulating 
-the essential time- and observation-update equations to limit required computation. 
-
-$$\quad$$ The time-update computation can be limited using _state-augmentation_ methods. 
-
-$$\quad$$ The observation-update computation can be limited using a _partitioned form_ of the update equations. 
-
-$$\quad$$ Re-formulation of the standard state-space SLAM representation into information form allows _sparsification_ of the resulting information 
-matrix to be exploited in reducing computation. 
-
-$$\quad$$ _Submapping_ methods exploit the idea that a map can be broken up into regions with local coordinate systems and arranged in a hierarchical 
-manner. Updates can occur in a local frame with periodic interframe updates.
+## [LDSO: Direct Sparse Odometry with Loop Closure][paper-ldso]
 
 
-#### 1.1 State Augmentation
+### 0	Abstract
+In this paper we present an extension of Direct Sparse Odometry (DSO) to a monocular visual SLAM system with loop closure detection and pose-graph optimization (LDSO). As a direct technique, DSO can utilize any image pixel with sufficient intensity gradient, which makes it robust even in featureless areas. LDSO retains this robustness, while at the same time ensuring repeatability of some of these points by favoring corner features in the tracking frontend. This repeatability allows to reliably detect loop closure candidates with a conventional feature-based bag-of-words (BoW) approach. Loop closure candidates are verified geometrically and Sim(3) relative pose constraints are estimated by jointly minimizing 2D and 3D geometric error terms. These constraints are fused with a co-visibility graph of relative poses extracted from DSO's sliding window optimization. Our evaluation on publicly available datasets demonstrates that the modified point selection strategy retains the tracking accuracy and robustness, and the integrated pose-graph optimization significantly reduces the accumulated rotation-, translation- and scale-drift, resulting in an overall performance comparable to state-of-the-art feature-based systems, even without global bundle adjustment.
 
-#### 1.2 Partitioned Updates
+### 1	Introduction
+1.	Visual SLAM has been very popular, in part because cameras are readily available in consumer products and passively acquire rich information about the environment. In particular, in this work we focus on the monocular case of tracking a single gray-scale camera.
+2.	Typically, a visual SLAM system consists of a camera tracking frontend, and a backend that creates and maintains a map of keyframes, and reduces global drift by loop closure detection and map optimization.
+3.	There are several open challenges in adapting a direct, sliding-window, marginalizing odometry system like DSO to reuse existing information from a map. 
+-	In order to evaluate the photometric error, images of past keyframes would have to be kept in memory, and when incorporating measurements from previous keyframes, it is challenging to ensure estimator consistency, since information from these keyframes that is already contained in the marginalization prior should not be reused. 
+4.	We adapt DSO as our SLAM frontend to estimate visual odometry with local consistency and correct its drift with loop closure detection and pose graph optimization in the backend. Note that DSO itself consists also of a camera-tracking frontend and a backend that optimizes keyframes and point depths. 
+5.	VO approaches can be divided into two categories: indirect (feature-based) methods that minimize the reprojection error with fixed, previously estimated correspondences between repeatable discrete feature points, and direct methods that jointly estimate motion and correspondences by minimizing the photometric error in direct image alignment. 
+6.	Recent advances in direct VO have shown better accuracy and robustness. The robustness in the direct approach comes from the joint estimation of motion and correspondences as well as the ability to also use non-corner pixels, corresponding to edges, or even smooth image regions (as long as there is sufficient image gradient).
+7.	However, both indirect and direct VO suffers from the accumulated drift in the unobservable degrees-of-freedom, which are global translation, rotation and scale in the monocular case.
+8.	We propose instead to gear point selection towards repeatable features and use geometric techniques to estimate constraints. Contributions are:
+-	We adapt DSO’s point selection strategy to favor repeatable corner features, while retaining its robustness against feature- poor environments. The selected corner features are then used for loop closure detection with conventional BoW.
+-	We utilize the depth estimates of matched feature points to compute Sim(3) pose constraints with a combination of pose-only bundle adjustment and point cloud alignment, and – in parallel to the odometry frontend – fuse them with a co-visibility graph of relative poses extracted from DSO’s sliding window optimization. 
+-	The point selection retains the tracking frontend’s accuracy and robustness, and the pose graph optimization significantly reduces the odometry’s drift and results in overall performance comparable state-of-the-art feature-based methods, even without global bundle adjustment. 
 
-$$\quad$$ The submap method has a number of advantages. First, the number of landmarks that must be updated at any on time is limitted to only 
-those that are described in the local submap coordinate frame. Thus, the observation-rate update is independent of local estimates. The full update, 
-and the propagation of local estimates, can be carried out as a background task at a much lower update rate while still permitting observation-rate 
-global localization. A second advantage is that there is lower uncertainty in a locally referenced frame, so approximations due to linearization 
-are reduced. Finally, submap registration can use batch-validation gating, thereby improving association robustness. 
+### 2	Related Work
+1.	ScaViSLAM suggested to mix local bundle adjustment with Sim(3) pose-graph optimization. 
+2.	ORB-SLAM features multiple levels of map-optimization, starting from local bundle-adjustment after keyframe insertion, global pose-graph optimization after loop closures detected with BoW, and finally (expensive) global bundle adjustment.
+3.	While loop-closure detection and pose graph optimization are similar in LDSO, we only need to compute feature descriptors for keyframes. 
 
-#### 1.3 Sparsification
+### 3	Loop Closing in DSO
 
-$$\quad$$ The key to exact sparsification of the information form of the SLAM problem is to notice that state augmentation is a sparse operation.
+#### 3.1	Framework
+1.	As a new frame arrives, DSO estimates its initial pose using direct image alignment by projecting all the active 3D points in the current window into this frame. If required, this frame thereafter will be added into the local windowed bundle adjustment. 
+2.	The sliding window naturally forms a co-visibility graph like in ORB-SLAM, but the co-visible information is never used outside the local window, as old or redundant keyframes and points are marginalized out. 
+3.	A global optimization pipeline is needed in order to close long-term loops for DSO. Ideally global bundle adjustment using photometric error should be used, which nicely would match the original formulation of DSO. However, in that case all the images would need to be saved, since the photometric error is computed on images. Moreover, nowadays it is still impractical to perform global photometric bundle adjustment for the amount of points selected by DSO. 
+4.	To avoid these problems, we turn to the idea of using pose graph optimization, which leaves us several other challenges: 
+(i)	How to combine the result of global pose graph optimization with that of the windowed optimization? On step further, how to set up the pose graph constraints using the information in the sliding window, considering that pose graph optimization minimize Sim(3) geometry error between keyframes while in the sliding window we minimize the photometric error?
+(ii)	How to propose loop candidates? While the mainstream of loop detection is based on image descriptors, shall we simply add another thread to perform those feature related computations?
+(iii)	Once loop candidates are proposed, we need to compute their relative Sim(3) transformation. In a direct image alignment approach, we need to set an initial guess on the relative pose to start the Gauss-Newton or the Levenberg-Marquardt iterations, which is challenging in this case as the relative motion may be far away from identity.
+5.	We design our loop closing module as in the following figure.
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-framework-of-ldso.png) 
+6.	Alongside the DSO window, we add a global pose graph to maintain the connectivity between keyframes. 
+7.	DSO’s sliding window naturally forms a co-visibility graph where we can take the relative 3D pose transformations between the keyframes as the pairwise pose measurements. 
+8.	For loop detection and validation, we rely on BoW and propose as novel way to combine ORB features with the original sampled points of DSO. In this way, if a loop candidate is proposed and validated, its Sim(3) constraint with respect to the current keyframe is calculated and added to the global pose graph, which is thereafter optimized to obtain a more accurate long-term camera pose estimation.
 
-#### 1.4 Global Submaps
+#### 3.2	Point Selection with Repeatable Features
+1.	In DSO, point selection is still needed; one difference from indirect methods is that the repeatability of those points is not required by direct methods. 
+2.	DSO uses a dynamic grid search to pick enough pixels even in weakly textured environments. We modify this strategy to make it more sensitive to corners. More specifically, we still pick a given number of pixels (by default 2000 in DSO), in which part of them are corners (detected by using the easy-to-compute Shi-Tomasi score), while the others are still selected using the method proposed for DSO. 
+3.	Keeping the number for corners small, we compute their ORB descriptors and pack them into BoW. 
+4.	The VO frontend uses both the corners and the non-corners for camera tracking, keeping therefore the extra overhead for feature extraction of the loop closing thread to a minimum.
+5.	Pixels picked by DSO have little repeatability and therefore it is hard to seek image matchings using those points for loop closure. In LDSO we use both corners and other pixels with high gradients, where the corners are used both for building BoW models and for tracking, while the non-corners are only used for tracking. 
 
-#### 1.5 Relative Submaps 
+#### 3.3	Loop Candidates Proposal and Checking
+1.	As we compute ORB descriptors for each keyframe, a BoW database is built using DBoW3. 
+2.	Loop candidates are proposed for the current keyframe by querying the database and we only pick those that are outside the current window (i.e., marginalized keyframes).
+3.	For each candidate we try to match its ORB features to those of the current keyframe, and then perform RANSAC PnP to compute an initial guess of the SE(3) transformation. Afterwards we optimize a Sim(3) transformation using Gauss-Newton method by minimizing the 3D and 2D geometric constraints. 
+4.	In practice the scale can only be estimated by the 3D part, but without the 2D reprojection error, the rotation and translation estimate will be inaccurate if the estimated depth values are noisy. 
 
-### 2. Data Association
+#### 3.4	Sliding Window and Sim(3) Pose Graph
+1.	In this section we explain how to fuse the estimations of the sliding window and the global pose graph. 
+2.	Since our loop closing approach computes relative pose constraints between the loop candidate and the current frame, we also approximate the constraints inside the marginalization window with pairwise relative pose observations. Specifically, we compute those observations from the frontend’s current global pose estimates. 
+3.	Since we do not want to disturb the local windowed optimization (it contains absolute pose information), in pose graph optimization we will fix the current frame’s pose estimation. Therefore, the pose graph optimization will tend to modify the global poses of the old part of the trajectory. 
+4.	Besides, the global poses of the keyframes in the current window are not updated after the pose graph optimization, to further make sure that the local windowed bundle adjustment is not influenced by the global optimization. Our implementation is based on g2o. 
 
-#### 2.1. Batch Validation
+### 4	Evaluation
+#### 4.1	The TUM-Mono Dataset 
+1.	The camera always returns to the starting point in all sequences, making this dataset very suitable for evaluating accumulated drifts of VO systems. For this reason, we disable the loop closure functionality of our method on this dataset, to first evaluate the accuracy of our method with the modified point selection strategy.
+2.	We evaluate three different point selection strategies: (1) random point selection; (2) the original method of DSO and (3) our method. 
+3.	For each strategy we run 10 times forward and 10 times backward on each sequence to account for the nondeterministic behavior. 
+4.	We compute the accumulated translational, rotational and scale drifts in the keyframe trajectories.
+5.	We see that our integration of corner features into DSO does not reduce the VO accuracy of the original system. 
+6.	Although random picking makes the tracking fail more frequently, it seems it does not increase the errors on those successfully tracked sequences like s01 to s10. 
 
-#### 2.2. Appearance Signatures
+#### 4.2	The EuRoC MAV Dataset
+1.	We compare LDSO with DSO and ORB on this dataset by evaluating their root-mean-square error (RMSE) using their monocular settings. 
+2.	ORB-SLAM2 performs quite well on this dataset and it only fails consistently on sequence V2-03 when running forward. 
+3.	DSO and LDSO both fail on sequences V2-03, but on most of the other sequences LDSO significantly improves the camera tracking accuracy. 
+4.	From the plot we can see that ORB-SLAM2 is more accurate, whereas LDSO is more robust on this dataset. 
 
-#### 2.3 Multihypothesis Data Association
+#### 4.3	The KITTI Odometry Dataset
+1.	DSO and ORB-SLAM (the VO component only) suffer severe accumulated drift which makes them not usable for such large-scale scenarios. While the natural way to resolve this problem is to integrate other sensors like IMU or to use stereo cameras which has been proved quite successful. 
+2.	We compare LDSO with DSO and ORB-SLAM2 and show the Absolute Trajectory Errors (ATEs). 
+3.	The ATEs are computed by performing Sim(3) alignment to the groundtruth. 
+4.	Not surprisingly on sequences with loops (seq. 00, 05, 07), LDSO improves the performance of DSO a lot. 
+5.	Besides, our method achieves comparable accuracy to ORB-SLAM2, which has a global bundle adjustment in the loop closing thread and we only use pose graph optimization. 
 
-### 3. Environment Representation
+#### 4.4	Runtime Evaluation
+1.	Loop closure only occurs very occasionally, and the pose graph is running in a single thread, thus they do not affect much the computation time of the main thread.
+2.	What we change in the main thread is adding an extra feature extraction and descriptor computation step. But unlike the feature-based approaches, they are not performed for every frame but only for keyframes. 
+3.	The point selection in LDSO takes slightly more time than that in DSO due to the feature and descriptor extraction. It is worth noting that the values are calculated over keyframes, thus the runtime impact will be further moderated when averaging over all frames. 
 
-#### 3.1 Partial Observability and Delayed Mapping
+### 5	Conclusion 
+1.	In this paper we propose an approach to integrate loop closure and global map optimization into the fully direct VO system DSO. 
+2.	DSO’s original point selection is adapted to include repeatable features. For those we compute ORB descriptors and build BoW models for loop closure detection. 
+3.	Advices:
+-	A photometric bundle adjustment layer might increase the global map accuracy. 
+-	In order to ensure long-term operation, map maintenance strategies such as keyframe culling and removal of redundant 3D points may be employed. 
+-	Combining the information from 3D points of neighboring keyframes after loop closure may help to further increase the accuracy of the reconstructed geometry. 
 
-#### 3.2 Nongeometric Landmarks
 
-#### 3.3 3D SLAM
-
-#### 3.4 Trajectory-Oriented SLAM
-
-#### 3.5 Embedded Auxiliary Information
-
-#### 3.6 Dynamic Environments
-
-### 4. SLAM: Where to Next? 
 
 [paper-dso]: https://vision.in.tum.de/research/vslam/dso
 [paper-ldso]: https://vision.in.tum.de/research/vslam/ldso
