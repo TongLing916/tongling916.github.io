@@ -156,5 +156,5 @@ Recent direct visual odometry and SLAM algorithms have demonstrated impressive l
 
 
 
-[paper-dso]: https://vision.in.tum.de/research/vslam/photometric-calibration
-[paper-ldso]: https://vision.in.tum.de/research/vslam/photometric-calibration
+[paper-benchmark]: https://vision.in.tum.de/research/vslam/photometric-calibration
+[paper-calibration]: https://vision.in.tum.de/research/vslam/photometric-calibration
