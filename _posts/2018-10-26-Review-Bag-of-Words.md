@@ -1,11 +1,11 @@
 ---
 layout:     post
-title:      "Bag of Words for Visual SLAM"
+title:      "Review - Bag of Words for Visual SLAM"
 date:       2018-10-26
 author:     Tong
 catalog: true
 tags:
-    - SLAM
+    - Review
 ---
 
 ## 1. [Video Google: A Text Retrieval Approach to Object Matching in Videos][paper-Bag-of-Words]
