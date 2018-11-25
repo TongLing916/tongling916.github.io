@@ -5,7 +5,7 @@ date:       2018-10-27
 author:     Tong
 catalog: true
 tags:
-    - SLAM
+    - Installation
 ---
 
 今天根据[ORB-SLAM 2][github-orb-slam-2]上面的提示，在VMWare中的Ubuntu16.04上安装了ORB-SLAM 2，下面是安装过程中遇到的一些问题。
