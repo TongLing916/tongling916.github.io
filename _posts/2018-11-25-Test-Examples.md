@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "Test Examples of ORB-SLAM 1/2, DSO and LDSO"
-date:       2018-11-2
+title:      "Test Examples"
+date:       2018-11-25
 author:     Tong
 catalog: true
 tags:
@@ -32,7 +32,7 @@ tags:
 
 2. 打开一个terminal，输入
 {% highlight bash %}
-roslaunch /home/tong/ORB_SLAM/ExampleGroovyOrNewer.launch 
+roslaunch /home/tong/ORB_SLAM/ExampleGroovyOrNewer.launch
 {% endhighlight %}
 
 3. 再打开一个terminal，输入
@@ -84,12 +84,12 @@ preset=0 \
 files=/home/tong/Datasets/tum/mono/sequence_34/images.zip \
 vignette=/home/tong/Datasets/tum/mono/sequence_34/vignette.png \
 calib=/home/tong/Datasets/tum/mono/sequence_34/camera.txt \
-gamma=/home/tong/Datasets/tum/mono/sequence_34/pcalib.txt 
+gamma=/home/tong/Datasets/tum/mono/sequence_34/pcalib.txt
 {% endhighlight %}
 
 #### [KITTI Dataset][dataset-kitti]
 {% highlight bash %}
-./bin/run_dso_kitti preset=0 files=/home/tong/Datasets/kitti/sequences/00/ calib=./examples/Kitti/Kitti00-02.txt 
+./bin/run_dso_kitti preset=0 files=/home/tong/Datasets/kitti/sequences/00/ calib=./examples/Kitti/Kitti00-02.txt
 {% endhighlight %}
 
 #### [EuRoC Dataset][dataset-euroc]
@@ -97,6 +97,27 @@ gamma=/home/tong/Datasets/tum/mono/sequence_34/pcalib.txt
 ./bin/run_dso_euroc preset=0 files=/home/tong/Datasets/euroc/MH_01_easy/mav0/cam0/
 {% endhighlight %}
 
+### [Code for Monocular Visual Odometry Dataset][github-mono-tum]
+
+#### playbackDataset: read images, photometric undistortion & rectification
+{% highlight bash %}
+cd ~/Desktop/LearningSLAM/test_dataset/sequence_01
+../../../../Applications/mono_dataset_code/build/bin/playDataset ./
+{% endhighlight %}
+
+#### responseCalib: calibrate response function
+{% highlight bash %}
+cd ~/Desktop/LearningSLAM/test_dataset/kitti_00
+../../../../Applications/mono_dataset_code/build/bin/responseCalib ./
+{% endhighlight %}
+
+#### vignetteCalib: calibrate vignette
+{% highlight bash %}
+cd ~/Desktop/LearningSLAM/test_dataset/kitti_00
+../../../../Applications/mono_dataset_code/build/bin/vignetteCalib ./
+{% endhighlight %}
+
 [dataset-tum]: https://vision.in.tum.de/data/datasets/rgbd-dataset/download
 [dataset-kitti]: http://www.cvlibs.net/datasets/kitti/eval_odometry.php
 [dataset-euroc]: https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets
+[github-mono-tum]: https://github.com/tum-vision/mono_dataset_code
