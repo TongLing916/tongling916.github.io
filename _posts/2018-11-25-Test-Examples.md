@@ -50,7 +50,7 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 
 #### [TUM Dataset][dataset-tum]
 {% highlight bash %}
-./Examples/Monocular/mono_tum Vocabulary/ORBvoc.txt Examples/Monocular/TUM2.yaml /home/tong/Datasets/tum/rgbd/Testing\ and\ Debugging/rgbd_dataset_freiburg1_xyz/
+./Examples/Monocular/mono_tum Vocabulary/ORBvoc.txt Examples/Monocular/TUM1.yaml /home/tong/Datasets/tum/rgbd/Testing\ and\ Debugging/rgbd_dataset_freiburg1_xyz/
 {% endhighlight %}
 
 #### [KITTI Dataset][dataset-kitti]
