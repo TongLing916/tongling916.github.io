@@ -211,8 +211,52 @@ roslaunch master_thesis timestamp_extraction.launch arg_date:="2018_12_03"
 
 #### Calibrate a Camera using OpenCV
 
-{% highlight bash %}
+{% highlight python %}
+# -*- coding: utf-8 -*-
 
+import numpy as np
+import cv2
+import glob
+
+# termination criteria
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+# prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(4,8,0)
+objp = np.zeros((4 * 8, 3), np.float32)   #for axis_camera: 4 vertices x 8 vertices
+objp[:, :2] = np.mgrid[0:4, 0:8].T.reshape(-1, 2)
+# Arrays to store object points and image points from all the images.
+objpoints = []  # 3d point in real world space
+imgpoints = []  # 2d points in image plane.
+images = glob.glob("./data/axis_camera/frame*.jpg")
+for fname in images:
+	print(fname)
+	img = cv2.imread(fname)   #default: BGR order
+	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # Find the chess board corners
+	ret, corners = cv2.findChessboardCorners(gray, (4, 8), None)
+    # If found, add object points, image points (after refining them)
+	if ret == True:
+		objpoints.append(objp)
+    	corners2 = cv2.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
+    	imgpoints.append(corners2)
+        # Draw and display the corners
+    	cv2.drawChessboardCorners(img, (4, 8), corners2, ret)
+    	cv2.imshow('img', img)
+    	cv2.waitKey(500)
+cv2.destroyAllWindows()
+
+#print(objpoints[0])
+#print(imgpoints[0])
+
+#let's calibrate the camera
+ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
+print("\n---------- camera matrix 3x3 ----------\n")
+print(mtx)
+print("\n---------- distortion coefficients k1 k2 p1 p2 k3----------\n")
+print(dist)
+print("\n---------- rotation vector ----------\n")
+print(rvecs)
+print("\n---------- translation vector ----------\n")
+print(tvecs)
 {% endhighlight %}
 
 
