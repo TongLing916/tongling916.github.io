@@ -8,21 +8,21 @@ tags:
     - SLAM
 ---
 
-> Images of /axis_camera/image_mono and /axis_camera/image_raw: 1280 x 720
+> Images of /axis_camera/image_mono and /axis_camera/image_raw: 1280 x 720 <br>
 > Images of /orbbec_astra/rgb/image_raw /orbbec_astra/rgb/image_rect_color: 640 x 480
 
 今天尝试了通过[Summit机器人][page-summit]获取图像，以便之后建立自己的datasets，用来测试ORB-SLAM2和LDSO。下面是用到的一些指令：
 
 ### Rosbag
 
-#### Record Bag File 
+#### Record Bag File
 
 {% highlight bash %}
 rosbag record -O test.bag /axis_camera/image_mono /axis_camera/image_raw /orbbec_astra/rgb/image_raw /orbbec_astra/rgb/image_rect_color
 {% endhighlight %}
 
 
-#### Play Bag File 
+#### Play Bag File
 
 {% highlight bash %}
 #play a loop of the bag file  
@@ -32,10 +32,10 @@ rosbag play /home/tong/Datasets/summit/2018_12_03/robolab_2018_12_3.bag
 {% endhighlight %}
 
 
-#### Extract Images From a Bag File 
+#### Extract Images From a Bag File
 
 {% highlight bash %}
-#enter the folder where you want to save the images 
+#enter the folder where you want to save the images
 #open a terminal to run the expected bag file
 rosrun image_view extract_images _sec_per_frame:=0.01 image:=/axis_camera/image_mono
 rosrun image_view extract_images _sec_per_frame:=0.01 image:=/axis_camera/image_raw
@@ -56,19 +56,19 @@ import sys
 from sensor_msgs.msg import Image
 
 start_time = 0.0
-date = "" 
+date = ""
 
 def callback(img):
 	global start_time
 	#rospy.loginfo(str(img.header.stamp.to_nsec()))   #header.stamp unit: nanosecond
 	if start_time == 0.0:
 		start_time = img.header.stamp.to_nsec()
-		with open("/home/tong/Datasets/summit/"+ date +"/axis_camera/mono/times.txt", "a") as f: 
+		with open("/home/tong/Datasets/summit/"+ date +"/axis_camera/mono/times.txt", "a") as f:
 			f.write("0.000000000") 	
 	else:
 		temp_time = (img.header.stamp.to_nsec() - start_time)/1000000000
 		#append text at the end of the file
-		with open("/home/tong/Datasets/summit/"+ date +"/axis_camera/mono/times.txt", "a") as f: 
+		with open("/home/tong/Datasets/summit/"+ date +"/axis_camera/mono/times.txt", "a") as f:
 			f.write("\n" + str(temp_time)) 	
 
 def timestamp_extractor():
@@ -92,19 +92,19 @@ import sys
 from sensor_msgs.msg import Image
 
 start_time = 0.0
-date = "" 
+date = ""
 
 def callback(img):
 	global start_time
 	#rospy.loginfo(str(img.header.stamp.to_nsec()))   #header.stamp unit: nanosecond
 	if start_time == 0.0:
 		start_time = img.header.stamp.to_nsec()
-		with open("/home/tong/Datasets/summit/"+ date +"/axis_camera/raw/times.txt", "a") as f: 
+		with open("/home/tong/Datasets/summit/"+ date +"/axis_camera/raw/times.txt", "a") as f:
 			f.write("0.000000000") 	
 	else:
 		temp_time = (img.header.stamp.to_nsec() - start_time)/1000000000
 		#append text at the end of the file
-		with open("/home/tong/Datasets/summit/"+ date +"/axis_camera/raw/times.txt", "a") as f: 
+		with open("/home/tong/Datasets/summit/"+ date +"/axis_camera/raw/times.txt", "a") as f:
 			f.write("\n" + str(temp_time)) 	
 
 def timestamp_extractor():
@@ -128,19 +128,19 @@ import sys
 from sensor_msgs.msg import Image
 
 start_time = 0.0
-date = "" 
+date = ""
 
 def callback(img):
 	global start_time
 	#rospy.loginfo(str(img.header.stamp.to_nsec()))   #header.stamp unit: nanosecond
 	if start_time == 0.0:
 		start_time = img.header.stamp.to_nsec()
-		with open("/home/tong/Datasets/summit/"+ date +"/orbbec_astra/raw/times.txt", "a") as f: 
+		with open("/home/tong/Datasets/summit/"+ date +"/orbbec_astra/raw/times.txt", "a") as f:
 			f.write("0.000000000") 	
 	else:
 		temp_time = (img.header.stamp.to_nsec() - start_time)/1000000000
 		#append text at the end of the file
-		with open("/home/tong/Datasets/summit/"+ date +"/orbbec_astra/raw/times.txt", "a") as f: 
+		with open("/home/tong/Datasets/summit/"+ date +"/orbbec_astra/raw/times.txt", "a") as f:
 			f.write("\n" + str(temp_time)) 	
 
 def timestamp_extractor():
@@ -165,19 +165,19 @@ import sys
 from sensor_msgs.msg import Image
 
 start_time = 0.0
-date = "" 
+date = ""
 
 def callback(img):
 	global start_time
 	#rospy.loginfo(str(img.header.stamp.to_nsec()))   #header.stamp unit: nanosecond
 	if start_time == 0.0:
 		start_time = img.header.stamp.to_nsec()
-		with open("/home/tong/Datasets/summit/"+ date +"/orbbec_astra/rect_color/times.txt", "a") as f: 
+		with open("/home/tong/Datasets/summit/"+ date +"/orbbec_astra/rect_color/times.txt", "a") as f:
 			f.write("0.000000000") 	
 	else:
 		temp_time = (img.header.stamp.to_nsec() - start_time)/1000000000
 		#append text at the end of the file
-		with open("/home/tong/Datasets/summit/"+ date +"/orbbec_astra/rect_color/times.txt", "a") as f: 
+		with open("/home/tong/Datasets/summit/"+ date +"/orbbec_astra/rect_color/times.txt", "a") as f:
 			f.write("\n" + str(temp_time)) 	
 
 def timestamp_extractor():
