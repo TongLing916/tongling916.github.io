@@ -50,7 +50,11 @@ Two methods for computing this uncertainty (covariance) are outlined here. The f
 (i) The RMS __residual error__ (distance of the measured from the estimated value) for the ML estimator is $$\epsilon _{res} = E\left [ \left \| \hat{X} - X \right \|^2 /N \right ]^{1/2} = \sigma (1 - d/N)^{1/2} \quad \quad (5.3)$$ <br>
 (ii) The RMS __estimation error__ (distance of the estimated from the true value) for the ML estimator is $$\epsilon _{res} = E\left [ \left \| \hat{X} - \bar{X} \right \|^2 /N \right ]^{1/2} = \sigma (d/N)^{1/2} \quad \quad (5.4)$$
 
-3.
+3. __2D homography - error in one image.__ d = 8 and N = 2n.
+
+4. __Error in both images.__ d = 2n + 8 and N = 4n.
+
+5. __Mahalanobis distance.__ The formulae quoted above were derived under the assumption that the error distribution in measurement space was an isotropic Gaussian distribution. We may assume any Gaussian distribution of error, with covariance matrix $$\sum $$. The formulae of result 5.2 remain true with $$\epsilon$$ being replaced with the expected Mahalanobis distance $$E\left [ \left \| \hat{X} - X \right \|_{\sum}^2 /N \right ]^{1/2}$$.
 
 
 
