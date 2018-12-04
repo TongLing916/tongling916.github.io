@@ -13,16 +13,16 @@ tags:
 
 今天尝试了通过[Summit机器人][page-summit]获取图像，以便之后建立自己的datasets，用来测试ORB-SLAM2和LDSO。下面是用到的一些指令：
 
-## Rosbag
+### Rosbag
 
-### Record Bag File 
+#### Record Bag File 
 
 {% highlight bash %}
 rosbag record -O test.bag /axis_camera/image_mono /axis_camera/image_raw /orbbec_astra/rgb/image_raw /orbbec_astra/rgb/image_rect_color
 {% endhighlight %}
 
 
-### Play Bag File 
+#### Play Bag File 
 
 {% highlight bash %}
 #play a loop of the bag file  
@@ -32,7 +32,7 @@ rosbag play /home/tong/Datasets/summit/2018_12_03/robolab_2018_12_3.bag
 {% endhighlight %}
 
 
-### Extract Images From a Bag File 
+#### Extract Images From a Bag File 
 
 {% highlight bash %}
 #enter the folder where you want to save the images 
@@ -43,9 +43,9 @@ rosrun image_view extract_images _sec_per_frame:=0.01 image:=/orbbec_astra/rgb/i
 rosrun image_view extract_images _sec_per_frame:=0.01 image:=/orbbec_astra/rgb/image_rect_color
 {% endhighlight %}
 
-## Obtain Timestamps from Headers
+### Obtain Timestamps from Headers
 
-### axis_mono.py
+#### axis_mono.py
 
 {% highlight python %}
 #!/usr/bin/env python
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 	timestamp_extractor()
 {% endhighlight %}
 
-### axis_raw.py
+#### axis_raw.py
 
 {% highlight python %}
 #!/usr/bin/env python
@@ -117,7 +117,7 @@ if __name__ == "__main__":
 	timestamp_extractor()
 {% endhighlight %}
 
-### orbbec_raw.py
+#### orbbec_raw.py
 
 {% highlight python %}
 #!/usr/bin/env python
@@ -154,7 +154,7 @@ if __name__ == "__main__":
 {% endhighlight %}
 
 
-### orbbec_rect.py
+#### orbbec_rect.py
 
 {% highlight python %}
 #!/usr/bin/env python
@@ -190,7 +190,7 @@ if __name__ == "__main__":
 	timestamp_extractor()
 {% endhighlight %}
 
-### timestamp_extraction.launch
+#### timestamp_extraction.launch
 {% highlight bash %}
 <launch>
 	<arg name="arg_date"/>
@@ -201,22 +201,22 @@ if __name__ == "__main__":
 </launch>
 {% endhighlight %}
 
-### Test example
+#### Test example
 
 {% highlight bash %}
 roslaunch master_thesis timestamp_extraction.launch arg_date:="2018_12_03"
 {% endhighlight %}
 
-## Calibration
+### Calibration
 
-### Calibrate a Camera using OpenCV
+#### Calibrate a Camera using OpenCV
 
 {% highlight bash %}
 
 {% endhighlight %}
 
 
-### Calibrate a Camera using MATLAB
+#### Calibrate a Camera using MATLAB
 
 {% highlight bash %}
 
