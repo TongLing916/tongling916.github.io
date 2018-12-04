@@ -47,8 +47,12 @@ Two methods for computing this uncertainty (covariance) are outlined here. The f
 1. __Result 5.1.__ The projection of an isotropic Gaussian distribution defined on $$\mathbb{R}^N$$ with total variance $$N\sigma ^2$$ onto a subspace of dimension $$s$$ is an isotropic Gaussiance distribution with total variance $$s \sigma ^2$$.
 
 2. __Result 5.2.__ Consider an estiamtion problem where $$N$$ measurements are to be modelled by a function depending on a set of $$d$$ essential parameters. Suppose the measurements are subject to independent Gaussian noise with standard deviation $$\sigma$$ in each measurement variable.<br>
-(i) The RMS __residual error__ (distance of the measured from the estimated value) for the ML estimator is $$\epsilon _{res} = E\left [ \left \| \hat{X} - X \right \|^2 /N \right ]^{1/2} = \sigma (1 - d/N)^{1/2} \quad \quad (5.3)$$
-(ii) The RMS __estimation error__ (distance of the estimated from the true value) for the ML estimator is $$\epsilon _{res} = E\left [ \left \| \hat{X} - \bar{X} \right \|^2 /N \right ]^{1/2} = \sigma (d/N)^{1/2} \quad \quad (5.3)$$
+(i) The RMS __residual error__ (distance of the measured from the estimated value) for the ML estimator is $$\epsilon _{res} = E\left [ \left \| \hat{X} - X \right \|^2 /N \right ]^{1/2} = \sigma (1 - d/N)^{1/2} \quad \quad (5.3)$$ <br>
+(ii) The RMS __estimation error__ (distance of the estimated from the true value) for the ML estimator is $$\epsilon _{res} = E\left [ \left \| \hat{X} - \bar{X} \right \|^2 /N \right ]^{1/2} = \sigma (d/N)^{1/2} \quad \quad (5.4)$$
+
+3.
+
+
 
 #### 5.1.4 Determining the correct convergence of an algorithms
 
