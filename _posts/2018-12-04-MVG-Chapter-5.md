@@ -32,6 +32,8 @@ Two methods for computing this uncertainty (covariance) are outlined here. The f
 
 1. For simplicity, we consider the case where noise is added to the coordinates of the second image only.
 
+2. The RMS (root-mean-squared) residual error $$\epsilon _{res} = (\frac{1}{2n} \sum_{i=1}^{n} d(x_i^\prime, \hat{x_i}^\prime)^2)^{1/2} \quad \quad (5.1)$$ measures the average difference beetween the noisy input data ($$x_i^\prime$$) and the estimated points $$\hat{x_i}^\prime = \hat{H} \bar{x_i}$$.
+
 #### 5.1.2 Error in two images
 
 
