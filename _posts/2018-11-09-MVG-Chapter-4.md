@@ -10,6 +10,12 @@ tags:
 
 > All contents come from <<Multiple View Geometry in Computer Vision>>.
 
+### Abstract
+
+This chapter is about a problem of estiamtion - __2D homography__. Given a set of points $$x_i$$ in $$\mathbb{P}^2$$ and a corresponding set of points $$x_i^\prime$$ likeweise in $$\mathbb{P}^2$$, compute the projective transformation that takes each $$x_i$$ to $$x_i^\prime$$. In a practical situation, the points $$x_i$$ and $$x_i^\prime$$ are points in two images (or the same image), each image being considered as a projective plane $$\mathbb{P}^2$$. Our problem is to compute a $$3 \times 3$$ matrix $$H$$ such that $$Hx_i = $x_i^\prime$$ for each $$i$$.
+
+There are three related aspects. 1) __Number of measurements required__. 2) __Approximate solutions__. 3) __The Gold Standard algorithm__.
+
 ### 4.1 The Direct Linear Transformation (DLT) algorithm
 
 1. $$\begin{bmatrix}0^\intercal & -\omega _i^\prime x_i^\intercal & y_i^\prime x_i^\intercal\\ \omega _i^\prime x_i^\intercal & 0^\intercal & -x_i^\prime x_i^\intercal\\ -y_i^\prime x_i^\intercal & x_i^\prime x_i^\intercal & 0^\intercal \end{bmatrix} \begin{pmatrix}h^1\\ h^2 \\ h^3 \end{pmatrix} = 0    \quad \quad (4.1)$$
@@ -18,8 +24,8 @@ tags:
 
 3. $$\begin{align}
 \begin{bmatrix}
-0^\intercal & -\omega _i^\prime x_i^\intercal & y_i^\prime x_i^\intercal \\ 
-\omega _i^\prime x_i^\intercal & 0^\intercal & -x_i^\prime x_i^\intercal 
+0^\intercal & -\omega _i^\prime x_i^\intercal & y_i^\prime x_i^\intercal \\
+\omega _i^\prime x_i^\intercal & 0^\intercal & -x_i^\prime x_i^\intercal
 \end{bmatrix}
 \begin{pmatrix} h^1\\ h^2 \\ h^3 \end{pmatrix} & = 0    \\
 A_i h & = 0
@@ -41,7 +47,7 @@ A_i h & = 0
 
 0. __Notation.__ Vectors $$x$$ represent the _measured_ image coordinates; $$\hat{x}$$ represent estimated values of the points and $$\bar{x}$$ represent true values of the points.
 
-1. Algebraic distance: 
+1. Algebraic distance:
 $$
 d_{alg}(x_i^\prime,Hx_i)^2 = \left \| \epsilon _i \right \|^2 = \left \| \begin{bmatrix}
 0^\intercal & -\omega _i^\prime x_i^\intercal & y_i^\prime x_i^\intercal\\ \omega _i^\prime x_i^\intercal & 0^\intercal & -x_i^\prime x_i^\intercal
@@ -71,8 +77,8 @@ $$
 
 ### 4.4 Transformation invariance and normalization
 
-1. __Reuslt 4.4.__ Let $$T^\prime$$ be a similarity transformation with sclae factor $$s$$, and let $$T$$ be an arbitrary projective transformation. 
-Further, suppose $$H$$ is any 2D homography and let $$\tilde{H}$$ be defined by $$\tilde{H} = T^\prime H T^{-1}$$. Then $$\left \| \tilde{A} \tilde{h} \right \| = s\left \| Ah \right \|$$ 
+1. __Reuslt 4.4.__ Let $$T^\prime$$ be a similarity transformation with sclae factor $$s$$, and let $$T$$ be an arbitrary projective transformation.
+Further, suppose $$H$$ is any 2D homography and let $$\tilde{H}$$ be defined by $$\tilde{H} = T^\prime H T^{-1}$$. Then $$\left \| \tilde{A} \tilde{h} \right \| = s\left \| Ah \right \|$$
 where $$h$$ and $$\tilde{h}$$ are the vectors fo entries of $$H$$ and $$\tilde{H}$$.
 
 2. Data normalization is an essential step in the DLT algorithm. It must not be considered optional.
@@ -86,20 +92,20 @@ where $$h$$ and $$\tilde{h}$$ are the vectors fo entries of $$H$$ and $$\tilde{H
 
 1. The technique of iterative minization generally consists of five steps: <br>
 (i) __Cost function.__ A cost function is chosen as the basis for minimization.<br>
-(ii) __Parameterization.__ The transformation (or other entity) to be computed is expressed in terms of a finite number of parameters. It is not 
+(ii) __Parameterization.__ The transformation (or other entity) to be computed is expressed in terms of a finite number of parameters. It is not
 general neccessary that this is a minimum set of parameters, and there are in fact often advantages to over-parametrization.<br>
 (iii) __Function specification.__ A function must be specified that expresses the cost in terms of the set of parameters.<br>
 (iv) __Initialization.__ A suitable initial parameter estimate is computed. This will generally be done using a linear algorithm such as the DLT algorithm.<br>
 (v) __Iteration.__ Starting from the initial solution, the parameters are iteratively refined with the goal of minimizing the cost function.
 
-2. The Gold Standard algorithm and variations for estimating $$H$$ from image correspondences. The Gold Standard algorithm is preferred to the Sampson 
+2. The Gold Standard algorithm and variations for estimating $$H$$ from image correspondences. The Gold Standard algorithm is preferred to the Sampson
 method for 2D homography computation.
 
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-gold-standard.PNG)
 
 ### 4.6 Experimental comparison of the algorithms
 
-### 4.7 Robust estimation 
+### 4.7 Robust estimation
 
 1. Algorithm 4.4. The _RANSAC_ robust estimation algorithm. A minimum of $$s$$ data points are required to instantiate the free parameters of the model.
 
@@ -114,42 +120,9 @@ method for 2D homography computation.
 1. Algorithm 4.6. Automatic estimation of a homography between two images using RANSAC.
 
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-automatic-estimation.PNG)
- 
+
 ### 4.9 Closure
 
 1. The Gold Standard Algorithm for estimating an affine homography $$H_A$$ from image correspondences.
 
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-gold-standard-affine.PNG)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
