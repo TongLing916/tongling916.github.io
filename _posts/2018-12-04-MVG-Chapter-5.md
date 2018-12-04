@@ -69,29 +69,33 @@ Two methods for computing this uncertainty (covariance) are outlined here. The f
 
 ### 5.2 Covariance of the estimated transformation
 
-1.
+1. The chief concern is how accurately the transformation itself has been computed. The uncertainty of the computed transformation is conveniently captured in the _covariance matrix_ of the transformation. Since $$H$$ is a matrix with 9 entries, its covariance matrix will be a $$9 \times 9$$ matrix.
+
+2. In this section, it will be seen how this covariance matrix may be computed.
 
 #### 5.2.1 Forward propagation of Covariance
 
-1.
+1. __Result 5.3.__ Let $$v$$ be a random vector in $$\mathbb{R}^M$$ with mean $$\hat{v}$$ and covariance matrix $$\sum$$, and suppose that $$f: \mathbb{R}^M \rightarrow \mathbb{R}^N$$ is an affine mapping defined by $$f(v) = f(\bar{v}) + A(v - \bar{v})$$. Then $$f(v)$$ is a random variable with mean $$f(\bar{v})$$ and covariance matrix $$A\sum A^T$$.
+
+2. __Result 5.6.__ Let $$v$$ be a random vector in $$\mathbb{R}^M$$ with mean $$\hat{v}$$ and covariance matrix $$\sum$$, and let $$f: \mathbb{R}^M \rightarrow \mathbb{R}^N$$ be differentiable in a neighbourhood to $$\bar{v}$$. Then up to a first-order approximations, $$f(v)$$ is a random variable with mean $$f(\bar{v})$$ and covariance matrix $$J\sum J^T$$, where $$J$$ is the Jacobian matrix of $$f$$, evaluated at $$\bar{v}$$.
 
 #### 5.2.2 Backward propagation of covariance
 
-1.
-
 #### 5.2.3 Over-parametrization
-
-1.
 
 #### 5.2.4 Application and examples
 
-#### 5.2.5 Error in both images
+1. __Error in one image.__ The problem is how to find the covariance of an estimated 2D homography $$H$$. The $$3 \times 3$$ matrix $$H$$ is represented by a 9-dimensional parameter vector which will be denoted by $$h$$. A procedure for computing the covariance matrix of the estimated transformation is as follows.
 
-1.
+(i) Estimate the transformation $$\hat{H}$$ from the given data.
+(ii) Compute the Jacobian matrix $$J_f = \frac{\partial X^\prime}{\partial h}$$, evaluated at $$\hat{h}$$.
+(iii) The covariance matrix of the estimated $$h$$ is given by: $${\sum}_h = (J_f^T {\sum}_{X^\prime}^{-1} J_f)^+$$.
+
+#### 5.2.5 Error in both images
 
 #### 5.2.6 Using the covariance matrix in point transfer
 
-1.
+1. 
 
 ### 5.3 Monte Carlo estimation of covariance
 
