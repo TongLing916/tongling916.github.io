@@ -24,7 +24,7 @@ This chapter describes the projection of 3D scene space onto a 2D image plane. T
 
 #### 6.2.1 Camera anatomy
 
-1. In the case of error in both images, the ressidual error is $$\epsilon _{res} = \frac{1}{\sqrt{4n}}( \sum_{i=1}^{n} d(x_i, \hat{x_i})^2 + \sum_{i=1}^{n} d(x_i^\prime, \hat{x_i}^\prime)^2)^{1/2} \quad \quad (5.2)$$.
+1. 
 
 #### 6.2.2 Action of a projective camera on points
 
@@ -78,4 +78,4 @@ This chapter describes the projection of 3D scene space onto a 2D image plane. T
 
 ### 6.5 Closure
 
-1. 
+1.
