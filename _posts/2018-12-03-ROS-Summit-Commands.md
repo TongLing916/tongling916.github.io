@@ -156,7 +156,7 @@ if __name__ == "__main__":
 
 ### orbbec_rect.py
 
-{% highlight bash %}
+{% highlight python %}
 #!/usr/bin/env python
 
 from __future__ import division   #avoid rounding when doing integer/integer
@@ -199,6 +199,12 @@ if __name__ == "__main__":
 	<node pkg="master_thesis" type="orbbec_raw.py" name="orbbec_raw_extractor" args="$(arg arg_date)"/>
 	<node pkg="master_thesis" type="orbbec_rect.py" name="orbbec_rect_extractor" args="$(arg arg_date)"/>
 </launch>
+{% endhighlight %}
+
+### Test example
+
+{% highlight bash %}
+roslaunch master_thesis timestamp_extraction.launch arg_date:="2018_12_03"
 {% endhighlight %}
 
 ## Calibration
