@@ -56,10 +56,16 @@ Two methods for computing this uncertainty (covariance) are outlined here. The f
 
 5. __Mahalanobis distance.__ The formulae quoted above were derived under the assumption that the error distribution in measurement space was an isotropic Gaussian distribution. We may assume any Gaussian distribution of error, with covariance matrix $$\sum $$. The formulae of result 5.2 remain true with $$\epsilon$$ being replaced with the expected Mahalanobis distance $$E\left [ \left \| \hat{X} - X \right \|_{\sum}^2 /N \right ]^{1/2}$$.
 
-
-
 #### 5.1.4 Determining the correct convergence of an algorithms
 
+1. In most estimation problems, this assumption of planarity will be very close to correct at the scale set by typical noise magnitude. In this case, the Pythagorean equality may be written as $$\left \|  X - \bar{X} \right \|^2 = \left \| X - \hat{X} \right \|^2 + \left \| \bar{X} - \hat{X} \right \|^2 \quad \quad (5.7)$$
+
+2. In evaluating an algorithm with synthetic data, this equality allows a simple test to see whether the algorithm has converged to the optimal value. If the estimated value $$\hat{X}$$ satisfies this equality, then it is a strong indication that the algorithm has found the true global minimum. Note that it is unnecessary in applying this test to determine the number of degrees of freedom of the problem. A few more properties are listed:
+
+- This test can be used to determine on a run-by-run basis whether the algorithm has succeeded.
+- This test can only be used for synthetic data, or at least data for which the true measurements $$\bar{X}$$ are known.
+- The equality depends on the assumption that the surface $$S_M$$ consisting of valid measurements is locally planar.
+- The test is a test for the algorithm finding the global, not a local solution.  
 
 ### 5.2 Covariance of the estimated transformation
 
