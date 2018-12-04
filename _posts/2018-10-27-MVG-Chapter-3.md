@@ -9,6 +9,9 @@ tags:
 ---
 
 > All contents come from <<Multiple View Geometry in Computer Vision>>.
+### Abstract
+
+This chapter describes the properties and entities of projective 3-space, or $$\mathbb{P}^3$$.
 
 ### 3.1 Points and projective transformations
 
@@ -115,8 +118,8 @@ $$
 $$
 
 7. __Result 3.5.__ Two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are coplanar (and thus intersect) if and only if <br>
-$$ 
-(\mathcal{L}|\mathcal{\hat{L}}) = 0 
+$$
+(\mathcal{L}|\mathcal{\hat{L}}) = 0
 $$
 
 8. Suppose two lines $$\mathcal{L}$$ and $$\mathcal{\hat{L}}$$ are the intersections of the planes $$P, Q$$ and $$\hat{P}, \hat{Q}$$ respectively. Then <br>
@@ -172,7 +175,7 @@ $$
 
 3. A twisted cubic has 12 degrees of freedom (counted as 15 for the matri A, less 3 for a 1D projectivity on the parametrization $$\theta$$, which leaves the curve unaltered).
 
-4. All twisted cubics are projectively equivalent. 
+4. All twisted cubics are projectively equivalent.
 
 
 ### 3.4 The hierarchy of transformations
@@ -187,7 +190,7 @@ $$
 1. The plane at infinity has the canonical position $$\pi_infty = (0,0,0,1)^\intercal$$ in affine 3-space.It contains the directions $$D = (x_1,x_2,x_3,0)^\intercal$$, and enables the identification of affine properties such as parallelism. In particular:
 	- Two palnes are parallel if, and only if, their line of intersection is on $$\pi_\infty$$.
 	- A line is parallel to another line, or to a plane, if the point of intersection is on $$\pi_\infty$$.
-	
+
 2. The plane $$\pi_\infty$$ is a geometric representation of the 3 degrees of freedom required to specify affine properties in a projective coordinate frame. In loose terms, the plane at infinity is a fixed plane under any affine transformation, but "sees" (is moved by) a projective transformation.
 
 3. __Result 3.7.__ _The plane at infinity, $$\pi_\infty$$, is a fixed plane under the projective transformation $$H$$ if, and only if, $$H$$ is an affinity._
@@ -228,7 +231,7 @@ $$
 2. $$Q_\infty^*$$ is represented by a $$4 \times 4$$ homogeneous matrix of rank 3, which in metirc 3-space has the canonical form <br>
 $$
 Q_\infty^* = \begin{bmatrix} I & 0 \\ 0^\intercal & 0 \end{bmatrix}   \quad (3.24)
-$$ 
+$$
 
 3. The dual quadric $$Q_\infty^*$$ is a degenerate quadric and has 8 degrees of freedom (a symmetric matrix has 10 independent elements, but irrelevant scale and zero determinant condition each reduce the degrees of freedom by 1).
 
@@ -240,40 +243,6 @@ $$
 $$
 \cos\theta = \frac{\pi_1^\intercal Q_\infty^* \pi_2}{\sqrt{(\pi_1^\intercal Q_\infty^* \pi_1)(\pi_2^\intercal Q_\infty^* \pi_2))}} \quad (3.25)
 $$
- 
- 
+
+
 ### 3.8 Closure
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

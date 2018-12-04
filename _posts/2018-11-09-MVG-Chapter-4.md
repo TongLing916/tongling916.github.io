@@ -12,7 +12,7 @@ tags:
 
 ### Abstract
 
-This chapter is about a problem of estiamtion - __2D homography__. Given a set of points $$x_i$$ in $$\mathbb{P}^2$$ and a corresponding set of points $$x_i^\prime$$ likeweise in $$\mathbb{P}^2$$, compute the projective transformation that takes each $$x_i$$ to $$x_i^\prime$$. In a practical situation, the points $$x_i$$ and $$x_i^\prime$$ are points in two images (or the same image), each image being considered as a projective plane $$\mathbb{P}^2$$. Our problem is to compute a $$3 \times 3$$ matrix $$H$$ such that $$Hx_i = $x_i^\prime$$ for each $$i$$.
+This chapter is about a problem of estiamtion - __2D homography__. Given a set of points $$x_i$$ in $$\mathbb{P}^2$$ and a corresponding set of points $$x_i^\prime$$ likeweise in $$\mathbb{P}^2$$, compute the projective transformation that takes each $$x_i$$ to $$x_i^\prime$$. In a practical situation, the points $$x_i$$ and $$x_i^\prime$$ are points in two images (or the same image), each image being considered as a projective plane $$\mathbb{P}^2$$. Our problem is to compute a $$3 \times 3$$ matrix $$H$$ such that $$Hx_i = x_i^\prime$$ for each $$i$$.
 
 There are three related aspects. 1) __Number of measurements required__. 2) __Approximate solutions__. 3) __The Gold Standard algorithm__.
 

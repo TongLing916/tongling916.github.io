@@ -10,8 +10,12 @@ tags:
 
 > All contents come from <<Multiple View Geometry in Computer Vision>>.
 
+### Abstract
+
+This chapter introduces projective transformation of 2-space.
+
 ### 2.1 Planar geometry
-1. What is _Tensor_? 
+1. What is _Tensor_?
 <br> [Youtube: Tensors for Beginners][youtube-tensors]
 2. A significant advantage of the algebraic approach to geometry is that results derived in this way may more easily be used to derive algorithms and practical computational methods.
 
@@ -39,7 +43,7 @@ tags:
 11. __A model for the projective plane.__ A fruitful way of thinking of $$ \mathbb{P^2} $$ is as a set of rays in $$ \mathbb{R^3} $$. <br>
 ![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-ray_model.png)
 *Fig. A model of the projective plane*
-	
+
 12. __Reuslt 2.6. Duality principle.__ _To any theorem of 2-dimensional projective geometry there corresponds a dual theorem, which may be derived by interchanging the roles of points and lines in the original theorem._ Example: Result 2.2 and 2.4.
 
 #### 2.2.3 Conics and dual conics
@@ -47,24 +51,24 @@ tags:
 13. The euqation of a conic in inhomogeneous coordinate is
 $$
 ax^2 + bxy + cy^2 + dx + ey + f = 0
-$$ 
+$$
 <br> i.e. a polynomial of degree 2. "Homogenizing" this by the replacements: $$ x \mapsto x_1/x_3, y \mapsto x_2/x_3 $$ gives
 $$
-a{x_1}^2 + b{x_1}{x_2} + c{x_2}^2 + d{x_1}{x_3} + e{x_2}{x_3} + f{x_3}^2 = 0 \quad (2.1) 
+a{x_1}^2 + b{x_1}{x_2} + c{x_2}^2 + d{x_1}{x_3} + e{x_2}{x_3} + f{x_3}^2 = 0 \quad (2.1)
 $$
 <br> or in matrix form <br>
 $$
-x^\intercal C x = 0 \quad (2.2) 
+x^\intercal C x = 0 \quad (2.2)
 $$
 <br>where the conic coefficient matrix $$C$$ is given by <br>
 $$
-C = \begin{bmatrix} a & b/2 & d/2 \\ b/2 & c & e/2 \\ d/2 & e/2 & f \end{bmatrix} \quad (2.3) 
+C = \begin{bmatrix} a & b/2 & d/2 \\ b/2 & c & e/2 \\ d/2 & e/2 & f \end{bmatrix} \quad (2.3)
 $$
 <br> Note that the conic coefficient matrix is symmetric. C is a homogeneous representation of a conic. The conic has five degrees of freedom which can be thought of as the ratios $$ \big\{a : b : c : d ： e : f\big\} $$ or equivalently the six elemnts of a symmetric matrix less one for scale.
 
 14. __Five points define a conic.__ Stacking the constraints from five points we obtain, where $$c=(a,b,c,d,e,f)^\intercal$$<br>
 $$
-\begin{bmatrix} {x_1}^2 & x_1 y_1 & {y_1}^2 & x_1 & y_1 & 1 \\ {x_2}^2 & x_2 y_2 & {y_2}^2 & x_2 & y_2 & 1 \\ {x_3}^2 & x_3 y_3 & {y_3}^2 & x_3 & y_3 & 1 \\ {x_4}^2 & x_4 y_4 & {y_4}^2 & x_4 & y_4 & 1 \\ {x_5}^2 & x_5 y_5 & {y_5}^2 & x_5 & y_5 & 1\end{bmatrix} c = 0 \quad (2.4) 
+\begin{bmatrix} {x_1}^2 & x_1 y_1 & {y_1}^2 & x_1 & y_1 & 1 \\ {x_2}^2 & x_2 y_2 & {y_2}^2 & x_2 & y_2 & 1 \\ {x_3}^2 & x_3 y_3 & {y_3}^2 & x_3 & y_3 & 1 \\ {x_4}^2 & x_4 y_4 & {y_4}^2 & x_4 & y_4 & 1 \\ {x_5}^2 & x_5 y_5 & {y_5}^2 & x_5 & y_5 & 1\end{bmatrix} c = 0 \quad (2.4)
 $$
 
 15. __Result 2.7__ _The line $$ l $$ tangent to $$ C $$ at a point $$ x $$ on $$ C $$ is given by $$ l = Cx $$._
@@ -75,7 +79,7 @@ $$
 *Fig. Dual conics are also known as conic envelopes.*
 
 17. __Degenerate conics.__ If the matrix $$C$$ is not of full rank, then the conic is termed degenerate. Degenerate point conics include two lines (rank 2), and a repeated line (rank 1). E.g. $$C = l m^\intercal + m l^\intercal$$.
-	
+
 ### 2.3 Projective transformations
 
 18. __Defition 2.9.__ A _projectivity_ is an invertible mapping _h_ from $$ \mathbb{ P^2 } $$ to itself such that three points $$x_1$$, $$x_2$$ and $$x_3$$ lie on the same line if and only if $$h(x_1), h(x_2), h(x_3)$$do.
@@ -87,7 +91,7 @@ $$
 
 20. __Definition 2.11. Projective transformation.__ A planar projective transformation is a linear transformation on homogeneous 3-vectors represented by a non-singular $$3 \times 3$$ matrix:<br>
 $$
-\begin{pmatrix} x^\prime_1 \\ x^\prime_2 \\ x^\prime_3 \end{pmatrix} = \begin{bmatrix} h_{11} & h_{12} & h_{13} \\ h_{21} & h_{22} & h_{23} \\ h_{31} & h_{32} & h_{33} \end{bmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} \quad (2.5) 
+\begin{pmatrix} x^\prime_1 \\ x^\prime_2 \\ x^\prime_3 \end{pmatrix} = \begin{bmatrix} h_{11} & h_{12} & h_{13} \\ h_{21} & h_{22} & h_{23} \\ h_{31} & h_{32} & h_{33} \end{bmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} \quad (2.5)
 $$
 <br>or more briefly, $$x^\prime = Hx$$
 <br>Note that the matrix $$H$$ in this equation may be changed by multiplication by an arbitrary non-zero sclae factor without altering the projective transformation. Consequently we say that $$H$$ is a _homography_ matrix, since as in the homogeneous representation of a point, only the ratio of the matrix elements is significant. There are eight independent ratios amongst the nine elements of $$H$$, and it follows that a projective transformation has eight degrees of freedom.
@@ -98,7 +102,7 @@ $$
 
 #### 2.3.1 Transformations of lines and conics
 
-22. __Transformation of lines.__ According to the proof of theorem 2.10, under the point transformation $$x^\prime = Hx$$, a line transforms as 
+22. __Transformation of lines.__ According to the proof of theorem 2.10, under the point transformation $$x^\prime = Hx$$, a line transforms as
 $$
 l^\prime = H^{-\intercal} l  \quad (2.6)
 $$
@@ -121,8 +125,8 @@ $$
 ### 2.4 A hierarchy of transformations
 
 26. The group of invertible  $$n \times n$$ matrices with real elements is the (real) _general linear group_ on $$n$$ dimensions, or $$GL(n)$$. To obtain the _projective linear group_ the matrices related by a scalar multiplier are identified, giving $$PL(n)$$ (this is a quotient group of $$GL(n)$$). In the case of projective transformations of the plane $$n = 3$$.
-<br> The important subgroups of $$PL(3)$$ include _affine group_, which is the subgroup of $$PL(3)$$ consisting of matrices for which the last row is (0, 0, 1), 
-<br> and the _Euclidean group_, which is a subgroup of the affine group for which in addition the upper left hand $$2 \times 2$$ matrix is orthogonal. 
+<br> The important subgroups of $$PL(3)$$ include _affine group_, which is the subgroup of $$PL(3)$$ consisting of matrices for which the last row is (0, 0, 1),
+<br> and the _Euclidean group_, which is a subgroup of the affine group for which in addition the upper left hand $$2 \times 2$$ matrix is orthogonal.
 <br> One may also identify the _oriented Euclidean group_ in which the upper left hand $$2 \times 2$$ matrix has determinant 1.
 
 27. __Invariants.__ An alternative to describing the transformation _algebraically_, i.e. as a matrix acting on coordiantes of a point or curve, is to describe the transformation in terms of those elements or quantities that are preserved or _invariant_.
@@ -132,15 +136,15 @@ $$
 
 28. Isometries are transformations of the plane $$\mathbb{R^2}$$ that preserve Euclidean distance (from _iso_ = same, _metric_ = measure). An isometry is represented as
 $$
-\begin{pmatrix} x^\prime \\ y^\prime \\ 1 \end{pmatrix} = \begin{bmatrix} \epsilon \cos \theta & - \sin \theta & t_x \\ \epsilon \sin \theta & \cos \theta & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} x \\ y \\ 1 \end{pmatrix} 
+\begin{pmatrix} x^\prime \\ y^\prime \\ 1 \end{pmatrix} = \begin{bmatrix} \epsilon \cos \theta & - \sin \theta & t_x \\ \epsilon \sin \theta & \cos \theta & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} x \\ y \\ 1 \end{pmatrix}
 $$
 <br> where $$\epsilon = \pm 1$$. If $$\epsilon = 1$$ then the isometry is _orientation-preserving_ and is a _Euclidean_ transformation (a composition of a translation and rotation). If $$\epsilon = -1$$ then the isometry reverses orientation. An example is the composition of a reflection.
 <br> Euclidean transformations model the motion of a rigid object. However, the orientation reversing isometries often arise as ambiguities in structure recovery.
-<br> A planar Euclidean transformation can be written more concisely in block form as 
+<br> A planar Euclidean transformation can be written more concisely in block form as
 $$
 x^\prime = H_E x = \begin{bmatrix} R & t \\ 0^\intercal & 1 \end{bmatrix} x  \quad (2.7)
 $$
-<br> where $$R$$ is a $$2 \times 2$$ rotation matrix (an orthogonal matrix such that $$R^\intercal R = R R^\intercal = I$$), $$t$$ a translation 2-vector, and $$0$$ a null 2-vector. 
+<br> where $$R$$ is a $$2 \times 2$$ rotation matrix (an orthogonal matrix such that $$R^\intercal R = R R^\intercal = I$$), $$t$$ a translation 2-vector, and $$0$$ a null 2-vector.
 <br> A Euclidean transformation is also known as a _displacement_.
 <br> A planar Euclidean transformation has three degrees of freedom, one for the rotation and two for the translation. Thus three parameters must be specified in order to define the transformation. The transformation can be computed from two point correspondences (because one point can provide two equations).
 
@@ -154,7 +158,7 @@ $$
 $$
 \begin{pmatrix} x^\prime \\ y^\prime \\ 1 \end{pmatrix} = \begin{bmatrix} s \cos \theta & - s \sin \theta & t_x \\ s \sin \theta & s \cos \theta & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{pmatrix} x \\ y \\ 1 \end{pmatrix} \quad (2.8)
 $$
-<br> This can be written more concisely in block form as 
+<br> This can be written more concisely in block form as
 $$
 x^\prime = H_S x = \begin{bmatrix} sR & t \\ 0^\intercal & 1 \end{bmatrix} x  \quad (2.9)
 $$
@@ -175,7 +179,7 @@ $$
 x^\prime = H_A x = \begin{bmatrix} A & t \\ 0^\intercal & 1 \end{bmatrix} x  \quad (2.11)
 $$
 <br> with $$A$$ a $$2 \times 2$$ non-singular. A planar affine transformation has six degrees of freedom corresponding to the six matrix elements. The transformation can be computed from three point correspondences.
-<br> A helpful way to understand the geometric effects of the linear component $$A$$ of an affine transformation is as the composition of two fundamental transformations, namely rotations and non-isotropic scalings. The affine matrix $$A$$ can always be decomposed as 
+<br> A helpful way to understand the geometric effects of the linear component $$A$$ of an affine transformation is as the composition of two fundamental transformations, namely rotations and non-isotropic scalings. The affine matrix $$A$$ can always be decomposed as
 $$
 A = R(\theta) R(-\phi) D R(\phi) \quad (2.12)
 $$
@@ -184,16 +188,16 @@ $$
 D = \begin{bmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{bmatrix}
 $$
 <br> This decomposition follows directly from the SVD.
-<br> The affine matrix $$A$$ is hence seen to be the concatenation of a rotation (by $$\phi$$); a scaling by $$\lambda_1$$ and $$\lambda_2$$ respectively in the (rotated) $$x$$ and $$y$$ directions; a rotation back (by $$-\phi$$); and a finally another rotation (by $$\theta$$). The only "new" geometry, compared to a similarity, is the non-isotropic scaling. This accounts for the two extra degrees of freedom possessed by an affinity over a similarity. They are the angle $$\phi$$ specifying the scaling direction, and the ratio of the scaling parameters $$\lambda_1 : \lambda_2$$. 
+<br> The affine matrix $$A$$ is hence seen to be the concatenation of a rotation (by $$\phi$$); a scaling by $$\lambda_1$$ and $$\lambda_2$$ respectively in the (rotated) $$x$$ and $$y$$ directions; a rotation back (by $$-\phi$$); and a finally another rotation (by $$\theta$$). The only "new" geometry, compared to a similarity, is the non-isotropic scaling. This accounts for the two extra degrees of freedom possessed by an affinity over a similarity. They are the angle $$\phi$$ specifying the scaling direction, and the ratio of the scaling parameters $$\lambda_1 : \lambda_2$$.
 <br> The essence of an affinity is this scaling in orthogonal directions, oriented at a particular angle.
 ![](http://www.robots.ox.ac.uk/~vgg/hzbook/hzbook2/WebPage/pngfiles/projgeomfigs-affine_def_all.png)
 *Fig. Distortions arising from a planar affine transformation*
 
 35. __Invariants.__ Because an affine transformation includes non-isotropic scaling, the similarity invariants of length ratios and angles between lines are not preserved under an affinity. Three important invariants are:
-	- __Parallel lines.__ 
+	- __Parallel lines.__
 	- __Ratio of lengths of parallel line segments.__
 	- __Ratio of areas.__
-	
+
 36. An affinity is orientation-preserving or -reversing according to whether $$\det A$$ is positive or negative respectively. Since $$\det A = \lambda_1 \lambda_2$$ the property depends only on the sign of the scalings.
 
 #### 2.4.4 Class IV: Projective transformations
@@ -203,13 +207,13 @@ $$
 x^\prime = H_P x = \begin{bmatrix} A & t \\ \mathbf{v}^\intercal & \upsilon \end{bmatrix} x  \quad (2.13)
 $$
 <br> where the vector $$\mathbf{v} = (\upsilon_1,\upsilon_2)^\intercal$$. The matrix has nine elements with only their ratio significant, so the transformation is specified by eight parameters. Note, it is not always possible to sclae the matrix such that $$\upsilon$$ is unity since $$\upsilon$$ might be zero. A projective transformation between two planes can be computed from four point correspondences, with no three collinear on either plane.
-<br> Unlike the case of affinity, it is not possible to distinguish between orientation preserving and orientation reversing projectivities in $$\mathbb{P^2}$$. 
+<br> Unlike the case of affinity, it is not possible to distinguish between orientation preserving and orientation reversing projectivities in $$\mathbb{P^2}$$.
 
 38. __Invariants.__ The most fundamental projective invariant is the cross ratio of four collinear points: a ratio of lengths on a line is invariant under affinities, but not under projectivities. However, a ratio of ratios or _cross ratio_ of lengths on a line is a projective invariant.
 
 #### 2.4.5 Summary and comparison
 
-39. The key difference between a projective and affine transformation is that the vector $$\mathbf{v}$$ is not null for a projectivity.This is responsible for the non-linear effects of the projectivity. Compare the mapping of an ideal point $$(x_1,x_2,0)^\intercal$$ under an affinity and projectivity: 
+39. The key difference between a projective and affine transformation is that the vector $$\mathbf{v}$$ is not null for a projectivity.This is responsible for the non-linear effects of the projectivity. Compare the mapping of an ideal point $$(x_1,x_2,0)^\intercal$$ under an affinity and projectivity:
 <br> First the affine transformation
 $$
 \begin{bmatrix} A & t \\ 0^\intercal & 1 \end{bmatrix} \begin{pmatrix} x_1 \\ x_2 \\ 0 \end{pmatrix} = \begin{pmatrix} A \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}  \\ 0 \end{pmatrix}   \quad (2.14)
@@ -233,7 +237,7 @@ $$
 41. Taking the inverse of $$H$$ in (2.16) gives $$H^{-1} = H_P^{-1} H_A^{-1} H_S^{-1}$$. Since $$H_P^{-1}, H_A^{-1}$$ and $$H_S^{-1}$$ are still projective, affine and similarity transformations respectively, a general projective transformation may also be decomposed in the form
 $$
 H = H_S H_A H_P = \begin{bmatrix} I & 0 \\ \mathbf{v}^\intercal & \upsilon \end{bmatrix}  \begin{bmatrix} K & 0 \\ 0^\intercal & 1 \end{bmatrix}  \begin{bmatrix} sR & t \\ 0^\intercal & 1 \end{bmatrix}  \quad (2.17)
-$$ 
+$$
 <br> Note that the actual values of $$K， T， t$$ and $$\mathbf{v}$$ will be different from those of (2.16).
 
 #### 2.4.7 The number of invariants
@@ -288,7 +292,7 @@ $$
 <br> An affine transformation is the most general linear transformation that fixes $$l_\infty$$.
 
 49. __Result 2.17.__ _The line at infinity, $$l_\infty$$, is a fixed line under the projective transformation $$H$$ if and only if $$H$$ is an affinity._
-<br> However, $$l_\infty$$ is not fixed pointwise under an affine transformation: (2.14) showed that under an affinity a point on $$l_\infty$$ (an ideal point) is mapped to a point on $$l_\infty$$, but it is not the same point undless $$A(x_1,x_2)^\intercal = k(x_1,x_2)^\intercal$$. 
+<br> However, $$l_\infty$$ is not fixed pointwise under an affine transformation: (2.14) showed that under an affinity a point on $$l_\infty$$ (an ideal point) is mapped to a point on $$l_\infty$$, but it is not the same point undless $$A(x_1,x_2)^\intercal = k(x_1,x_2)^\intercal$$.
 
 #### 2.7.2 Recovery of affine properties from images
 
@@ -302,7 +306,7 @@ $$
 53. If the imaged line at inifinity is the line $$ l = (l_1, l_2, l_3)^\intercal $$, then provided $$l_3 \neq 0$$ a suitable projective point transformation which will map $$l$$ back to $$l_\infty = (0,0,1)^\intercal$$ is
 $$
 H = H_A \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ l_1 & l_2 & l_3 \end{bmatrix}  \quad (2.19)
-$$ 
+$$
 <br> where $$H_A$$ is any affine transformation (the last row of $$H$$ is $$l^\intercal$$). One can verify that under the line transformation (2.6): <br>
 $$
 H^{-\intercal} (l_1,l_2,l_3)^\intercal = (0,0,1)^\intercal = l_\infty
@@ -313,12 +317,12 @@ In a perspective image of a plane, the line at infinity on the world plane is im
 <br> This example shows that affine properties may be recovered by simply specifying a line (2 dof).
 
 55. __Example 2.19. Computing a vanishing point from a length ratio__ <br>
-Given two intervals on a line with a known length ratio, the point at infinity on the line may be determined. A typical case is where three points $$ a^\prime, b^\prime, c^\prime$$ are identified on a line in an image. Suppose $$a, b$$ and $$c$$ are the corresponding collinear points on the world line, and the length ratio $$d(a,b) : d(b,c) = a:b$$ is known (where $$d(x,y)$$ is the Euclidean distance between the points $$x$$ and $$y$$). It is possible to find the vanishing point using the cross ratio. 
+Given two intervals on a line with a known length ratio, the point at infinity on the line may be determined. A typical case is where three points $$ a^\prime, b^\prime, c^\prime$$ are identified on a line in an image. Suppose $$a, b$$ and $$c$$ are the corresponding collinear points on the world line, and the length ratio $$d(a,b) : d(b,c) = a:b$$ is known (where $$d(x,y)$$ is the Euclidean distance between the points $$x$$ and $$y$$). It is possible to find the vanishing point using the cross ratio.
 <br>	(1) Measure the distance ratio in the image, $$ d(a^\prime, b^\prime):d(b^\prime,c^\prime) = a^\prime:b^\prime$$.
 <br>	(2) Points $$a, b$$ and $$c$$ may be represented as coordinates $$0, a$$ and $$a+b$$ in a coordinate frame on the line $$<a,b,c>$$. For computational purposes, these points are represented by homogeneous 2-vectors $$(0,1)^\intercal, (a,1)^\intercal$$ and $$(a+b,1)^\intercal$$. Similarly, $$a^\prime, b^\prime$$ and $$c^\prime$$ have coordinates $$0, a^\prime$$ and $$a^\prime + b^\prime$$, which may also be expressed as homogeneous vectors.
 <br>	(3) Relative to these coordiantes frames, compute the 1D projective transformation $$H_{2 \times 2}$$ mapping $$ a \mapsto a^\prime, b \mapsto b^\prime$$ and $$c \mapsto c^\prime$$.
 <br>	(4) The image of the point at inifinity (with coordinates $$(1,0)^\intercal$$) under $$H_{2 \times 2}$$ is the vanishing point on the line $$<a^\prime,b^\prime,c^\prime>$$.
-	
+
 56. __Example 2.20. Geometric construction of vanishing points from a length ratio.__ <br>
 The vanishing points may also be computed by a purely geometric construction consisting of the following steps:
 <br> (1) Given: three collinear points, $$a^\prime, b^\prime$$ and $$c^\prime$$, in an image corresponding to collinear world points with interval ratio $$a:b$$.
@@ -332,7 +336,7 @@ The vanishing points may also be computed by a purely geometric construction con
 
 57. Under any similarity transformation there are two points on $$l_\infty$$ which are fixed. These are the _circular points_ (also called the _absolute points_) $$I, J$$, with canonical coordinates <br>
 $$
-I = \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \quad J = \begin{pmatrix} 1 \\ \mathrm{-i} \\ 0 \end{pmatrix} 
+I = \begin{pmatrix} 1 \\ \mathrm{i} \\ 0 \end{pmatrix} \quad J = \begin{pmatrix} 1 \\ \mathrm{-i} \\ 0 \end{pmatrix}
 $$
 <br> The circular points are a pair of complex conjugate ideal points. To see that they are fixed under an orientation-preserving similarity: <br>
 $$
@@ -453,7 +457,7 @@ $$
 #### 2.10.2 Notes and exercises
 
 1. __Affine transformations.__ <br>
-	
+
 2. __Projective transformations.__ <br>
 
 3. __Isotropies.__ <br>
@@ -473,32 +477,3 @@ $$
 
 
 [youtube-tensors]: https://www.youtube.com/playlist?list=PLJHszsWbB6hrkmmq57lX8BV-o-YIOFsiG
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
