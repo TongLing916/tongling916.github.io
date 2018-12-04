@@ -42,7 +42,7 @@ Two methods for computing this uncertainty (covariance) are outlined here. The f
 
 1. In the case of error in both images, the ressidual error is $$\epsilon _{res} = \frac{1}{\sqrt{4n}}( \sum_{i=1}^{n} d(x_i, \hat{x_i})^2 + \sum_{i=1}^{n} d(x_i^\prime, \hat{x_i}^\prime)^2)^{1/2} \quad \quad (5.2)$$.
 
-#### 5.1.3 Optimal estimators (MLE - Maximum Likelihood Estimor is
+#### 5.1.3 Optimal estimators (MLE - Maximum Likelihood Estimate)
 
 1. __Result 5.1.__ The projection of an isotropic Gaussian distribution defined on $$\mathbb{R}^N$$ with total variance $$N\sigma ^2$$ onto a subspace of dimension $$s$$ is an isotropic Gaussiance distribution with total variance $$s \sigma ^2$$.
 
