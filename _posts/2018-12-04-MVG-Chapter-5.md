@@ -95,10 +95,16 @@ Two methods for computing this uncertainty (covariance) are outlined here. The f
 
 #### 5.2.6 Using the covariance matrix in point transfer
 
-1. 
+1. Once one has the covariance, one may compute the uncertainty associated with a given point transfer.
+
+2. Example: consider a new point $$x$$ in the first image, not used in the computation of the transformation, $$H$$. The Corresponding point in the second image $$x^\prime = Hx$$. However, because of the uncertainty in the estimation $$H$$, the correct location of the point $$x^\prime$$ will also have associated uncertainty. One may compute this uncertainty from the covariance matrix of $$H$$. If in addtion, the point $$x$$ itself is measured with some uncertainty, then one should compute this uncertainty from the $$H$$ and the $$x$$.
 
 ### 5.3 Monte Carlo estimation of covariance
 
-1.
+1. The method of estimating covariance has relied on an assumption of linearity. It has also been assumed that the method of estimation of the transformation $$H$$ was the Maximum Likelihood Estimate.
+
+2. A general method of getting an estimate of the covariance is by exhaustive simulation. Assming that the noise is drawn from a give noise distribution, one starts with a set of point matches corresponding perfectly to a given transformation. One then addes noise to the points and computes the corresponding transformation using the chosen estimation procedure. The covariance of the transformation $$H$$ or a further transferred point is then computed statistically from multiple trials with noise drawn from the assumed noise distribution.
 
 ### 5.4 Closure
+
+1. The derivations throughout this chapter have been considerably simplified by only using first-order Taylor expansions, and assuming Gaussian error distributions.
