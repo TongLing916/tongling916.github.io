@@ -24,7 +24,7 @@ This chapter describes the projection of 3D scene space onto a 2D image plane. T
 
 #### 6.2.1 Camera anatomy
 
-1. 
+1.
 
 #### 6.2.2 Action of a projective camera on points
 
