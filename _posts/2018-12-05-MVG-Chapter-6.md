@@ -76,11 +76,13 @@ R & -R \tilde C\\
 
 ### 6.2 The projective camera
 
-1.
-
 #### 6.2.1 Camera anatomy
 
-1.
+1. A general projective camera may be decomposed into blocks according to $$P = [M | p_4]$$, where $$M$$ is a $$3 \times 3$$ matrix. It will be seen if $$M$$ is non-singular, then this is a finite camera, otherwise it is not.
+
+2. Camera centre, column vectors, row vectors, the principal plane, axis plane, the principal point, the principal axis vector.
+
+3. $$v = det(M)m^3$$ is a vector in the direction of the principal axis, directed towards the front of the camera. ($$m^{3T}$$ is the third row of $$M$$)
 
 #### 6.2.2 Action of a projective camera on points
 
