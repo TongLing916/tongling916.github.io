@@ -22,7 +22,7 @@ The principal camera of interest in this book is _central projection_. All camer
 
 2. The centre of projection is called the _camera centre_ or the _optical centre_. The line from the camera centre perpendicular to the image plane is called the _principal axis_ or _principal ray_ of the camera. The plane through the camera centre parallel to the image plane is called the _principal plane_ of the camera.
 
-3. __Central projection using homogeneous coordinates.__ (6.1) can be written by using a $$P$$, the $$3 \times 4$$ homogeneous _camera projection matrix_. Then $$x = PX \quad \quad (6.2)$$ which defines the camera matrix for the pinhole model of central projection as $P = diag(f,f,1)\left [ I | 0\right ]$$.
+3. __Central projection using homogeneous coordinates.__ (6.1) can be written by using a $$P$$, the $$3 \times 4$$ homogeneous _camera projection matrix_. Then $$x = PX \quad \quad (6.2)$$ which defines the camera matrix for the pinhole model of central projection as $$P = diag(f,f,1)\left [ I | 0\right ]$$.
 
 4. __Principal point offset.__ The expression (6.1) assumed that the origin of coordinates in the image plane is at the principal point. In genral, there is a mapping $$ (X, Y, Z)^T \mapsto (fX/Z + p_x, fY/Z + p_y)^T $$ where $$(p_x, p_y)^T$$ are the coordinates of the principal point. Now $$\begin{pmatrix} X\\ Y\\ Z\\ 1\end{pmatrix} \mapsto \begin{pmatrix} fX + Zp_x\\ fY + Zp_y\\ 1\end{pmatrix} = \begin{bmatrix}
 f &  & p_x & 0\\
@@ -39,7 +39,40 @@ f &  & p_x \\
  &  & 1
 \end{bmatrix}\quad \quad (6.4)$$. Then $$ x = K\left [ I | 0\right ] X_{cam}\quad \quad (6.5)$$ where the matrix $$K$$ is called the _camera calibration matrix_ and the point $$X_{cam}$$ is expressed in the _camera coordinate frame_.
 
-5. 
+5. __Camera rotation and translation.__ In general, points in space will be expressed in the _world coordinate frame_. Convention: $$\tilde{X}$$ is inhomogeneous.
+
+6. Now $$\tilde{X}_{cam} = R(\tilde X - \tilde C)$$, where $$\tilde{C}$$ represents the coordinates of the camera centre in the world coordinate frame, and $$R$$ is a $$3 \times 3$$ rotation matrix representing the orientation of the camera coordinate frame. The equation may be written as $$X_{cam} = \begin{bmatrix}
+R & -R \tilde C\\
+0 & 1
+\end{bmatrix} \begin{pmatrix}
+X\\
+Y\\
+Z\\
+1
+\end{pmatrix} = \begin{bmatrix}
+R & -R \tilde C\\
+0 & 1
+\end{bmatrix} X \quad \quad (6.6)$$. Putting this together with (6.5) leads to the formula $$x = KR\left [ I | -\tilde C\right ] X \quad \quad (6.7)$$ where $$X$$ is now in a world coordinate frame.
+
+7. One sees that a general pinhole camera, $$P = KR[I | -\tilde C]$$, has 9 degrees of freedom: 3 for $$K$$, 3 for $$R$$, and 3 for $$C$$. The parameters of $$K$$ are called the _internal_ camera paraters or the _internal orientation_ of the camera. The parameters of $$R$$ and $$\tilde C$$ which relate the camera orientation and position to a world coordinate system are called the _external_ parameters or the _exterior orientation_.
+
+8. It is often to write $$\tilde{X}_{cam} = R\tilde X + t$$. Then $$P = K[R|t] \quad \quad (6.8)$$ where $$t = -R \tilde C$$.
+
+9. __CCD cameras.__ CCD: Charge-coupled device. The pinhole camera model assumes that image coordinates are Euclidean coordinates having equal scales in both axial directions. In the case of CCD cameras, there is the additional possibility of having non-square pixels. If the number of pixels per unit distance in image coordinates are $$m_x$$ and $$m_y$$ in the $$x$$ and $$y$$ directions, then the general form of the calibration matrix of a CCD camera is $$ K = \begin{bmatrix}
+\alpha_x &  & x_0 \\
+ & \alpha_y & y_0 \\
+ &  & 1
+\end{bmatrix}\quad \quad (6.9)$$ where $$\alpha_x = fm_x$$ and $$\alpha_y = fm_y$$ represent the focal length of the camera and $$x_0 = m_x p_x$$ and $$y_0 = m_y p_y$$ in terms of pixel dimensions. A CCD camera thus has 10 DOF.
+
+10. __Finite projective camera.__ A calibration matrix of the form $$K = \begin{bmatrix}
+\alpha_x & s & x_0 \\
+ & \alpha_y & y_0 \\
+ &  & 1
+\end{bmatrix} \quad \quad (6.10)$$. The added parameter $$s$$ is referred to as the _skew_ parameter. Then, a camera $$KR\left [ I | -\tilde C\right ] \quad \quad (6.11)$$ for which the calibration matrix $$K$$ is of the form (6.10) will be called a _finite projective_ camera with 11 DOF.
+
+11. The set of camera matrices of finite projective cameras is identical with the set of homogeneous $$3 \times 4$$ matrices for which the left hand $$3 \times 3$$ submatrix is non-singular.
+
+12. __General projective cameras.__ A _general projective_ camera is one represented by an arbitrary homogeneous $$3 \times 4$$ matrix of rank 3. It has 11 DOF.
 
 ### 6.2 The projective camera
 
