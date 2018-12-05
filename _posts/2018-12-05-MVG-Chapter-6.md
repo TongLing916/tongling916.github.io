@@ -54,7 +54,10 @@ R & -R \tilde C\\
 0 & 1
 \end{bmatrix} X \quad \quad (6.6)$$. Putting this together with (6.5) leads to the formula $$x = KR\left [ I | -\tilde C\right ] X \quad \quad (6.7)$$ where $$X$$ is now in a world coordinate frame.
 
-7. One sees that a general pinhole camera, $$P = KR \left [ I | -\tilde C\right ]$$, has 9 degrees of freedom: 3 for $$K$$, 3 for $$R$$, and 3 for $$C$$. The parameters of $$K$$ are called the _internal_ camera paraters or the _internal orientation_ of the camera. The parameters of $$R$$ and $$\tilde C$$ which relate the camera orientation and position to a world coordinate system are called the _external_ parameters or the _exterior orientation_.
+7. One sees that a general pinhole camera, $$P = KR \left [ I | -\tilde C \right ]$$, has 9 degrees of freedom:
+
+
+3 for $$K$$, 3 for $$R$$, and 3 for $$C$$. The parameters of $$K$$ are called the _internal_ camera paraters or the _internal orientation_ of the camera. The parameters of $$R$$ and $$\tilde C$$ which relate the camera orientation and position to a world coordinate system are called the _external_ parameters or the _exterior orientation_.
 
 8. It is often to write $$\tilde{X}_{cam} = R\tilde X + t$$. Then $$P = K\left[R|t\right] \quad \quad (6.8)$$ where $$t = -R \tilde C$$.
 
