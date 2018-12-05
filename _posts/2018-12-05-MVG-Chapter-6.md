@@ -86,23 +86,47 @@ R & -R \tilde C\\
 
 #### 6.2.2 Action of a projective camera on points
 
-1.
+1. __Forward projection.__
+
+2. __Back-projection of points to rays.__
 
 #### 6.2.3. Depth of points
 
-1.
+1. __Result 6.1.__ Let $$X = (X, Y, Z, T)^T be a 3D point and $$P = [M p_4]$$ be a camera matrix for a finite camera. Suppose $$P(X,Y,Z,T)^T = w(x,y,1)^T$$. Then $$depth(X;P) = \frac{sign(det\: M)\omega }{T\left \| m^3 \right \|} \quad \quad (6.15)$$ is the depth of the point $$X$$ in front of the principal plane of the camera.
+
+2. This formula is an effective way to determine if a point $$X$$ is in front of the camera. One verifies that the value of $$depth(X;P)$$ is unchanged if either the point $$X$$ or the camera matrix $$P$$ is multiplied by a constant factor $$k$$.
 
 #### 6.2.4 Decomposition of the camera matrix
 
-1.
+1. __Finding the camera centre.__ The camera centre $$C$$ is the point for which $$ PC = 0$$. Use SVD of P to obtain C.
+
+2. __Finding the camera orientation and internal parameters.__
+
+3. __When is $$s \neq 0$$?__ In realistic circumstances, a non-zero skew might arise as a result of taking an image of an image.
+
+4. __Where is the decomposition required?__
+
+5. __A not on coordinate orientation.__ In the derivation of the camera model and its parametrization, it is assumed that the coordinate system used in both the image and the 3D world are __right handed systems__. However, it is very common to use a __left handed coordinate system__. Then, the formula will be different.  
 
 #### 6.2.5. Euclidean vs projective spaces
 
-1.
+1. __Euclidean and affine interpretations.__ Although a (finite) $$3 \times 4$$ matrix can always be decomposed to obtain a rotation matrix, a calibration matrix, and so forth, Euclidean interpretations of the parameters so obtained are only meaningful if the image and space coordinates are in an appropriate frame.
+
+2. In the decomposition case, a Euclidean frame is required for both image and 3-space.
+
+3. The interpretation of the null-vector of $$P$$ as the camera centre is valid even if both frames are projective - the interpretation requires only collinearity, which is a projective notion.
+
+4. The interpretation of $$P^3$$ as the principal plane requires at least affine frames for the image and 3-space.
+
+4. The interpretation of $$m^3$$ as the principal ray requires an affine image frame but a Euclidean world frame in order for the concept of orthogonality (to the principal plane) to be meaningful.
 
 ### 6.3 Cameras at infinity
 
-1.
+1. Cameras at infinity: 1) affine cameras 2) non-affine cameras.
+
+2. __Definition 6.3.__ An _affine_ camera is one that has a camera matrix $$P$$ in which the last row $$P^{3T}$$ if of the form $$(0,0,0,1)$$.
+
+3. It is called an affine camra because points at infinity are mapped to points at infinity.
 
 #### 6.3.1 Affine cameras
 
