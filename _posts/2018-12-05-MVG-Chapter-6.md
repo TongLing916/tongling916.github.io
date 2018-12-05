@@ -92,7 +92,7 @@ R & -R \tilde C\\
 
 #### 6.2.3. Depth of points
 
-1. __Result 6.1.__ Let $$X = (X, Y, Z, T)^T$$ be a 3D point and $$P = [M p_4]$$ be a camera matrix for a finite camera. Suppose $$P(X,Y,Z,T)^T = w(x,y,1)^T$$. Then $$depth(X;P) = \frac{sign(det\: M)\omega }{T\left \| m^3 \right \|} \quad \quad (6.15)$$ is the depth of the point $$X$$ in front of the principal plane of the camera.
+1. __Result 6.1.__ Let $$X = (X, Y, Z, T)^T$$ be a 3D point and $$P = [M \; p_4]$$ be a camera matrix for a finite camera. Suppose $$P(X,Y,Z,T)^T = w(x,y,1)^T$$. Then $$depth(X;P) = \frac{sign(det\: M)\omega }{T\left \| m^3 \right \|} \quad \quad (6.15)$$ is the depth of the point $$X$$ in front of the principal plane of the camera.
 
 2. This formula is an effective way to determine if a point $$X$$ is in front of the camera. One verifies that the value of $$depth(X;P)$$ is unchanged if either the point $$X$$ or the camera matrix $$P$$ is multiplied by a constant factor $$k$$.
 
