@@ -22,7 +22,7 @@ The principal camera of interest in this book is _central projection_. All camer
 
 2. The centre of projection is called the _camera centre_ or the _optical centre_. The line from the camera centre perpendicular to the image plane is called the _principal axis_ or _principal ray_ of the camera. The plane through the camera centre parallel to the image plane is called the _principal plane_ of the camera.
 
-3. __Central projection using homogeneous coordinates.__ (6.1) can be written by using a $$P$$, the $$3 \times 4$$ homogeneous _camera projection matrix_. Then $$x = PX \quad \quad (6.2)$$ which defines the camera matrix for the pinhole model of central projection as $$P = diag(f,f,1)\left [ I | 0\right ]$$.
+3. __Central projection using homogeneous coordinates.__ (6.1) can be written by using a $$P$$, the $$3 \times 4$$ homogeneous _camera projection matrix_. Then $$x = PX \quad \quad (6.2)$$ which defines the camera matrix for the pinhole model of central projection as $$P = diag(f,f,1)\left [ I \; 0\right ]$$.
 
 4. __Principal point offset.__ The expression (6.1) assumed that the origin of coordinates in the image plane is at the principal point. In genral, there is a mapping $$ (X, Y, Z)^T \mapsto (fX/Z + p_x, fY/Z + p_y)^T $$ where $$(p_x, p_y)^T$$ are the coordinates of the principal point. Now $$\begin{pmatrix} X\\ Y\\ Z\\ 1\end{pmatrix} \mapsto \begin{pmatrix} fX + Zp_x\\ fY + Zp_y\\ 1\end{pmatrix} = \begin{bmatrix}
 f &  & p_x & 0\\
@@ -92,7 +92,7 @@ R & -R \tilde C\\
 
 #### 6.2.3. Depth of points
 
-1. __Result 6.1.__ Let $$X = (X, Y, Z, T)^T be a 3D point and $$P = [M p_4]$$ be a camera matrix for a finite camera. Suppose $$P(X,Y,Z,T)^T = w(x,y,1)^T$$. Then $$depth(X;P) = \frac{sign(det\: M)\omega }{T\left \| m^3 \right \|} \quad \quad (6.15)$$ is the depth of the point $$X$$ in front of the principal plane of the camera.
+1. __Result 6.1.__ Let $$X = (X, Y, Z, T)^T$$ be a 3D point and $$P = [M p_4]$$ be a camera matrix for a finite camera. Suppose $$P(X,Y,Z,T)^T = w(x,y,1)^T$$. Then $$depth(X;P) = \frac{sign(det\: M)\omega }{T\left \| m^3 \right \|} \quad \quad (6.15)$$ is the depth of the point $$X$$ in front of the principal plane of the camera.
 
 2. This formula is an effective way to determine if a point $$X$$ is in front of the camera. One verifies that the value of $$depth(X;P)$$ is unchanged if either the point $$X$$ or the camera matrix $$P$$ is multiplied by a constant factor $$k$$.
 
