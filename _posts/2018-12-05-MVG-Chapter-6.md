@@ -160,4 +160,4 @@ R & -R \tilde C\\
 
 ### 6.5 Closure
 
-1. The affine camera is the most genral linear mapping on homogeneous coordinates that maps parallel world lines to parallel image lines. 
+1. The affine camera is the most genral linear mapping on homogeneous coordinates that maps parallel world lines to parallel image lines.
