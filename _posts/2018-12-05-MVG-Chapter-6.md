@@ -130,27 +130,27 @@ R & -R \tilde C\\
 
 #### 6.3.1 Affine cameras
 
-1.
-
 #### 6.3.2 Error in employing an affine camera
 
-1.
+1. __Affine imaging conditions.__
 
 #### 6.3.3 Decomposition of $$P_{\infty}$$
 
-1.
+1. __Parallel projection.__ The essential differences between $$P_\infty$$ and a finite camera.
 
 #### 6.3.4 A hierarchy of affine camera
 
-1.
+1. __Orthographic projection.__
+
+2. __Scaled orthographic projection.__
+
+3. __Weak perspective projection.__
+
+4. __The affine camera.__
 
 #### 6.3.5 More properties of the affine camera
 
-1.
-
 #### 6.3.6 General cameras at infinity
-
-1.
 
 ### 6.4 Other camera models
 
@@ -160,4 +160,4 @@ R & -R \tilde C\\
 
 ### 6.5 Closure
 
-1.
+1. The affine camera is the most genral linear mapping on homogeneous coordinates that maps parallel world lines to parallel image lines. 
