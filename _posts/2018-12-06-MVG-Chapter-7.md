@@ -12,11 +12,18 @@ tags:
 
 ### Abstract
 
+This chapter describes numerical methods for estimating the camera projection matrix from corresponding 3-space and image entities. This computation of the camera matrix is known as _resectioning_.
 
+Throughout this book, it is assumed that the map from 3-space to the image is linear. This assumption is invalid if there is lens distortion.
 
 ### 7.1 Basic equations
 
-1.
+1. For each correspondence $$X_i \leftrightarrow x_i$$, we derive a relationship
+$$\begin{bmatrix}0^\intercal & -\omega_i X_i^\intercal & y_i X_i^\intercal\\ \omega_i X_i^\intercal & 0^\intercal & -x_i X_i^\intercal\\ -y_i X_i^\intercal & x_i X_i^\intercal & 0^\intercal \end{bmatrix} \begin{pmatrix}P^1\\ P^2 \\ P^3 \end{pmatrix} = 0    \quad \quad (7.1)$$
+
+2. Alternatively, one may choose to use only the first two equations: $$\begin{bmatrix}0^\intercal & -\omega_i X_i^\intercal & y_i X_i^\intercal\\ \omega_i X_i^\intercal & 0^\intercal & -x_i X_i^\intercal \end{bmatrix} \begin{pmatrix}P^1\\ P^2 \\ P^3 \end{pmatrix} = 0    \quad \quad (7.2)$$
+
+3. __Minimal solution.__ Since the matrix $$P$$ has 12 entries, and (ignoring scale) 11 degrees of freedom, it is  necessary to have 11 equations to solve for $$P$$. Since each point correspondence leads two equations, at a minimum 5.5 such correspondences are required to solve for $$P.$$ The 0.5 indicates that only one of the equations is used from the sixth point. The solution is obtained by solving $$Ap = 0$$ where $$A$$ is an $$11 \times 12$$ matrix in this case. 
 
 ### 7.2 Geometric error
 
@@ -41,4 +48,4 @@ tags:
 
 ### 7.5 Closure
 
-1. 
+1.
