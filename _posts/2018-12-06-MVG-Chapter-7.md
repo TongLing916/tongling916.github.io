@@ -36,7 +36,7 @@ $$\begin{bmatrix}0^\intercal & -\omega_i X_i^\intercal & y_i X_i^\intercal\\ \om
 ### 7.2 Geometric error
 
 1. __Algorithm 7.1.__ The Gold Standard algorithm for estimating $$P$$ from world to image point correspondences in the case that the world points are very accurately knwon. <br>
-![]()
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-gold-standard-estimate-P.JPG)
 
 #### 7.2.1 Geometric interpretation of algebraic error
 
