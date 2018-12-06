@@ -73,13 +73,21 @@ $$\begin{bmatrix}0^\intercal & -\omega_i X_i^\intercal & y_i X_i^\intercal\\ \om
 
 7. __Exterior orientation.__ The "exterior orientation" problem: Suppose that all the internal parameters of the camera are known, then all that remains to be determined are the position and orientation (or _pose_) of the camera. To compute the exterior orientation, a configuration with accurately known position in a world coordinate frame is imaged. There are six parameters that must be determined, three for the orientation and three for the position.
 
-8. __Covariance estimation.__ Knowing the covariance of the camera parameters, error bounds or ellipsoids can be computed. 
+8. __Covariance estimation.__ Knowing the covariance of the camera parameters, error bounds or ellipsoids can be computed.
 
 ### 7.4 Radial distortion
 
-1.
+1. The assumption throughout these chapters has been that a linear model is an accurate model of the imaging process. For real (non-pinhole) lenses, this assumption will not hold. The most important deviation is generally a radial distortion.
+
+2. The cure for this distortion is to correct the image measurements to those that would have been obtained under a perfect linear camera action. The camera is then effectively again a linear device.
+
+3. Lens distortion takes place during the initial projection of the world onto the image plane. Radial (lens) distortion is modelled as $$\begin{pmatrix}x_d\\ y_d\end{pmatrix} = L(\tilde r) \begin{pmatrix}\tilde x\\ \tilde y\end{pmatrix} \quad \quad (7.7)$$, where 1) $$(\tilde x, \tilde y)$$ is the ideal image position (which obeys linear projection). 2) $$(x_d, y_d)$$ is the actual image position, after radial distortion. 3) $$\tilde r$$ is the radial distance $$\sqrt{\tilde x^2 + \tilde y^2}$$ from the centre for the radial distortion. 4) $$L(\tilde r)$$ is a distortion factor, which is a function of the radius $$\tilde r$$ only.
+
+4. __Correction of distortion.__ In pixel coordinates, the correction is written $$\hat x = x_c + L(r)(x-x_c) \;\;\;\;\;\; \hat y = y_c + L(r)(y-y_c)$$, where $$(x,y)$$ are the measured coordinates, $$(\hat x, \hat y)$$ are the corrected coordinates, and $$(x_c,y_c)$$ is the centre of radial distortion. Note, if the aspect ratio is not unity, then it is necessary to correct for this when computing $$r$$.
+
+5. __Choice of the distortion function and centre.__ The function $$L(r)$$ is only defined for positive values $$r$$ and $$L(0)=1$$. The principal point is often used as the centre for radial distortion.
+
+6. __Compute the distortion function.__ A simple and general approach is to determine $$L(r)$$ by the requirement that images of straight scene lines should be straight. It has the advantage that no special calibration pattern is required as the scene provides the calibration entities.
 
 
 ### 7.5 Closure
-
-1.
