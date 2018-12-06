@@ -38,13 +38,24 @@ $$\begin{bmatrix}0^\intercal & -\omega_i X_i^\intercal & y_i X_i^\intercal\\ \om
 1. __Algorithm 7.1.__ The Gold Standard algorithm for estimating $$P$$ from world to image point correspondences in the case that the world points are very accurately knwon. <br>
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-gold-standard-estimate-P.JPG)
 
+2. A rule of thumb is that for a good estimation the number of constraints (point measurements) should exceed the number of unknowns (the 11 camera parameters) by a factor of five. This means that at least 28 points should be used.
+
+3. __Errors in the world points.__ In the case that world points are not measured with "infinite" accuracy, one may choose to estimate $$P$$ by minimizing a 3D geometric error, or an image geometric error, or both.
+
 #### 7.2.1 Geometric interpretation of algebraic error
 
-1.
+1. __Transformation invariance.__ by minimizing $$\left \| Ap \right \|$$ subject to the constraint $$\left \| \hat{p} ^3 \right \| = 1$$, one may interpret the solution in terms of minimizing 3D geometric distances. Such an interpretation is not affected by similarity transformations in either 3D space or the image space. Thus, one is led to expect that carring out translation and scaling of the data, either in the image or in 3D point coordinates, will not have any effect on the solutions.
 
 #### 7.2.2 Estimation of an affine camera
 
-1.
+1. An affine camera is one for which the projection matrix has last row $$(0,0,0,1)$$. In the DLT estimation of the camera in this case, one minimizes $$\left \| Ap \right \|$$ subject to this condition on the last row of $$P$$.
+
+2. (7.2) for a single correspondence reduces to $$\begin{bmatrix}0^\intercal & -X_i^\intercal\\ X_i^\intercal & 0^\intercal\end{bmatrix} \begin{pmatrix}P^1\\ P^2 \end{pmatrix} + \begin{pmatrix}y_i\\ -x_i \end{pmatrix} = 0    \quad \quad (7.5)$$, which shows that the squared algebraic error in this case equals the squared geometric error $$\left \| Ap \right \|^2 = \sum_{i} (x_i - P^{1T}X_i)^2 + (y_i - P^{2T}X_i)^2 = \sum_{i}d(x_i,\hat{x}_i)^2$$.
+
+3. A linear estimation algorithm for an affine camera which minimizes geometric error is given in algorithm 7.2. Under the assumption of Gaussian measurement errors, this is the Maximum Likelihood estimate of $$P_A$$.
+
+4. __Algorithm 7.2.__ The Gold Standard Algorithm for estimating an affine camera matrix $$P_A$$ from world to image correspondences. <br>
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-gold-standard-estimate-P-affine.JPG)
 
 ### 7.3 Restricted camera estimation
 
