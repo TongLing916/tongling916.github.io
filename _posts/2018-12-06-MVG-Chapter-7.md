@@ -35,7 +35,7 @@ $$\begin{bmatrix}0^\intercal & -\omega_i X_i^\intercal & y_i X_i^\intercal\\ \om
 
 ### 7.2 Geometric error
 
-1. __Algorithm 7.1.__ The Gold Standard algorithm for estimating $$P$$ from world to image point correspondences in the case that the world points are very accurately knwon. <br>
+1. __Algorithm 7.1.__ The Gold Standard algorithm for estimating $$P$$ from world to image point correspondences in the case that the world points are very accurately known. <br>
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-gold-standard-estimate-P.JPG)
 
 2. A rule of thumb is that for a good estimation the number of constraints (point measurements) should exceed the number of unknowns (the 11 camera parameters) by a factor of five. This means that at least 28 points should be used.
@@ -59,7 +59,21 @@ $$\begin{bmatrix}0^\intercal & -\omega_i X_i^\intercal & y_i X_i^\intercal\\ \om
 
 ### 7.3 Restricted camera estimation
 
-1.
+1. One may wish to find the best-fit camera matrix $$P$$ subject to restrictive conditions on the camear parameters. Common assumptions are: 1) The skew $$s$$ is zero. 2) The pixels are square: $$\alpha_x = \alpha_y$$. 3) The principal point $$(x_0,y_0)$$ is known. 4) The complete camera calibration matrix $$K$$ is known.
+
+2. This problem may be solved by minimizing either geometric or algebraic error.
+
+3. __Minimizing geometric error.__ To minimize geometric error, one selects a set of parameters that characterize the camera matrix to be computed. The geometric error may then be minimized with respect to the set of parameters using iterative minimization (such as Levenberg-Marquardt).
+
+4. __Minimizing algebraic error.__ It is possible to minimize algebraic error instead, in which case the iterative minimization problem becomes mush smaller.
+
+5. __The reduced measurement matrix.__ In general, the $$2n \times 12$$ matrix $$A$$ may have a very large number of rows. It is possible to replace $$A$$ by a sqaure $$12 \times 12$$ matrix $$\hat{A}$$ such that $$\left \| Ap \right \| = p^T A^T A p = \left \| \hat{A}p \right \|$$ for any vector $$p$$.
+
+6. __Initialization.__ A method in practice is to use _soft_ constraints by adding extra terms to the cost function.
+
+7. __Exterior orientation.__ The "exterior orientation" problem: Suppose that all the internal parameters of the camera are known, then all that remains to be determined are the position and orientation (or _pose_) of the camera. To compute the exterior orientation, a configuration with accurately known position in a world coordinate frame is imaged. There are six parameters that must be determined, three for the orientation and three for the position.
+
+8. __Covariance estimation.__ Knowing the covariance of the camera parameters, error bounds or ellipsoids can be computed. 
 
 ### 7.4 Radial distortion
 
