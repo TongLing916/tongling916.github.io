@@ -156,17 +156,19 @@ This chapter describes the link between other 3D entities and their images under
 ### 8.8 Determining camera calibration K from a single View
 
 1. __Table 8.1.__ Scene and internal constraints on $$\omega$$.
-![]()
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-constraints-on-the-IAC.JPG)
 
 2. __Algorithm 8.2.__ Computing $$K$$ from scene and internal constraints.
-![]()
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-camera-calibration.JPG)
 
 #### 8.8.1 The geometry of the constraints
 
+1. Determining $$\omega$$ may be viewed as a conic fitting problem, given points on the conic and conjugate point pairs.
+
 ### 8.9 Single view reconstruction
 
-### 8.10 The calibration conic
+### 8.10 The calibrating conic
+
+1. The image of the absolute conic (IAC) is an imaginary conic in an image, and hence is not visible. Sometimes, it is useful for visualization purposes to consider a different conic that is closely related to the calibration of the camera. Such a conic is the _calibrating conic_, which is the image of a cone with apex angle 45° and axis coinciding with the principal axis of the camera.
 
 ### 8.11 Closure
-
-1.
