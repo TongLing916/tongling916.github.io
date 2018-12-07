@@ -54,24 +54,42 @@ This chapter describes the link between other 3D entities and their images under
 
 ### 8.4 The importance of the camera centre
 
-1.
+1. An object in 3-space and camera centre define a set of rays, and an image is obtained by intersecting these rays with a plane. Often this set is referred to as a _cone_ of rays.
 
 #### 8.4.1 Moving the image plane
 
-1.
+1. The effect of zooming by a factor $$k$$ is to multiply the calibration matrix $$K$$ on the right by $$diag(k,k,1)$$.
 
 #### 8.4.2 Camera rotation
 
-1.
+1. The homography is a _conjugate rotation_.
+
+2. The transformation $$H=KRK^{-1}$$ is an example of the _infinite homography mapping_ $$H_\infty$$.
 
 
 #### 8.4.3 Applications and examples
 
-1.
+1. The homographic relation between images with the same camera centre can be exploited in several ways. 1) One is the creation of synthetic image by projective warping. 2) Another is mosaicing, where panoramic images can be created by using planar homographies to "sew" together views obtained by a rotating camera.
+
+2. Algorithm of synthetic views: 1) Compute the homography $$H$$ which maps the image quadrilateral to a a rectangle with the correct aspect ratio. 2) Projectively warp the source image with this homography.
+
+3. Algorithm of planar panoramic mosaicing: 1) Choose one image of the set as a reference. 2) Compute the homography $$H$$ which maps one of the other images of the set to this reference image. 3) Projectively warp the image with this homography, and augment the reference image with the non-overlapping part of the warped image. 4) Repeat the last two steps for the remaining images of the set.
 
 #### 8.4.4 Projective (reduced) notation
 
+1. __reduced camera matrix.__
+
+2. All images acquired by cameras with the same camera centre are projectively equivalent.
+
 #### 8.4.5 Moving the camera centre
+
+1. If the camera centre is moved, then the map between corresponding image points __does__ depend on the 3-space structure,and indeed may often be used to (partially) determine the structure.
+
+2. How can one determine from the images alone whether the camera centre has moved? Consider two 3-space points which have coincident images in the first view, i.e., the points are on the same ray. If the camera centre is moved (not along the ray), the image coincidence is lost. This relative displacement of previously coincident image points is termed _parallax_.
+
+3. A convenient method for obtaining a camera motion that is only a rotation about its centre is to adjust the motion until there is no parallax.
+
+4. An important special case of 3-space structure is when all scene points are coplanar. In this case, the images of corresponding points are related by a planar homography even if the camera centre is moved. 
 
 ### 8.5 Camera calibration and the image of the absolute conic
 
