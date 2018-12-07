@@ -121,13 +121,45 @@ This chapter describes the link between other 3D entities and their images under
 
 #### 8.6.1 Vanishing points
 
+1. A vanishing point depends only on the _direction_ of a line, not on its position.
+
+2. __Result 8.20.__ The vanishing point of lines with direction $$d$$ in 3-space is the intersection $$v$$ of the image plane with a ray through the camera centre with direction $$d$$, namely $$v=Kd$$.
+
+3. The vanishing points are _not_ affected by the change in camera position, but by the camera rotation.
+
+4. __Result 8.22.__ Let $$v_1$$ and $$v_2$$ be the vanishing points of two lines in an image, and let $$\omega$$ be the image of the absolute conic in the image. $$\theta$$ is the angle between the two line directions, then $$\cos \theta = \frac{v_1^T \omega v_2}{\sqrt{v_1^T \omega v_1}\sqrt{v_2^T \omega v_2}} \quad \quad (8.13)$$
+
+5. Under the assumption of Gaussian measurement noise, the maximum likelihood estimate (MLE) of the the vanishing point _and_ line segments is computed by determining a set of lines that do intersect in a single point, and which minimize the sum of squared orthogonal distances from the endpoints of the measured line segments. The minimization may be computed numerically using the Levenberg-Marquardt algorithm.
+
 #### 8.6.2 Vanishing lines
+
+1. Parallel planes in 3-space intersect $$\pi_\infty$$ in a common line, and the image of this line is the vanishing line of the plane.
+
+2. A vanishing line depends only on the _orientation_ of the scene plane, not on its position.
+
+3. If the calibration matrix $$K$$ is known, then 1) The plane's orientation relative to the camera may be determined from its vanishing line. 2) The plane may be metrically rectified given only its vanishing line. 3) The angle between two scene planes can be determined from their vanishing lines.
+
+4. A common way to determine a vanishing line of a scene plane is first to determine vanishing points for two sets of lines parallel to the plane, and then to construct the line through the two vanishing points. However, the vanishing line may be determined directly.
 
 #### 8.6.3 Orthogonality relationships amongst vanishing points and lines
 
+1. The vanishing points of lines with perpendicular directions satisfy $$v_1^T \omega v_2 = 0\quad \quad (8.16)$$.
+
+2. If a line is perpendicular to a plane, then their respective vanishing point $$v$$ and vanishing line $$l$$ are related by $$l = \omega v \quad \quad(8.17)$$ and inversely $$v=\omega^* l$$.
+
+3. The vanishing lines of two perpendicular planes satisfy $$l_1^T \omega^* l_2 = 0$$.
+
 ### 8.7 Affine 3D measurements and reconstruction
 
+1. __Result 8.24.__ Given the vanishing line of the ground plane $$l$$ and the vertical vanishing point $$v$$, then the relative length of vertical line segments can be measured provided their end points lies on the ground plane.
+
 ### 8.8 Determining camera calibration K from a single View
+
+1. __Table 8.1.__ Scene and internal constraints on $$\omega$$.
+![]()
+
+2. __Algorithm 8.2.__ Computing $$K$$ from scene and internal constraints.
+![]()
 
 #### 8.8.1 The geometry of the constraints
 
