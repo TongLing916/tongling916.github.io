@@ -46,7 +46,7 @@ This chapter describes the link between other 3D entities and their images under
 
 2. __Forward projection of quadrics.__ Since the outline arises from tangency, it is not surprising that the dual of the quadric, $$Q^* $$, is important here since it defines the tangent planes to the quadric $$Q$$.
 
-3. __ Result 8.9.__ Under the camera matrix $$P$$, the outline of the quadric $$Q$$ is the conic $$C$$ given by $$C^* = P Q^* P^T \quad \quad (8.5)$$.
+3. __Result 8.9.__ Under the camera matrix $$P$$, the outline of the quadric $$Q$$ is the conic $$C$$ given by $$C^* = P Q^* P^T \quad \quad (8.5)$$.
 
 4. The plane of $$\Gamma$$ for a quadric $$Q$$ and camera with centre $$C$$ is given by $$\pi_\Gamma = QC$$.
 
@@ -89,13 +89,33 @@ This chapter describes the link between other 3D entities and their images under
 
 3. A convenient method for obtaining a camera motion that is only a rotation about its centre is to adjust the motion until there is no parallax.
 
-4. An important special case of 3-space structure is when all scene points are coplanar. In this case, the images of corresponding points are related by a planar homography even if the camera centre is moved. 
+4. An important special case of 3-space structure is when all scene points are coplanar. In this case, the images of corresponding points are related by a planar homography even if the camera centre is moved.
 
 ### 8.5 Camera calibration and the image of the absolute conic
 
+1. What is gained if the camera internal calibration, $$K$$, is known? Euclidean properties, such as the angle between two rays, can then be measured.
+
+2. __Result 8.15.__ The camera calibration matrix $$K$$ is the (affine) transformation between $$x$$ and the ray's direction $$d=K^{-1}x$$ measured in the camera's Euclidean coordinate frame.
+
+3. __Result 8.16.__ An image line $$l$$ defines a plane through the camera centre with normal direction $$n=K^T l$$ measured in the camera's Euclidean coordinate frame.
+
 #### 8.5.1 The image of the absolute conic
 
+1. The mapping between the plane at infinity $$\pi_\infty$$ and an image is given by the planar homography $$x=Hd$$ with $$H=KR \quad \quad (8.8)$$.
+
+2. __Result 8.17.__ The image of the absolute conic (the IAC) is the conic $$\omega = (KK^T)^{-1} = K^{-T}K^{-1}$$.
+
+3. The dual image of the absolute conic (the DIAC): $$\omega^* = \omega^{-1} = KK^T \quad \quad (8.11)$$.
+
+4. Result 8.17 shows that once $$\omega$$ (or equivalently $$\omega^* )$$ is identified in an image, then $$K$$ is also determined.
+
+5. A plane $$\pi$$ intersects $$\pi_\infty$$ in a line, and this line intersects the absolute conic $$\Omega_\infty$$ in two points which are the circular points of $$\pi$$. The imaged circular points lie on $$\omega$$ at the points at which the vanishing line of the line of the plane $$\pi$$ intersects $$\omega$$.
+
+6. (4) and (5) are the basis for a calibration algorithm.
+
 #### 8.5.2 Orthogonality and $$\omega$$
+
+1. __Result 8.19.__ A point $$x$$ and line $$l$$ back-projecting to a ray and plane respectively that are orthogonal are related by $$l=\omega x$$.
 
 ### 8.6 Vanishing points and vanishing lines
 
