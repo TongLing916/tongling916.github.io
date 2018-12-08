@@ -16,12 +16,12 @@ tags:
 if(cosParallax<0.99998){
   vbGood[vMatches12[i].first]=true;
   nGood++;        // here is the change
-  
+
 }
 ```
 
 
-### Bug 2: ORBmatcher.cc.cc at about line 485
+### Bug 2: ORBmatcher.cc at about line 485
 
 ```cpp
 float rot = F1.mvKeysUn[i1].angle-F2.mvKeysUn[bestIdx2].angle;
