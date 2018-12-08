@@ -10,26 +10,26 @@ tags:
 
 ### Bug 1: Initializer.cc at about line 890
 
-{% highlight cpp %}
-// nGood++;       // old codes
+```cpp
+// nGood++;
 if(cosParallax<0.99998){
   vbGood[vMatches12[i].first]=true;
   nGood++;        // here is the change
 }
 
-{% endhighlight %}
+```
 
 
 ### Bug 2: ORBmatcher.cc.cc at about line 485
 
-{% highlight cpp %}
+```cpp
 
 float rot = F1.mvKeysUn[i1].angle-F2.mvKeysUn[bestIdx2].angle;
 if(rot<0.0)
     rot+=360.0f;
-    // int bin = round(rot*factor);           // old codes
+    // int bin = round(rot*factor);
        int bin = round(rot/(360.0f*factor));  // here is the change
 if(bin==HISTO_LENGTH)
     bin=0;
 
-{% endhighlight %}
+```
