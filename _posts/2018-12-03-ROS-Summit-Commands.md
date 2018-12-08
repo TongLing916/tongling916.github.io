@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Images from Summit"
+title:      "Commands for Summit"
 date:       2018-12-03
 author:     Tong
 catalog: true
