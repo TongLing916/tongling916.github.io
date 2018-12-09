@@ -127,8 +127,15 @@ cd ~/Desktop/LearningSLAM/test_dataset/kitti_00
 ../../../../Applications/mono_dataset_code/build/bin/vignetteCalib ./
 {% endhighlight %}
 
+### [evo][github-evo]
+{% highlight bash %}
+evo_traj kitti 00.txt --plot --plot_mode=xz
+evo_traj tum KeyFrameTrajectory.txt --plot --plot_mode=xz
+{% endhighlight %}
+
 [dataset-tum]: https://vision.in.tum.de/data/datasets/rgbd-dataset/download
 [dataset-kitti]: http://www.cvlibs.net/datasets/kitti/eval_odometry.php
 [dataset-euroc]: https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets
 [github-mono-tum]: https://github.com/tum-vision/mono_dataset_code
 [dataset-summit]: http://lingtong.de/2018/12/08/ROS-Summit-Commands/
+[github-evo]: https://github.com/MichaelGrupp/evo
