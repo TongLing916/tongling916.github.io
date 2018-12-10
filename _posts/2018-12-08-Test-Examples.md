@@ -125,9 +125,30 @@ cd ~/Desktop/LearningSLAM/test_dataset/kitti_00
 {% endhighlight %}
 
 ### [evo][github-evo]
+
+> cd ~/Desktop/LearningSLAM/test_trajectory/kitti/00/
+
+> cd ~/Desktop/LearningSLAM/test_trajectory/tum/rgbd/
+
 {% highlight bash %}
 evo_traj kitti 00.txt --plot --plot_mode=xz
 evo_traj tum KeyFrameTrajectory.txt --plot --plot_mode=xz
+
+evo_traj tum KeyFrameTrajectory.txt --save_as_kitti
+
+evo_traj kitti KeyFrameTrajectory.kitti -p --plot_mode=xz --ref=00.txt
+
+evo_traj tum KeyFrameTrajectory_fix_bug1.txt KeyFrameTrajectory_no_fix_bug1.txt -p --plot_mode=xz --ref=groundtruth.txt
+{% endhighlight %}
+
+### [tools for TUM RGB-D][tools-tum-rgbd]
+
+> cd ~/Applications/tum_rgbd_tools
+
+{% highlight bash %}
+python evaluate_ate_scale.py /home/tong/Desktop/LearningSLAM/test_trajectory/tum/rgbd/KeyFrameTrajectory.txt /home/tong/Datasets/tum/rgbd/Testing\ and\ Debugging/rgbd_dataset_freiburg1_xyz/groundtruth.txt
+
+python evaluate_ate.py /home/tong/Desktop/LearningSLAM/test_trajectory/tum/rgbd/KeyFrameTrajectory.txt /home/tong/Datasets/tum/rgbd/Testing\ and\ Debugging/rgbd_dataset_freiburg1_xyz/groundtruth.txt
 {% endhighlight %}
 
 [dataset-tum]: https://vision.in.tum.de/data/datasets/rgbd-dataset/download
@@ -136,3 +157,4 @@ evo_traj tum KeyFrameTrajectory.txt --plot --plot_mode=xz
 [github-mono-tum]: https://github.com/tum-vision/mono_dataset_code
 [dataset-summit]: http://lingtong.de/2018/12/08/ROS-Summit-Commands/
 [github-evo]: https://github.com/MichaelGrupp/evo
+[tools-tum-rgbd]: https://vision.in.tum.de/data/datasets/rgbd-dataset/tools
