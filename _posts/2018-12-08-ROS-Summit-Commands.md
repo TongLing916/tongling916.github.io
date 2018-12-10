@@ -279,10 +279,30 @@ print(tvecs)
 经试验，采用不同的 _squareSize_ 并不会影响 _Intrinsic Matrix_. 最后运行得到的axis camera的参数为
 
 {% highlight bash %}
-FocalLength: [1224.963078 1225.408655]
-PrincipalPoint: [641.586618 379.526328]
-RadialDistortion: [-0.291494 0.124402]
-TangentialDistortion: [0.000831 0.000836]
+# two parameters for radial distortion
+Camera.fx: 1224.963078
+Camera.fy: 1225.408655
+Camera.cx: 641.586618
+Camera.cy: 379.526328
+
+Camera.k1: -0.291494
+Camera.k2: 0.124402
+Camera.p1: 0.000831
+Camera.p2: 0.000836
+{% endhighlight %}
+
+{% highlight bash %}
+# three parameters for radial distortion
+Camera.fx: 1224.97280860308
+Camera.fy: 1225.42345772730
+Camera.cx: 641.624622557865
+Camera.cy: 379.531695842305
+
+Camera.k1: -0.291701835794397
+Camera.k2: 0.126558746093248
+Camera.k3: -0.00660039080091324
+Camera.p1: 0.000832613012050827
+Camera.p2: 0.000836830461328396
 {% endhighlight %}
 
 {% highlight Matlab %}
