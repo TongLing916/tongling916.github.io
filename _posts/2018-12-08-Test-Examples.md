@@ -82,29 +82,26 @@ mode=0
 
 > cd /home/tong/Applications/LDSO
 
+> If you need loop closing, please set setting_pointSelection=1 to make the program compute feature descriptors. If setting_pointSelection=0, the program acts just like DSO, and setting_pointSelection=2 means random point selection, which is faster but unstable.
+
 #### [TUM Dataset][dataset-tum]
 {% highlight bash %}
-./bin/run_dso_tum_mono \
-preset=0 \
-files=/home/tong/Datasets/tum/mono/sequence_34/images.zip \
-vignette=/home/tong/Datasets/tum/mono/sequence_34/vignette.png \
-calib=/home/tong/Datasets/tum/mono/sequence_34/camera.txt \
-gamma=/home/tong/Datasets/tum/mono/sequence_34/pcalib.txt
+./bin/run_dso_tum_mono preset=0 files=/home/tong/Datasets/tum/mono/sequence_34/images.zip vignette=/home/tong/Datasets/tum/mono/sequence_34/vignette.png calib=/home/tong/Datasets/tum/mono/sequence_34/camera.txt gamma=/home/tong/Datasets/tum/mono/sequence_34/pcalib.txt setting_pointSelection=1
 {% endhighlight %}
 
 #### [KITTI Dataset][dataset-kitti]
 {% highlight bash %}
-./bin/run_dso_kitti preset=0 files=/home/tong/Datasets/kitti/sequences/00/ calib=./examples/Kitti/Kitti00-02.txt
+./bin/run_dso_kitti preset=0 files=/home/tong/Datasets/kitti/sequences/00/ calib=./examples/Kitti/Kitti00-02.txt setting_pointSelection=1
 {% endhighlight %}
 
 #### [EuRoC Dataset][dataset-euroc]
 {% highlight bash %}
-./bin/run_dso_euroc preset=0 files=/home/tong/Datasets/euroc/MH_01_easy/mav0/cam0/
+./bin/run_dso_euroc preset=0 files=/home/tong/Datasets/euroc/MH_01_easy/mav0/cam0/ setting_pointSelection=1
 {% endhighlight %}
 
 #### [Summit Dataset][dataset-summit]
 {% highlight bash %}
-./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Summit/axis_camera.txt
+./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Kitti/Kitti00-02.txt setting_pointSelection=1
 {% endhighlight %}
 
 ### [Code for Monocular Visual Odometry Dataset][github-mono-tum]
