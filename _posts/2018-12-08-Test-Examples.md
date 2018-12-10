@@ -101,7 +101,7 @@ mode=0
 
 #### [Summit Dataset][dataset-summit]
 {% highlight bash %}
-./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Kitti/Kitti00-02.txt setting_pointSelection=1
+./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Summit/axis_camera.txt setting_pointSelection=1
 {% endhighlight %}
 
 ### [Code for Monocular Visual Odometry Dataset][github-mono-tum]
