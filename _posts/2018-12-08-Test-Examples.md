@@ -48,7 +48,7 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 
 > cd /home/tong/Applications/ORB_SLAM2
 
-#### [TUM Dataset][dataset-tum]
+#### [TUM RGB-D Dataset][dataset-tum-rgbd]
 {% highlight bash %}
 ./Examples/Monocular/mono_tum Vocabulary/ORBvoc.txt Examples/Monocular/TUM1.yaml /home/tong/Datasets/tum/rgbd/Testing\ and\ Debugging/rgbd_dataset_freiburg1_xyz/
 {% endhighlight %}
@@ -67,7 +67,7 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 
 > cd /home/tong/Applications/dso/build
 
-#### [TUM Dataset][dataset-tum]
+#### [TUM MonoVO Dataset][dataset-tum-mono]
 {% highlight bash %}
 bin/dso_dataset \
 files=/home/tong/Datasets/tum/mono/sequence_01/images.zip \
@@ -84,7 +84,7 @@ mode=0
 
 > If you need loop closing, please set setting_pointSelection=1 to make the program compute feature descriptors. If setting_pointSelection=0, the program acts just like DSO, and setting_pointSelection=2 means random point selection, which is faster but unstable.
 
-#### [TUM Dataset][dataset-tum]
+#### [TUM MonoVO Dataset][dataset-tum-mono]
 {% highlight bash %}
 ./bin/run_dso_tum_mono preset=0 files=/home/tong/Datasets/tum/mono/sequence_34/images.zip vignette=/home/tong/Datasets/tum/mono/sequence_34/vignette.png calib=/home/tong/Datasets/tum/mono/sequence_34/camera.txt gamma=/home/tong/Datasets/tum/mono/sequence_34/pcalib.txt setting_pointSelection=1
 {% endhighlight %}
@@ -104,7 +104,7 @@ mode=0
 ./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Summit/axis_camera.txt setting_pointSelection=1
 {% endhighlight %}
 
-### [Code for Monocular Visual Odometry Dataset][github-mono-tum]
+### [Code for Monocular Visual Odometry Dataset][github-tum-mono]
 
 #### playbackDataset: read images, photometric undistortion & rectification
 {% highlight bash %}
@@ -141,7 +141,7 @@ evo_traj kitti KeyFrameTrajectory.kitti -p --plot_mode=xz --ref=00.txt
 evo_traj tum KeyFrameTrajectory_fix_bug1.txt KeyFrameTrajectory_no_fix_bug1.txt -p --plot_mode=xz --ref=groundtruth.txt
 {% endhighlight %}
 
-### [tools for TUM RGB-D][tools-tum-rgbd]
+### [Tools for TUM RGB-D][tools-tum-rgbd]
 
 > cd ~/Applications/tum_rgbd_tools
 
@@ -151,10 +151,11 @@ python evaluate_ate_scale.py /home/tong/Desktop/LearningSLAM/test_trajectory/tum
 python evaluate_ate.py /home/tong/Desktop/LearningSLAM/test_trajectory/tum/rgbd/KeyFrameTrajectory.txt /home/tong/Datasets/tum/rgbd/Testing\ and\ Debugging/rgbd_dataset_freiburg1_xyz/groundtruth.txt
 {% endhighlight %}
 
-[dataset-tum]: https://vision.in.tum.de/data/datasets/rgbd-dataset/download
+[dataset-tum-rgbd]: https://vision.in.tum.de/data/datasets/rgbd-dataset/download
+[dataset-tum-mono]: https://vision.in.tum.de/data/datasets/mono-dataset
 [dataset-kitti]: http://www.cvlibs.net/datasets/kitti/eval_odometry.php
 [dataset-euroc]: https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets
-[github-mono-tum]: https://github.com/tum-vision/mono_dataset_code
+[github-tum-mono]: https://github.com/tum-vision/mono_dataset_code
 [dataset-summit]: http://lingtong.de/2018/12/08/ROS-Summit-Commands/
 [github-evo]: https://github.com/MichaelGrupp/evo
 [tools-tum-rgbd]: https://vision.in.tum.de/data/datasets/rgbd-dataset/tools
