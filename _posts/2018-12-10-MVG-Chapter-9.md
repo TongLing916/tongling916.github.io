@@ -60,7 +60,7 @@ The fundamental matrix $$F$$ encapsulates this intrinsic geometry.
 
 #### 9.3.1 Pure translation
 
-1. $$x, x^\prime$$ and $$e=e^\prime$$ are collinear (assuming both images are overlaid on top of each other). This collinearity property is termed $$auto-epipolar$$, and does not hold for general motion.
+1. $$x, x^\prime$$ and $$e=e^\prime$$ are collinear (assuming both images are overlaid on top of each other). This collinearity property is termed _auto-epipolar_, and does not hold for general motion.
 
 2. __General motion.__ Given two arbitrary cameras, we may rotate the camera used for the first image so that it is aligned with the second camera. This rotation may be simulated by applying a projective transformation to the first image. A further correction may be applied to the first image to account for any difference in the calibration matrices of the two images. The result of these two corrections is a projective transformation $$H$$ of the first image. If one assumes these corrections have been made, then the effective relationship of the two cameras to each other is that of a pure translation.
 
@@ -110,6 +110,6 @@ The fundamental matrix $$F$$ encapsulates this intrinsic geometry.
 
 #### 9.6.3 Geometrical interpretation of the four solutions
 
-1. There are four solutions for the second camera matrix, where a reconstructed point $$X$$ will be in front of both cameras in one of these solutions only. 
+1. There are four solutions for the second camera matrix, where a reconstructed point $$X$$ will be in front of both cameras in one of these solutions only.
 
 ### 9.7 Closure
