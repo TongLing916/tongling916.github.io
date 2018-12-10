@@ -8,7 +8,14 @@ tags:
     - SLAM
 ---
 
-### Bug 1: Initializer.cc at about line 890
+> The issue about Bug 1 and 2 can be found in this [website][github-bug-1-2].
+
+### Bug 1: Initializer.cc at about line 890 (?)
+
+Report:
+1. for complex scene like kitti sequence 00, fixing this bug causes more time for initialization.
+2. for simple scene like rgbd_dataset_freiburg1_xyz and summit dataset, fixing this bug makes a quicker initialization possible.
+3. TO-DO: IS THIS REALLY A BUG???
 
 ```cpp
 // nGood++;
@@ -40,3 +47,4 @@ if(bin==HISTO_LENGTH)
 Because HISTO_LENGTH=30, we get 30 bin-Histogram (each bin is for a range of 360/30=12 degrees). To find the index for each rot, we need to calculate round(rot/12), which means round(rot/(360/HISTO_LENGTH)).
 
 [web-hog]: https://www.learnopencv.com/histogram-of-oriented-gradients/
+[github-bug-1-2]: https://github.com/raulmur/ORB_SLAM2/issues/59
