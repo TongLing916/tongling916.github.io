@@ -12,7 +12,15 @@ tags:
 
 ### A4.1 Orthogonal matrices
 
+1. The orthogonal matrices of dimension $$n$$ with positive determinant form a group, called $$SO_n$$. An element of $$SO_n$$ is called an $$n$$-dimensional rotation.
+
+2. __Norm-preserving properties of orthogonal matrices.__ An important property of orthogonal matrices is that multiplying a vector by an orthogonal matrix preserves its norm. ($$(Ux)^T(Ux) = x^TU^TUx=x^Tx$$)
+
+3. By the QR decomposition of a matrix is usually meant the decomposition of the matrix $$A$$ into a product $$A=QR$$, where $$Q$$ is orthogonal, and $$R$$ is an upper-triangular matrix. (R: Right, upper-triangular; L: Left, lower-triangular matrix)
+
 #### A4.1.1 Givens rotations and RQ decomposition
+
+1. A 3-dimensional Givens rotation a rotation about one of the three coordinates axes. The three Givens rotations are $$Q_x = \begin{bmatrix}1 &  & \\  & c & -s \\ & s & c\end{bmatrix}\quad \quad Q_y = \begin{bmatrix}c &  & s\\  & 1 & \\ -s & & c\end{bmatrix}\quad \quad Q_z = \begin{bmatrix}c & -s &\\ s & c & \\  & & 1\end{bmatrix}\quad \quad (A4.1)$$ where $$c=\cos (\theta)$$ and $$s=\sin (\theta)$$ for some angle $$\theta$$ and blank entries represent zeros. 
 
 #### A4.1.2 Housholder matrices and QR decomposition
 
