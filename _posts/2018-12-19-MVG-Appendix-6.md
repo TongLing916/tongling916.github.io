@@ -60,21 +60,63 @@ Important reductions of computation complexity are obtained by dividing the set 
 
 ### A6.6 Application of sparse LM to multiple image bundle adjustment
 
+1. One may apply the LM algorithm to the simultaneous estimation of multiple camera and points to compute projective structure, or perhaps affine or metric structure given appropriate constraints. This technique is called _bundle adjustment__.
+
+2. __Algorithm 6.4.__ General sparse Levenberg-Marquardt algorithm.
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-algorithm-A6.4.JPG)
+
 ### A6.7 Sparse methods for equations solving
+
+1. For bundle-adjustment problems with banded track structure, sparseness can appear at two levels, first at the level of independence of the individual point measurements, and secondly arising from the banded track structure.  
 
 #### A6.7.1 Banded structure in bundle-adjustment
 
+1. The block $$S_{jk}$$ is non-zero only if there exists a point that is visible in both the $$j$$-th and $$k$$-th images.
+
 #### A6.7.2 Solution of symmetric linear equations
+
+1. __Result A6.1__ Any positive-definite symmetric matrix $$A$$ can be factored as $$A=LDL^T$$, in which $$L$$ is a lower-triangular matrix with unit diagonal entries, and $$D$$ is diagonal.
 
 #### A6.7.3 Solution of sparse symmetric linear systems
 
 ### A6.8 Robust cost functions
 
+1. In estimation problems of the Newton or Levenberg-Marquardt type, an important decision to make is the precise form of the cost function.
+
+2. An assumption of Gaussian noise without outliers implies that the Maximum Likelihood estimate is given by a least-squares cost function involving the predicted errors in the measurements, where the noise is introduced.
+
+3. __Statistically based cost functions.__ 1) Squared error. 2) Blake-Zisserman. 3) Corrupted Gaussian.
+
+4. __Heuristic cost function.__ 1) Cauchy cost function. 2) The $$L1$$ cost function. 3) Huber cost function. 4) Pseudo-Huber cost function.
+
 #### A6.8.1 Properties of the different cost functions
+
+1. __Squared error.__
+
+2. __Non-convex cost functions.__
+
+3. __Asymptotically linear cost functions.__
 
 #### A6.8.2 Performance of the different cost functions
 
+1. The squared-error cost function is generally very susceptible to outliers, and may be regarded as unusable as long as outliers are present. It outliers have been thoroughly eradicated, using for instance RANSAC, then it may be used.
+
+2. The non-convex cost functions, though generally having a stable minimum, not much effected by outliers have the significant disadvantage of having local minima, which can make convergence to a global minimum chancy. The estimate is not strongly attracted to the minimum from outside of its immediate neighbourhood. Thus, they are not useful, unless (or until) the estimate is close to the final correct value.
+
+3. The Huber cost function has the pleasant property of being convex, which makes convergence to a global minimum more reliable. The minimum is quite immune to the baleful influence of outliers since it represents a compromise between the Maximum Likelihood estimate of the inliers and the median of the outliers. The pseudo-Huber cost function is a good alternative to Huber, but use of $$L1$$ should be approached with case, because of its non-differentiablity at the origin.
+
+4. Choose a parametrization in which the error is as close as possible to being a linear function of the parameters, at least locally.
+
 ### A6.9 Parametrization
+
+1. __Gauge freedom.__
+  - The word gauge means a coordinate system for a parameter set, and gauge-freedom essentially refers to a change in the representation of the parameter set that does not essentially change the underlying geometry, and hence has no effect on the cost function.
+  - The most important gauge freedoms commonly encountered are projective or other ambiguities, such as those arising in reconstruction problems.
+  - The scale ambiguity of homogeneous vectors can be counted as gauge freedom also.
+  - Gauge freedoms in the parametrization of an optimization problem cause the normal equations to be singular, and hence allow multiple solutions. This problem is avoided by the regularization (or enhancement) step in Levenberg-Marquardt, but there is evidence that excessive gauge freedoms, when gauge freedoms are present the covariance matrix of the estimated parameters is troublesome.
+  - When gauge freedoms are present, the covariance matrix of the estimated parameters is troublesome, in that there will be infinite variance in unconstrained parameter directions. For instance, it makes no sense to talk of the covariance matrix of an estimated homogeneous vector, unless the scale of the vector is constrained.
+
+2. __What makes a good parametrization?__ The foremost requirement of a good parametrization is that it be singularity-free, at least in the areas that are visited during the course of an iterative optimization. This means that the parametrization should be locally continuous, differentiable and one-to-one - in short a diffeomorphism.
 
 #### A6.9.1 Parametrization of 3D rotations
 
