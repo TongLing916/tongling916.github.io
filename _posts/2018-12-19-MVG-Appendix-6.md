@@ -27,17 +27,30 @@ Important reductions of computation complexity are obtained by dividing the set 
   - __Gauss-Newton.__ Update equation: $$\epsilon _ P ^T \epsilon _ P \Delta = - \epsilon _ {P}^T \epsilon$$. This is equivalent to Newton iteration in which the Hessian is approximated by $$\epsilon _ P ^T \epsilon _ P$$. Generally, this is a good approximation, particularly close to a minimum, or when $$\epsilon$$ is nearly linear in $$P$$.
   - __Gradient descent.__ Update equation: $$\lambda \Delta = - \epsilon _ {P}^T \epsilon = -g_ P$$. The Hessian in Newton iteration is replaced by a multiple of the identity matrix. Each update is in the direction of most rapid local decrease of the function value. The value of $$\lambda$$ may be chosen adaptively, or by a line search in the downward gradient direction. Generally, gradient descent by itself is not recommended, but in conjunction with Gauss-Newton, it yields the commonly used Levenberg-Marquardt method.
 
-3. 
-
 ### A6.2 Levenberg-Marquardt iteration
+
+1. The Levenberg-Marquardt iteration method is a slight variation on the Gauss-Newton iteration method. The normal equations $$J^TJ\Delta = -J^T \epsilon $$ are replaced by the _augmented normal equations_ $$(J^TJ + \lambda I)\Delta = -J^T \epsilon $$, for some value of $$\lambda$$ that varies from iteration to iteration. A typical initial value of $$\lambda$$ is $$10^{-3}$$ times the average of the diagonal elements of $$N=J^TJ$$.
+
+2. The LM algorithm moves seamlessly between Gauss-Newton iteration, which will cause rapid convergence in the neighbourhood of the solution, and a gradient descent approach, which will guarantee a decrease in the cost function when the going is difficult.
 
 ### A6.3 A sparse Levenberg-Marquardt algorithm
 
 #### A6.3.1 Partitioning the parameters in the LM method
 
+1. __Algorithm A6.1.__ A partitioned Levenberg-Marquardt algorithm.
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-algorithm-A6.1.JPG)
+
 #### A6.3.2 Covariance
 
+1. __Algorithm A6.2.__ Computation of the covariance matrix of the LM parameters.
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-algorithm-A6.2.JPG)
+
 #### A6.3.3 General sparse LM method
+
+1. __Algorithm A6.3.__ A sparse Levenberg-Marquardt algorithm.
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-algorithm-A6.3.JPG)
+
+2. The important observation is that in this form, each step of the algorithm requires computation time linear in $$n$$. Without the advantage resulting from the sparse structure, the algorithm would have complexity of order $$n^3$$.
 
 ### A6.4 Application of sparse LM to 2D homography estimation
 
