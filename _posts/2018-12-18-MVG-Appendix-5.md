@@ -29,7 +29,7 @@ D^{-1}_{ii} \quad otherwise.
 
 3. __Result A5.1.__ The least-squares solution to an $$m \times n$$ system of equations $$Ax=b$$ of rank $$n$$ is given by $$x=A^+ b$$. In the case of a deficient-rank system, $$x=A^+ b$$ is the solution that minimizes $$\left \| x \right \|$$.
 
-4. Define the null space $$N_L X=\left \{ x^T | x^TX=0 \right \}$$.
+4. Define the null space $$N_L X=\left \{ x^T \| x^TX=0 \right \}$$.
 
 5. __Result 5.2.__ Let $$A$$ be a symmetric matrix, then $$A^{+X} \stackrel{def}{=} X(X^TAX)^{-1}X^T=A^+$$ if and only if N_L(X)=N_L(A).
 ^{-1}A^T$$.
