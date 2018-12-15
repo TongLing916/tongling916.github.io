@@ -39,7 +39,7 @@ D^{-1}_{ii} \quad otherwise.
 1. __Algorithm A5.3.__ Linear least-squares using the normal equations
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-algorithm-A5.3.JPG)
 
-2. __Result 5.3.__ If $$A$$ is an $$m \time n$$ matrix of rank $$n$$, then $$A^+ = (A^TA)
+2. __Result 5.3.__ If $$A$$ is an $$m \times n$$ matrix of rank $$n$$, then $$A^+ = (A^TA)
 
 3. __Weighted linear least-squares problems.__ One desires to solve a weighted least-squares problem of the form $$Ax-b=0$$ by minimizing the $$C$$-norm $$\left \| Ax-b \right \|_ C$$ of the error. One can obtain the weighted normal equations: $$(A^TCA)x=A^TCb \quad \quad (A5.3)$$.
 
