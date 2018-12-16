@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Appendix 2: Gaussian (Normal) and Chi Distributions"
-date:       2018-12-16
+date:       2018-12-17
 author:     Tong
 catalog: true
 tags:
