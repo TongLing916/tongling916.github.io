@@ -60,7 +60,7 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 
 #### [Summit Dataset][dataset-summit]
 {% highlight bash %}
-./Examples/Monocular/mono_summit Vocabulary/ORBvoc.txt Examples/Monocular/SUMMIT.yaml /home/tong/Datasets/summit/2018_12_03/axis_camera/
+./Examples/Monocular/mono_summit Vocabulary/ORBvoc.txt Examples/Monocular/SUMMIT.yaml /home/tong/Datasets/summit/2018_12_03/axis_camera/mono/
 {% endhighlight %}
 
 ### DSO
