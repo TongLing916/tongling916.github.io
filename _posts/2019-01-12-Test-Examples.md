@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Test Examples"
-date:       2018-12-08
+date:       2019-1-12
 author:     Tong
 catalog: true
 tags:
@@ -61,6 +61,11 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 #### [Summit Dataset][dataset-summit]
 {% highlight bash %}
 ./Examples/Monocular/mono_summit Vocabulary/ORBvoc.txt Examples/Monocular/SUMMIT.yaml /home/tong/Datasets/summit/2018_12_03/axis_camera/mono/
+{% endhighlight %}
+
+#### Blender Dataset
+{% highlight bash %}
+./Examples/Monocular/mono_blender Vocabulary/ORBvoc.txt /home/tong/Datasets/blender/Test_path/gopro3_black.yaml /home/tong/Datasets/blender/Test_path/
 {% endhighlight %}
 
 ### DSO
