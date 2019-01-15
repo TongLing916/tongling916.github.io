@@ -118,19 +118,19 @@ mode=0
 
 #### playbackDataset: read images, photometric undistortion & rectification
 {% highlight bash %}
-cd ~/Desktop/LearningSLAM/test_dataset/calib_narrowGamma_sweep1
+cd ~/Desktop/LearningSLAM/test_dataset/sequence_01
 ../../../../Applications/mono_dataset_code/build/bin/playDataset ./
 {% endhighlight %}
 
 #### responseCalib: calibrate response function
 {% highlight bash %}
-cd ~/Desktop/LearningSLAM/test_dataset/calib_narrow_vignette
+cd ~/Desktop/LearningSLAM/test_dataset/calib_narrowGamma_sweep1
 ../../../../Applications/mono_dataset_code/build/bin/responseCalib ./
 {% endhighlight %}
 
 #### vignetteCalib: calibrate vignette
 {% highlight bash %}
-cd ~/Desktop/LearningSLAM/test_dataset/kitti_00
+cd ~/Desktop/LearningSLAM/test_dataset/calib_narrow_vignette
 ../../../../Applications/mono_dataset_code/build/bin/vignetteCalib ./
 {% endhighlight %}
 
