@@ -65,7 +65,7 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 
 #### Blender Dataset
 {% highlight bash %}
-./Examples/Monocular/mono_blender Vocabulary/ORBvoc.txt /home/tong/Datasets/blender/translation_and_rotation/gopro3_black.yaml /home/tong/Datasets/blender/translation_and_rotation/
+./Examples/Monocular/mono_blender Vocabulary/ORBvoc.txt /home/tong/Datasets/blender/scene_city/translation_and_rotation/gopro3_black.yaml /home/tong/Datasets/blender/scene_city/translation_and_rotation/
 {% endhighlight %}
 
 ### DSO
@@ -111,7 +111,7 @@ mode=0
 
 #### Blender Dataset
 {% highlight bash %}
-./bin/run_dso_blender preset=0 files=/home/tong/Datasets/blender/translation_and_rotation_opengl/ calib=/home/tong/Datasets/blender/translation_and_rotation_opengl/ldso_gopro3_black.txt setting_pointSelection=1
+./bin/run_dso_blender preset=0 calib=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/ldso_gopro3_black.txt files=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/ setting_pointSelection=1
 {% endhighlight %}
 
 ### [Code for Monocular Visual Odometry Dataset][github-tum-mono]
