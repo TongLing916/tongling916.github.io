@@ -111,7 +111,7 @@ mode=0
 
 #### Blender Dataset
 {% highlight bash %}
-./bin/run_dso_blender preset=0 calib=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/ldso_gopro3_black.txt files=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/ setting_pointSelection=1
+./bin/run_dso_blender preset=0 calib=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/ldso_gopro3_black.txt files=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/
 {% endhighlight %}
 
 ### [Code for Monocular Visual Odometry Dataset][github-tum-mono]
