@@ -109,6 +109,11 @@ mode=0
 ./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Summit/axis_camera.txt setting_pointSelection=1
 {% endhighlight %}
 
+#### Blender Dataset
+{% highlight bash %}
+./bin/run_dso_blender preset=0 files=/home/tong/Datasets/blender/translation_and_rotation_opengl/ calib=/home/tong/Datasets/blender/translation_and_rotation_opengl/ldso_gopro3_black.txt setting_pointSelection=1
+{% endhighlight %}
+
 ### [Code for Monocular Visual Odometry Dataset][github-tum-mono]
 
 #### playbackDataset: read images, photometric undistortion & rectification
