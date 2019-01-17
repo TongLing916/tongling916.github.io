@@ -68,6 +68,11 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 ./Examples/Monocular/mono_blender Vocabulary/ORBvoc.txt /home/tong/Datasets/blender/scene_city/translation_and_rotation/gopro3_black.yaml /home/tong/Datasets/blender/scene_city/translation_and_rotation/
 {% endhighlight %}
 
+#### ORB detector
+{% highlight bash %}
+./Tools/orb_detector /home/tong/Datasets/blender/feature_number/translation_v1_cube/0001.png
+{% endhighlight %}
+
 ### DSO
 
 > cd /home/tong/Applications/dso/build
@@ -114,10 +119,6 @@ mode=0
 ./bin/run_dso_blender preset=0 calib=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/ldso_gopro3_black.txt files=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/
 {% endhighlight %}
 
-#### ORB detector
-{% highlight bash %}
-./Tools/orb_detector /home/tong/Datasets/blender/simple/translation_forward_v5/0049.png
-{% endhighlight %}
 
 ### [Code for Monocular Visual Odometry Dataset][github-tum-mono]
 
