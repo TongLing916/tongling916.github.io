@@ -114,6 +114,11 @@ mode=0
 ./bin/run_dso_blender preset=0 calib=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/ldso_gopro3_black.txt files=/home/tong/Datasets/blender/scene_city/translation_and_rotation_opengl/
 {% endhighlight %}
 
+#### ORB detector
+{% highlight bash %}
+./Tools/orb_detector /home/tong/Datasets/blender/simple/translation_forward_v5/0049.png
+{% endhighlight %}
+
 ### [Code for Monocular Visual Odometry Dataset][github-tum-mono]
 
 #### playbackDataset: read images, photometric undistortion & rectification
