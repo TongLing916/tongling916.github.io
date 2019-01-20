@@ -165,6 +165,8 @@ evo_traj tum KeyFrameTrajectory_fix_bug1.txt KeyFrameTrajectory_no_fix_bug1.txt 
 python evaluate_ate_scale.py /home/tong/Datasets/tum/rgbd/Testing\ and\ Debugging/rgbd_dataset_freiburg1_xyz/groundtruth.txt /home/tong/Desktop/LearningSLAM/test_trajectory/tum/rgbd/KeyFrameTrajectory.txt --verbose --save aligned_trajectory.txt --plot comparison_trajectories.png
 
 python evaluate_ate.py /home/tong/Datasets/tum/rgbd/Testing\ and\ Debugging/rgbd_dataset_freiburg1_xyz/groundtruth.txt /home/tong/Desktop/LearningSLAM/test_trajectory/tum/rgbd/KeyFrameTrajectory.txt --verbose --save aligned_trajectory.txt --plot comparison_trajectories.png
+
+python Desktop/LearningSLAM/error_plotter/evaluate_ate_scale.py Desktop/ground_truth.txt Desktop/FrameTrajectory_2019-01-20_17-47-42.txt --plot Desktop/test.png
 {% endhighlight %}
 
 [dataset-tum-rgbd]: https://vision.in.tum.de/data/datasets/rgbd-dataset/download
