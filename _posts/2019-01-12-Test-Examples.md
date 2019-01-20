@@ -65,7 +65,7 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 
 #### Blender Dataset
 {% highlight bash %}
-./Examples/Monocular/mono_blender Vocabulary/ORBvoc.txt /home/tong/Datasets/blender/scene_city/translation_and_rotation/gopro3_black.yaml /home/tong/Datasets/blender/scene_city/translation_and_rotation/
+./Examples/Monocular/mono_blender Vocabulary/ORBvoc.txt /home/tong/Desktop/camera_calibration/gopro3_black_ideal.yaml /home/tong/Datasets/blender/feature_number/translation_v3_tree/
 {% endhighlight %}
 
 #### ORB detector
