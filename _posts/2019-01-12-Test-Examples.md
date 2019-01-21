@@ -96,22 +96,22 @@ mode=0
 
 #### [TUM MonoVO Dataset][dataset-tum-mono]
 {% highlight bash %}
-./bin/run_dso_tum_mono preset=0 files=/home/tong/Datasets/tum/mono/sequence_34/images.zip vignette=/home/tong/Datasets/tum/mono/sequence_34/vignette.png calib=/home/tong/Datasets/tum/mono/sequence_34/camera.txt gamma=/home/tong/Datasets/tum/mono/sequence_34/pcalib.txt setting_pointSelection=1
+./bin/run_dso_tum_mono preset=0 files=/home/tong/Datasets/tum/mono/sequence_34/images.zip vignette=/home/tong/Datasets/tum/mono/sequence_34/vignette.png calib=/home/tong/Datasets/tum/mono/sequence_34/camera.txt gamma=/home/tong/Datasets/tum/mono/sequence_34/pcalib.txt 
 {% endhighlight %}
 
 #### [KITTI Dataset][dataset-kitti]
 {% highlight bash %}
-./bin/run_dso_kitti preset=0 files=/home/tong/Datasets/kitti/sequences/00/ calib=./examples/Kitti/Kitti00-02.txt setting_pointSelection=1
+./bin/run_dso_kitti preset=0 files=/home/tong/Datasets/kitti/sequences/00/ calib=./examples/Kitti/Kitti00-02.txt
 {% endhighlight %}
 
 #### [EuRoC Dataset][dataset-euroc]
 {% highlight bash %}
-./bin/run_dso_euroc preset=0 files=/home/tong/Datasets/euroc/MH_01_easy/mav0/cam0/ setting_pointSelection=1
+./bin/run_dso_euroc preset=0 files=/home/tong/Datasets/euroc/MH_01_easy/mav0/cam0/
 {% endhighlight %}
 
 #### [Summit Dataset][dataset-summit]
 {% highlight bash %}
-./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Summit/axis_camera.txt setting_pointSelection=1
+./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Summit/axis_camera.txt
 {% endhighlight %}
 
 #### Blender Dataset
