@@ -230,7 +230,9 @@ public:
 				if (grid[i][j] == '1')
 				{
 					++cnt;				  // if not explored, we must find a new island
+
 					explore(grid, i, j);  // set all explored (connected) cells to '2'
+          
 				}
 
 		return cnt;
