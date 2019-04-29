@@ -12,7 +12,16 @@ tags:
 
 ### Summary
 
-1.
+1. What is a connection?
+
+2. Who connects whom?
+
+3. From where to start? (given coordinates? one by one? border?)
+
+4. When stop exploring?
+
+5. Maybe set to another value (tag) for the moment? Modify all of them at last according to the tag?
+
 
 ### [Leetcode 130. Surrounded Regions](https://leetcode.com/problems/surrounded-regions/)
 
