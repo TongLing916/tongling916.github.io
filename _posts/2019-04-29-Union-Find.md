@@ -73,7 +73,7 @@ If we use the second way,
 Based on the above discussion, we decide to use the second way.
 
 #### Solution
-```C++
+```cpp
 #include <iostream>
 #include <vector>
 using namespace std;
