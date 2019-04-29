@@ -365,3 +365,205 @@ int main()
 	cout << solution.maxAreaOfIsland(grid) << endl;
 }
 ```
+
+### [Leetcode 463. Island Perimeter](https://leetcode.com/problems/island-perimeter/)
+
+#### Question
+
+You are given a map in form of a two-dimensional integer grid where `1` represents land and `0` represents water.
+
+Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells).
+
+The island doesn't have "lakes" (water inside that isn't connected to the water around the island). One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
+
+__Example 1:__
+```
+Input:
+[[0,1,0,0],
+ [1,1,1,0],
+ [0,1,0,0],
+ [1,1,0,0]]
+
+Output: 16
+```
+
+#### Train of Thought
+
+This question is a little different from previous ones. We are only concerned about the perimeter of the island. At the same time, we need to be careful about _how many one cell contributes to the perimeter_. There are five situations depending on `1`'s neighbors:
+1. 0 neighbors --> That means that this cell is exactly our whole island. Perimeter is then 4.
+2. 1 neighbor --> The cell contributes 3.  
+3. 2 neighbors --> The cell contributes 2.
+4. 3 neighbors --> The cell contributes 1.
+5. 4 neighbors --> The cell contributes 0.
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+	void searchNeighbors(int& perimeter, vector<vector<int>>& grid, int i, int j)
+	{
+		int row = grid.size();
+		int col = grid[0].size();
+
+		if (i < 0 || i >= row || j < 0 || j >= col || grid[i][j] != 1)
+			return;
+
+		--perimeter;
+	}
+
+	int islandPerimeter(vector<vector<int>> & grid) {
+		int row = grid.size();
+		if (row == 0)
+			return 0;
+		int col = grid[0].size();
+		if (col == 0)
+			return 0;
+
+		int perimeter = 0;
+		for (int i = 0; i < row; ++i)
+			for (int j = 0; j < col; ++j)
+				if (grid[i][j] == 1)
+				{
+					perimeter += 4;
+					searchNeighbors(perimeter, grid, i - 1, j);
+					searchNeighbors(perimeter, grid, i + 1, j);
+					searchNeighbors(perimeter, grid, i, j - 1);
+					searchNeighbors(perimeter, grid, i, j + 1);
+				}
+		return perimeter;
+	}
+};
+
+int main()
+{
+	int row, col;
+	cin >> row >> col;
+	vector<vector<int>> grid(row, vector<int>(col));
+	int tmp;
+	for (int i = 0; i < row; ++i)
+	{
+		for (int j = 0; j < col; ++j)
+		{
+			cin >> tmp;
+			grid[i][j] = tmp;
+		}
+	}
+	Solution solution;
+	cout << endl << endl << endl;
+	cout << solution.islandPerimeter(grid) << endl;
+}
+```
+
+### [Leetcode 733. Flood Fill](https://leetcode.com/problems/flood-fill/)
+
+#### Question
+
+An `image` is represented by a 2-D array of integers, each integer representing the pixel value of the image (from 0 to 65535).
+
+Given a coordinate `(sr, sc)` representing the starting pixel (row and column) of the flood fill, and a pixel value `newColor`, "flood fill" the image.
+
+To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. Replace the color of all of the aforementioned pixels with the newColor.
+
+At the end, return the modified image.
+
+__Example 1:__
+```
+Input:
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+
+Explanation:
+From the center of the image (with position (sr, sc) = (1, 1)), all pixels connected
+by a path of the same color as the starting pixel are colored with the new color.
+Note the bottom corner is not colored 2, because it is not 4-directionally connected
+to the starting pixel.
+```
+
+__Note:__
+The length of `image` and `image[0]` will be in the range `[1, 50]`.
+The given starting pixel will satisfy `0 <= sr < image.length` and `0 <= sc < image[0].length`.
+The value of each color in `image[i][j]` and `newColor` will be an integer in `[0, 65535]`.
+
+#### Train of Thought
+
+__ATTENTION:__ Think about the critial situations. In this question, what if the newColor is the same as the color of the starting pixel? A less careful implementation will lead to a heap/stack overflow.
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+	void modifyImage(const int& startColor, vector<vector<int>>& image, int sr, int sc, int newColor)
+	{
+		int row = image.size();
+		int col = image[0].size();
+
+		if (sr < 0 || sr >= row || sc < 0 || sc >= col || image[sr][sc] != startColor || image[sr][sc] == newColor)
+			return;
+
+		image[sr][sc] = newColor;
+		modifyImage(startColor, image, sr - 1, sc, newColor);
+		modifyImage(startColor, image, sr + 1, sc, newColor);
+		modifyImage(startColor, image, sr, sc - 1, newColor);
+		modifyImage(startColor, image, sr, sc + 1, newColor);
+	}
+
+	vector<vector<int>> floodFill(vector<vector<int>> & image, int sr, int sc, int newColor) {
+		int row = image.size();
+		if (row == 0)
+			return image;
+		int col = image[0].size();
+		if (col == 0)
+			return image;
+
+		const int startColor = image[sr][sc];
+		modifyImage(startColor, image, sr, sc, newColor);
+
+		return image;
+	}
+};
+
+int main()
+{
+	int row, col;
+	cin >> row >> col;
+	vector<vector<int>> image(row, vector<int>(col));
+	int tmp;
+	for (int i = 0; i < row; ++i)
+	{
+		for (int j = 0; j < col; ++j)
+		{
+			cin >> tmp;
+			image[i][j] = tmp;
+		}
+	}
+	int sr, sc, newColor;
+	cin >> sr >> sc >> newColor;
+	Solution solution;
+	image = solution.floodFill(image, sr, sc, newColor);
+	cout << endl << endl << endl;
+	for (int i = 0; i < row; ++i)
+	{
+		for (int j = 0; j < col-1; ++j)
+			cout << image[i][j] << " ";
+		cout << image[i][col-1] << endl;
+	}
+}
+```
