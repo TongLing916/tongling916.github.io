@@ -489,14 +489,14 @@ Note the bottom corner is not colored 2, because it is not 4-directionally conne
 to the starting pixel.
 ```
 
-__Note:__
-The length of `image` and `image[0]` will be in the range `[1, 50]`.
-The given starting pixel will satisfy `0 <= sr < image.length` and `0 <= sc < image[0].length`.
-The value of each color in `image[i][j]` and `newColor` will be an integer in `[0, 65535]`.
+__Note:__ <br>
+The length of `image` and `image[0]` will be in the range `[1, 50]`. <br>
+The given starting pixel will satisfy `0 <= sr < image.length` and `0 <= sc < image[0].length`. <br>
+The value of each color in `image[i][j]` and `newColor` will be an integer in `[0, 65535]`.<br>
 
 #### Train of Thought
 
-__ATTENTION:__ Think about the critial situations. In this question, what if the newColor is the same as the color of the starting pixel? A less careful implementation will lead to a heap/stack overflow.
+__ATTENTION:__ Think about the __critical__ situations. In this question, what if the `newColor` is the same as the color of the starting pixel? A less careful implementation will lead to a heap/stack overflow.
 
 #### Solution
 ```cpp
@@ -564,6 +564,139 @@ int main()
 		for (int j = 0; j < col-1; ++j)
 			cout << image[i][j] << " ";
 		cout << image[i][col-1] << endl;
+	}
+}
+```
+
+### [Leetcode 733. Flood Fill](https://leetcode.com/problems/flood-fill/)
+
+#### Question
+
+Given a 2-dimensional `grid` of integers, each value in the grid represents the color of the grid square at that location.
+
+Two squares belong to the same _connected component_ if and only if they have the same color and are next to each other in any of the 4 directions.
+
+The _border_ of a connected component is all the squares in the connected component that are either 4-directionally adjacent to a square not in the component, or on the boundary of the grid (the first or last row or column).
+
+Given a square at location `(r0, c0)` in the grid and a `color`, color the border of the connected component of that square with the given `color`, and return the final `grid`.
+
+__Example 1:__
+```
+Input: grid = [[1,1],[1,2]], r0 = 0, c0 = 0, color = 3
+Output: [[3, 3], [3, 2]]
+```
+
+__Example 2:__
+```
+Input: grid = [[1,2,2],[2,3,2]], r0 = 0, c0 = 1, color = 3
+Output: [[1, 3, 3], [2, 3, 3]]
+```
+
+__Example 3:__
+```
+Input: grid = [[1,1,1],[1,1,1],[1,1,1]], r0 = 1, c0 = 1, color = 2
+Output: [[2, 2, 2], [2, 1, 2], [2, 2, 2]]
+```
+
+__Note:__ <br>
+1. `1 <= grid.length <= 50`
+2. `1 <= grid[0].length <= 50`
+3. `1 <= grid[i][j] <= 1000`
+4. `0 <= r0 < grid.length`
+5. `0 <= c0 < grid[0].length`
+6. `1 <= color <= 1000`
+
+#### Train of Thought
+
+__ATTENTION:__ Tagging is sometimes a good solution to play around the critical cases (infinite loops). Tag border and non-border with different values.
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+using namespace std;
+
+static const auto _ = []() {
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+	return nullptr;
+}();
+
+class Solution {
+public:
+	void colorGrid(int startColor, vector<vector<int>>& grid, int r, int c, int color)
+	{
+		int row = grid.size();
+		int col = grid[0].size();
+
+		if (r < 0 || r >= row || c < 0 || c >= col || grid[r][c] != startColor)
+			return;
+
+		if (r == 0 || r == row - 1 || c == 0 || c == col - 1 || (grid[r][c - 1] != startColor && grid[r][c - 1] < 1001) || (grid[r][c + 1] != startColor && grid[r][c + 1] < 1001) || (grid[r - 1][c] != startColor && grid[r - 1][c] < 1001) || (grid[r + 1][c] != startColor && grid[r + 1][c] < 1001))
+			grid[r][c] = 1001;
+		else
+			grid[r][c] = 1002;
+		colorGrid(startColor, grid, r - 1, c, color);
+		colorGrid(startColor, grid, r + 1, c, color);
+		colorGrid(startColor, grid, r, c - 1, color);
+		colorGrid(startColor, grid, r, c + 1, color);
+	}
+
+	vector<vector<int>> colorBorder(vector<vector<int>> & grid, int r0, int c0, int color) {
+		int row = grid.size();
+		if (row == 0)
+			return grid;
+		int col = grid[0].size();
+		if (col == 0)
+			return grid;
+		int startColor = grid[r0][c0];
+		if (startColor == color)
+			return grid;
+
+		colorGrid(startColor, grid, r0, c0, color);
+
+		for (int i = 0; i < row; ++i)
+			for (int j = 0; j < col; ++j)
+			{
+				if (grid[i][j] == 1001)
+					grid[i][j] = color;
+				else if (grid[i][j] == 1002)
+					grid[i][j] = startColor;
+			}
+
+		return grid;
+	}
+};
+
+int main()
+{
+	int row, col;
+	cin >> row >> col;
+	vector<vector<int>> image(row, vector<int>(col));
+	int tmp;
+	for (int i = 0; i < row; ++i)
+	{
+		for (int j = 0; j < col; ++j)
+		{
+			cin >> tmp;
+			image[i][j] = tmp;
+		}
+	}
+	int sr, sc, newColor;
+	cin >> sr >> sc >> newColor;
+	Solution solution;
+	image = solution.colorBorder(image, sr, sc, newColor);
+	cout << endl << endl << endl;
+	for (int i = 0; i < row; ++i)
+	{
+		for (int j = 0; j < col - 1; ++j)
+			cout << image[i][j] << " ";
+		cout << image[i][col - 1] << endl;
 	}
 }
 ```
