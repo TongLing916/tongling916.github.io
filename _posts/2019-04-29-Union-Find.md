@@ -159,3 +159,100 @@ int main()
 	}
 }
 ```
+
+
+### [Leetcode 200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
+
+#### Question
+
+Given a 2d grid map of `'1'`s (land) and `'0'`s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+__Example 1:__
+```
+Input:
+11110
+11010
+11000
+00000
+
+Output: 1
+```
+
+__Example 2:__
+```
+Input:
+11000
+11000
+00100
+00011
+
+Output: 3
+```
+
+#### Train of Thought
+
+The same idea as before. However, this time, instead of starting from borders, we can traverse as usual. Just __REMEMBER__: tag the visited area.
+
+#### Solution
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+	void explore(vector<vector<char>>& grid, int i, int j)
+	{
+		int row = grid.size();
+		int col = grid[0].size();
+		if (i < 0 || i >= row || j < 0 || j >= col || grid[i][j] != '1')
+			return;
+
+		grid[i][j] = '2';
+		explore(grid, i - 1, j);
+		explore(grid, i + 1, j);
+		explore(grid, i, j - 1);
+		explore(grid, i, j + 1);
+	}
+
+	int numIslands(vector<vector<char>> & grid) {
+		int row = grid.size();
+		if (row == 0)
+			return 0;
+		int col = grid[0].size();
+		if (col == 0)
+			return 0;
+
+		int cnt = 0;
+		for (int i = 0; i < row; ++i)
+			for (int j = 0; j < col; ++j)
+				if (grid[i][j] == '1')
+				{
+					++cnt;				  // if not explored, we must find a new island
+					explore(grid, i, j);  // set all explored (connected) cells to '2'
+				}
+
+		return cnt;
+	}
+};
+
+int main()
+{
+	int row, col;
+	cin >> row >> col;
+	vector<vector<char>> grid(row, vector<char>(col));
+	char tmp;
+	for (int i = 0; i < row; ++i)
+	{
+		for (int j = 0; j < col; ++j)
+		{
+			cin >> tmp;
+			grid[i][j] = tmp;
+		}
+	}
+	Solution solution;
+	cout << endl << endl << endl;
+	cout << solution.numIslands(grid) << endl;
+}
+```
