@@ -86,13 +86,16 @@ static int desyncio = []() {
 class Solution {
 public:
 	// convert the unsurrounded cells to 'U'
+
 	void updateBoard(vector<vector<char>>& board, int r, int c)
 	{
 		if (r < 0 || c < 0 || r >= board.size() || c >= board[0].size() || board[r][c] != 'O')
 			return;
 
 		board[r][c] = 'U';
+
 		// continue to explore its neighbors
+
 		updateBoard(board, r - 1, c);
 		updateBoard(board, r + 1, c);
 		updateBoard(board, r, c - 1);
@@ -107,7 +110,9 @@ public:
 			return;
 
 		// Start from the 'O's on the first/last row, first/last column
+
 		// Flip the unsurrounded 'O' to 'U'
+
 		for (int i = 0; i < col; ++i)
 		{
 			updateBoard(board, 0, i);
@@ -123,6 +128,7 @@ public:
 			}
 
 		// Flip the remaining 'O' to 'X', and 'U' to 'O'
+
 		for (int i = 0; i < row; ++i)
 			for (int j = 0; j < col; ++j)
 				board[i][j] = board[i][j] == 'U' ? 'O' : 'X';
