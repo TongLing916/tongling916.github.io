@@ -75,14 +75,18 @@ Based on the above discussion, we decide to use the second way.
 #### Solution
 ```cpp
 #include <iostream>
+
 #include <vector>
+
 using namespace std;
+
 static int desyncio = []() {
 	std::ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 	return 0;
 }();
+
 class Solution {
 public:
 	// convert the unsurrounded cells to 'U'
@@ -196,6 +200,7 @@ The same idea as before. However, this time, instead of starting from borders, w
 #### Solution
 ```cpp
 #include <iostream>
+
 #include <vector>
 
 using namespace std;
@@ -232,7 +237,7 @@ public:
 					++cnt;				  // if not explored, we must find a new island
 
 					explore(grid, i, j);  // set all explored (connected) cells to '2'
-          
+
 				}
 
 		return cnt;
@@ -256,5 +261,107 @@ int main()
 	Solution solution;
 	cout << endl << endl << endl;
 	cout << solution.numIslands(grid) << endl;
+}
+```
+
+### [Leetcode 695. Max Area of Island](https://leetcode.com/problems/max-area-of-island/)
+
+#### Question
+
+Given a non-empty 2D array grid of `0`'s and `1`'s, an island is a group of `1`'s (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
+
+Find the maximum area of an island in the given 2D array. (If there is no island, the maximum area is 0.)
+
+__Example 1:__
+```
+[[0,0,1,0,0,0,0,1,0,0,0,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,1,1,0,1,0,0,0,0,0,0,0,0],
+ [0,1,0,0,1,1,0,0,1,0,1,0,0],
+ [0,1,0,0,1,1,0,0,1,1,1,0,0],
+ [0,0,0,0,0,0,0,0,0,0,1,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+```
+
+Given the above grid, return `6`. Note the answer is not `11`, because the island must be connected 4-directionally.
+
+__Example 2:__
+```
+[[0,0,0,0,0,0,0,0]]
+```
+Given the above grid, return `0`.
+
+__Note:__ The length of each dimension in the given grid does not exceed 50.
+#### Train of Thought
+
+The same idea as before. Just __REMEMBER__: tag the visited area.
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+	void searchArea(int& curArea, vector<vector<int>>& grid, int i, int j)
+	{
+		int row = grid.size();
+		int col = grid[0].size();
+
+		if (i < 0 || i >= row || j < 0 || j >= col || grid[i][j] != 1)
+			return;
+
+		++curArea;
+		grid[i][j] = 2;
+		searchArea(curArea, grid, i - 1, j);
+		searchArea(curArea, grid, i + 1, j);
+		searchArea(curArea, grid, i, j - 1);
+		searchArea(curArea, grid, i, j + 1);
+	}
+	int maxAreaOfIsland(vector<vector<int>> & grid) {
+		int row = grid.size();
+		if (row == 0)
+			return 0;
+		int col = grid[0].size();
+		if (col == 0)
+			return 0;
+
+		int maxArea = 0;
+		int curArea = 0;
+		for (int i = 0; i < row; ++i)
+			for (int j = 0; j < col; ++j)
+			{
+				curArea = 0;
+				searchArea(curArea, grid, i, j);
+				maxArea = max(maxArea, curArea);
+			}
+
+		return maxArea;
+	}
+};
+
+int main()
+{
+	int row, col;
+	cin >> row >> col;
+	vector<vector<int>> grid(row, vector<int>(col));
+	int tmp;
+	for (int i = 0; i < row; ++i)
+	{
+		for (int j = 0; j < col; ++j)
+		{
+			cin >> tmp;
+			grid[i][j] = tmp;
+		}
+	}
+	Solution solution;
+	cout << endl << endl << endl;
+	cout << solution.maxAreaOfIsland(grid) << endl;
 }
 ```
