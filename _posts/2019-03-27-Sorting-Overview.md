@@ -1,11 +1,11 @@
 ---
 layout:     post
-title:      "Sorting"
+title:      "Sorting Overview"
 date:       2019-3-27
 author:     Tong
 catalog: true
 tags:
-    - Algorithm
+    - Sorting
 ---
 
 ### Summary
