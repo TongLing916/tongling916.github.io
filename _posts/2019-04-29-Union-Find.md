@@ -34,7 +34,7 @@ Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefor
 
 To count the consecutive elements, it is best to find the first one of that sequence (or we can also [extend](https://leetcode.com/problems/longest-consecutive-sequence/discuss/41088/Possibly-shortest-cpp-solution-only-6-lines.) it?) Then the question is, how to find the first one? and then how to find the following ones?
 
-The first idea is usually sorting the array at first, then try to traverse all numbers (Read Solution 1). However, the time complexity will depend on the time of sorting, which is usually not `O(n)`. Therefore, we need to find another way.
+The first idea is usually sorting the array at first, then try to traverse all numbers (Read `longestConsecutive_sort`). However, the time complexity will depend on the time of sorting, which is usually not `O(n)`. Therefore, we need to find another way.
 
 To find a visited element in short time, we can consider using Hash. Then, to count a consecutive sequence, we need to find its start. E.g., for number `i`, By checking if `i-1` in our hash set, we can know if this is a start. If it is, count all the following elements. Using this method, we only access the whole vector twice, once for initializing hash set, the other for traversal.
 

@@ -1,11 +1,11 @@
 ---
 layout:     post
-title:      "Sorting Overview"
+title:      "Sort Overview"
 date:       2019-3-27
 author:     Tong
 catalog: true
 tags:
-    - Sorting
+    - Sort
 ---
 
 ### Summary
@@ -342,5 +342,3 @@ print(bh.delMin())
 ### [Timsort](https://hackernoon.com/timsort-the-fastest-sorting-algorithm-youve-never-heard-of-36b28417f399)
 
 1. https://en.wikipedia.org/wiki/Timsort
-
-### 真题
