@@ -70,10 +70,64 @@ You may assume k is always valid, 1 ≤ k ≤ array's length.
 
 #### Train of Thought
 
+We can use the quickSort method to find the expected element. It is necessary to be sure what the index of the <b>k</b>th largest element is. It should be `nums.size() - k`.
 
 #### Solution
 ```cpp
+#include <iostream>
 
+#include <vector>
+
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+	int findKthLargest(vector<int>& nums, int k) {
+		if (k > nums.size())
+			throw("k is too big");
+		random_shuffle(nums.begin(), nums.end());
+		return quickSelect(nums, 0, nums.size() - 1, nums.size() - k);
+	}
+
+	int quickSelect(vector<int>& nums, int lo, int hi, int k)
+	{
+		int i = lo, j = hi + 1;
+		int v = nums[lo];
+		if (hi <= lo)
+			return nums[lo];
+		while (1)
+		{
+			while (nums[++i] < v)
+				if (i == hi)
+					break;
+			while (nums[--j] > v)
+				if (j == lo)
+					break;
+			if (i >= j)
+				break;
+			swap(nums[i], nums[j]);
+		}
+		swap(nums[lo], nums[j]);
+		if (j == k)    
+			return nums[j];
+		else if (j < k)
+			return quickSelect(nums, j + 1, hi, k);
+		else
+			return quickSelect(nums, lo, j - 1, k);
+	}
+};
+
+int main()
+{
+	vector<int> test1{ 3,2,3,1,2,4,5,5,6 };
+	vector<int> test2{ 3,2,1,5,6,4 };
+	int k1 = 4;
+	int k2 = 2;
+	Solution solution;
+	cout << solution.findKthLargest(test2, k2) << endl;
+}
 ```
 
 ### [241. Different Ways to Add Parentheses](https://leetcode.com/problems/different-ways-to-add-parentheses/)
