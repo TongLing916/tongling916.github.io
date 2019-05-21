@@ -14,6 +14,179 @@ tags:
 
 2. Do we need to remember the visited elements? If yes, how? (set to another value?)
 
+3. Simple implementation of weighted union find
+
+```cpp
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+#include <string>
+
+#include <unordered_set>
+
+#include <unordered_map>
+
+using namespace std;
+
+// WeightedQuickUnionUF: standard implementation
+// RandomWeightedQuickUnionUF: Input: N - number of pairs, Pairs, Output: number of grounps
+
+class WeightedQuickUnionUF
+{
+private:
+	vector<int> parent;   // parent[i] = parent of i
+	vector<int> size;     // size[i] = number of sites in subtree rooted at i;
+	int count;
+	void validate(int p)
+	{
+		int n = parent.size();
+		if (p < 0 || p >= n)
+			throw to_string(p) + " is way too big!";
+	}
+
+public:
+	WeightedQuickUnionUF(int n) : count(n)
+	{
+		parent.reserve(n);
+		size.reserve(n);
+		for (int i = 0; i < n; ++i)
+		{
+			parent[i] = i;
+			size[i] = 1;
+		}
+	}
+
+	int getCount()
+	{
+		return count;
+	}
+
+	int find(int p)
+	{
+		validate(p);
+		while (p != parent[p])
+			p = parent[p];
+		return p;
+	}
+
+	bool connected(int p, int q)
+	{
+		return find(p) == find(q);
+	}
+
+	void unionTwo(int p, int q)
+	{
+		int rootP = find(p);
+		int rootQ = find(q);
+		if (rootP == rootQ) return;
+
+		// A potential imporvement is path compression
+		// That is, directly connect every node to its new root.
+
+		if (size[rootP] < size[rootQ])            
+		{
+			parent[rootP] = rootQ;
+			size[rootQ] += size[rootP];
+		}
+		else
+		{
+			parent[rootQ] = rootP;
+			size[rootP] += size[rootQ];
+		}
+		--count;
+	}
+};
+
+class RandomWeightedQuickUnionUF
+{
+private:
+	unordered_map<int, int> parent;   // parent[i] = parent of i
+	unordered_map<int, int> size;     // size[i] = number of sites in subtree rooted at i;
+	int count;
+	void validate(int p)
+	{
+		int n = parent.size();
+		if (p < 0 || p >= n)
+			throw to_string(p) + " is way too big!";
+	}
+
+public:
+	RandomWeightedQuickUnionUF(unordered_set<int>& nums)
+	{
+		count = nums.size();
+		for (auto& num : nums)
+		{
+			parent.insert({ num, num });
+			size.insert({ num, 1 });
+		}
+	}
+
+	int getCount()
+	{
+		return count;
+	}
+
+	int find(int p)
+	{
+		validate(p);
+		while (p != parent[p])
+			p = parent[p];
+		return p;
+	}
+
+	bool connected(int p, int q)
+	{
+		return find(p) == find(q);
+	}
+
+	void unionTwo(int p, int q)
+	{
+		int rootP = find(p);
+		int rootQ = find(q);
+		if (rootP == rootQ) return;
+
+		// A potential imporvement is path compression
+		// That is, directly connect every node to its new root.
+
+		if (size[rootP] < size[rootQ])
+		{
+			parent[rootP] = rootQ;
+			size[rootQ] += size[rootP];
+		}
+		else
+		{
+			parent[rootQ] = rootP;
+			size[rootP] += size[rootQ];
+		}
+		--count;
+	}
+};
+
+
+int main()
+{
+	unordered_set<int> uSet;
+	int N;        // number of input pairs
+	cin >> N;
+	vector<pair<int, int>> pairs;
+	int a, b;
+	for (int i = 0; i < N; ++i)
+	{
+		cin >> a >> b;
+		pairs.push_back({ a, b });
+		uSet.insert(a);
+		uSet.insert(b);
+	}
+	RandomWeightedQuickUnionUF uf(uSet);
+	for (int i = 0; i < N; ++i)
+		uf.unionTwo(pairs[i].first, pairs[i].second);
+	cout << uf.getCount() << endl;
+}
+```
+
 
 ### [128. Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/)
 
