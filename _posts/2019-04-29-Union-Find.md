@@ -104,7 +104,9 @@ class RandomWeightedQuickUnionUF
 {
 private:
 	unordered_map<int, int> parent;   // parent[i] = parent of i
+
 	unordered_map<int, int> size;     // size[i] = number of sites in subtree rooted at i;
+
 	int count;
 	void validate(int p)
 	{
@@ -149,6 +151,7 @@ public:
 		if (rootP == rootQ) return;
 
 		// A potential imporvement is path compression
+
 		// That is, directly connect every node to its new root.
 
 		if (size[rootP] < size[rootQ])
@@ -170,6 +173,7 @@ int main()
 {
 	unordered_set<int> uSet;
 	int N;        // number of input pairs
+  
 	cin >> N;
 	vector<pair<int, int>> pairs;
 	int a, b;
