@@ -158,9 +158,76 @@ Explanation:
 
 #### Train of Thought
 
+Every time we meet an operator, we split the string into two parts and compute the results from the two parts. Then, we use the operator to calculate the combination of the two results.
 
+Use `std::stoi(input)` to convert `(string) input` into an integer number.
+
+`std::stol()` to long.
+`std::stoll()` to long long.
+`std::stof()` and `std::stod()` to float and double.
 
 #### Solution
 ```cpp
+#include <iostream>
 
+#include <vector>
+
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::vector;
+using std::string;
+
+class Solution {
+public:
+	vector<int> diffWaysToCompute(string input)
+	{
+		vector<int> res;
+		for (size_t i = 0; i < input.size(); ++i)
+		{
+			if (input[i] < '0' || input[i] > '9')
+			{
+				vector<int> res1 = diffWaysToCompute(input.substr(0, i));
+				vector<int> res2 = diffWaysToCompute(input.substr(i + 1));
+
+				for (const auto& r1 : res1)
+				{
+					for (const auto& r2 : res2)
+					{
+						switch (input[i])
+						{
+						case '+':
+							res.emplace_back(r1 + r2);
+							break;
+						case '-':
+							res.emplace_back(r1 - r2);
+							break;
+						case '*':
+							res.emplace_back(r1 * r2);
+						}
+					}
+				}
+			}
+		}
+
+		if (res.empty())
+			res.emplace_back(std::stoi(input));
+
+		return res;
+	}
+};
+
+int main()
+{
+	string s1 = "2-1-1";
+	string s2 = "2*3-4*5";
+
+	Solution solution;
+	vector<int> res1 = solution.diffWaysToCompute(s1);
+	vector<int> res2 = solution.diffWaysToCompute(s2);
+	for (auto i : res1)
+		cout << i << " ";
+	cout << endl;
+}
 ```
