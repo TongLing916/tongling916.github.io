@@ -1,11 +1,11 @@
 ---
 layout:     post
-title:      "Sort"
-date:       2019-7-1
+title:      "Binary Search"
+date:       2019-7-7
 author:     Tong
 catalog: true
 tags:
-    - Sort
+    - Search
 ---
 
 ### Summary
