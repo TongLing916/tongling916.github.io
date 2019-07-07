@@ -24,12 +24,16 @@ Return the quotient after dividing dividend by divisor.
 The integer division should truncate toward zero.
 
 __Example 1:__
+```
 Input: dividend = 10, divisor = 3
 Output: 3
+```
 
 __Example 2:__
+```
 Input: dividend = 7, divisor = -3
 Output: -2
+```
 
 __Note:__
 Both dividend and divisor will be 32-bit signed integers.
@@ -121,12 +125,16 @@ You may assume no duplicate exists in the array.
 Your algorithm's runtime complexity must be in the order of O(log n).
 
 __Example 1:__
+```
 Input: nums = [4,5,6,7,0,1,2], target = 0
 Output: 4
+```
 
 __Example 2:__
+```
 Input: nums = [4,5,6,7,0,1,2], target = 3
 Output: -1
+```
 
 #### Train of Thought
 
@@ -247,12 +255,16 @@ Your algorithm's runtime complexity must be in the order of O(log n).
 If the target is not found in the array, return `[-1, -1]`.
 
 __Example 1:__
+```
 Input: nums = [5,7,7,8,8,10], target = 8
 Output: [3,4]
+```
 
 __Example 2:__
+```
 Input: nums = [5,7,7,8,8,10], target = 6
 Output: [-1,-1]
+```
 
 #### Train of Thought
 
@@ -394,21 +406,27 @@ int main()
 Implement pow(x, n), which calculates x raised to the power n($$x^n$$).
 
 __Example 1:__
+```
 Input: 2.00000, 10
 Output: 1024.00000
+```
 
 __Example 2:__
+```
 Input: 2.10000, 3
 Output: 9.26100
+```
 
 __Example 3:__
+```
 Input: 2.00000, -2
 Output: 0.25000
 Explanation: $$2^{-2} = 1/2^2 = 1/4 = 0.25$$
+```
 
 __Note:__
 - -100.0 < x < 100.0
-- n is a 32-bit signed integer, within the range [−2^{31}, 2^{31} − 1]
+- n is a 32-bit signed integer, within the range [$$−2^{31}$$, $$2^{31} − 1$$]
 
 #### Train of Thought
 
