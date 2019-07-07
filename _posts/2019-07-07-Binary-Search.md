@@ -458,7 +458,7 @@ public:
 			double tmp_res = x;
 			while ((i << 1) < n_l)
 			{
-				tmp_res *= tmp_res;
+				tmp_res * = tmp_res;
 				i <<= 1;
 			}
 			n_l -= i;
@@ -476,4 +476,106 @@ int main()
 	cout << solution.myPow(0.00001, 2147483647) << endl;   // bound case
 	cout << solution.myPow(1.00000, -2147483648) << endl;
 }
+```
+
+
+### [69. Sqrt(x)](https://leetcode.com/problems/sqrtx/)
+
+#### Question
+
+Implement `int sqrt(int x)`.
+
+Compute and return the square root of x, where x is guaranteed to be a non-negative integer.
+
+Since the return type is an integer, the decimal digits are truncated and only the integer part of the result is returned.
+
+__Example 1:__
+```
+Input: 4
+Output: 2
+```
+
+__Example 2:__
+```
+Input: 8
+Output: 2
+Explanation: The square root of 8 is 2.82842..., and since
+             the decimal part is truncated, 2 is returned.
+```
+
+#### Train of Thought
+
+Be careful about the stop condition when using binary search.
+
+You can also use [Newton method](https://blog.csdn.net/wumuzi520/article/details/7026808).
+
+
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <vector>
+
+#include <stdexcept>
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+class Solution1 {
+public:
+	int mySqrt(int x)
+	{
+		try {
+			if (x < 0)
+				throw std::invalid_argument("x must be greater than 0");
+
+			long lo = 0;
+			long hi = x;
+
+			while (lo < hi)
+			{
+				long mid = lo + (hi - lo) / 2;
+				if (mid * mid == x)
+					return mid;
+				else if (mid * mid < x)
+					lo = mid + 1;
+				else
+					hi = mid - 1;
+			}
+
+			if (lo * lo > x)
+				return lo - 1;
+			else
+				return lo;
+		}
+		catch (std::exception& e)
+		{
+			std::cerr << "exception: " << e.what() << std::endl;
+		}
+	}
+};
+
+
+// https://blog.csdn.net/wumuzi520/article/details/7026808
+class Solution2 {
+public:
+	int mySqrt(int x) {
+		double precision = 0.00001;
+		double guess = x;
+		while (guess * guess - x > 0.00001)
+			guess = 0.5 * (guess + x / guess);
+		return (int)guess;
+	}
+};
+
+int main()
+{
+	Solution1 solution;
+	cout << solution.mySqrt(-1) << endl;
+	cout << solution.mySqrt(1) << endl;
+	cout << solution.mySqrt(INT_MAX) << endl;
+}
+
 ```
