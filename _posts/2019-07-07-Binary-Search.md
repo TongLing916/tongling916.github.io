@@ -10,7 +10,7 @@ tags:
 
 ### Summary
 
-1.
+1. Cast the Integer number to a `long int`. Then, use `<<` to speed up the computation. (See `29. Divide Two Integers` and `50. Pow(x, n)`)
 
 
 ### [29. Divide Two Integers](https://leetcode.com/problems/divide-two-integers/)
@@ -34,7 +34,7 @@ Output: -2
 __Note:__
 Both dividend and divisor will be 32-bit signed integers.
 The divisor will never be 0.
-Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: $$[−2^31,  2^31 − 1]$$. For the purpose of this problem, assume that your function returns $$2^31 − 1$$ when the division result overflows.
+Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: $$[−2^{31},  2^{31} − 1]$$. For the purpose of this problem, assume that your function returns $$2^{31} − 1$$ when the division result overflows.
 
 #### Train of Thought
 
@@ -385,4 +385,77 @@ int main()
 	cout << endl;
 }
 
+```
+
+### [50. Pow(x, n)](https://leetcode.com/problems/powx-n/)
+
+#### Question
+
+Implement pow(x, n), which calculates x raised to the power n($$x^n$$).
+
+__Example 1:__
+Input: 2.00000, 10
+Output: 1024.00000
+
+__Example 2:__
+Input: 2.10000, 3
+Output: 9.26100
+
+__Example 3:__
+Input: 2.00000, -2
+Output: 0.25000
+Explanation: $$2^{-2} = 1/2^2 = 1/4 = 0.25$$
+
+__Note:__
+- -100.0 < x < 100.0
+- n is a 32-bit signed integer, within the range [−2^{31}, 2^{31} − 1]
+
+#### Train of Thought
+
+As the question `29. Divide Two Integers`, we can cast the Integer number to a `long int`. Then, use `<<` to speed up the computation.
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <vector>
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+class Solution {
+public:
+	double myPow(double x, int n)
+	{
+		double res = 1;
+		bool is_positive = n > 0 ? true : false;
+
+		long n_l = n;
+		n_l = abs(n_l);
+
+		while (n_l != 0)
+		{
+			long i = 1;
+			double tmp_res = x;
+			while ((i << 1) < n_l)
+			{
+				tmp_res *= tmp_res;
+				i <<= 1;
+			}
+			n_l -= i;
+			res *= tmp_res;
+		}
+
+		res = is_positive ? res : 1 / res;
+		return res;
+	}
+};
+
+int main()
+{
+	Solution solution;
+	cout << solution.myPow(0.00001, 2147483647) << endl;   // bound case
+	cout << solution.myPow(1.00000, -2147483648) << endl;
+}
 ```
