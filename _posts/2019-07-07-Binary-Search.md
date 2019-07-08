@@ -243,6 +243,143 @@ int main()
 
 ```
 
+### [81. Search in Rotated Sorted Array II](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/)
+
+#### Question
+
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., `[0,0,1,2,2,5,6]` might become `[2,5,6,0,0,1,2]`).
+
+You are given a target value to search. If found in the array return `true`, otherwise return `false`.
+
+__Example 1:__
+```
+Input: nums = [2,5,6,0,0,1,2], target = 0
+Output: true
+```
+
+__Example 2:__
+```
+Input: nums = [2,5,6,0,0,1,2], target = 3
+Output: false
+```
+
+__Follow up:__
+- This is a follow up problem to `Search in Rotated Sorted Array`, where `nums` may contain duplicates.
+- Would this affect the run-time complexity? How and why?
+
+#### Train of Thought
+
+Because of the existence of duplicates, we cannot use the old way to find the pivot.
+
+Consider the extreme cases `[1,1,3,1]` to find `3`.
+
+__Solution 1:__
+
+We can directly start to search the target using a modified binary search. The caution should be taken if the `nums[mid] != target`. If not equal, we need to check the `nums[mid]` and `nums[hi]` to deduce where the pivot is.
+
+If `nums[mid] < nums[hi]`, the pivot must be in `[lo, mid]`. Therefore, only when `nums[mid] < target <= nums[hi]` have we the chance to find the target in `[mid + 1, hi]`. Otherwise, we need to search it in `[lo, mid - 1]`.
+
+If `nums[mid] > nums[hi]`, the pivot must be in `[mid, hi]`. Therefore, only when `nums[lo] <= target < nums[mid]` have we the chance to find the target in `[lo, mid - 1]`. Otherwise, we need to search it in `[mid + 1, hi]`.
+
+__Solution2:__
+
+Traverse the whole array to find the pivot, either the first element or the first time `nums[pivot - 1] > nums[pivot]`. Then, everything is the same as before.
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <vector>
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+class Solution1 {
+public:
+	bool search(vector<int>& nums, int target) {
+		int n = nums.size();
+
+		int lo = 0;
+		int hi = n - 1;
+		while (lo <= hi)
+		{
+			int mid = lo + (hi - lo) / 2;
+
+			if (nums[mid] == target)
+				return true;
+
+			if (nums[mid] < nums[hi])
+			{
+				if (nums[mid] < target && nums[hi] >= target)
+					lo = mid + 1;
+				else
+					hi = mid - 1;
+			}
+			else if (nums[mid] > nums[hi])
+			{
+				if (nums[lo] <= target && nums[mid] > target)
+					hi = mid - 1;
+				else
+					lo = mid + 1;
+			}
+			else
+				--hi;
+		}
+
+		return false;
+	}
+};
+
+class Solution2 {
+public:
+	bool search(vector<int>& nums, int target) {
+		int n = nums.size();
+		if (n == 0)
+			return false;
+
+		// Because we have duplicates, we cannot use the old way to find the pivot
+		int pivot = 0;
+		for (int i = 1; i < n; ++i)
+			if ((nums[i] < nums[pivot]) || (nums[i] == nums[pivot] && nums[i - 1] > nums[i]))
+				pivot = i;
+
+		int lo = 0;
+		int hi = n - 1;
+		while (lo <= hi)
+		{
+			int mid = lo + (hi - lo) / 2;
+			int r_mid = (pivot + mid) % n;
+
+			if (nums[r_mid] == target)
+				return true;
+			else if (nums[r_mid] > target)
+				hi = mid - 1;
+			else
+				lo = mid + 1;
+		}
+
+		return false;
+	}
+};
+
+int main()
+{
+	vector<int> test1{ 4,5,6,7,0,1,2 };
+	vector<int> test2{ 1,1,3,1 };
+	vector<int> test3{ 1,3,1,1 };
+
+	Solution1 solution;
+	cout << solution.search(test1, 0) << endl;
+	cout << solution.search(test1, 3) << endl;
+	cout << solution.search(test2, 3) << endl;
+	cout << solution.search(test3, 3) << endl;
+}
+
+```
+
 
 ### [34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
