@@ -647,7 +647,6 @@ Be careful about the stop condition when using binary search.
 You can also use [Newton method](https://blog.csdn.net/wumuzi520/article/details/7026808).
 
 
-
 #### Solution
 ```cpp
 #include <iostream>
@@ -713,6 +712,243 @@ int main()
 	cout << solution.mySqrt(-1) << endl;
 	cout << solution.mySqrt(1) << endl;
 	cout << solution.mySqrt(INT_MAX) << endl;
+}
+
+```
+
+### [162. Find Peak Element](https://leetcode.com/problems/find-peak-element/)
+
+#### Question
+
+A peak element is an element that is greater than its neighbors.
+
+Given an input array `nums`, where `nums[i] ≠ nums[i+1]`, find a peak element and return its index.
+
+The array may contain multiple peaks, in that case return the index to any one of the peaks is fine.
+
+You may imagine that `nums[-1] = nums[n] = -∞`.
+
+__Example1:__
+```
+Input: nums = [1,2,3,1]
+Output: 2
+Explanation: 3 is a peak element and your function should return the index number 2.
+```
+
+__Example2:__
+```
+Input: nums = [1,2,1,3,5,6,4]
+Output: 1 or 5
+Explanation: Your function can return either index number 1 where the peak element is 2,
+             or index number 5 where the peak element is 6.
+```
+
+__Note:__
+Your solution should be in logarithmic complexity.
+
+#### Train of Thought
+
+First of all, we need to know that there could be three possible positions of the peak element.
+
+(1) Elements in descending order, e.g. `[5,4,3,2,1]`. Then, the first element is the peak element, because `nums[0] > nums[1]` (we do not need to consider `nums[-1]`).
+
+(2) Elements in ascending order, e.g. `[1,2,3,4,5]`. Then, the last element is the peak element, because `nums[4] > nums[3]` (we do not need to consider `nums[5]`).
+
+(3) Elements in random order, e.g. `[1,3,2,4,5]`. Then, the first element (assuming at `i`), which fulfills `nums[i] > nums[i+1]`, is our peak element.
+
+Therefore, no matter in which case, we just need to find the first element (assuming at `i`), which fulfills `nums[i] > nums[i+1]`. To achieve this, we can use binary seach.
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+using std::vector;
+using std::cout;
+using std::endl;
+
+class Solution
+{
+public:
+	int findPeakElement(vector<int>& nums)
+	{
+		int n = nums.size();
+		int lo = 0;
+		int hi = n - 1;
+
+		while (lo < hi)
+		{
+			int mid = lo + (hi - lo) / 2;
+			if (nums[mid] < nums[mid + 1])
+				lo = mid + 1;
+			else
+				hi = mid;
+		}
+
+		return lo;
+	}
+};
+
+int main()
+{
+	vector<int> test1{ 1,2,3,1 };
+	Solution solution;
+	cout << solution.findPeakElement(test1) << endl;
+}
+
+```
+
+
+### [209. Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+
+#### Question
+
+Given an array of n positive integers and a positive integer `s`, find the minimal length of a __contiguous__ subarray of which the sum ≥ `s`. If there isn't one, return 0 instead.
+
+__Example:__
+```
+Input: s = 7, nums = [2,3,1,2,4,3]
+Output: 2
+Explanation: the subarray [4,3] has the minimal length under the problem constraint.
+```
+
+__Follow up:__
+If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(nlogn).
+
+#### Train of Thought
+
+To check the mininum number array, we need to traverse the whole array one time. At the same time when the index increases, we need to delete the starting elements if the sum already surpasses the target `s`. Then, check if the result length is smaller the minimum length so far. If yes, update the minimum length.
+
+#### Solution
+```cpp
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        int n = nums.size();
+        int sum = 0;
+
+        int min_len = n + 1;
+
+        int lo = 0;
+        for (int i = 0; i < n; ++i)
+        {
+            sum += nums[i];
+
+            if (sum >= s)
+            {
+                while (sum >= s)
+                {
+                    sum -= nums[lo];
+                    ++lo;
+                }
+
+                min_len = (i - lo + 2) < min_len ? (i - lo + 2) : min_len;
+            }
+        }
+
+        return min_len == n + 1 ? 0 : min_len;
+    }
+};
+```
+
+### [222. Count Complete Tree Nodes](https://leetcode.com/problems/count-complete-tree-nodes/)
+
+#### Question
+
+Given a __complete__ binary tree, count the number of nodes.
+
+__Note:__
+Definition of a complete binary tree from [Wikipedia](https://en.wikipedia.org/wiki/Binary_tree#Types_of_binary_trees):
+In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between $$1$$ and $$2^h$$ nodes inclusive at the last level $$h$$.
+
+__Example:__
+```
+Input:
+    1
+   / \
+  2   3
+ / \  /
+4  5 6
+
+Output: 6
+```
+
+#### Train of Thought
+
+In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible.
+
+A perfect binary tree is a binary tree in which all interior nodes have two children and all leaves have the same depth or same level
+
+How to calculate the number of nodes... Hmm... It's not easy. However, the problem will become easy if the tree is a perfect binary tree. For a perfect binary tree with depth `n` (root at depth `0`), there are totally $$2^{n+1} - 1$$ nodes. By checking whether the most left and the most right elements are at the same level (assuming we already know this is a complete tree), we can know if the complete tree is a perfect one.
+
+#### Solution
+```cpp
+#include <iostream>
+
+#include <cmath>
+
+using std::cout;
+using std::endl;
+
+struct TreeNode
+{
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+	int countNodes(TreeNode* root) {
+		if (!root)
+			return 0;
+
+		int l_d = 0, r_d = 0;
+
+		TreeNode* l_node = root;
+		TreeNode* r_node = root;
+
+		while (l_node->left)
+		{
+			++l_d;
+			l_node = l_node->left;
+		}
+
+		while (r_node->right)
+		{
+			++r_d;
+			r_node = r_node->right;
+		}
+
+		if (l_d == r_d)
+			return pow(2, l_d + 1) - 1;
+
+		return 1 + countNodes(root->left) + countNodes(root->right);
+	}
+};
+
+int main()
+{
+	TreeNode node1(1);
+	TreeNode node2(2);
+	TreeNode node3(3);
+	TreeNode node4(4);
+	TreeNode node5(5);
+	TreeNode node6(6);
+
+	TreeNode* root = &node1;
+	root->left = &node2;
+	root->right = &node3;
+	root->left->left = &node4;
+	root->left->right = &node5;
+	root->right->left = &node6;
+
+	Solution solution;
+	cout << solution.countNodes(root);
 }
 
 ```
