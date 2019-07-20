@@ -5,7 +5,7 @@ date:       2019-5-2
 author:     Tong
 catalog: true
 tags:
-    - Divide and Conquer
+    - Algorithm
 ---
 
 ### Summary

@@ -5,7 +5,7 @@ date:       2019-7-18
 author:     Tong
 catalog: true
 tags:
-    - Dynamic Programming
+    - Algorithm
 ---
 
 ### Summary

@@ -5,7 +5,7 @@ date:       2019-4-29
 author:     Tong
 catalog: true
 tags:
-    - Search
+    - Algorithm
 ---
 
 ### Summary
@@ -173,7 +173,7 @@ int main()
 {
 	unordered_set<int> uSet;
 	int N;        // number of input pairs
-  
+
 	cin >> N;
 	vector<pair<int, int>> pairs;
 	int a, b;

@@ -5,7 +5,7 @@ date:       2019-4-29
 author:     Tong
 catalog: true
 tags:
-    - Search
+    - Algorithm
 ---
 
 ### Summary
