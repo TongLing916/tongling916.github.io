@@ -315,7 +315,7 @@ __Note:__
 
 #### Train of Thought
 
-To find the k most frequent elements, we need to document how many times each number appears. To do that, we can use a unordered_map. Then, to rank from the most frequent to the least frequent element, we can use a priority_queue (in <queue>). The last step is just poping the top element out until we get k elements. 
+To find the k most frequent elements, we need to document how many times each number appears. To do that, we can use a unordered_map. Then, to rank from the most frequent to the least frequent element, we can use a priority_queue (in <queue>). The last step is just poping the top element out until we get k elements.
 
 #### Solution
 ```cpp
