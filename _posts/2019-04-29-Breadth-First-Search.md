@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Depth-First Search"
+title:      "Breadth-First Search"
 date:       2019-4-29
 author:     Tong
 catalog: true
