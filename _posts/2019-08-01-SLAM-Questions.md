@@ -26,11 +26,14 @@ tags:
 
 2. [（本题为图像处理方向）F矩阵，E矩阵，H矩阵有什么关联性。](https://www.nowcoder.com/profile/968642742/test/25480638/167635#summary)
 
+
 ### Optimization
 
 1. [请写出L-M(Levenberg-Marquard)算法的流程并指出其相对于GN优化算法的优缺点。 ](https://www.nowcoder.com/profile/968642742/test/25553522/168352#summary)
 
 2. [（本题为模式识别方向）列举至少三种损失函数，写出数学表达式并简述各自优点 ](https://www.nowcoder.com/profile/968642742/test/25480638/167642#summary)
+
+3. 详细描述梯度下降法过程及原理；什么是梯度消失和梯度爆炸？解决梯度消失和梯度爆炸的方案都有那些？
 
 ### SLAM
 
