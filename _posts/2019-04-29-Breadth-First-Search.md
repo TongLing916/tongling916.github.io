@@ -14,6 +14,8 @@ tags:
 
 2. when is the current level finished?
 
+3. If you want to pop the front of a queue, store the length of this queue __BEFORE__ pop.
+
 ### [Leetcode 102. Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/)
 
 #### Question

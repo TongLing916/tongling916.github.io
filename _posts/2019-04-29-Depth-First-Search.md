@@ -855,3 +855,195 @@ int main()
 		cout << "GG" << endl;
 }
 ```
+
+### [207\. Course Schedule](https://leetcode.com/problems/course-schedule/)
+
+Difficulty: **Medium**
+
+
+There are a total of _n_ courses you have to take, labeled from `0` to `n-1`.
+
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: `[0,1]`
+
+Given the total number of courses and a list of prerequisite **pairs**, is it possible for you to finish all courses?
+
+**Example 1:**
+
+```
+Input: 2, [[1,0]]
+Output: true
+Explanation: There are a total of 2 courses to take.
+             To take course 1 you should have finished course 0\. So it is possible.
+```
+
+**Example 2:**
+
+```
+Input: 2, [[1,0],[0,1]]
+Output: false
+Explanation: There are a total of 2 courses to take.
+             To take course 1 you should have finished course 0, and to take course 0 you should
+             also have finished course 1\. So it is impossible.
+```
+
+**Note:**
+
+1.  The input prerequisites is a graph represented by **a list of edges**, not adjacency matrices. Read more about .
+2.  You may assume that there are no duplicate edges in the input prerequisites.
+
+#### Train of Thought
+
+We cannot finish all courses, only when there is cycle in the graph. For example, to learn course 1, we need to learn 0. To learn course 0, we need to learn course 1.
+
+To find if there is a cycle, we can do a depth first search. To speed up the computation, we can store those checked nodes which do not have cycles. To mark the visited one, we need to use another number from those which are already checked.
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution
+{
+public:
+    bool canFinishDFS(vector<vector<int>>& graph, vector<int>& visited, int course)
+    {
+        if (visited[course] == 1) return true;
+        if (visited[course] == -1) return false;
+        visited[course] = -1;
+        for (int& neighbor : graph[course])
+            if (!canFinishDFS(graph, visited, neighbor)) return false;
+        visited[course] = 1;
+        return true;
+    }
+    
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites)
+    {
+        vector<vector<int>> graph(numCourses, vector<int>());
+        vector<int> visited(numCourses); // -1: currently visited; 0: never visisted; 1: no cycle.
+        for (vector<int>& pre : prerequisites)
+            graph[pre[0]].push_back(pre[1]);
+        
+        for (int i = 0; i < numCourses; ++i)
+            if (!canFinishDFS(graph, visited, i)) return false;
+        return true;
+    }
+};
+```
+
+### [210\. Course Schedule II](https://leetcode.com/problems/course-schedule-ii/)
+
+Difficulty: **Medium**
+
+
+There are a total of _n_ courses you have to take, labeled from `0` to `n-1`.
+
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: `[0,1]`
+
+Given the total number of courses and a list of prerequisite **pairs**, return the ordering of courses you should take to finish all courses.
+
+There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.
+
+**Example 1:**
+
+```
+Input: 2, [[1,0]]
+Output: [0,1]
+Explanation: There are a total of 2 courses to take. To take course 1 you should have finished   
+             course 0\. So the correct course order is [0,1].
+```
+
+**Example 2:**
+
+```
+Input: 4, [[1,0],[2,0],[3,1],[3,2]]
+Output: [0,1,2,3] or [0,2,1,3]
+Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both     
+             courses 1 and 2\. Both courses 1 and 2 should be taken after you finished course 0\.
+             So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3] .
+```
+
+**Note:**
+
+1.  The input prerequisites is a graph represented by **a list of edges**, not adjacency matrices. Read more about .
+2.  You may assume that there are no duplicate edges in the input prerequisites.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+
+#include <vector>
+
+#include <queue>
+
+using std::cout;
+using std::endl;
+using std::vector;
+using std::queue;
+
+// <<Algorithm>> P580 Depth-first search vertex ordering in a digraph
+// modification: instead of stack, we use queue
+class Solution {
+public:
+	bool canFinishDFS(vector<vector<int>>& graph, vector<int>& visited, int i)
+	{
+		if (visited[i] == 1) return true;
+		if (visited[i] == -1) return false;
+		visited[i] = -1;
+		for (int& neighbor : graph[i])
+			if (!canFinishDFS(graph, visited, neighbor)) return false;
+		visited[i] = 1;
+		return true;
+	}
+
+	void findOrderDFS(vector<vector<int>>& graph, vector<int>& visited, queue<int>& q, int i)
+	{
+		visited[i] = 2;
+		for (int& neighbor : graph[i])
+			if (visited[neighbor] != 2) findOrderDFS(graph, visited, q, neighbor);
+		q.push(i);
+	}
+
+	vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites)
+	{
+		vector<vector<int>> graph(numCourses, vector<int>());
+		vector<int> visited(numCourses); // -1: currently visited; 0: never visisted; 1: no cycle; 2: visited for finding order
+		for (vector<int>& pre : prerequisites)
+			graph[pre[0]].push_back(pre[1]); // To learn i, we must learn graph[i]
+
+		for (int i = 0; i < numCourses; ++i)
+			if (!canFinishDFS(graph, visited, i)) return {};
+
+		queue<int> q;
+		for (int i = 0; i < numCourses; ++i)
+			if (visited[i] != 2) findOrderDFS(graph, visited, q, i);
+
+		vector<int> res;
+		while (!q.empty())
+		{
+			res.push_back(q.front());
+			q.pop();
+		}
+		return res;
+	}
+};
+
+std::ostream& operator<<(std::ostream& stream, const vector<int>& nums)
+{
+	for (auto& n : nums)
+		stream << n << " ";
+	cout << endl;
+	return stream;
+}
+
+int main()
+{
+	Solution solution;
+	vector<vector<int>> prerequisites{ {1, 0} };
+	cout << solution.findOrder(2, prerequisites);
+}
+
+```
