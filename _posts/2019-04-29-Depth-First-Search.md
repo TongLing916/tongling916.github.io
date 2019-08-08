@@ -1047,3 +1047,169 @@ int main()
 }
 
 ```
+
+
+### [417\. Pacific Atlantic Water Flow](https://leetcode.com/problems/pacific-atlantic-water-flow/)
+
+Difficulty: **Medium**
+
+
+Given an `m x n` matrix of non-negative integers representing the height of each unit cell in a continent, the "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and bottom edges.
+
+Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or lower.
+
+Find the list of grid coordinates where water can flow to both the Pacific and Atlantic ocean.
+
+**Note:**
+
+1.  The order of returned grid coordinates does not matter.
+2.  Both _m_ and _n_ are less than 150.
+
+**Example:**
+
+```
+Given the following 5x5 matrix:
+
+  Pacific ~   ~   ~   ~   ~
+       ~  1   2   2   3  (5) *
+       ~  3   2   3  (4) (4) *
+       ~  2   4  (5)  3   1  *
+       ~ (6) (7)  1   4   5  *
+       ~ (5)  1   1   2   4  *
+          *   *   *   *   * Atlantic
+
+Return:
+
+[[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (positions with parentheses in above matrix).
+```
+
+#### Train of Thought
+
+遍历出那些能流进pacific的cells，遍历出那些能流进atlantic的cells，其中相交的部分便是我们要求的。
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+
+#include <queue>
+
+#include <vector>
+
+using std::cout;
+using std::endl;
+using std::vector;
+using std::queue;
+
+class Solution1
+{
+public:
+	void DFS(vector<vector<int>>& matrix, vector<vector<int>>& visited, int height, int r, int c)
+	{
+		int row = matrix.size();
+		int col = matrix[0].size();
+		if (r < 0 || r >= row || c < 0 || c >= col || visited[r][c] == 1 || matrix[r][c] < height) return;
+		visited[r][c] = 1;
+		DFS(matrix, visited, matrix[r][c], r - 1, c);
+		DFS(matrix, visited, matrix[r][c], r + 1, c);
+		DFS(matrix, visited, matrix[r][c], r, c - 1);
+		DFS(matrix, visited, matrix[r][c], r, c + 1);
+	}
+
+	vector<vector<int>> pacificAtlantic(vector<vector<int>>& matrix)
+	{
+		int row = matrix.size();
+		if (row == 0) return {};
+		int col = matrix[0].size();
+		if (col == 0) return {};
+		vector<vector<int>> visited_p(row, vector<int>(col, 0));
+		vector<vector<int>> visited_a(row, vector<int>(col, 0));
+		for (int i = 0; i < col; ++i)
+		{
+			DFS(matrix, visited_p, INT_MIN, 0, i);
+			DFS(matrix, visited_a, INT_MIN, row - 1, i);
+		}
+		for (int i = 0; i < row; ++i)
+		{
+			DFS(matrix, visited_p, INT_MIN, i, 0);
+			DFS(matrix, visited_a, INT_MIN, i, col - 1);
+		}
+		vector<vector<int>> coordinates;
+		for (int r = 0; r < row; ++r)
+			for (int c = 0; c < col; ++c)
+				if (visited_p[r][c] == 1 && visited_a[r][c] == 1)
+					coordinates.push_back({ r, c });
+		return coordinates;
+	}
+};
+
+class Solution2 {
+public:
+	void BFS(vector<vector<int>>& matrix, vector<vector<int>>& visited, queue<vector<int>>& q)
+	{
+		int row = matrix.size();
+		int col = matrix[0].size();
+		while (!q.empty())
+		{
+			int breadth = q.size();
+			for (int i = 0; i < breadth; ++i)
+			{
+				vector<int> cur = q.front();
+				q.pop();
+				vector<vector<int>> neighbors{ {cur[0] - 1, cur[1]}, {cur[0] + 1, cur[1]}, {cur[0], cur[1] - 1}, {cur[0], cur[1] + 1} };
+				for (vector<int>& n : neighbors)
+					if (n[0] >= 0 && n[0] < row && n[1] >= 0 && n[1] < col && visited[n[0]][n[1]] == 0 && matrix[n[0]][n[1]] >= matrix[cur[0]][cur[1]])
+					{
+						q.push(n);
+						visited[n[0]][n[1]] = 1;
+					}
+			}
+		}
+	}
+
+	vector<vector<int>> pacificAtlantic(vector<vector<int>>& matrix) {
+		int row = matrix.size();
+		if (row == 0) return {};
+		int col = matrix[0].size();
+		if (col == 0) return {};
+		vector<vector<int>> visited_p(row, vector<int>(col, 0));
+		vector<vector<int>> visited_a(row, vector<int>(col, 0));
+		queue<vector<int>> q_p;
+		queue<vector<int>> q_a;
+		for (int i = 0; i < col; ++i)
+		{
+			q_p.push({ 0, i });
+			visited_p[0][i] = 1;
+			q_a.push({ row - 1, i });
+			visited_a[row - 1][i] = 1;
+		}
+		for (int i = 0; i < row; ++i)
+		{
+			q_p.push({ i, 0 });
+			visited_p[i][0] = 1;
+			q_a.push({ i, col - 1 });
+			visited_a[i][col - 1] = 1;
+		}
+		BFS(matrix, visited_p, q_p);
+		BFS(matrix, visited_a, q_a);
+		vector<vector<int>> coordinates;
+		for (int r = 0; r < row; ++r)
+			for (int c = 0; c < col; ++c)
+				if (visited_p[r][c] == 1 && visited_a[r][c] == 1)
+					coordinates.push_back({ r, c });
+		return coordinates;
+	}
+};
+
+int main()
+{
+	vector<vector<int>> matrix{ {1,2,2,3,5},{3,2,3,4,4},{2,4,5,3,1},{6,7,1,4,5},{5,1,1,2,4} };
+	Solution1 solution;
+	vector<vector<int>> res = solution.pacificAtlantic(matrix);
+	for (const auto& r : res)
+		cout << r[0] << " " << r[1] << endl;
+}
+
+```
