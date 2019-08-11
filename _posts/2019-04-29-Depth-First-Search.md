@@ -1213,3 +1213,110 @@ int main()
 }
 
 ```
+
+
+### [332\. Reconstruct Itinerary](https://leetcode.com/problems/reconstruct-itinerary/)
+
+Difficulty: **Medium**
+
+
+Given a list of airline tickets represented by pairs of departure and arrival airports `[from, to]`, reconstruct the itinerary in order. All of the tickets belong to a man who departs from `JFK`. Thus, the itinerary must begin with `JFK`.
+
+**Note:**
+
+1.  If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order when read as a single string. For example, the itinerary `["JFK", "LGA"]` has a smaller lexical order than `["JFK", "LGB"]`.
+2.  All airports are represented by three capital letters (IATA code).
+3.  You may assume all tickets form at least one valid itinerary.
+
+**Example 1:**
+
+```
+Input: [["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]
+Output: ["JFK", "MUC", "LHR", "SFO", "SJC"]
+```
+
+**Example 2:**
+
+```
+Input: [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+Output: ["JFK","ATL","JFK","SFO","ATL","SFO"]
+Explanation: Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"].
+             But it is larger in lexical order.
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <algorithm>
+
+#include <iostream>
+
+#include <unordered_map>
+
+#include <vector>
+
+#include <deque>
+
+using namespace std;
+
+class Solution
+{
+private:
+	// src -> {dest1, dest2, ..., destn}
+	unordered_map<string, deque<string>> trips_;
+	// ans (reversed)
+	vector<string> route_;
+
+	void visit(const string& src)
+	{
+		auto& dests = trips_[src];
+		while (!dests.empty())
+		{
+			// get the smallest dest
+			const string dest = dests.front();
+			// remove the ticket
+			dests.pop_front();
+			// visit dest
+			visit(dest);
+		}
+		// add current node to the route
+		route_.push_back(src);
+	}
+
+public:
+	vector<string> findItinerary(vector<vector<string>>& tickets)
+	{
+		route_.clear();
+		trips_.clear();
+
+		for (const auto& t : tickets)
+			trips_[t[0]].push_back(t[1]);
+
+		for (auto& t : trips_)
+		{
+			auto& dests = t.second;
+			std::sort(dests.begin(), dests.end());
+		}
+
+		const string start = "JFK";
+
+		visit(start);
+
+		return vector<string>(route_.crbegin(), route_.crend());
+	}
+};
+
+int main()
+{
+	vector<vector<string>> tickets{ {"MUC", "LHR"}, {"JFK", "MUC"}, {"SFO", "SJC"}, {"LHR", "SFO"} };
+	Solution solution;
+	vector<string> route = solution.findItinerary(tickets);
+	for (auto& s : route)
+		cout << s << " ";
+	cout << endl;
+}
+
+```

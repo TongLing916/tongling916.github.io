@@ -714,3 +714,157 @@ int main()
 	cout << endl;
 }
 ```
+
+### [542\. 01 Matrix](https://leetcode.com/problems/01-matrix/)
+
+Difficulty: **Medium**
+
+
+Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
+
+The distance between two adjacent cells is 1.
+
+**Example 1:**
+
+```
+Input:
+[[0,0,0],
+ [0,1,0],
+ [0,0,0]]
+
+Output:
+[[0,0,0],
+ [0,1,0],
+ [0,0,0]]
+```
+
+**Example 2:**
+
+```
+Input:
+[[0,0,0],
+ [0,1,0],
+ [1,1,1]]
+
+Output:
+[[0,0,0],
+ [0,1,0],
+ [1,2,1]]
+```
+
+**Note:**
+
+1.  The number of elements of the given matrix will not exceed 10,000.
+2.  There are at least one 0 in the given matrix.
+3.  The cells are adjacent in only four directions: up, down, left and right.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+
+#include <vector>
+
+#include <queue>
+
+using std::cout;
+using std::endl;
+using std::vector;
+using std::queue;
+using std::min;
+
+// BFS
+class Solution {
+public:
+	vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+		if (matrix.size() == 0) return { {} };
+		if (matrix[0].size() == 0) return { {} };
+		int row = matrix.size();
+		int col = matrix[0].size();
+		vector<vector<int>> dist(row, vector<int>(col, INT_MAX));
+		queue<vector<int>> q;
+		for (int r = 0; r < row; ++r)
+			for (int c = 0; c < col; ++c)
+				if (matrix[r][c] == 0)
+				{
+					dist[r][c] = 0;
+					q.push({ r, c });
+				}
+
+		vector<vector<int>> neighbors{ {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+		while (!q.empty())
+		{
+			vector<int> cur = q.front();
+			q.pop();
+			for (int i = 0; i < 4; ++i)
+			{
+				int new_r = cur[0] + neighbors[i][0];
+				int new_c = cur[1] + neighbors[i][1];
+				if (new_r >= 0 && new_r < row && new_c >= 0 && new_c < col)
+					if (dist[new_r][new_c] > dist[cur[0]][cur[1]] + 1)
+					{
+						dist[new_r][new_c] = dist[cur[0]][cur[1]] + 1;
+						q.push({ new_r, new_c });
+					}
+			}
+		}
+		return dist;
+	}
+};
+
+// DP
+class Solution2 {
+public:
+	vector<vector<int>> updateMatrix(vector<vector<int> >& matrix)
+	{
+		int rows = matrix.size();
+		if (rows == 0)
+			return matrix;
+		int cols = matrix[0].size();
+		vector<vector<int> > dist(rows, vector<int>(cols, INT_MAX - 100000));
+
+		//First pass: check for left and top
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (matrix[i][j] == 0)
+					dist[i][j] = 0;
+				else {
+					if (i > 0)
+						dist[i][j] = min(dist[i][j], dist[i - 1][j] + 1);
+					if (j > 0)
+						dist[i][j] = min(dist[i][j], dist[i][j - 1] + 1);
+				}
+			}
+		}
+
+		//Second pass: check for bottom and right
+		for (int i = rows - 1; i >= 0; i--) {
+			for (int j = cols - 1; j >= 0; j--) {
+				if (i < rows - 1)
+					dist[i][j] = min(dist[i][j], dist[i + 1][j] + 1);
+				if (j < cols - 1)
+					dist[i][j] = min(dist[i][j], dist[i][j + 1] + 1);
+			}
+		}
+
+		return dist;
+	}
+};
+
+int main()
+{
+	vector<vector<int>> matrix{ {0, 0, 0}, {0, 1, 0}, {0, 0, 0} };
+	Solution solution;
+	matrix = solution.updateMatrix(matrix);
+	for (auto& r : matrix)
+	{
+		for (auto& c : r)
+			cout << c << " ";
+		cout << endl;
+	}
+}
+
+```

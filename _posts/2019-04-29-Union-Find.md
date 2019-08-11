@@ -297,3 +297,179 @@ int main()
 	cout << "Hash: " << solution.longestConsecutive(nums) << endl;
 }
 ```
+
+
+### [399\. Evaluate Division](https://leetcode.com/problems/evaluate-division/)
+
+Difficulty: **Medium**
+
+
+Equations are given in the format `A / B = k`, where `A` and `B` are variables represented as strings, and `k` is a real number (floating point number). Given some queries, return the answers. If the answer does not exist, return `-1.0`.
+
+**Example:**  
+Given `a / b = 2.0, b / c = 3.0.`  
+queries are: `a / c = ?, b / a = ?, a / e = ?, a / a = ?, x / x = ? .`  
+return `[6.0, 0.5, -1.0, 1.0, -1.0 ].`
+
+The input is: `vector<pair<string, string>> equations, vector<double>& values, vector<pair<string, string>> queries` , where `equations.size() == values.size()`, and the values are positive. This represents the equations. Return `vector<double>`.
+
+According to the example above:
+
+```
+equations = [ ["a", "b"], ["b", "c"] ],
+values = [2.0, 3.0],
+queries = [ ["a", "c"], ["b", "a"], ["a", "e"], ["a", "a"], ["x", "x"] ].
+```
+
+The input is always valid. You may assume that evaluating the queries will result in no division by zero and there is no contradiction.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        unordered_map<string, int> dict_id;
+        unordered_map<string, double> dict_val;
+        unordered_map<int, int> id_cnt;
+        int id = 0;
+        for (int i = 0; i < equations.size(); ++i)
+        {
+            vector<string> eq = equations[i];
+            if (!dict_id.count(eq[0]) && !dict_id.count(eq[1]))
+            {
+                dict_id[eq[0]] = id;
+                dict_id[eq[1]] = id;
+                id_cnt[id] += 2;
+                ++id;
+                dict_val[eq[0]] = values[i];
+                dict_val[eq[1]] = 1.;
+            }
+            else if (dict_id.count(eq[0]) && !dict_id.count(eq[1]))
+            {
+                dict_id[eq[1]] = dict_id[eq[0]];
+                ++id_cnt[dict_id[eq[0]]];
+                dict_val[eq[1]] = dict_val[eq[0]] / values[i];
+            }
+            else if (!dict_id.count(eq[0]) && dict_id.count(eq[1]))
+            {
+                dict_id[eq[0]] = dict_id[eq[1]];
+                ++id_cnt[dict_id[eq[1]]];
+                dict_val[eq[0]] = dict_val[eq[1]] * values[i];
+            }
+            else
+            {
+                int id_0 = dict_id[eq[0]];
+                int id_1 = dict_id[eq[1]];
+                double val_0 = dict_val[eq[0]];
+                double val_1 = dict_val[eq[1]];
+
+                if (id_cnt[id_0] < id_cnt[id_1])
+                {
+                    double coef = values[i] * val_1 / val_0;
+                    for (auto& d : dict_id)
+                        if (d.second == id_0)
+                        {
+                            d.second = id_1;
+                            dict_val[d.first] *= coef;
+                        }
+                }
+                else
+                {
+                    double coef = val_0 / values[i] / val_1;
+                    for (auto& d : dict_id)
+                        if (d.second == id_1)
+                        {
+                            d.second = id_0;
+                            dict_val[d.first] *= coef;
+                        }
+                }
+            }
+```
+
+### [947\. Most Stones Removed with Same Row or Column](https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/)
+
+Difficulty: **Medium**
+
+
+On a 2D plane, we place stones at some integer coordinate points.  Each coordinate point may have at most one stone.
+
+Now, a _move_ consists of removing a stone that shares a column or row with another stone on the grid.
+
+What is the largest possible number of moves we can make?
+
+
+**Example 1:**
+
+```
+Input: stones = [[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]
+Output: 5
+```
+
+
+**Example 2:**
+
+```
+Input: stones = [[0,0],[0,2],[1,1],[2,0],[2,2]]
+Output: 3
+```
+
+
+**Example 3:**
+
+```
+Input: stones = [[0,0]]
+Output: 0
+```
+
+**<span style="display: inline;">Note:</span>**
+
+1.  `1 <= stones.length <= 1000`
+2.  `0 <= stones[i][j] < 10000`
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class DSU
+{
+private:
+    vector<int> parents;
+public:
+    DSU(int n)
+    {
+        parents.resize(n);
+        for (int i = 0; i < n; ++i)
+            parents[i] = i;
+    }
+    int find(int i)
+    {
+        if (parents[i] != i) parents[i] = find(parents[i]);
+        return parents[i];
+    }
+    void uni(int i, int j)
+    {
+        parents[find(parents[i])] = find(parents[j]);
+    }
+};
+​
+class Solution
+{
+public:
+    int removeStones(vector<vector<int>>& stones) {
+        int n = stones.size();
+        DSU dsu(20000);
+        for (auto& s : stones)
+            dsu.uni(s[0], s[1] + 10000);
+        unordered_set<int> seen;
+        for (auto& s : stones)
+            seen.insert(dsu.find(s[0]));
+        return n - seen.size();
+    }
+};
+```
