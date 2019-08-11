@@ -340,6 +340,7 @@ public class PrimMST {
 
 ### Kruskal's algorithm
 
+首先，我们把所有的边从小到大排列。然后，每次我们都从中挑出一条最小权重的边（该边不能形成闭环）。在添加`V-1`条边后（`V`是顶点总数），我们就得到了一颗MST。
 
 #### Implementation
 
