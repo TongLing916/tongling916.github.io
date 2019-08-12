@@ -21,12 +21,38 @@ tags:
 
 #### 试题
 
+1. Prim和Kruskal算法不适用于有向图。
+
+2. 通常，Kruskal算法稍微慢一些，因为对于每条边，我们都要调用`connected()`算法。
+
+3. 与克鲁斯卡尔（Kruskal）相比，普里姆（Prim）算法更适于求 **边稠密的网** 的最小生成树。
+
+4. 如果存在一些负的边权，那么Prim算法或Kruskal算法还能行得通。
+
+5. 最小生成树的代价唯一。
+
+6. 所有权值最小的边不一定会出现在所有的最小生成树中。
+
+7. 使用普里姆（Prim）算法从不同顶点开始得到的最小生成树不一定相同。
+
+8. 使用普里姆算法和克鲁斯卡尔（Kruskal）算法得到的最小生成树不一定会相同。
+
+9. 假设在某个图中，所有的边的权值都一致分布在半开区间[1, 0)之间。对于Kruskal 和Prim这两个算法，你可以让哪一个运行得更快些？
+以让Kruskal 算法运行的更快些。由于权值均匀分布在[1,0)区间内，可以使用桶排序排序权值。这样Kruskal算法的时间复杂度为O(|E|a(|V|))。
+ps:
+- 顺便说下Kruskal和Prim算法加速问题：如果权值处于[1, |V|]之间，排序可以用计数排序，这样时间Kruskal时间复杂度为O(|E|a(|V|))。
+- 由于Prim算法时间主要耗费在维护优先级队列的性质上，加速的方法是使用更加复杂的数据结构，比如基数堆，斐波那契堆。
+
 ### Prim's algorithm (lazy version)
 
 每一步，我们都添加一条新的边到已经建好的树上面。
 
 - 从始至终，我们只有一棵树。
 - 新的边必须满足两个条件：（1）该边的一个顶点必须是已经建好的树里面的顶点。（2）该边在所有满足（1）条件的边中具有最小的权重。
+
+空间复杂度：`E`
+
+时间复杂度：`ElogE`
 
 #### Implementation
 
@@ -94,81 +120,6 @@ public class LazyPrimMST {
         return weight;
     }
 
-    // check optimality conditions (takes time proportional to E V lg* V)
-    private boolean check(EdgeWeightedGraph G) {
-
-        // check weight
-        double totalWeight = 0.0;
-        for (Edge e : edges()) {
-            totalWeight += e.weight();
-        }
-        if (Math.abs(totalWeight - weight()) > FLOATING_POINT_EPSILON) {
-            System.err.printf("Weight of edges does not equal weight(): %f vs. %f\n", totalWeight, weight());
-            return false;
-        }
-
-        // check that it is acyclic
-        UF uf = new UF(G.V());
-        for (Edge e : edges()) {
-            int v = e.either(), w = e.other(v);
-            if (uf.connected(v, w)) {
-                System.err.println("Not a forest");
-                return false;
-            }
-            uf.union(v, w);
-        }
-
-        // check that it is a spanning forest
-        for (Edge e : G.edges()) {
-            int v = e.either(), w = e.other(v);
-            if (!uf.connected(v, w)) {
-                System.err.println("Not a spanning forest");
-                return false;
-            }
-        }
-
-        // check that it is a minimal spanning forest (cut optimality conditions)
-        for (Edge e : edges()) {
-
-            // all edges in MST except e
-            uf = new UF(G.V());
-            for (Edge f : mst) {
-                int x = f.either(), y = f.other(x);
-                if (f != e) uf.union(x, y);
-            }
-
-            // check that e is min weight edge in crossing cut
-            for (Edge f : G.edges()) {
-                int x = f.either(), y = f.other(x);
-                if (!uf.connected(x, y)) {
-                    if (f.weight() < e.weight()) {
-                        System.err.println("Edge " + f + " violates cut optimality conditions");
-                        return false;
-                    }
-                }
-            }
-
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Unit tests the {@code LazyPrimMST} data type.
-     *
-     * @param args the command-line arguments
-     */
-    public static void main(String[] args) {
-        In in = new In(args[0]);
-        EdgeWeightedGraph G = new EdgeWeightedGraph(in);
-        LazyPrimMST mst = new LazyPrimMST(G);
-        for (Edge e : mst.edges()) {
-            StdOut.println(e);
-        }
-        StdOut.printf("%.5f\n", mst.weight());
-    }
-
 }
 ```
 
@@ -177,6 +128,10 @@ public class LazyPrimMST {
 为了提升lazy version，我们可以试着删掉`priority queue`中一些不可用的边，使得其中只保留`tree vertices`和`non-tree vertices`间的`the crossing edges`。
 
 除此之外，其实我们还能删除更多的边。因为对于那些还没被加进树里面的节点，我们只需要对每个`non-tree vertex`保存一条边（这条边具有最小的权重并且连接个一个`tree vertex`）。每次我们想要添加一个新节点，我们只需要挑出那个具有最小权重的边的`non-tree vertex`。在把这个`non-tree vertex`变成`tree vertex`时，我们需要检查一下，是否需要更新剩余的`non-tree vertices`对应的边，因为我们多了一个新的节点。
+
+空间复杂度：`V`
+
+时间复杂度：`ElogV`
 
 #### Implementation
 
@@ -342,6 +297,10 @@ public class PrimMST {
 
 首先，我们把所有的边从小到大排列。然后，每次我们都从中挑出一条最小权重的边（该边不能形成闭环）。在添加`V-1`条边后（`V`是顶点总数），我们就得到了一颗MST。
 
+空间复杂度：`E`
+
+时间复杂度：`ElogE`
+
 #### Implementation
 
 ```java
@@ -394,81 +353,6 @@ public class KruskalMST {
      */
     public double weight() {
         return weight;
-    }
-
-    // check optimality conditions (takes time proportional to E V lg* V)
-    private boolean check(EdgeWeightedGraph G) {
-
-        // check total weight
-        double total = 0.0;
-        for (Edge e : edges()) {
-            total += e.weight();
-        }
-        if (Math.abs(total - weight()) > FLOATING_POINT_EPSILON) {
-            System.err.printf("Weight of edges does not equal weight(): %f vs. %f\n", total, weight());
-            return false;
-        }
-
-        // check that it is acyclic
-        UF uf = new UF(G.V());
-        for (Edge e : edges()) {
-            int v = e.either(), w = e.other(v);
-            if (uf.connected(v, w)) {
-                System.err.println("Not a forest");
-                return false;
-            }
-            uf.union(v, w);
-        }
-
-        // check that it is a spanning forest
-        for (Edge e : G.edges()) {
-            int v = e.either(), w = e.other(v);
-            if (!uf.connected(v, w)) {
-                System.err.println("Not a spanning forest");
-                return false;
-            }
-        }
-
-        // check that it is a minimal spanning forest (cut optimality conditions)
-        for (Edge e : edges()) {
-
-            // all edges in MST except e
-            uf = new UF(G.V());
-            for (Edge f : mst) {
-                int x = f.either(), y = f.other(x);
-                if (f != e) uf.union(x, y);
-            }
-
-            // check that e is min weight edge in crossing cut
-            for (Edge f : G.edges()) {
-                int x = f.either(), y = f.other(x);
-                if (!uf.connected(x, y)) {
-                    if (f.weight() < e.weight()) {
-                        System.err.println("Edge " + f + " violates cut optimality conditions");
-                        return false;
-                    }
-                }
-            }
-
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Unit tests the {@code KruskalMST} data type.
-     *
-     * @param args the command-line arguments
-     */
-    public static void main(String[] args) {
-        In in = new In(args[0]);
-        EdgeWeightedGraph G = new EdgeWeightedGraph(in);
-        KruskalMST mst = new KruskalMST(G);
-        for (Edge e : mst.edges()) {
-            StdOut.println(e);
-        }
-        StdOut.printf("%.5f\n", mst.weight());
     }
 
 }
