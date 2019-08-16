@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Dynamic Programming"
-date:       2019-7-18
+date:       2019-8-16
 author:     Tong
 catalog: true
 tags:
@@ -12,6 +12,42 @@ tags:
 
 1.
 
+
+### [5\. Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/)
+
+Difficulty: **Medium**
+
+
+Given a string **s**, find the longest palindromic substring in **s**. You may assume that the maximum length of **s** is 1000.
+
+**Example 1:**
+
+```
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+```
+
+**Example 2:**
+
+```
+Input: "cbbd"
+Output: "bb"
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        
+    }
+};
+```
 
 ### [95. Unique Binary Search Trees II](https://leetcode.com/problems/unique-binary-search-trees-ii/)
 
