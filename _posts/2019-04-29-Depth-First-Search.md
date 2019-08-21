@@ -20,6 +20,79 @@ tags:
 
 5. Maybe set to another value (tag) for the moment? Modify all of them at last according to the tag?
 
+### [79\. Word Search](https://leetcode.com/problems/word-search/)
+
+Difficulty: **Medium**
+
+
+Given a 2D board and a word, find if the word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+**Example:**
+
+```
+board =
+[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+
+Given word = "ABCCED", return true.
+Given word = "SEE", return true.
+Given word = "ABCB", return false.
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+private:
+	bool dfs(int cnt, vector<vector<char>>& board, string& word, int r, int c)
+	{
+		if (cnt == word.size()) return true;
+		int row = board.size();
+		int col = board[0].size();
+		if (r < 0 || r >= row || c < 0 || c >= col || board[r][c] != word[cnt]) return false;
+		char tmp = board[r][c];
+		board[r][c] = '.';
+		bool res = dfs(cnt + 1, board, word, r - 1, c) || dfs(cnt + 1, board, word, r + 1, c) || dfs(cnt + 1, board, word, r, c - 1) || dfs(cnt + 1, board, word, r, c + 1);
+		board[r][c] = tmp;
+		return res;
+	}
+
+public:
+	bool exist(vector<vector<char>>& board, string word) {
+		if (board.size() == 0 || board[0].size() == 0) return false;
+		int row = board.size();
+		int col = board[0].size();
+		for (int r = 0; r < row; ++r)
+			for (int c = 0; c < col; ++c)
+				if (dfs(0, board, word, r, c)) return true;
+		return false;
+	}
+};
+
+int main()
+{
+	vector<vector<char>> board{ {'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'} };
+	Solution solution;
+	cout << solution.exist(board, "ABCCED") << endl;
+	cout << solution.exist(board, "SEE") << endl;
+	cout << solution.exist(board, "ABCB") << endl;
+}
+
+```
+
 
 ### [Leetcode 130. Surrounded Regions](https://leetcode.com/problems/surrounded-regions/)
 

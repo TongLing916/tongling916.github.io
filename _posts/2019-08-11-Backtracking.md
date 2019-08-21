@@ -39,12 +39,53 @@ Although the above answer is in lexicographical order, your answer could be in a
 Language: **C++**
 
 ```c++
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
 class Solution {
+private:
+	unordered_map<char, vector<char>> dict_;
 public:
-    vector<string> letterCombinations(string digits) {
-        
-    }
+	void combination(vector<string>& res, string& digits, int start, string cur)
+	{
+		int n = digits.size();
+		if (start == n) res.push_back(cur);
+		int char_size = dict_[digits[start]].size();
+		for (int i = 0; i < char_size; ++i)
+		{
+			string new_cur = cur + dict_[digits[start]][i];
+			combination(res, digits, start + 1, new_cur);
+		}
+	}
+	vector<string> letterCombinations(string digits) {
+		dict_['2'] = { 'a', 'b', 'c' };
+		dict_['3'] = { 'd', 'e', 'f' };
+		dict_['4'] = { 'g', 'h', 'i' };
+		dict_['5'] = { 'j', 'k', 'l' };
+		dict_['6'] = { 'm', 'n', 'o' };
+		dict_['7'] = { 'p', 'q', 'r', 's' };
+		dict_['8'] = { 't', 'u', 'v' };
+		dict_['9'] = { 'w', 'x', 'y', 'z' };
+		vector<string> res;
+		if (digits.size() == 0) return res;
+		combination(res, digits, 0, "");
+		return res;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<string> res = solution.letterCombinations("23");
+	for (auto& r : res)
+		cout << r << " ";
+}
+
 ```
 
 ### [22\. Generate Parentheses](https://leetcode.com/problems/generate-parentheses/)
@@ -72,12 +113,44 @@ For example, given _n_ = 3, a solution set is:
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
-    vector<string> generateParenthesis(int n) {
-        
-    }
+	void backtracking(vector<string>& res, int& n, int left, int right, string cur)
+	{
+		if (right == n)
+		{
+			res.push_back(cur);
+			return;
+		}
+
+		if (left < n) backtracking(res, n, left + 1, right, cur + "(");
+
+		if (left > right) backtracking(res, n, left, right + 1, cur + ")");
+	}
+
+	vector<string> generateParenthesis(int n) {
+		vector<string> res;
+		if (n == 0) return res;
+		int left = 0, right = 0;
+		backtracking(res, n, left, right, "");
+		return res;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<string> res = solution.generateParenthesis(5);
+	for (auto& r : res)
+		cout << r << endl;
+}
+
 ```
 
 
@@ -124,12 +197,51 @@ A solution set is:
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        
-    }
+	void backtracking(vector<vector<int>>& res, vector<int>& candidates, int target, vector<int>& cur, int start)
+	{
+		if (target == 0)
+		{
+			res.push_back(cur);
+			return;
+		}
+		for (int i = start; i < candidates.size(); ++i)
+		{
+			if (target - candidates[i] < 0) break;
+			cur.push_back(candidates[i]);
+			backtracking(res, candidates, target - candidates[i], cur, i);
+			cur.pop_back();
+		}
+	}
+	vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+		vector<vector<int>> res;
+		sort(candidates.begin(), candidates.end());
+		if (candidates.size() == 0) return res;
+		vector<int> cur;
+		backtracking(res, candidates, target, cur, 0);
+		return res;
+	}
 };
+
+int main()
+{
+	vector<int> candidates{ 2, 3, 6, 7 };
+	Solution solution;
+	vector<vector<int>> res = solution.combinationSum(candidates, 8);
+	for (auto& r : res)
+	{
+		for (auto& e : r)
+			cout << e << " ";
+		cout << endl;
+	}
+}
 ```
 
 ### [40\. Combination Sum II](https://leetcode.com/problems/combination-sum-ii/)
@@ -176,12 +288,57 @@ A solution set is:
 Language: **C++**
 
 ```c++
+
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-        
-    }
+	void backtracking(vector<vector<int>>& res, vector<int>& candidates, int target, vector<int>& cur, int start)
+	{
+		if (target == 0)
+		{
+			res.push_back(cur);
+			return;
+		}
+
+		for (int i = start; i < candidates.size(); ++i)
+		{
+			if (i > start && candidates[i] == candidates[i - 1]) continue;
+			if (candidates[i] > target) break;
+			cur.push_back(candidates[i]);
+			backtracking(res, candidates, target - candidates[i], cur, i + 1);
+			cur.pop_back();
+		}
+	}
+
+	vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+		vector<vector<int>> res;
+		int n = candidates.size();
+		if (n == 0) return res;
+		vector<int> cur;
+		sort(candidates.begin(), candidates.end());
+		backtracking(res, candidates, target, cur, 0);
+		return res;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<int> candidates{ 10, 1, 2, 7, 6, 1, 5 };
+	vector<vector<int>> res = solution.combinationSum2(candidates, 8);
+	for (auto& r : res)
+	{
+		for (auto& e : r)
+			cout << e << " ";
+		cout << endl;
+	}
+}
+
 ```
 
 
@@ -213,12 +370,53 @@ Output:
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
+private:
+	void backtracking(vector<vector<int>>& res, vector<int>& nums, vector<int>& cur, int pos)
+	{
+		if (pos == nums.size())
+		{
+			res.push_back(cur);
+			return;
+		}
+
+		for (int i = pos; i < nums.size(); ++i)
+		{
+			std::swap(nums[pos], nums[i]);
+			cur.push_back(nums[pos]);
+			backtracking(res, nums, cur, pos + 1);
+			cur.pop_back();
+			std::swap(nums[pos], nums[i]);
+		}
+	}
 public:
-    vector<vector<int>> permute(vector<int>& nums) {
-        
-    }
+	vector<vector<int>> permute(vector<int>& nums) {
+		vector<vector<int>> res;
+		if (nums.size() == 0) return res;
+		vector<int> cur;
+		backtracking(res, nums, cur, 0);
+		return res;
+	}
 };
+
+int main()
+{
+	vector<int> nums{ 1,2,3 };
+	Solution solution;
+	vector<vector<int>> res = solution.permute(nums);
+	for (auto& r : res)
+	{
+		for (auto& e : r)
+			cout << e << " ";
+		cout << endl;
+	}
+}
+
 ```
 
 ### [47\. Permutations II](https://leetcode.com/problems/permutations-ii/)
@@ -246,12 +444,88 @@ Output:
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
 class Solution {
 public:
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-        
-    }
+	void backtracking(vector<vector<int>>& res, vector<int> nums, int n, int i)
+	{
+		if (i == n - 1)
+		{
+			res.push_back(nums);
+			return;
+		}
+
+		for (int k = i; k < n; ++k)
+		{
+			if (k != i && nums[k] == nums[i]) continue;
+			swap(nums[k], nums[i]);
+			backtracking(res, nums, n, i + 1);
+		}
+	}
+
+	vector<vector<int>> permuteUnique(vector<int>& nums) {
+		vector<vector<int>> res;
+		std::sort(nums.begin(), nums.end());
+		backtracking(res, nums, nums.size(), 0);
+		return res;
+	}
 };
+
+class Solution2
+{
+private:
+	void backtracking(vector<vector<int>>& res, vector<int>& nums, vector<int>& cur, int pos)
+	{
+		if (pos == nums.size())
+		{
+			res.push_back(cur);
+			return;
+		}
+
+		unordered_set<int> used;
+		for (int i = pos; i < nums.size(); ++i)
+		{
+			if (used.count(nums[i])) continue;
+			used.insert(nums[i]);
+			std::swap(nums[i], nums[pos]);
+			cur.push_back(nums[pos]);
+			backtracking(res, nums, cur, pos + 1);
+			cur.pop_back();
+			std::swap(nums[i], nums[pos]);
+		}
+	}
+public:
+	vector<vector<int>> permuteUnique(vector<int>& nums)
+	{
+		vector<vector<int>> res;
+		if (nums.size() == 0) return res;
+		std::sort(nums.begin(), nums.end());
+		vector<int> cur;
+		backtracking(res, nums, cur, 0);
+		return res;
+	}
+};
+
+
+int main()
+{
+	vector<int> nums{ 1, 1, 2, 3, 3 };
+	Solution solution;
+	vector<vector<int>> res = solution.permuteUnique(nums);
+	for (auto& r : res)
+	{
+		for (auto& e : r)
+			cout << e << " ";
+		cout << endl;
+	}
+}
+
 ```
 
 ### [60\. Permutation Sequence](https://leetcode.com/problems/permutation-sequence/)
@@ -297,12 +571,86 @@ Output: "2314"
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <string>
+#include <set>
+
+using namespace std;
+
 class Solution {
 public:
-    string getPermutation(int n, int k) {
-        
-    }
+	string getPermutation(int n, int k) {
+		string str;
+		vector<int>fact = { 1 };
+
+		for (int i = 1; i <= n; i++) {
+			str.push_back(i + '0');
+			fact.push_back(fact.back() * i);
+		}
+
+		k--;
+		string res;
+		for (int i = 1; i <= n; i++) {
+			int index = k / fact[n - i];
+			res.push_back(str[index]);
+			str.erase(str.begin() + index);
+			k -= index * fact[n - i];
+		}
+		return res;
+
+	}
 };
+
+class Solution2
+{
+private:
+	void backtracking(string& res, int k, vector<int>& factorial, set<int>& dict)
+	{
+		if (dict.size() == 1)
+		{
+			res += ('0' + * dict.begin());
+			return;
+		}
+		int cnt = factorial[dict.size() - 1];
+		for (const int& n : dict)
+		{
+			if (cnt >= k)
+			{
+				res += ('0' + n);
+				dict.erase(n);
+				backtracking(res, k, factorial, dict);
+				break;
+			}
+			else
+			{
+				k -= cnt;
+			}
+		}
+	}
+
+public:
+	string getPermutation(int n, int k) {
+		vector<int> factorial(n + 1, 1);
+		set<int> dict;
+		for (int i = 1; i <= n; ++i)
+		{
+			factorial[i] = factorial[i - 1] * i;
+			dict.insert(i);
+		}
+		string res = "";
+		backtracking(res, k, factorial, dict);
+		return res;
+	}
+};
+
+int main()
+{
+	Solution solution;
+	cout << solution.getPermutation(3, 3) << endl;
+	cout << solution.getPermutation(4, 9) << endl;
+}
+
 ```
 
 
@@ -334,12 +682,53 @@ Output:
 Language: **C++**
 
 ```c++
-class Solution {
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
+private:
+	void backtracking(vector<vector<int>>& res, int start, int& end, int& k, vector<int>& cur)
+	{
+		if (cur.size() == k)
+		{
+			res.push_back(cur);
+			return;
+		}
+
+		for (int i = start; i <= end; ++i)
+		{
+			if (cur.size() + end - start + 1 < k) break; // we can stop if there are not enough numbers
+			cur.push_back(i);
+			backtracking(res, i + 1, end, k, cur);
+			cur.pop_back();
+		}
+	}
+
 public:
-    vector<vector<int>> combine(int n, int k) {
-        
-    }
+	vector<vector<int>> combine(int n, int k) {
+		vector<vector<int>> res;
+		if (k == 0) return res;
+		vector<int> cur;
+		backtracking(res, 1, n, k, cur);
+		return res;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<vector<int>> res = solution.combine(5, 3);
+	for (auto& r : res)
+	{
+		for (auto& e : r)
+			cout << e << " ";
+		cout << endl;
+	}
+}
+
 ```
 
 
@@ -375,52 +764,46 @@ Output:
 Language: **C++**
 
 ```c++
+#include <iostream>
+
+#include <vector>
+
+using namespace std;
+
 class Solution {
+private:
+	void backtracking(vector<vector<int>>& res, vector<int>& cur, vector<int>& nums, int start)
+	{
+		for (int i = start; i < nums.size(); ++i)
+		{
+			cur.push_back(nums[i]);
+			backtracking(res, cur, nums, i + 1);
+			cur.pop_back();
+		}
+		res.push_back(cur);
+	}
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        
-    }
+	vector<vector<int>> subsets(vector<int>& nums) {
+		vector<vector<int>> res;
+		vector<int> cur;
+		backtracking(res, cur, nums, 0);
+		return res;
+	}
 };
-```
 
+int main()
+{
+	vector<int> nums{ 1, 2, 3 };
+	Solution solution;
+	vector<vector<int>> res = solution.subsets(nums);
+	for (auto& r : res)
+	{
+		for (auto& e : r)
+			cout << e << " ";
+		cout << endl;
+	}
+}
 
-
-### [79\. Word Search](https://leetcode.com/problems/word-search/)
-
-Difficulty: **Medium**
-
-
-Given a 2D board and a word, find if the word exists in the grid.
-
-The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
-
-**Example:**
-
-```
-board =
-[
-  ['A','B','C','E'],
-  ['S','F','C','S'],
-  ['A','D','E','E']
-]
-
-Given word = "ABCCED", return true.
-Given word = "SEE", return true.
-Given word = "ABCB", return false.
-```
-
-
-#### Solution
-
-Language: **C++**
-
-```c++
-class Solution {
-public:
-    bool exist(vector<vector<char>>& board, string word) {
-        
-    }
-};
 ```
 
 
@@ -469,11 +852,16 @@ Explanation: We define the gray code sequence to begin with 0.
 Language: **C++**
 
 ```c++
+// https://leetcode.com/problems/gray-code/discuss/29881/An-accepted-three-line-solution-in-JAVA
+
 class Solution {
 public:
-    vector<int> grayCode(int n) {
-        
-    }
+	vector<int> grayCode(int n) {
+		vector<int> res;
+		for (int i = 0; i < 1 << n; ++i)
+			res.push_back(i ^ (i >> 1));
+		return res;
+	}
 };
 ```
 
@@ -508,12 +896,49 @@ Output:
 Language: **C++**
 
 ```c++
-class Solution {
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
+private:
+	void backtracking(vector<vector<int>>& res, vector<int>& cur, vector<int>& nums, int start)
+	{
+		res.push_back(cur);
+		for (int i = start; i < nums.size(); ++i)
+		{
+			if (i > start && nums[i] == nums[i - 1]) continue;
+			cur.push_back(nums[i]);
+			backtracking(res, cur, nums, i + 1);
+			cur.pop_back();
+		}
+	}
 public:
-    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        
-    }
+	vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+		vector<vector<int>> res;
+		vector<int> cur;
+		std::sort(nums.begin(), nums.end());
+		backtracking(res, cur, nums, 0);
+		return res;
+	}
 };
+
+int main()
+{
+	vector<int> nums{ 1, 2, 2 };
+	Solution solution;
+	vector<vector<int>> res = solution.subsetsWithDup(nums);
+	for (auto& r : res)
+	{
+		for (auto& e : r)
+			cout << e << " ";
+		cout << endl;
+	}
+}
+
 ```
 
 
@@ -537,12 +962,73 @@ Output: ["255.255.11.135", "255.255.111.35"]
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
-    vector<string> restoreIpAddresses(string s) {
-        
-    }
+	vector<string> restoreIpAddresses(string s) {
+		vector<string> ret;
+		string ans;
+
+		for (int a = 1; a <= 3; a++)
+			for (int b = 1; b <= 3; b++)
+				for (int c = 1; c <= 3; c++)
+					for (int d = 1; d <= 3; d++)
+						if (a + b + c + d == s.length()) {
+							int A = stoi(s.substr(0, a));
+							int B = stoi(s.substr(a, b));
+							int C = stoi(s.substr(a + b, c));
+							int D = stoi(s.substr(a + b + c, d));
+							if (A <= 255 && B <= 255 && C <= 255 && D <= 255)
+								if ((ans = to_string(A) + "." + to_string(B) + "." + to_string(C) + "." + to_string(D)).length() == s.length() + 3)
+									ret.push_back(ans);
+						}
+
+		return ret;
+	}
 };
+
+class Solution2 {
+public:
+	vector<string> restoreIpAddresses(string s) {
+		vector<string> result;
+		string ip;
+		dfs(s, 0, 0, ip, result); //paras:string s,start index of s,step(from0-3),intermediate ip,final result
+		return result;
+	}
+	void dfs(string s, int start, int step, string ip, vector<string>& result) {
+		if (start == s.size() && step == 4) {
+			ip.erase(ip.end() - 1); //remove the last '.' from the last decimal number
+			result.push_back(ip);
+			return;
+		}
+		if (s.size() - start > (4 - step) * 3) return;
+		if (s.size() - start < (4 - step)) return;
+		int num = 0;
+		for (int i = start; i < start + 3; i++) {
+			num = num * 10 + (s[i] - '0');
+			if (num <= 255) {
+				ip += s[i];
+				dfs(s, i + 1, step + 1, ip + '.', result);
+			}
+			if (num == 0) break;
+		}
+	}
+};
+
+
+int main()
+{
+	Solution solution;
+	vector<string> res = solution.restoreIpAddresses("25525511135");
+	for (string& s : res)
+		cout << s << " ";
+}
+
 ```
 
 
@@ -572,73 +1058,64 @@ Output:
 Language: **C++**
 
 ```c++
-class Solution {
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
 public:
-    vector<vector<string>> partition(string s) {
-        
-    }
+	vector<vector<string>> partition(string s)
+	{
+		vector<vector<string>> pars;
+		vector<string> par;
+		partition(s, 0, par, pars);
+		return pars;
+	}
+private:
+	void partition(string& s, int start, vector<string>& par, vector<vector<string>>& pars)
+	{
+		int n = s.length();
+		if (start == n)
+		{
+			pars.push_back(par);
+		}
+		else
+		{
+			for (int i = start; i < n; i++)
+			{
+				if (isPalindrome(s, start, i))
+				{
+					par.push_back(s.substr(start, i - start + 1));
+					partition(s, i + 1, par, pars);
+					par.pop_back();
+				}
+			}
+		}
+	}
+
+	bool isPalindrome(string& s, int l, int r)
+	{
+		while (l < r)
+			if (s[l++] != s[r--]) return false;
+		return true;
+	}
 };
-```
 
-### [211\. Add and Search Word - Data structure design](https://leetcode.com/problems/add-and-search-word-data-structure-design/)
+int main()
+{
+	Solution solution;
+	vector<vector<string>> res = solution.partition("aab");
+	for (auto& r : res)
+	{
+		for (auto& s : r)
+			cout << s << " ";
+		cout << endl;
+	}
+}
 
-Difficulty: **Medium**
-
-
-Design a data structure that supports the following two operations:
-
-```
-void addWord(word)
-bool search(word)
-```
-
-search(word) can search a literal word or a regular expression string containing only letters `a-z` or `.`. A `.` means it can represent any one letter.
-
-**Example:**
-
-```
-addWord("bad")
-addWord("dad")
-addWord("mad")
-search("pad") -> false
-search("bad") -> true
-search(".ad") -> true
-search("b..") -> true
-```
-
-**Note:**  
-You may assume that all words are consist of lowercase letters `a-z`.
-
-
-#### Solution
-
-Language: **C++**
-
-```c++
-class WordDictionary {
-public:
-    /** Initialize your data structure here. */
-    WordDictionary() {
-        
-    }
-    
-    /** Adds a word into the data structure. */
-    void addWord(string word) {
-        
-    }
-    
-    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
-    bool search(string word) {
-        
-    }
-};
-​
-/**
- * Your WordDictionary object will be instantiated and called as such:
- * WordDictionary* obj = new WordDictionary();
- * obj->addWord(word);
- * bool param_2 = obj->search(word);
- */
 ```
 
 ### [216\. Combination Sum III](https://leetcode.com/problems/combination-sum-iii/)
@@ -673,12 +1150,56 @@ Output: [[1,2,6], [1,3,5], [2,3,4]]
 Language: **C++**
 
 ```c++
-class Solution {
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
+private:
+	vector<int> dict_;
+	void backtracking(vector<vector<int>>& res, vector<int>& cur, int& k, int n, int start)
+	{
+		if (cur.size() == k)
+		{
+			if (n == 0) res.push_back(cur);
+			return;
+		}
+		for (int i = start; i <= 9; ++i)
+		{
+			if (i > n) break;							   // i is too large
+			if (dict_[i] || n - i > (k - 1) * 9) continue; // i is too small
+			cur.push_back(i);
+			dict_[i] = 1;
+			backtracking(res, cur, k, n - i, i + 1);
+			cur.pop_back();
+			dict_[i] = 0;
+		}
+	}
 public:
-    vector<vector<int>> combinationSum3(int k, int n) {
-        
-    }
+	vector<vector<int>> combinationSum3(int k, int n)
+	{
+		vector<vector<int>> res;
+		vector<int> cur;
+		dict_ = vector<int>(10, 0);
+		backtracking(res, cur, k, n, 1);
+		return res;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<vector<int>> res = solution.combinationSum3(3, 9);
+	for (auto& r : res)
+	{
+		for (auto& e : r)
+			cout << e << " ";
+		cout << endl;
+	}
+}
+
 ```
 
 
@@ -707,9 +1228,19 @@ Language: **C++**
 ```c++
 class Solution {
 public:
-    int countNumbersWithUniqueDigits(int n) {
-        
-    }
+    int countNumbersWithUniqueDigits(int n) {
+        if (n == 0) return 1;
+        if (n > 10) return 0;
+        int cnt = 10;
+        int cnt_i = 9; // i: number of digits
+        int possible = 9;
+        for (int i = 2; i <= n; ++i, --possible)
+        {
+            cnt_i * = possible;
+            cnt += cnt_i;
+        }
+        return cnt;
+    }
 };
 ```
 
