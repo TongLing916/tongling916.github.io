@@ -10,7 +10,11 @@ tags:
 
 ### Summary
 
-1.
+1. vector push_back(sth) and pop_back() to iterate.
+
+2. condition when the iteration is finished.
+
+3. when to push_back() in our final result.
 
 ### [17\. Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/)
 
@@ -1202,6 +1206,99 @@ int main()
 
 ```
 
+### [306\. Additive Number](https://leetcode.com/problems/additive-number/)
+
+Difficulty: **Medium**
+
+
+Additive number is a string whose digits can form additive sequence.
+
+A valid additive sequence should contain **at least** three numbers. Except for the first two numbers, each subsequent number in the sequence must be the sum of the preceding two.
+
+Given a string containing only digits `'0'-'9'`, write a function to determine if it's an additive number.
+
+**Note:** Numbers in the additive sequence **cannot** have leading zeros, so sequence `1, 2, 03` or `1, 02, 3` is invalid.
+
+**Example 1:**
+
+```
+Input: "112358"
+Output: true
+Explanation: The digits can form an additive sequence: 1, 1, 2, 3, 5, 8\.
+             1 + 1 = 2, 1 + 2 = 3, 2 + 3 = 5, 3 + 5 = 8
+```
+
+**Example 2:**
+
+```
+Input: "199100199"
+Output: true
+Explanation: The additive sequence is: 1, 99, 100, 199. 
+             1 + 99 = 100, 99 + 100 = 199
+```
+
+**Follow up:**  
+How would you handle overflow for very large input integers?
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution
+{
+private:
+	string add(const string& n, const string& m)
+	{
+		string res;
+		int i = n.size() - 1;
+		int j = m.size() - 1;
+		int carry = 0;
+		while (i >= 0 || j >= 0)
+		{
+			int sum = carry + (i >= 0 ? (n[i--] - '0') : 0) + (j >= 0 ? (m[j--] - '0') : 0);
+			res.push_back(sum % 10 + '0');
+			carry = sum / 10;
+		}
+		if (carry) res.push_back(carry + '0');
+		reverse(res.begin(), res.end());
+		return res;
+	}
+	bool check(string num1, string num2, string num)
+	{
+		if (num1.size() > 1 && num1[0] == '0' || num2.size() > 1 && num2[0] == '0') return false;
+		string sum = add(num1, num2);
+		if (num == sum) return true;
+		if (num.size() < sum.size() || sum.compare(num.substr(0, sum.size())) != 0) return false;
+		else return check(num2, sum, num.substr(sum.size()));
+	}
+public:
+	bool isAdditiveNumber(string num)
+	{
+		for (int i = 1; i <= num.size() / 2; ++i)
+			for (int j = 1; j <= (num.size() - i) / 2; ++j)
+				if (check(num.substr(0, i), num.substr(i, j), num.substr(i + j))) return true;
+		return false;
+	}
+};
+
+int main()
+{
+	Solution solution;
+	cout << solution.isAdditiveNumber("112358") << endl;
+	cout << solution.isAdditiveNumber("199100199") << endl;
+	cout << solution.isAdditiveNumber("19910011992") << endl;
+}
+
+```
+
 
 ### [357\. Count Numbers with Unique Digits](https://leetcode.com/problems/count-numbers-with-unique-digits/)
 
@@ -1287,12 +1384,47 @@ Number at the 2nd position (i=2) is 1, and i (i=2) is divisible by 1.
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
+private:
+	int cnt_;
+	void backtracking(int& N, int pos, vector<bool>& visited)
+	{
+		if (pos > N)
+		{
+			++cnt_;
+			return;
+		}
+		for (int i = 1; i <= N; ++i)
+		{
+			if (!visited[i] && (i % pos == 0 || pos % i == 0))
+			{
+				visited[i] = true;
+				backtracking(N, pos + 1, visited);
+				visited[i] = false;
+			}
+		}
+	}
 public:
-    int countArrangement(int N) {
-        
-    }
+	int countArrangement(int N) {
+		cnt_ = 0;
+		vector<bool> visited(N + 1, false);
+		backtracking(N, 1, visited);
+		return cnt_;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	cout << solution.countArrangement(4) << endl;
+	cout << solution.countArrangement(9) << endl;
+}
+
 ```
 
 
@@ -1362,12 +1494,57 @@ Explanation: The output [11, 0, 11, 11] would also be accepted.
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
-    vector<int> splitIntoFibonacci(string S) {
-        
-    }
+	bool backtracking(string& S, int start, vector<int>& nums) {
+		int n = S.size();
+		// If we reached end of string & we have more than 2 elements
+		// in our sequence then return true
+		if (start >= n && nums.size() >= 3) {
+			return true;
+		}
+		// Since '0' in beginning is not allowed therefore if the current char is '0'
+		// then we can use it alone only and cannot extend it by adding more chars at the back.
+		// Otherwise we make take upto 10 chars (length of INT_MAX)
+		int maxSplitSize = (S[start] == '0') ? 1 : 10;
+
+		// Try getting a solution by forming a number with 'i' chars begginning with 'start'
+		for (int i = 1; i <= maxSplitSize && start + i <= S.size(); i++) {
+			long long num = stoll(S.substr(start, i));
+			if (num > INT_MAX) return false;
+			int sz = nums.size();
+			// If fibonacci property is not satisfied then we cannot get a solution
+			if (sz >= 2 && (long long)nums[sz - 1] + (long long)nums[sz - 2] < num)
+				return false;
+			if (sz <= 1 || (long long)nums[sz - 1] + (long long)nums[sz - 2] == num) {
+				nums.push_back(num);
+				if (backtracking(S, start + i, nums)) return true;
+				nums.pop_back();
+			}
+		}
+		return false;
+	}
+
+	vector<int> splitIntoFibonacci(string S) {
+		vector<int> nums;
+		// Backtrack from 0th char
+		backtracking(S, 0, nums);
+		return nums;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	solution.splitIntoFibonacci("214748364721474836422147483641");
+}
+
 ```
 
 
@@ -1407,10 +1584,70 @@ Output: 188
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_set>
+#include <unordered_map>
+
+using namespace std;
+
 class Solution {
 public:
-    int numTilePossibilities(string tiles) {
-        
-    }
+	int numTilePossibilities(string tiles) {
+		unordered_map<char, int> tile_cnt;
+
+		for (char tile : tiles)
+			++tile_cnt[tile];
+
+		// step by step to grow solutions
+		return recur(tile_cnt);
+	}
+
+private:
+	int recur(unordered_map<char, int>& m) {
+		int ans = 0;
+		for (auto& kv : m)
+		{
+			if (kv.second != 0)
+			{
+				ans++;
+				kv.second--;
+				ans += recur(m);
+				kv.second++;
+			}
+		}
+		return ans;
+	}
 };
+
+class Solution2 {
+private:
+	void backtracking(unordered_set<string>& res, string cur, string& tiles, int start)
+	{
+		res.insert(cur);
+		for (int i = start; i < tiles.size(); ++i)
+		{
+			if (i > start && tiles[i] == tiles[start]) continue;
+			swap(tiles[i], tiles[start]);
+			backtracking(res, cur + tiles[start], tiles, start + 1);
+			swap(tiles[i], tiles[start]);
+		}
+	}
+public:
+	int numTilePossibilities(string tiles) {
+		unordered_set<string> res;
+		backtracking(res, "", tiles, 0);
+		return res.size() - 1;
+	}
+};
+
+int main()
+{
+	Solution solution;
+	cout << solution.numTilePossibilities("AAB") << endl;
+	cout << solution.numTilePossibilities("AAABBC") << endl;
+}
+
 ```
