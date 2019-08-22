@@ -1393,3 +1393,233 @@ int main()
 }
 
 ```
+
+### [785\. Is Graph Bipartite?](https://leetcode.com/problems/is-graph-bipartite/)
+
+Difficulty: **Medium**
+
+
+Given an undirected `graph`, return `true` if and only if it is bipartite.
+
+Recall that a graph is _bipartite_ if we can split it's set of nodes into two independent subsets A and B such that every edge in the graph has one node in A and another node in B.
+
+The graph is given in the following form: `graph[i]` is a list of indexes `j` for which the edge between nodes `i` and `j` exists.  Each node is an integer between `0` and `graph.length - 1`.  There are no self edges or parallel edges: `graph[i]` does not contain `i`, and it doesn't contain any element twice.
+
+```
+Example 1:
+Input: [[1,3], [0,2], [1,3], [0,2]]
+Output: true
+Explanation:
+The graph looks like this:
+0----1
+|    |
+|    |
+3----2
+We can divide the vertices into two groups: {0, 2} and {1, 3}.
+```
+
+```
+Example 2:
+Input: [[1,2,3], [0,2], [0,1,3], [0,2]]
+Output: false
+Explanation:
+The graph looks like this:
+0----1
+| \  |
+|  \ |
+3----2
+We cannot find a way to divide the set of nodes into two independent subsets.
+```
+
+**Note:**
+
+*   `graph` will have length in range `[1, 100]`.
+*   `graph[i]` will contain integers in range `[0, graph.length - 1]`.
+*   `graph[i]` will not contain `i` or duplicate values.
+*   The graph is undirected: if any element `j` is in `graph[i]`, then `i` will be in `graph[j]`.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> colors(n, 0); // 0: unvisited; 1: blue; -1: red.
+        for (int i = 0; i < n; ++i)
+        {
+            if (colors[i]) continue;
+            queue<int> q;
+            q.push(i);
+            colors[i] = 1;
+            while (!q.empty())
+            {
+                int v = q.front();
+                q.pop();
+                for (auto& next : graph[v])
+                {
+                    if (colors[next] == 0)
+                    {
+                        colors[next] = -colors[v];
+                        q.push(next);
+                    }
+                    else if (colors[next] == colors[v])
+                    {
+                        return false;
+                    }
+                }
+            }
+        }        
+        return true;
+    }
+};
+```
+
+
+### [841\. Keys and Rooms](https://leetcode.com/problems/keys-and-rooms/)
+
+Difficulty: **Medium**
+
+
+There are `N` rooms and you start in room `0`.  Each room has a distinct number in `0, 1, 2, ..., N-1`, and each room may have some keys to access the next room. 
+
+Formally, each room `i` has a list of keys `rooms[i]`, and each key `rooms[i][j]` is an integer in `[0, 1, ..., N-1]` where `N = rooms.length`.  A key `rooms[i][j] = v` opens the room with number `v`.
+
+Initially, all the rooms start locked (except for room `0`). 
+
+You can walk back and forth between rooms freely.
+
+Return `true` if and only if you can enter every room.
+
+**Example 1:**
+
+```
+Input: [[1],[2],[3],[]]
+Output: true
+Explanation:  
+We start in room 0, and pick up key 1.
+We then go to room 1, and pick up key 2.
+We then go to room 2, and pick up key 3.
+We then go to room 3\.  Since we were able to go to every room, we return true.
+```
+
+**Example 2:**
+
+```
+Input: [[1,3],[3,0,1],[2],[0]]
+Output: false
+Explanation: We can't enter the room with number 2.
+```
+
+**Note:**
+
+1.  `1 <= rooms.length <= 1000`
+2.  `0 <= rooms[i].length <= 1000`
+3.  The number of keys in all rooms combined is at most `3000`.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <queue>
+
+using namespace std;
+
+// dfs
+class Solution {
+private:
+	void dfs(vector<vector<int>>& rooms, int i, unordered_set<int>& visited)
+	{
+		for (auto& key : rooms[i])
+		{
+			if (visited.count(key)) continue;
+			visited.insert(key);
+			dfs(rooms, key, visited);
+		}
+	}
+public:
+	bool canVisitAllRooms(vector<vector<int>>& rooms)
+	{
+		unordered_set<int> visited;
+		visited.insert(0);
+		dfs(rooms, 0, visited);
+		return visited.size() == rooms.size();
+	}
+};
+
+// bfs
+class Solution2 {
+public:
+	bool canVisitAllRooms(vector<vector<int>>& rooms) {
+		queue<int> q;
+		q.push(0);
+		unordered_set<int> visited;
+		visited.insert(0);
+		while (!q.empty()) {
+			int key = q.front();
+			q.pop();
+			for (int i = 0; i < rooms[key].size(); i++) {
+				if (visited.count(rooms[key][i]) == 0) {
+					visited.insert(rooms[key][i]);
+					q.push(rooms[key][i]);
+				}
+			}
+		}
+		return visited.size() == rooms.size();
+
+	}
+};
+
+int main()
+{
+	vector<vector<int>> rooms{ {1}, {2}, {3}, {} };
+	Solution solution;
+	cout << solution.canVisitAllRooms(rooms) << endl;
+}
+
+```
+
+
+### [1043\. Partition Array for Maximum Sum](https://leetcode.com/problems/partition-array-for-maximum-sum/)
+
+Difficulty: **Medium**
+
+
+Given an integer array `A`, you partition the array into (contiguous) subarrays of length at most `K`.  After partitioning, each subarray has their values changed to become the maximum value of that subarray.
+
+Return the largest sum of the given array after partitioning.
+
+**Example 1:**
+
+```
+Input: A = [1,15,7,9,2,5,10], K = 3
+Output: 84
+Explanation: A becomes [15,15,15,9,10,10,10]
+```
+
+**Note:**
+
+1.  `1 <= K <= A.length <= 500`
+2.  `0 <= A[i] <= 10^6`
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    int maxSumAfterPartitioning(vector<int>& A, int K) {
+        
+    }
+};
+```

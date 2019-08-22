@@ -868,3 +868,252 @@ int main()
 }
 
 ```
+
+
+### [1162\. As Far from Land as Possible](https://leetcode.com/problems/as-far-from-land-as-possible/)
+
+Difficulty: **Medium**
+
+
+Given an N x N `grid` containing only values `0` and `1`, where `0` represents water and `1` represents land, find a water cell such that its distance to the nearest land cell is maximized and return the distance.
+
+The distance used in this problem is the _Manhattan distance_: the distance between two cells `(x0, y0)` and `(x1, y1)` is `|x0 - x1| + |y0 - y1|`.
+
+If no land or water exists in the grid, return `-1`.
+
+**Example 1:**
+
+**![](https://assets.leetcode.com/uploads/2019/05/03/1336_ex1.JPG)**
+
+```
+Input: [[1,0,1],[0,0,0],[1,0,1]]
+Output: 2
+Explanation:
+The cell (1, 1) is as far as possible from all the land with distance 2.
+```
+
+**Example 2:**
+
+**![](https://assets.leetcode.com/uploads/2019/05/03/1336_ex2.JPG)**
+
+```
+Input: [[1,0,0],[0,0,0],[0,0,0]]
+Output: 4
+Explanation:
+The cell (2, 2) is as far as possible from all the land with distance 4.
+```
+
+<span style="display: inline;">**Note:**</span>
+
+1.  <span style="display: inline;">`1 <= grid.length == grid[0].length <= 100`</span>
+2.  <span style="display: inline;">`grid[i][j]` is `0` or `1`</span>
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+	int maxDistance(vector<vector<int>>& grid) {
+		int n = grid.size();
+		vector<vector<int>> visited(n, vector<int>(n, 0));
+		queue<pair<int, int>> q;
+		for (int r = 0; r < n; ++r)
+			for (int c = 0; c < n; ++c)
+				if (grid[r][c] == 1)
+				{
+					q.push({ r, c });
+					visited[r][c] = 1;
+				}
+		if (q.size() == 0 || q.size() == n * n) return -1;
+		int cnt = -1; // start from the land cells
+		while (!q.empty())
+		{
+			int breadth = q.size();
+			for (int i = 0; i < breadth; ++i)
+			{
+				pair<int, int> cur = q.front();
+				q.pop();
+				int r = cur.first;
+				int c = cur.second;
+				if (r - 1 >= 0 && visited[r - 1][c] == 0 && grid[r - 1][c] == 0)
+				{
+					visited[r - 1][c] = 1;
+					q.push({ r - 1, c });
+				}
+				if (r + 1 < n && visited[r + 1][c] == 0 && grid[r + 1][c] == 0)
+				{
+					visited[r + 1][c] = 1;
+					q.push({ r + 1, c });
+				}
+				if (c - 1 >= 0 && visited[r][c - 1] == 0 && grid[r][c - 1] == 0)
+				{
+					visited[r][c - 1] = 1;
+					q.push({ r, c - 1 });
+				}
+				if (c + 1 < n && visited[r][c + 1] == 0 && grid[r][c + 1] == 0)
+				{
+					visited[r][c + 1] = 1;
+					q.push({ r, c + 1 });
+				}
+			}
+			++cnt;
+		}
+		return cnt;
+	}
+};
+
+int main()
+{
+	Solution solution;
+	vector<vector<int>> grid{ {1, 0, 1}, {0, 0, 0}, {1, 0, 1} };
+	cout << solution.maxDistance(grid) << endl;
+}
+
+```
+
+
+
+
+### [1129\. Shortest Path with Alternating Colors](https://leetcode.com/problems/shortest-path-with-alternating-colors/)
+
+Difficulty: **Medium**
+
+
+Consider a directed graph, with nodes labelled `0, 1, ..., n-1`.  In this graph, each edge is either red or blue, and there could be self-edges or parallel edges.
+
+Each `[i, j]` in `red_edges` denotes a red directed edge from node `i` to node `j`.  Similarly, each `[i, j]` in `blue_edges` denotes a blue directed edge from node `i` to node `j`.
+
+Return an array `answer` of length `n`, where each `answer[X]` is the length of the shortest path from node `0` to node `X` such that the edge colors alternate along the path (or `-1` if such a path doesn't exist).
+
+**Example 1:**
+
+```
+Input: n = 3, red_edges = [[0,1],[1,2]], blue_edges = []
+Output: [0,1,-1]
+```
+
+**Example 2:**
+
+```
+Input: n = 3, red_edges = [[0,1]], blue_edges = [[2,1]]
+Output: [0,1,-1]
+```
+
+**Example 3:**
+
+```
+Input: n = 3, red_edges = [[1,0]], blue_edges = [[2,1]]
+Output: [0,-1,-1]
+```
+
+**Example 4:**
+
+```
+Input: n = 3, red_edges = [[0,1]], blue_edges = [[1,2]]
+Output: [0,1,2]
+```
+
+**Example 5:**
+
+```
+Input: n = 3, red_edges = [[0,1],[0,2]], blue_edges = [[1,0]]
+Output: [0,1,1]
+```
+
+**Constraints:**
+
+*   `1 <= n <= 100`
+*   `red_edges.length <= 400`
+*   `blue_edges.length <= 400`
+*   `red_edges[i].length == blue_edges[i].length == 2`
+*   `0 <= red_edges[i][j], blue_edges[i][j] < n`
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution
+{
+private:
+	vector<vector<int>> nodes_;
+	vector<int> dist_;
+
+	void buildGraphEdge(int& n, vector<vector<int>>& red_edges, vector<vector<int>>& blue_edges)
+	{
+		nodes_.resize(2 * n, vector<int>());
+		for (vector<int>& e : red_edges)
+			nodes_[e[0] * 2 + 1].push_back(e[1] * 2 + 0);
+		for (vector<int>& e : blue_edges)
+			nodes_[e[0] * 2 + 0].push_back(e[1] * 2 + 1);
+	}
+
+	void bfs(int n, int start)
+	{
+		queue<int> q;
+		q.push(start);
+		vector<int> visited(2 * n, false);
+		visited[start] = true;
+		int cnt = 0;
+		while (!q.empty())
+		{
+			int breadth = q.size();
+			for (int i = 0; i < breadth; ++i)
+			{
+				int node = q.front();
+				q.pop();
+				dist_[node / 2] = min(dist_[node / 2], cnt);
+				for (auto& next: nodes_[node])
+				{
+					if (visited[next] == false)
+					{
+						q.push(next);
+						visited[next] = true;
+					}
+				}
+			}
+			++cnt;
+		}
+	}
+public:
+	vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& red_edges, vector<vector<int>>& blue_edges)
+	{
+		buildGraphEdge(n, red_edges, blue_edges);
+		dist_.resize(n, INT_MAX);
+		dist_[0] = 0;
+		bfs(n, 0);
+		bfs(n, 1);
+		for (int i = 0; i < n; ++i)
+			if (dist_[i] == INT_MAX) dist_[i] = -1;
+		return dist_;
+	}
+};
+
+int main()
+{
+	vector<vector<int>> red_edges{ {0, 1}, {1, 2} };
+	vector<vector<int>> blue_edges{ };
+	Solution solution;
+	vector<int> res = solution.shortestAlternatingPaths(3, red_edges, blue_edges);
+	for (int& r : res)
+		cout << r << endl;
+}
+
+```

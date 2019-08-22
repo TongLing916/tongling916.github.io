@@ -614,3 +614,106 @@ ublic class BellmanFordSP {
 }
 
 ```
+
+### [743\. Network Delay Time](https://leetcode.com/problems/network-delay-time/)
+
+Difficulty: **Medium**
+
+
+There are `N` network nodes, labelled `1` to `N`.
+
+Given `times`, a list of travel times as **directed** edges `times[i] = (u, v, w)`, where `u` is the source node, `v` is the target node, and `w` is the time it takes for a signal to travel from source to target.
+
+Now, we send a signal from a certain node `K`. How long will it take for all nodes to receive the signal? If it is impossible, return `-1`.
+
+**Example 1:**
+
+![](https://assets.leetcode.com/uploads/2019/05/23/931_example_1.png)
+
+```
+Input: times = [[2,1,1],[2,3,1],[3,4,1]], N = 4, K = 2
+Output: 2
+```
+
+**Note:**
+
+1.  `N` will be in the range `[1, 100]`.
+2.  `K` will be in the range `[1, N]`.
+3.  The length of `times` will be in the range `[1, 6000]`.
+4.  All edges `times[i] = (u, v, w)` will have `1 <= u, v <= N` and `0 <= w <= 100`.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+// Dijkstra
+class Solution {
+public:
+	int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+		vector<vector<pair<int, int>>> g(N + 1);
+		for (int i = 0; i < times.size(); ++i)
+			g[times[i][0]].push_back({ times[i][1], times[i][2] });
+		vector<int> dist_to(N + 1, INT_MAX);
+		dist_to[K] = 0;
+		priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; // min heap
+		pq.push({ 0, K });
+		int u, v, w;
+		vector<bool> visited(N + 1, false);
+		while (!pq.empty())
+		{
+			pair<int, int> p = pq.top();
+			pq.pop();
+			u = p.second;
+			if (visited[u]) continue;
+			for (auto& to : g[u])
+			{
+				v = to.first;
+				w = to.second;
+				if (dist_to[v] > dist_to[u] + w)
+				{
+					dist_to[v] = dist_to[u] + w;
+					pq.push({ dist_to[v], v });
+				}
+			}
+			visited[u] = true;
+		}
+		int max_time = *max_element(dist_to.begin() + 1, dist_to.end());
+		return max_time == INT_MAX ? -1 : max_time;
+	}
+};
+
+// Bellman-Ford (slower)
+class Solution2 {
+public:
+	int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+		vector<int> dist_to(N + 1, INT_MAX);
+		dist_to[K] = 0;
+		for (int i = 0; i < N; ++i)
+			for (vector<int>& e : times)
+			{
+				int u = e[0];
+				int v = e[1];
+				int w = e[2];
+				if (dist_to[u] != INT_MAX && dist_to[v] > dist_to[u] + w) dist_to[v] = dist_to[u] + w;
+			}
+		int max_time = *max_element(dist_to.begin() + 1, dist_to.end());
+		return max_time == INT_MAX ? -1 : max_time;
+	}
+};
+
+int main()
+{
+	vector<vector<int>> times{ {2,1,1}, {2,3,1}, {3,4,1} };
+	Solution solution;
+	cout << solution.networkDelayTime(times, 4, 2) << endl;
+}
+```
