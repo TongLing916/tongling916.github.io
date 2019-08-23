@@ -150,3 +150,68 @@ int main()
 	vector<TreeNode*> trees = solution.generateTrees(0);
 }
 ```
+
+
+
+### [1043\. Partition Array for Maximum Sum](https://leetcode.com/problems/partition-array-for-maximum-sum/)
+
+Difficulty: **Medium**
+
+
+Given an integer array `A`, you partition the array into (contiguous) subarrays of length at most `K`.  After partitioning, each subarray has their values changed to become the maximum value of that subarray.
+
+Return the largest sum of the given array after partitioning.
+
+**Example 1:**
+
+```
+Input: A = [1,15,7,9,2,5,10], K = 3
+Output: 84
+Explanation: A becomes [15,15,15,9,10,10,10]
+```
+
+**Note:**
+
+1.  `1 <= K <= A.length <= 500`
+2.  `0 <= A[i] <= 10^6`
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
+public:
+	int maxSumAfterPartitioning(vector<int>& A, int K)
+	{
+		int n = A.size();
+		vector<int> dp(n + 1, 0);
+		for (int i = 1; i <= n; ++i)
+		{
+			int m = INT_MIN;
+			for (int k = 1; k <= min(i, K); ++k)
+			{
+				m = max(m, A[i - k]);
+				dp[i] = max(dp[i], dp[i - k] + m * k);
+			}
+		}
+		return dp[n];
+	}
+};
+
+int main()
+{
+	vector<int> A{ 1, 15, 7, 9, 2, 5, 10 };
+	Solution solution;
+	cout << solution.maxSumAfterPartitioning(A, 3) << endl;
+}
+
+```
