@@ -36,17 +36,58 @@ Output: "bb"
 ```
 
 
+#### Train of Thought
+
+首先明确一点，一个具有相同字母的`string`的单词一定是回文单词。根据这个信息，我们可以每次都先向右扩展成具有相同字母的单词。接着，左右两边各自尝试着同时扩展（通过比较字母是否相同）。得出来的结果就是最佳单词。
+
+一个小细节：每次向右扩展相同字母后，我们下一轮可以从下一个不同的字母开始，因为我们只需要对每个不同的字母进行遍历。
+
 #### Solution
 
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
-    string longestPalindrome(string s) {
-        
-    }
+	string longestPalindrome(string s) {
+		int n = s.size();
+		int max_len = 0;
+		int start = 0;
+		for (int i = 0; i < n;)
+		{
+			int left = i, right = i;
+			while (right + 1 < n && s[right + 1] == s[left]) ++right;
+
+			i = right + 1;
+
+			while (left >= 1 && right < n - 1 && s[left - 1] == s[right + 1])
+			{
+				--left;
+				++right;
+			}
+
+			if (right - left + 1 > max_len)
+			{
+				max_len = right - left + 1;
+				start = left;
+			}
+
+		}
+		return s.substr(start, max_len);
+	}
 };
+
+int main()
+{
+	Solution solution;
+	cout << solution.longestPalindrome("ananas") << endl;
+}
+
 ```
 
 ### [62\. Unique Paths](https://leetcode.com/problems/unique-paths/)
@@ -85,17 +126,39 @@ Output: 28
 ```
 
 
+#### Train of Thought
+
+要到达(i, j)的位置，我们上一步只能是(i - 1, j)或者(i, j - 1)。因此，如果我们知道上一步的次数，把它们加起来就是到达当前位置的次数。
+
+除此之外，对于第一行或者第一列，path只有1种。
+
 #### Solution
 
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int uniquePaths(int m, int n) {
-        
-    }
+	int uniquePaths(int m, int n) {
+		vector<vector<int>> dp(n, vector<int>(m, 1)); // n: row, m: col
+		for (int i = 1; i < n; ++i)
+			for (int j = 1; j < m; ++j)
+				dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+		return dp[n - 1][m - 1];
+	}
 };
+
+int main()
+{
+	Solution solution;
+	cout << solution.uniquePaths(7, 3) << endl;
+}
+
 ```
 
 
@@ -133,18 +196,61 @@ There are two ways to reach the bottom-right corner:
 2\. Down -> Down -> Right -> Right
 ```
 
+#### Train of Thought
+
+正确初始化第一行和第一列的次数十分重要。如果第一行的某个位置有个障碍物，那么这个位置以及它的右边都无法被到达（即次数为0）。同理，第一列也是如此。然后向前面一样，叠加得到最后结果。
 
 #### Solution
 
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        
-    }
+	int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+		int row = obstacleGrid.size();
+		if (row == 0) return 0;
+		int col = obstacleGrid[0].size();
+		if (col == 0) return 0;
+
+		vector<vector<long long>> dp(row, vector<long long>(col, 0));
+		for (int i = 0; i < row; ++i)
+		{
+			if (obstacleGrid[i][0] == 0) dp[i][0] = 1;
+			else break;
+		}
+		for (int i = 0; i < col; ++i)
+		{
+			if (obstacleGrid[0][i] == 0) dp[0][i] = 1;
+			else break;
+		}
+
+		for (int r = 1; r < row; ++r)
+			for (int c = 1; c < col; ++c)
+			{
+				if (obstacleGrid[r][c] == 1) dp[r][c] = 0;
+				else dp[r][c] = dp[r - 1][c] + dp[r][c - 1];
+			}
+		return dp[row - 1][col - 1];
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<vector<int>> obstacleGrid({
+		{0, 0, 0},
+		{0, 1, 0},
+		{0, 0, 0}
+		});
+	cout << solution.uniquePathsWithObstacles(obstacleGrid) << endl;
+}
+
 ```
 
 
@@ -170,18 +276,52 @@ Output: 7
 Explanation: Because the path 1→3→1→1→1 minimizes the sum.
 ```
 
+#### Train of Thought
+
 
 #### Solution
 
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int minPathSum(vector<vector<int>>& grid) {
-        
-    }
+	int minPathSum(vector<vector<int>>& grid) {
+		typedef long long ll;
+		int row = grid.size();
+		if (row == 0) return 0;
+		int col = grid[0].size();
+		if (col == 0) return 0;
+		vector<vector<ll>> dp(row, vector<ll>(col, 0));
+		dp[0][0] = grid[0][0];
+		for (int i = 1; i < row; ++i)
+			dp[i][0] = dp[i - 1][0] + grid[i][0];
+		for (int i = 1; i < col; ++i)
+			dp[0][i] = dp[0][i - 1] + grid[0][i];
+		for (int r = 1; r < row; ++r)
+			for (int c = 1; c < col; ++c)
+				dp[r][c] = min(dp[r - 1][c], dp[r][c - 1]) + grid[r][c];
+		return dp[row - 1][col - 1];
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<vector<int>> grid{
+		{1, 3, 1},
+		{1, 5, 1},
+		{4, 2, 1}
+	};
+	cout << solution.minPathSum(grid) << endl;
+}
+
 ```
 
 ### [91\. Decode Ways](https://leetcode.com/problems/decode-ways/)
@@ -213,7 +353,13 @@ Explanation: It could be decoded as "AB" (1 2) or "L" (12).
 ```
 Input: "226"
 Output: 3
-Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).```
+Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+```
+
+
+#### Train of Thought
+
+记住'0'是无法被decode的。
 
 
 #### Solution
@@ -221,12 +367,38 @@ Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
-    int numDecodings(string s) {
-        
-    }
+	int numDecodings(string s) {
+		int n = s.size();
+		if (n == 0 || s[0] == '0') return 0;
+		if (n == 1) return 1;
+		int pre2 = 1, pre1 = 1;
+		int cur;
+		for (int i = 1; i < n; ++i) {
+			cur = 0;
+			int first = (s[i] - '0');
+			int second = stoi(s.substr(i - 1, 2));
+			if (1 <= first && first <= 9) cur += pre1;
+			if (10 <= second && second <= 26) cur += pre2;
+			pre2 = pre1;
+			pre1 = cur;
+		}
+		return cur;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	cout << solution.numDecodings("101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010") << endl;
+}
+
 ```
 
 
@@ -262,6 +434,8 @@ Output: 3
 Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
 ```
 
+
+#### Train of Thought
 
 #### Solution
 
@@ -342,7 +516,7 @@ public:
 		vector<TreeNode*> trees;
 		if (lo > hi)
 		{
-			trees.push_back(nullptr);  // importatn step
+			trees.push_back(nullptr);  // important step
 		}
 
 		else if (lo == hi)
@@ -411,9 +585,21 @@ Language: **C++**
 ```c++
 class Solution {
 public:
-    int numTrees(int n) {
-        
-    }
+    int numTrees(int n) {
+       long dp[n+1] = {0};
+        dp[0] = 1;
+        dp[1] =1;
+
+        for(int i = 2; i<n+1; i++) {
+            long temp = 0;
+            for (int j = 0; j < i ; j++) {
+                temp += dp[j]* dp[i-1-j];
+            }
+            dp[i]=temp;
+        }
+
+        return dp[n];
+    }
 };
 ```
 
@@ -448,12 +634,36 @@ Bonus point if you are able to do this using only _O_(_n_) extra space, where _n
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int minimumTotal(vector<vector<int>>& triangle) {
-        
-    }
+	int minimumTotal(vector<vector<int>>& triangle) {
+		vector<int> res(triangle.back().size(), 0);
+		res[0] = triangle[0][0];
+		int n = triangle.size();
+		for (int i = 1; i < n; ++i)
+		{
+			res[i] = res[i - 1] + triangle[i][i];
+			for (int j = i - 1; j > 0; --j)
+				res[j] = min(res[j - 1] + triangle[i][j], res[j] + triangle[i][j]);
+			res[0] = res[0] + triangle[i][0];
+		}
+		return * min_element(res.begin(), res.end());
+	}
 };
+
+int main()
+{
+	vector<vector<int>> triangle{ {2}, {3,4}, {6,5,7}, {4,1,8,3} };
+	Solution solution;
+	cout << solution.minimumTotal(triangle) << endl;
+}
+
 ```
 
 
