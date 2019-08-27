@@ -703,18 +703,66 @@ Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output: false
 ```
 
+#### Train of Thought
+
+要采用递归的思想，我们可以把原string切割两段，前面的一段递归，后面的一段查找字典。
+
+在查找过程中，我们应记录一些中间结果，方便后续查找。
+
 
 #### Solution
 
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <string>
+#include <vector>
+#include <unordered_set>
+#include <unordered_map>
+
+using namespace std;
+
+// https://www.youtube.com/watch?v=ptlwluzeC1I
 class Solution {
+private:
+	unordered_map<string, bool> mem_;
 public:
-    bool wordBreak(string s, vector<string>& wordDict) {
-        
-    }
+	bool wordBreak(string s, vector<string>& wordDict)
+	{
+		// create a hashset of words for fast query
+		unordered_set<string> dict(wordDict.cbegin(), wordDict.cend());
+		// query the answer of the original string
+		return wordBreak(s, dict);
+	}
+
+	bool wordBreak(const string& s, const unordered_set<string>& dict)
+	{
+		// whole string is a word, memorize and return
+		if (dict.count(s)) return mem_[s] = true;
+		// in memory, directly return
+		if (mem_.count(s)) return mem_[s];
+
+		// Try every break point.
+		for (int i = 1; i < s.length(); ++i)
+		{
+			const string left = s.substr(0, i);
+			const string right = s.substr(i);
+			// find the solution for s
+			if (dict.count(right) && wordBreak(left, dict)) return mem_[s] = true;
+		}
+		// no solution for s, memorize and return
+		return mem_[s] = false;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<string> wordDict{"leet", "code"};
+	cout << solution.wordBreak("leetcode", wordDict) << endl;
+}
+
 ```
 
 
@@ -747,12 +795,38 @@ Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int maxProduct(vector<int>& nums) {
-        
-    }
+	int maxProduct(vector<int>& nums) {
+		if (nums.size() == 0) return 0;
+		int res = nums[0];
+		// max and min product so far
+		int max_product = nums[0];
+		int min_product = nums[0];
+		for (int i = 1; i < nums.size(); ++i)
+		{
+			int tmp = min_product;
+			min_product = min(nums[i], min(max_product * nums[i], min_product * nums[i]));
+			max_product = max(nums[i], max(max_product * nums[i], tmp * nums[i]));
+			res = max(res, max_product);
+		}
+		return res;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<int> nums{ 3, 4, -1, 6 };
+	cout << solution.maxProduct(nums) << endl;
+}
+
 ```
 
 
@@ -789,12 +863,46 @@ Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int rob(vector<int>& nums) {
-        
-    }
+
+	int rob_not_loop(vector<int>& nums) {
+		if (nums.size() == 0) return 0;
+		// maximum amout if robbing or not robbing the current one
+		int not_rob = 0;
+		int rob = nums[0];
+		for (int i = 1; i < nums.size(); ++i)
+		{
+			int tmp_rob = rob;
+			rob = not_rob + nums[i];
+			not_rob = max(not_rob, tmp_rob);  // ATTENTION
+		}
+		return max(rob, not_rob);
+	}
+
+	int rob(vector<int>& nums)
+	{
+		if (nums.size() == 0) return 0;
+		if (nums.size() == 1) return nums[0];
+		vector<int> nums_wo_first(nums.begin() + 1, nums.end());
+		nums.pop_back(); // nums_wo_last
+		return max(rob_not_loop(nums_wo_first), rob_not_loop(nums));
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<int> nums{ 2,3,2 };
+	cout << solution.rob(nums) << endl;
+}
+
 ```
 
 
@@ -824,12 +932,62 @@ Output: 4
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int maximalSquare(vector<vector<char>>& matrix) {
-        
-    }
+	int maximalSquare(vector<vector<char>>& matrix) {
+		int row = matrix.size();
+		if (row == 0) return 0;
+		int col = matrix[0].size();
+		if (col == 0) return 0;
+		vector<vector<int>> edges(row, vector<int>(col, 0));
+		int max_edge = 0;
+		for (int r = 0; r < row; ++r)
+			for (int c = 0; c < col; ++c)
+			{
+				if (matrix[r][c] == '0') continue;
+				if (r == 0 || c == 0)
+				{
+					edges[r][c] = 1;
+				}
+				else
+				{
+					if (matrix[r][c - 1] == '1' && matrix[r - 1][c] == '1')
+						edges[r][c] = min(edges[r - 1][c - 1], min(edges[r][c - 1], edges[r - 1][c])) + 1;
+					else
+						edges[r][c] = 1;
+				}
+				max_edge = max(max_edge, edges[r][c]);
+			}
+		return max_edge * max_edge;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<vector<char>> matrix1{
+		{'1', '0', '1', '0', '0'},
+		{'1', '0', '1', '1', '1'},
+		{'1', '1', '1', '1', '1'},
+		{'1', '0', '0', '1', '0'}
+	};
+	vector<vector<char>> matrix2{
+		{'0', '0', '0', '1'},
+		{'1', '1', '0', '1'},
+		{'1', '1', '1', '1'},
+		{'0', '1', '1', '1'},
+		{'0', '1', '1', '1'}
+	};
+	cout << solution.maximalSquare(matrix1) << endl;
+	cout << solution.maximalSquare(matrix2) << endl;
+}
+
 ```
 
 
@@ -861,12 +1019,44 @@ Explanation: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly
 Language: **C++**
 
 ```c++
-class Solution {
+
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// https://www.youtube.com/watch?v=ZG86C_U-vRg
+class Solution
+{
 public:
-    int nthUglyNumber(int n) {
-        
-    }
+	int nthUglyNumber(int n)
+	{
+		static vector<int> nums{ 1 };
+		static int i2 = 0;
+		static int i3 = 0;
+		static int i5 = 0;
+		while (nums.size() < n)
+		{
+			const int next2 = nums[i2] * 2;
+			const int next3 = nums[i3] * 3;
+			const int next5 = nums[i5] * 5;
+			const int next = min(next2, min(next3, next5));
+			if (next == next2) ++i2;
+			if (next == next3) ++i3;
+			if (next == next5) ++i5;
+			nums.push_back(next);
+		}
+		return nums[n - 1];
+	}
 };
+
+int main()
+{
+	Solution solution;
+	solution.nthUglyNumber(100);
+}
+
 ```
 
 ### [279\. Perfect Squares](https://leetcode.com/problems/perfect-squares/)
@@ -898,12 +1088,87 @@ Explanation: 13 = 4 + 9.
 Language: **C++**
 
 ```c++
-class Solution {
+
+#include <algorithm>
+
+#include <iostream>
+
+#include <vector>
+
+#include <queue>
+
+using namespace std;
+
+// DP
+class Solution1
+{
 public:
-    int numSquares(int n) {
-        
-    }
+	int numSquares(int n)
+	{
+		if (n <= 0) return 0;
+		vector<int> num_squares(n + 1, INT_MAX);
+		num_squares[0] = 0;
+		for (int i = 1; i <= n; ++i)
+			for (int j = 1; j * j <= i; ++j)
+				num_squares[i] = std::min(num_squares[i], num_squares[i - j * j] + 1);
+		return num_squares.back();
+	}
 };
+
+// BFS
+class Solution2
+{
+public:
+	int numSquares(int n)
+	{
+		if (n <= 0) return 0;
+		vector<int> squares;
+		vector<int> visited(n + 1, 0);
+		queue<int> q;
+		for (int i = 0; i * i <= n; ++i)
+		{
+			int tmp = i * i;
+			squares.push_back(tmp);
+			visited[tmp] = 1;
+			q.push(tmp);
+		}
+		if (squares.back() == n) return 1;
+
+		int num = 1;
+		while (!q.empty()) // search in each level
+		{
+			++num;
+			int breadth = q.size();
+			for (int i = 0; i < breadth; ++i)
+			{
+				int cur = q.front();
+				for (int& s : squares)
+				{
+					if (cur + s == n) return num;
+
+					if (cur + s < n && visited[cur + s] == 0)
+					{
+						visited[cur + s] = 1;
+						q.push(cur + s);
+					}
+					else if (cur + s > n)
+					{
+						break;
+					}
+				}
+				q.pop();
+			}
+		}
+		return 0;
+	}
+};
+
+int main()
+{
+	Solution2 solution;
+	cout << solution.numSquares(12) << endl;
+}
+
 ```
 
 ### [300\. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/)
@@ -929,17 +1194,92 @@ Explanation: The longest increasing subsequence is [2,3,7,101], therefore the le
 **Follow up:** Could you improve it to O(_n_ log _n_) time complexity?
 
 
+#### Train of Thought
+
+例如 [10,9,2,5,3,7,101,18]。
+
+我们如何才能找到一个最长的子序列呢？
+
+第一个元素 --> [10]
+
+第二个元素是9，比10小，无法组成序列，为了后面更容易组成子序列，我们可以把10换成9. --> [9]
+
+第三个元素是2，同理 --> [2]
+
+第四个元素是5，我们可以接上去 --> [2, 5]
+
+第五个元素是3，我们按照以前的思想，可以把较大的元素替换成这个3，为了找到合适的位置，我们可以采用二分查找 --> [2, 3]
+
+第六个元素是7，--> [2, 3, 7]
+
+第七个元素是101， --> [2, 3, 7, 101]
+
+第八个元素是18， --> [2, 3, 7, 18]
+
+
 #### Solution
 
 Language: **C++**
 
 ```c++
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <iterator>
+
+using namespace std;
+
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        
-    }
+	int lengthOfLIS(vector<int>& nums) {
+		vector<int> res;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			// similar to binary search
+			auto it = std::lower_bound(res.begin(), res.end(), nums[i]);
+			if (it == res.end())
+				res.push_back(nums[i]);
+			else
+				* it = nums[i];
+		}
+		return res.size();
+	}
 };
+
+class NaiveSolution {
+public:
+	int lengthOfLIS(vector<int>& nums) {
+		if (nums.size() == 0)
+			return 0;
+
+		int max_length = 1;
+		vector<int> lengths{ 1 };
+		for (int i = 1; i < nums.size(); ++i)
+		{
+			int cur_length = 1;
+			for (int j = 0; j < i; ++j)
+			{
+				if (nums[j] < nums[i])
+					cur_length = (lengths[j] + 1 > cur_length) ? (lengths[j] + 1) : cur_length;
+			}
+			lengths.push_back(cur_length);
+			max_length = (cur_length > max_length) ? cur_length : max_length;
+		}
+
+		return max_length;
+	}
+};
+
+int main()
+{
+	Solution solution;
+
+	vector<int> test1{ 1,3,5,4,7 };
+
+	cout << solution.lengthOfLIS(test1) << endl;
+}
+
 ```
 
 
