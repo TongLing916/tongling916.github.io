@@ -1322,17 +1322,56 @@ sumRegion(1, 2, 2, 4) -> 12
 Language: **C++**
 
 ```c++
-class NumMatrix {
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+typedef long long LL;
+
+class NumMatrix
+{
+private:
+	vector<vector<LL>> dict_;
 public:
-    NumMatrix(vector<vector<int>>& matrix) {
-        
-    }
-    
-    int sumRegion(int row1, int col1, int row2, int col2) {
-        
-    }
+	NumMatrix(vector<vector<int>>& matrix)
+	{
+		if (matrix.size() > 0 && matrix[0].size() > 0)
+		{
+			int row = matrix.size();
+			int col = matrix[0].size();
+			dict_.resize(row, vector<LL>(col, 0));
+			for (int r = 0; r < row; ++r)
+				for (int c = 0; c < col; ++c)
+				{
+					if (r == 0 && c == 0) dict_[r][c] = matrix[0][0];
+					else if (r == 0) dict_[r][c] = dict_[r][c - 1] + matrix[r][c];
+					else if (c == 0) dict_[r][c] = dict_[r - 1][c] + matrix[r][c];
+					else dict_[r][c] = dict_[r][c - 1] + dict_[r - 1][c] - dict_[r - 1][c - 1] + matrix[r][c];
+				}
+		}
+	}
+
+	int sumRegion(int row1, int col1, int row2, int col2)
+	{
+		if (row1 == 0 && col1 == 0) return dict_[row2][col2];
+		if (row1 == 0) return dict_[row2][col2] - dict_[row2][col1 - 1];
+		if (col1 == 0) return dict_[row2][col2] - dict_[row1 - 1][col2];
+		return dict_[row2][col2] - dict_[row1 - 1][col2] - dict_[row2][col1 - 1] + dict_[row1 - 1][col1 - 1];
+	}
 };
-​
+
+
+int main()
+{
+	vector<vector<int>> matrix{ {3, 0, 1, 4, 2}, {5, 6, 3, 2, 1}, {1, 2, 0, 1, 5}, {4, 1, 0, 1, 7}, {1, 0, 3, 0, 5} };
+	NumMatrix nm(matrix);
+	cout << nm.sumRegion(2, 1, 4, 3) << endl;
+	cout << nm.sumRegion(1, 1, 2, 2) << endl;
+	cout << nm.sumRegion(1, 2, 2, 4) << endl;
+}
+
 /**
  * Your NumMatrix object will be instantiated and called as such:
  * NumMatrix* obj = new NumMatrix(matrix);
@@ -1367,12 +1406,51 @@ Explanation: transactions = [buy, sell, cooldown, buy, sell]
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        
-    }
+	int maxProfit(vector<int>& prices)
+	{
+		int n = prices.size();
+		if (n == 0) return 0;
+
+		// every day, we have three status
+		// 0: we own a share at ith day (maybe we have bought it previously)
+		// 1: we sell one share at ith day
+		// 2: we do nothing (cooldown)
+		// dp[i][j]: maximum profit under status j
+		vector<vector<int>> dp(n, vector<int>(3, 0));  
+		dp[0][0] = -prices[0];
+		for (int i = 1; i < n; ++i)
+		{
+			// we can own a share at ith day only when:
+			// 1) we have bought share before.
+			// 2) we have passed cooldown and buy a share at ith day
+			dp[i][0] = max(dp[i - 1][2] - prices[i], dp[i - 1][0]);
+
+			// we can sell a share at ith only when we own a share
+			dp[i][1] = dp[i - 1][0] + prices[i];
+
+			// we can always do nothing
+			// Attention: at ith day, the profit under status 0 can never exceed those under status 1 or 2.
+			dp[i][2] = max(dp[i - 1][1], dp[i - 1][2]);
+		}
+		return max(dp[n - 1][1], dp[n - 1][2]);
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<int> nums{ 1, 2, 3, 0, 2 };
+	cout << solution.maxProfit(nums) << endl;
+}
+
 ```
 
 
@@ -1407,12 +1485,40 @@ You may assume that you have an infinite number of each kind of coin.
 Language: **C++**
 
 ```c++
-class Solution {
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
 public:
-    int coinChange(vector<int>& coins, int amount) {
-        
-    }
+	int coinChange(vector<int>& coins, int amount)
+	{
+		if (amount == 0) return 0;
+
+		// if dp[amount] > amount, that means we cannot construct amount using coins.
+		vector<int> dp(amount + 1, amount + 1);
+		dp[0] = 0;
+
+		for (int i = 1; i <= amount; ++i)
+			for (int j = 0; j < coins.size(); ++j)
+				if (coins[j] <= i) dp[i] = min(dp[i], dp[i - coins[j]] + 1);
+
+		return dp[amount] > amount ? -1 : dp[amount];
+	}
 };
+
+int main()
+{
+	vector<int> coins1{ 1, 2, 5 };
+	vector<int> coins2{ 333, 243, 214, 132, 281 };
+	Solution solution;
+	cout << solution.coinChange(coins1, 11) << endl;
+	cout << solution.coinChange(coins2, 9334) << endl;
+}
+
 ```
 
 ### [338\. Counting Bits](https://leetcode.com/problems/counting-bits/)
@@ -1448,12 +1554,43 @@ Output: [0,1,1,2,1,2]
 Language: **C++**
 
 ```c++
-class Solution {
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution1 {
 public:
-    vector<int> countBits(int num) {
-        
-    }
+	vector<int> countBits(int num) {
+		vector<int> res{ 0 };
+		for (int i = 1; i <= num; ++i)
+		{
+			if (i % 2 == 0) res.push_back(res[i / 2]);
+			else res.push_back(res[i / 2] + 1);
+		}
+		return res;
+	}
 };
+
+class Solution2 {
+public:
+	vector<int> countBits(int num) {
+		vector<int> bits(num + 1, 0);
+		for (int i = 1; i <= num; i++) {
+			bits[i] = bits[i >> 1] + (i & 1);
+		}
+		return bits;
+	}
+};
+
+int main()
+{
+	Solution1 solution;
+	vector<int> res = solution.countBits(10);
+	for (auto r : res)
+		cout << r << endl;
+}
+
 ```
 
 ### [343\. Integer Break](https://leetcode.com/problems/integer-break/)
