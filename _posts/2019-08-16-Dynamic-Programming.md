@@ -1626,12 +1626,29 @@ Explanation: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36.
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    int integerBreak(int n) {
-        
-    }
+	int integerBreak(int n) {
+		vector<int> dp(n + 1, 1);
+		for (int i = 3; i <= n; ++i)
+			for (int j = 1; j <= i / 2; ++j)
+				dp[i] = max(dp[i], max(j, dp[j]) * max(i - j, dp[i - j]));
+		return dp[n];
+	}
 };
+
+int main()
+{
+	Solution solution;
+	cout << solution.integerBreak(10) << endl;
+}
+
 ```
 
 ### [357\. Count Numbers with Unique Digits](https://leetcode.com/problems/count-numbers-with-unique-digits/)
@@ -1657,27 +1674,37 @@ Explanation: The answer should be the total numbers in the range of 0 ≤ x < 10
 Language: **C++**
 
 ```c++
+#include <iostream>
+
+using namespace std;
+
 class Solution {
 public:
-    int countNumbersWithUniqueDigits(int n) {
-        if (n == 0) return 1;
-        if (n > 10) return 0;
-        int cnt = 10;
-        int cnt_i = 9; // i: number of digits
-        int possible = 9;
-        for (int i = 2; i <= n; ++i, --possible)
-        {
-            cnt_i *= possible;
-            cnt += cnt_i;
-        }
-        return cnt;
-    }
+	int countNumbersWithUniqueDigits(int n) {
+		if (n == 0) return 1;
+		if (n > 10) return 0;
+		int cnt = 10;
+		int cnt_i = 9; // i: number of digits
+		int possible = 9;
+		for (int i = 2; i <= n; ++i, --possible)
+		{
+			cnt_i * = possible;
+			cnt += cnt_i;
+		}
+		return cnt;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	cout << solution.countNumbersWithUniqueDigits(8) << endl;
+}
 ```
 
 
 
-### [368\. Largest Divisible Subset](https://leetcode.com/problems/largest-divisible-subset/)
+### [368\. Largest Divisible Subset (Amazing)](https://leetcode.com/problems/largest-divisible-subset/)
 
 Difficulty: **Medium**
 
@@ -1710,16 +1737,65 @@ Output: [1,2,4,8]
 Language: **C++**
 
 ```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// https://leetcode-cn.com/problems/largest-divisible-subset/solution/dp-c-by-l2goer/
+/*
+这个题目要比一般的dp题目难，难在不只是输出满足条件的最大个数，而是要输出具体哪些。
+所以需要记录下满足条件的下标值，解答中用idx来记录，最后一次的下标值放在了start中。
+用了个比较巧妙的方式是start = idx[start];
+*/
 class Solution {
 public:
-    vector<int> largestDivisibleSubset(vector<int>& nums) {
-        
-    }
+	vector<int> largestDivisibleSubset(vector<int>& nums) {
+		vector<int> dp(nums.size(), 1); // 记录到第i个位置的满足条件的个数
+		vector<int> idx(nums.size(), -1); // 记录满足条件时的上一个的下标值
+
+		int max = INT_MIN;
+		int start = 0;
+		sort(nums.begin(), nums.end()); // 1 % 2 不等于0，但是2 % 1 等于0，先排序
+		for (int i = 0; i < nums.size(); ++i) { // i在j前面跑
+			for (int j = 0; j < i; ++j) { // j 不大于 i 的那部分
+				if (nums[i] % nums[j] == 0 && dp[i] < dp[j] + 1) { // 余数为0，同时还要满足最大
+					dp[i] = dp[j] + 1;
+					idx[i] = j;
+				}
+			}
+
+			if (max < dp[i]) {
+				max = dp[i];
+				start = i; // 倒序push_back到返回结果集中
+			}
+		}
+
+		// push_back res
+		vector<int> res;
+		for (int i = 0; i < max; ++i) {
+			res.push_back(nums[start]); // 倒序
+			start = idx[start];
+		}
+		return res;
+	}
 };
+
+
+int main()
+{
+	Solution solution;
+	vector<int> nums{ 1,2,4,6,8 };
+	vector<int> res = solution.largestDivisibleSubset(nums);
+	for (int r : res)
+		cout << r << " ";
+}
+
 ```
 
 
-### [375\. Guess Number Higher or Lower II](https://leetcode.com/problems/guess-number-higher-or-lower-ii/)
+### [375\. Guess Number Higher or Lower II (Amazing)](https://leetcode.com/problems/guess-number-higher-or-lower-ii/)
 
 Difficulty: **Medium**
 
@@ -1754,12 +1830,40 @@ Given a particular **n ≥ 1**, find out how much money you need to have to guar
 Language: **C++**
 
 ```c++
-class Solution {
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// https://leetcode-cn.com/problems/guess-number-higher-or-lower-ii/solution/cai-shu-zi-da-xiao-ii-by-leetcode/
+class Solution
+{
 public:
-    int getMoneyAmount(int n) {
-        
-    }
+	int getMoneyAmount(int n)
+	{
+		vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+		for (int len = 2; len <= n; ++len)
+			for (int start = 1; start <= n - len + 1; ++start)
+			{
+				int min_res = INT_MAX;
+				for (int piv = start + (len - 1) / 2; piv < start + len - 1; ++piv)
+				{
+					int res = piv + max(dp[start][piv - 1], dp[piv + 1][start + len - 1]);
+					min_res = min(min_res, res);
+				}
+				dp[start][start + len - 1] = min_res;
+			}
+		return dp[1][n];
+	}
 };
+
+int main()
+{
+	Solution solution;
+	cout << solution.getMoneyAmount(10) << endl;
+}
+
 ```
 
 
@@ -1808,12 +1912,52 @@ Can you do it in O(_n_) time?
 Language: **C++**
 
 ```c++
+#include <vector>
+
+#include <iostream>
+
+using namespace std;
+
 class Solution {
 public:
-    int wiggleMaxLength(vector<int>& nums) {
-        
-    }
+	int wiggleMaxLength(vector<int>& nums) {
+		int n = nums.size();
+		if (n <= 1) return n;
+		if (n == 2)
+			if (nums[1] - nums[0]) return 2;
+			else return 1;
+
+		int last_diff = nums[1] - nums[0];
+		int cnt = (last_diff != 0) ? 1 : 0; // count the number of differences
+		for (int i = 2; i < n; ++i)
+		{
+			int cur_diff = nums[i] - nums[i - 1];
+			if (cur_diff == 0) continue;
+			if ((cur_diff > 0 && last_diff <= 0) || (cur_diff < 0 && last_diff >= 0))
+			{
+				++cnt;
+				last_diff = cur_diff;
+			}
+		}
+		return cnt + 1;
+	}
 };
+
+int main()
+{
+	vector<int> nums1{ 3, 3, 3 };
+	vector<int> nums2{ 0, 0 };
+	vector<int> nums3{ 1,7,4,9,2,5 };
+	vector<int> nums4{ 1,17,5,10,13,15,10,5,16,8 };
+	vector<int> nums5{ 1,2,3,4,5,6,7,8,9 };
+	Solution solution;
+	cout << solution.wiggleMaxLength(nums1) << endl;
+	cout << solution.wiggleMaxLength(nums2) << endl;
+	cout << solution.wiggleMaxLength(nums3) << endl;
+	cout << solution.wiggleMaxLength(nums4) << endl;
+	cout << solution.wiggleMaxLength(nums5) << endl;
+}
+
 ```
 
 ### [377\. Combination Sum IV](https://leetcode.com/problems/combination-sum-iv/)
@@ -1854,14 +1998,579 @@ What limitation we need to add to the question to allow negative numbers?
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// recursion
+class Solution {
+private:
+	vector<int> dict_;
+	int dp(const vector<int>& nums, int target)
+	{
+		if (target < 0) return 0;
+		if (dict_[target] != -1) return dict_[target];
+		int ans = 0;
+		for (const int num : nums)
+			ans += dp(nums, target - num);
+		return dict_[target] = ans;
+	}
+public:
+	int combinationSum4(vector<int>& nums, int target) {
+		dict_.resize(target + 1, -1);
+		dict_[0] = 1;
+		return dp(nums, target);
+	}
+};
+
+int main()
+{
+	Solution solution;
+	vector<int> nums{ 3, 33, 333 };
+	cout << solution.combinationSum4(nums, 4) << endl;
+}
+
+```
+
+
+### [413\. Arithmetic Slices](https://leetcode.com/problems/arithmetic-slices/)
+
+Difficulty: **Medium**
+
+
+A sequence of number is called arithmetic if it consists of at least three elements and if the difference between any two consecutive elements is the same.
+
+For example, these are arithmetic sequence:
+
+```
+1, 3, 5, 7, 9
+7, 7, 7, 7
+3, -1, -5, -9
+```
+
+The following sequence is not arithmetic.
+
+```
+1, 1, 2, 5, 7
+```
+
+A zero-indexed array A consisting of N numbers is given. A slice of that array is any pair of integers (P, Q) such that 0 <= P < Q < N.
+
+A slice (P, Q) of array A is called arithmetic if the sequence:  
+A[P], A[p + 1], ..., A[Q - 1], A[Q] is arithmetic. In particular, this means that P + 1 < Q.
+
+The function should return the number of arithmetic slices in the array A.
+
+**Example:**
+
+```
+A = [1, 2, 3, 4]
+
+return: 3, for 3 arithmetic slices in A: [1, 2, 3], [2, 3, 4] and [1, 2, 3, 4] itself.
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
 class Solution {
 public:
-    int combinationSum4(vector<int>& nums, int target) {
+    int numberOfArithmeticSlices(vector<int>& A) {
         
     }
 };
 ```
 
+
+### [416\. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
+
+Difficulty: **Medium**
+
+
+Given a **non-empty** array containing **only positive integers**, find if the array can be partitioned into two subsets such that the sum of elements in both subsets is equal.
+
+**Note:**
+
+1.  Each of the array element will not exceed 100.
+2.  The array size will not exceed 200.
+
+**Example 1:**
+
+```
+Input: [1, 5, 11, 5]
+
+Output: true
+
+Explanation: The array can be partitioned as [1, 5, 5] and [11].
+```
+
+**Example 2:**
+
+```
+Input: [1, 2, 3, 5]
+
+Output: false
+
+Explanation: The array cannot be partitioned into equal sum subsets.
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        
+    }
+};
+```
+
+
+### [464\. Can I Win](https://leetcode.com/problems/can-i-win/)
+
+Difficulty: **Medium**
+
+
+In the "100 game," two players take turns adding, to a running total, any integer from 1..10\. The player who first causes the running total to reach or exceed 100 wins.
+
+What if we change the game so that players cannot re-use integers?
+
+For example, two players might take turns drawing from a common pool of numbers of 1..15 without replacement until they reach a total >= 100.
+
+Given an integer `maxChoosableInteger` and another integer `desiredTotal`, determine if the first player to move can force a win, assuming both players play optimally.
+
+You can always assume that `maxChoosableInteger` will not be larger than 20 and `desiredTotal` will not be larger than 300.
+
+**Example**
+
+```
+Input:
+maxChoosableInteger = 10
+desiredTotal = 11
+
+Output:
+false
+
+Explanation:
+No matter which integer the first player choose, the first player will lose.
+The first player can choose an integer from 1 up to 10.
+If the first player choose 1, the second player can only choose integers from 2 up to 10.
+The second player will win by choosing 10 and get a total = 11, which is >= desiredTotal.
+Same with other integers chosen by the first player, the second player will always win.
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    bool canIWin(int maxChoosableInteger, int desiredTotal) {
+        
+    }
+};
+```
+
+
+
+### [467\. Unique Substrings in Wraparound String](https://leetcode.com/problems/unique-substrings-in-wraparound-string/)
+
+Difficulty: **Medium**
+
+
+Consider the string `s` to be the infinite wraparound string of "abcdefghijklmnopqrstuvwxyz", so `s` will look like this: "...zabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd....".
+
+Now we have another string `p`. Your job is to find out how many unique non-empty substrings of `p` are present in `s`. In particular, your input is the string `p` and you need to output the number of different non-empty substrings of `p` in the string `s`.
+
+**Note:** `p` consists of only lowercase English letters and the size of p might be over 10000.
+
+**Example 1:**  
+
+```
+Input: "a"
+Output: 1
+
+Explanation: Only the substring "a" of string "a" is in the string s.
+```
+
+**Example 2:**  
+
+```
+Input: "cac"
+Output: 2
+Explanation: There are two substrings "a", "c" of string "cac" in the string s.
+```
+
+**Example 3:**  
+
+```
+Input: "zab"
+Output: 6
+Explanation: There are six substrings "z", "a", "b", "za", "ab", "zab" of string "zab" in the string s.
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    int findSubstringInWraproundString(string p) {
+        
+    }
+};
+```
+
+
+### [474\. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)
+
+Difficulty: **Medium**
+
+
+In the computer world, use restricted resource you have to generate maximum benefit is what we always want to pursue.
+
+For now, suppose you are a dominator of **m** `0s` and **n** `1s` respectively. On the other hand, there is an array with strings consisting of only `0s` and `1s`.
+
+Now your task is to find the maximum number of strings that you can form with given **m** `0s` and **n** `1s`. Each `0` and `1` can be used at most **once**.
+
+**Note:**
+
+1.  The given numbers of `0s` and `1s` will both not exceed `100`
+2.  The size of given string array won't exceed `600`.
+
+**Example 1:**
+
+```
+Input: Array = {"10", "0001", "111001", "1", "0"}, m = 5, n = 3
+Output: 4
+
+Explanation: This are totally 4 strings can be formed by the using of 5 0s and 3 1s, which are “10,”0001”,”1”,”0”
+```
+
+**Example 2:**
+
+```
+Input: Array = {"10", "0", "1"}, m = 1, n = 1
+Output: 2
+
+Explanation: You could form "10", but then you'd have nothing left. Better form "0" and "1".
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        
+    }
+};
+```
+
+
+### [486\. Predict the Winner](https://leetcode.com/problems/predict-the-winner/)
+
+Difficulty: **Medium**
+
+
+Given an array of scores that are non-negative integers. Player 1 picks one of the numbers from either end of the array followed by the player 2 and then player 1 and so on. Each time a player picks a number, that number will not be available for the next player. This continues until all the scores have been chosen. The player with the maximum score wins.
+
+Given an array of scores, predict whether player 1 is the winner. You can assume each player plays to maximize his score.
+
+**Example 1:**  
+
+```
+Input: [1, 5, 2]
+Output: False
+Explanation: Initially, player 1 can choose between 1 and 2\. If he chooses 2 (or 1), then player 2 can choose from 1 (or 2) and 5\. If player 2 chooses 5, then player 1 will be left with 1 (or 2). So, final score of player 1 is 1 + 2 = 3, and player 2 is 5\. Hence, player 1 will never be the winner and you need to return False.
+```
+
+**Example 2:**  
+
+```
+Input: [1, 5, 233, 7]
+Output: True
+Explanation: Player 1 first chooses 1\. Then player 2 have to choose between 5 and 7\. No matter which number player 2 choose, player 1 can choose 233.Finally, player 1 has more score (234) than player 2 (12), so you need to return True representing player1 can win.
+```
+
+**Note:**  
+
+1.  1 <= length of the array <= 20\.
+2.  Any scores in the given array are non-negative integers and will not exceed 10,000,000.
+3.  If the scores of both players are equal, then player 1 is still the winner.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    bool PredictTheWinner(vector<int>& nums) {
+        
+    }
+};
+```
+
+
+### [494\. Target Sum](https://leetcode.com/problems/target-sum/)
+
+Difficulty: **Medium**
+
+
+You are given a list of non-negative integers, a1, a2, ..., an, and a target, S. Now you have 2 symbols `+` and `-`. For each integer, you should choose one from `+` and `-` as its new symbol.
+
+Find out how many ways to assign symbols to make sum of integers equal to target S.
+
+**Example 1:**  
+
+```
+Input: nums is [1, 1, 1, 1, 1], S is 3\.
+Output: 5
+Explanation:
+
+-1+1+1+1+1 = 3
++1-1+1+1+1 = 3
++1+1-1+1+1 = 3
++1+1+1-1+1 = 3
++1+1+1+1-1 = 3
+
+There are 5 ways to assign symbols to make the sum of nums be target 3.
+```
+
+**Note:**  
+
+1.  The length of the given array is positive and will not exceed 20\.
+2.  The sum of elements in the given array will not exceed 1000.
+3.  Your output answer is guaranteed to be fitted in a 32-bit integer.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int S) {
+        
+    }
+};
+```
+
+
+### [516\. Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence/)
+
+Difficulty: **Medium**
+
+
+Given a string s, find the longest palindromic subsequence's length in s. You may assume that the maximum length of s is 1000.
+
+**Example 1:**  
+Input:
+
+```
+"bbbab"
+```
+
+Output:
+
+```
+4
+```
+
+One possible longest palindromic subsequence is "bbbb".
+
+**Example 2:**  
+Input:
+
+```
+"cbbd"
+```
+
+Output:
+
+```
+2
+```
+
+One possible longest palindromic subsequence is "bb".
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        
+    }
+};
+```
+
+
+### [523\. Continuous Subarray Sum](https://leetcode.com/problems/continuous-subarray-sum/)
+
+Difficulty: **Medium**
+
+
+Given a list of **non-negative** numbers and a target **integer** k, write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of **k**, that is, sums up to n*k where n is also an **integer**.
+
+**Example 1:**
+
+```
+Input: [23, 2, 4, 6, 7],  k=6
+Output: True
+Explanation: Because [2, 4] is a continuous subarray of size 2 and sums up to 6.
+```
+
+**Example 2:**
+
+```
+Input: [23, 2, 6, 4, 7],  k=6
+Output: True
+Explanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and sums up to 42.
+```
+
+**Note:**
+
+1.  The length of the array won't exceed 10,000.
+2.  You may assume the sum of all the numbers is in the range of a signed 32-bit integer.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        
+    }
+};
+```
+
+
+### [576\. Out of Boundary Paths](https://leetcode.com/problems/out-of-boundary-paths/)
+
+Difficulty: **Medium**
+
+
+There is an **m** by **n** grid with a ball. Given the start coordinate **(i,j)** of the ball, you can move the ball to **adjacent** cell or cross the grid boundary in four directions (up, down, left, right). However, you can **at most** move **N** times. Find out the number of paths to move the ball out of grid boundary. The answer may be very large, return it after mod 10<sup>9</sup> + 7.
+
+**Example 1:**
+
+```
+Input: m = 2, n = 2, N = 2, i = 0, j = 0
+Output: 6
+Explanation:
+
+```
+
+**Example 2:**
+
+```
+Input: m = 1, n = 3, N = 3, i = 0, j = 1
+Output: 12
+Explanation:
+
+```
+
+**Note:**
+
+1.  Once you move the ball out of boundary, you cannot move it back.
+2.  The length and height of the grid is in range [1,50].
+3.  N is in range [0,50].
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    int findPaths(int m, int n, int N, int i, int j) {
+        
+    }
+};
+```
+
+
+### [638\. Shopping Offers](https://leetcode.com/problems/shopping-offers/)
+
+Difficulty: **Medium**
+
+
+In LeetCode Store, there are some kinds of items to sell. Each item has a price.
+
+However, there are some special offers, and a special offer consists of one or more different kinds of items with a sale price.
+
+You are given the each item's price, a set of special offers, and the number we need to buy for each item. The job is to output the lowest price you have to pay for **exactly** certain items as given, where you could make optimal use of the special offers.
+
+Each special offer is represented in the form of an array, the last number represents the price you need to pay for this special offer, other numbers represents how many specific items you could get if you buy this offer.
+
+You could use any of special offers as many times as you want.
+
+**Example 1:**  
+
+```
+Input: [2,5], [[3,0,5],[1,2,10]], [3,2]
+Output: 14
+Explanation:
+There are two kinds of items, A and B. Their prices are $2 and $5 respectively.
+In special offer 1, you can pay $5 for 3A and 0B
+In special offer 2, you can pay $10 for 1A and 2B.
+You need to buy 3A and 2B, so you may pay $10 for 1A and 2B (special offer #2), and $4 for 2A.
+```
+
+**Example 2:**  
+
+```
+Input: [2,3,4], [[1,1,0,4],[2,2,1,9]], [1,2,1]
+Output: 11
+Explanation:
+The price of A is $2, and $3 for B, $4 for C.
+You may pay $4 for 1A and 1B, and $9 for 2A ,2B and 1C.
+You need to buy 1A ,2B and 1C, so you may pay $4 for 1A and 1B (special offer #1), and $3 for 1B, $4 for 1C.
+You cannot add more items, though only $9 for 2A ,2B and 1C.
+```
+
+**Note:**  
+
+1.  There are at most 6 kinds of items, 100 special offers.
+2.  For each item, you need to buy at most 6 of them.
+3.  You are **not** allowed to buy more items than you want, even if that would lower the overall price.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+class Solution {
+public:
+    int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
+        
+    }
+};
+```
 
 
 ### [1043\. Partition Array for Maximum Sum](https://leetcode.com/problems/partition-array-for-maximum-sum/)
