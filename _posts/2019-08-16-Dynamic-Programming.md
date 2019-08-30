@@ -2076,12 +2076,44 @@ return: 3, for 3 arithmetic slices in A: [1, 2, 3], [2, 3, 4] and [1, 2, 3, 4] i
 Language: **C++**
 
 ```c++
-class Solution {
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
 public:
-    int numberOfArithmeticSlices(vector<int>& A) {
-        
-    }
+	int numberOfArithmeticSlices(vector<int>& A)
+	{
+		if (A.size() <= 2) return 0;
+		int diff = A[1] - A[0];
+		int total = 0;
+		int cur = 1;
+		for (int i = 2; i < A.size(); ++i)
+		{
+			if (A[i] - A[i - 1] == diff)
+			{
+				total += cur;
+				++cur;
+			}
+			else
+			{
+				diff = A[i] - A[i - 1];
+				cur = 1;
+			}
+		}
+		return total;
+	}
 };
+
+int main()
+{
+	Solution solution;
+
+	vector<int> A{ 1,3,5,7,9 };
+	cout << solution.numberOfArithmeticSlices(A) << endl;
+}
 ```
 
 
@@ -2117,53 +2149,13 @@ Output: false
 Explanation: The array cannot be partitioned into equal sum subsets.
 ```
 
+#### Train of Thought
 
-#### Solution
+要想分成两组，说明每组的和是总的`sum`的一半。如果这个`sum`不能被2整除，那么我们肯定不能分成两组。
 
-Language: **C++**
+所以，现在问题就变成了，我们是否能用一部分元素累加成`sum / 2`。
 
-```c++
-class Solution {
-public:
-    bool canPartition(vector<int>& nums) {
-        
-    }
-};
-```
-
-
-### [464\. Can I Win](https://leetcode.com/problems/can-i-win/)
-
-Difficulty: **Medium**
-
-
-In the "100 game," two players take turns adding, to a running total, any integer from 1..10\. The player who first causes the running total to reach or exceed 100 wins.
-
-What if we change the game so that players cannot re-use integers?
-
-For example, two players might take turns drawing from a common pool of numbers of 1..15 without replacement until they reach a total >= 100.
-
-Given an integer `maxChoosableInteger` and another integer `desiredTotal`, determine if the first player to move can force a win, assuming both players play optimally.
-
-You can always assume that `maxChoosableInteger` will not be larger than 20 and `desiredTotal` will not be larger than 300.
-
-**Example**
-
-```
-Input:
-maxChoosableInteger = 10
-desiredTotal = 11
-
-Output:
-false
-
-Explanation:
-No matter which integer the first player choose, the first player will lose.
-The first player can choose an integer from 1 up to 10.
-If the first player choose 1, the second player can only choose integers from 2 up to 10.
-The second player will win by choosing 10 and get a total = 11, which is >= desiredTotal.
-Same with other integers chosen by the first player, the second player will always win.
-```
+我们可以用dp的思想，从0开始累加，如果所有元素都累加后，我们还是不能得到`sum / 2`，那么就返回`false`。
 
 
 #### Solution
@@ -2171,12 +2163,38 @@ Same with other integers chosen by the first player, the second player will alwa
 Language: **C++**
 
 ```c++
-class Solution {
+#include <numeric>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
 public:
-    bool canIWin(int maxChoosableInteger, int desiredTotal) {
-        
-    }
+	bool canPartition(vector<int>& nums)
+	{
+		const int sum = std::accumulate(nums.begin(), nums.end(), 0);
+		if (sum % 2 != 0) return false;
+		vector<int> dp(sum + 1, 0);
+		dp[0] = 1;
+		for (const int num : nums)
+		{
+			for (int i = sum; i >= 0; --i)
+				if (dp[i]) dp[i + num] = 1;
+			if (dp[sum / 2]) return true;
+		}
+		return false;
+	}
 };
+
+int main()
+{
+	vector<int> nums{ 1, 5, 11, 5 };
+	Solution solution;
+	cout << solution.canPartition(nums) << endl;
+}
+
 ```
 
 
@@ -2280,51 +2298,6 @@ public:
 };
 ```
 
-
-### [486\. Predict the Winner](https://leetcode.com/problems/predict-the-winner/)
-
-Difficulty: **Medium**
-
-
-Given an array of scores that are non-negative integers. Player 1 picks one of the numbers from either end of the array followed by the player 2 and then player 1 and so on. Each time a player picks a number, that number will not be available for the next player. This continues until all the scores have been chosen. The player with the maximum score wins.
-
-Given an array of scores, predict whether player 1 is the winner. You can assume each player plays to maximize his score.
-
-**Example 1:**  
-
-```
-Input: [1, 5, 2]
-Output: False
-Explanation: Initially, player 1 can choose between 1 and 2\. If he chooses 2 (or 1), then player 2 can choose from 1 (or 2) and 5\. If player 2 chooses 5, then player 1 will be left with 1 (or 2). So, final score of player 1 is 1 + 2 = 3, and player 2 is 5\. Hence, player 1 will never be the winner and you need to return False.
-```
-
-**Example 2:**  
-
-```
-Input: [1, 5, 233, 7]
-Output: True
-Explanation: Player 1 first chooses 1\. Then player 2 have to choose between 5 and 7\. No matter which number player 2 choose, player 1 can choose 233.Finally, player 1 has more score (234) than player 2 (12), so you need to return True representing player1 can win.
-```
-
-**Note:**  
-
-1.  1 <= length of the array <= 20\.
-2.  Any scores in the given array are non-negative integers and will not exceed 10,000,000.
-3.  If the scores of both players are equal, then player 1 is still the winner.
-
-
-#### Solution
-
-Language: **C++**
-
-```c++
-class Solution {
-public:
-    bool PredictTheWinner(vector<int>& nums) {
-        
-    }
-};
-```
 
 
 ### [494\. Target Sum](https://leetcode.com/problems/target-sum/)
