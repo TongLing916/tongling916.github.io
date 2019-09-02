@@ -1454,73 +1454,6 @@ int main()
 ```
 
 
-### [322\. Coin Change](https://leetcode.com/problems/coin-change/)
-
-Difficulty: **Medium**
-
-
-You are given coins of different denominations and a total amount of money _amount_. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return `-1`.
-
-**Example 1:**
-
-```
-Input: coins = [1, 2, 5], amount = 11
-Output: 3
-Explanation: 11 = 5 + 5 + 1
-```
-
-**Example 2:**
-
-```
-Input: coins = [2], amount = 3
-Output: -1
-```
-
-**Note**:  
-You may assume that you have an infinite number of each kind of coin.
-
-
-#### Solution
-
-Language: **C++**
-
-```c++
-#include <algorithm>
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class Solution
-{
-public:
-	int coinChange(vector<int>& coins, int amount)
-	{
-		if (amount == 0) return 0;
-
-		// if dp[amount] > amount, that means we cannot construct amount using coins.
-		vector<int> dp(amount + 1, amount + 1);
-		dp[0] = 0;
-
-		for (int i = 1; i <= amount; ++i)
-			for (int j = 0; j < coins.size(); ++j)
-				if (coins[j] <= i) dp[i] = min(dp[i], dp[i - coins[j]] + 1);
-
-		return dp[amount] > amount ? -1 : dp[amount];
-	}
-};
-
-int main()
-{
-	vector<int> coins1{ 1, 2, 5 };
-	vector<int> coins2{ 333, 243, 214, 132, 281 };
-	Solution solution;
-	cout << solution.coinChange(coins1, 11) << endl;
-	cout << solution.coinChange(coins2, 9334) << endl;
-}
-
-```
-
 ### [338\. Counting Bits](https://leetcode.com/problems/counting-bits/)
 
 Difficulty: **Medium**
@@ -2241,62 +2174,42 @@ Explanation: There are six substrings "z", "a", "b", "za", "ab", "zab" of string
 Language: **C++**
 
 ```c++
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+
+using namespace std;
 class Solution {
 public:
-    int findSubstringInWraproundString(string p) {
-        
-    }
+	int findSubstringInWraproundString(string p) {
+		// count[i] is the maximum unique substring end with ith letter.
+		// 0 - 'a', 1 - 'b', ..., 25 - 'z'.
+		vector<int> cnt(26, 0);
+		int max_len = 1;
+		for (int i = 0; i < p.size(); ++i)
+		{
+			if (i > 0 && (p[i] - p[i - 1] == 1 || p[i - 1] - p[i] == 25))
+				++max_len;
+			else
+				max_len = 1;
+			cnt[p[i] - 'a'] = max(max_len, cnt[p[i] - 'a']);
+		}
+		return accumulate(cnt.begin(), cnt.end(), 0);
+	}
 };
+int main()
+{
+	Solution solution;
+	cout << solution.findSubstringInWraproundString("cac") << endl;
+	cout << solution.findSubstringInWraproundString("zab") << endl;
+	cout << solution.findSubstringInWraproundString("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz") << endl;
+}
 ```
 
 
-### [474\. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)
-
-Difficulty: **Medium**
-
-
-In the computer world, use restricted resource you have to generate maximum benefit is what we always want to pursue.
-
-For now, suppose you are a dominator of **m** `0s` and **n** `1s` respectively. On the other hand, there is an array with strings consisting of only `0s` and `1s`.
-
-Now your task is to find the maximum number of strings that you can form with given **m** `0s` and **n** `1s`. Each `0` and `1` can be used at most **once**.
-
-**Note:**
-
-1.  The given numbers of `0s` and `1s` will both not exceed `100`
-2.  The size of given string array won't exceed `600`.
-
-**Example 1:**
-
-```
-Input: Array = {"10", "0001", "111001", "1", "0"}, m = 5, n = 3
-Output: 4
-
-Explanation: This are totally 4 strings can be formed by the using of 5 0s and 3 1s, which are “10,”0001”,”1”,”0”
-```
-
-**Example 2:**
-
-```
-Input: Array = {"10", "0", "1"}, m = 1, n = 1
-Output: 2
-
-Explanation: You could form "10", but then you'd have nothing left. Better form "0" and "1".
-```
-
-
-#### Solution
-
-Language: **C++**
-
-```c++
-class Solution {
-public:
-    int findMaxForm(vector<string>& strs, int m, int n) {
-        
-    }
-};
-```
 
 
 
