@@ -311,13 +311,14 @@ Output: [1]
 
 __Note:__
 - You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
-- Your algorithm's time complexity __must be__ better than O(nlogn), where n is the array's size.
+- Your algorithm's time complexity __must be__ better than O(nlogn), where n is the size of array.
 
 #### Train of Thought
 
 To find the k most frequent elements, we need to document how many times each number appears. To do that, we can use a unordered_map. Then, to rank from the most frequent to the least frequent element, we can use a priority_queue (in <queue>). The last step is just poping the top element out until we get k elements.
 
 #### Solution
+
 ```cpp
 #include <utility>
 
@@ -403,4 +404,87 @@ int main()
 	cout << solution.topKFrequent(nums1, 2) << endl;
 	cout << solution.topKFrequent(nums2, 2) << endl;
 }
+```
+
+
+
+### [560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/)
+
+Difficulty: **Medium**
+
+
+Given an array of integers and an integer **k**, you need to find the total number of continuous subarrays whose sum equals to **k**.
+
+**Example 1:**  
+
+```
+Input:nums = [1,1,1], k = 2
+Output: 2
+```
+
+**Note:**  
+
+1.  The length of the array is in range [1, 20,000].
+2.  The range of numbers in the array is [-1000, 1000] and the range of the integer **k** is [-1e7, 1e7].
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+
+using namespace std;
+
+// O(n^2)
+class Solution1
+{
+public:
+	int subarraySum(vector<int>& nums, int k)
+	{
+		const int n = nums.size();
+		vector<int> sums(n + 1, 0);
+		for (int i = 1; i <= n; ++i)
+			sums[i] = sums[i - 1] + nums[i - 1];
+		int ans = 0;
+		for (int i = 0; i < n; ++i)
+			for (int j = i; j < n; ++j)
+				if (sums[j + 1] - sums[i] == k) ++ans;
+		return ans;
+	}
+};
+
+// O(n)
+class Solution2
+{
+public:
+	int subarraySum(vector<int>& nums, int k)
+	{
+		if (nums.empty()) return 0;
+		unordered_map<int, int> counts{ {0,1} };
+		int sum = 0;
+		int ans = 0;
+		for (const int num : nums)
+		{
+			sum += num;
+			ans += counts[sum - k];
+			++counts[sum];
+		}
+		return ans;
+	}
+};
+
+
+
+int main()
+{
+	Solution2 solution;
+	vector<int> nums{ 1, 1, -1, 1 };
+	cout << solution.subarraySum(nums, 1) << endl;
+}
+
 ```

@@ -56,7 +56,7 @@ public:
 	 * @param m: An integer m denotes the size of a backpack
 	 * @param A: Given n items with size A[i]
 	 * @return: The maximum size
-	 * /
+	 */
 	int backPack(int m, vector<int>& A)
 	{
 		vector<int> capacity(m + 1, 0);
@@ -128,7 +128,7 @@ public:
 	 * @param A: Given n items with size A[i]
 	 * @param V: Given n items with value V[i]
 	 * @return: The maximum value
-	 * /
+	 */
 	int backPackII(int m, vector<int>& A, vector<int>& V)
 	{
 		vector<int> val(m + 1, 0);
@@ -178,7 +178,7 @@ public:
 	 * @param A: Given n items with size A[i]
 	 * @param V: Given n items with value V[i]
 	 * @return: The maximum value
-	 * /
+	 */
 	int backPackIII(int m, vector<int>& A, vector<int>& V)
 	{
 		vector<int> val(m + 1, 0);
@@ -220,7 +220,39 @@ int main()
 
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+
+class Solution
+{
+public:
+	/**
+	 * @param A: Given n items with size A[i]
+	 * @param target: target
+	 * @return: The number of combinations
+	 */
+	int backPackIV(vector<int>& A, int target)
+	{
+		vector<int> res(target + 1, 0);
+		res[0] = 1;								 // target为0时算一种，即什么也不用
+		for (int i = 0; i < A.size(); ++i)		 // 用前(i + 1)个物体（必须包含第(i+1)个）
+			for (int j = A[i]; j <= target; ++j) // 注意j递增，为了多次运用以前用过的物品
+				res[j] += res[j - A[i]];
+		return res.back();
+	}
+};
+
+
+int main()
+{
+	vector<int> A{ 2, 3, 6, 5 };
+	Solution solution;
+	cout << solution.backPackIV(A, 9) << endl;
+}
 ```
 
 ### 背包问题 V —— [0-1 背包问题，返回方案数](https://www.lintcode.com/problem/backpack-iV/)
@@ -243,12 +275,44 @@ int main()
 
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+
+class Solution
+{
+public:
+	/**
+	 * @param A: Given n items with size A[i]
+	 * @param target: target
+	 * @return: The number of combinations
+	 */
+	int backPackIV(vector<int>& A, int target)
+	{
+		vector<int> res(target + 1, 0);
+		res[0] = 1;								 // target为0时算一种，即什么也不用
+		for (int i = 0; i < A.size(); ++i)		 // 用前(i + 1)个物体（必须包含第(i+1)个）
+			for (int j = target; j >= A[i]; --j) // 注意j递减，为了只用一次以前用过的物品
+				res[j] += res[j - A[i]];
+		return res.back();
+	}
+};
+
+
+int main()
+{
+	vector<int> A{ 1, 2, 3, 3, 7 };
+	Solution solution;
+	cout << solution.backPackIV(A, 7) << endl;
+}
 ```
 
 
 
-### 背包问题 VII —— [多重背包问题](https://www.lintcode.com/problem/backpack-vii/description)
+### 背包问题 VII —— [多重，价值](https://www.lintcode.com/problem/backpack-vii/description)
 
 
 假设你身上有 n 元，超市里有多种大米可以选择，每种大米都是袋装的，必须整袋购买，给出每种大米的重量，价格以及数量，求最多能买多少公斤的大米
@@ -268,13 +332,66 @@ Return:400
 
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 
+using namespace std;
+
+
+class Solution
+{
+public:
+	/**
+	 * @param n: the money of you
+	 * @param prices: the price of rice[i]
+	 * @param weight: the weight of rice[i]
+	 * @param amounts: the amount of rice[i]
+     * @return: the maximum weight
+	 */
+	int backPackVII(int n, vector<int>& prices, vector<int>& weight, vector<int>& amounts)
+	{
+		vector<int> new_prices;
+		vector<int> new_weight;
+		for (int i = 0; i < amounts.size(); ++i)
+		{
+			int k = (int)log2(amounts[i]) + 1;  // eg: log2(10) = 3.32.. --> k = 4
+			for (int j = 0; j < k - 1; ++j) // 10 = 1 + 2 + 4 + 3
+			{
+				int coef = (int)pow(2, j);
+				new_prices.push_back(coef * prices[i]);
+				new_weight.push_back(coef * weight[i]);
+			}
+			int coef = amounts[i] - ((int)pow(2, k - 1) - 1);
+			new_prices.push_back(coef * prices[i]);
+			new_weight.push_back(coef * weight[i]);
+		}
+
+		// The problem becomes a 0-1 backpack
+		vector<int> dp(n + 1, 0);
+		for (int i = 0; i < new_prices.size(); ++i) // object index
+			for (int c = n; c >= new_prices[i]; --c) // 注意c从m开始递减，防止多次运用以前用过的物品
+				dp[c] = max(dp[c], new_weight[i] + dp[c - new_prices[i]]);
+		return dp[n];
+	}
+};
+
+
+int main()
+{
+	vector<int> prices{ 2, 3, 4 };
+	vector<int> weight{ 100, 300, 300 };
+	vector<int> amounts{ 4, 1, 3};
+	Solution solution;
+	cout << solution.backPackVII(8, prices, weight, amounts) << endl;
+}
 ```
 
 
 
 
-### 背包问题 VIII —— [多重背包问题求可行性解的个数](https://www.lintcode.com/problem/backpack-viii/description)
+### 背包问题 VIII —— [多重，组合数](https://www.lintcode.com/problem/backpack-viii/description)
 
 
 给一些不同价值和数量的硬币。找出这些硬币可以组合在1 ~ n范围内的值
@@ -294,14 +411,107 @@ They can combine all the values in 1 ~ 8
 
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+// O(VN)
+class Solution1
+{
+public:
+	/**
+	 * @param n: the value from 1 - n
+	 * @param value: the value of coins
+	 * @param amount: the number of coins
+	 * @return: how many different value
+	 */
+	int backPackVII(int n, vector<int>& value, vector<int>& amount)
+	{
+		vector<int> dp(n + 1, -1);
+		dp[0] = 0;
+
+		// dp[i][j]表示“用了前i种物品填满容量为j的背包后，最多还剩下几个第i种物品可用”
+		for (int i = 0; i < value.size(); ++i)
+		{
+			// 如果我们根本不适用第i个物品
+			// 有两种情况： 1）前i-1个物品已经能构成j， 2）前i-1个物品不能构成j
+			for (int j = 0; j <= n; ++j)
+			{
+				if (dp[j] >= 0) dp[j] = amount[i]; // 前i-1个物体已经能填满j了，所以我们不需要使用第i个，所以剩下amount[i]
+				else dp[j] = -1;				   // 前i-1个物体不能填满j，状态为-1
+			}
+
+			for (int j = 0; j <= n - value[i]; ++j)
+				if (dp[j] > 0)	// 我们无法在dp[j]==0的地方累加，因为物体都用完了
+					dp[j + value[i]] = max(dp[j + value[i]], dp[j] - 1); // 每用一个value[i], 对应的dp[j]就要少一个, 所以dp[j]-1
+		}
+
+		int cnt = 0;
+		for (int i = 1; i <= n; ++i)
+			if (dp[i] >= 0) ++cnt;
+		return cnt;
+	}
+};
+
+
+// O(V sum(log2(M)))
+class Solution2
+{
+public:
+	/**
+	 * @param n: the value from 1 - n
+	 * @param value: the value of coins
+	 * @param amount: the number of coins
+	 * @return: how many different value
+	 */
+	int backPackVII(int n, vector<int>& value, vector<int>& amount)
+	{
+
+		vector<int> new_value;
+		for (int i = 0; i < amount.size(); ++i)
+		{
+			int k = (int)log2(amount[i]) + 1;
+			for (int j = 0; j < k - 1; ++j)
+				new_value.push_back((int)pow(2, j) * value[i]);
+			int rest = amount[i] - ((int)pow(2, k - 1) - 1);
+			new_value.push_back(rest * value[i]);
+		}
+
+
+		// 0-1 backpack
+		vector<int> dp(n + 1, 0);
+		dp[0] = 1;
+		int cnt = 0;
+		for (int i = 0; i < new_value.size(); ++i)
+			for (int j = n; j >= new_value[i]; --j)
+				if (dp[j] == 0 && dp[j - new_value[i]])
+				{
+					dp[j] = 1;
+					++cnt;
+				}
+		return cnt;
+	}
+};
+
+
+int main()
+{
+	vector<int> value{ 1, 2, 4, 3 };
+	vector<int> amount{ 2, 1, 1, 2 };
+	Solution1 solution1;
+	Solution2 solution2;
+	cout << solution1.backPackVII(20, value, amount) << endl;
+	cout << solution2.backPackVII(20, value, amount) << endl;
+}
 ```
 
 
-### 背包问题 IX —— [可能性](https://www.lintcode.com/problem/backpack-ix/description)
+### 背包问题 IX —— [多重，最好方案](https://www.lintcode.com/problem/backpack-ix/description)
 
 
-你总共有10 * n 千元(n万元 )，希望申请国外的大学，要申请的话需要交一定的申请费用，给出每个大学的申请费用以及你得到这个大学offer的成功概率，大学的数量是 m。如果经济条件允许，你可以申请多所大学。找到获得至少一份工作的最高可能性。
+你总共有n万元，希望申请国外的大学，要申请的话需要交一定的申请费用，给出每个大学的申请费用以及你得到这个大学offer的成功概率，大学的数量是 m。如果经济条件允许，你可以申请多所大学。找到获得至少一份工作的最高可能性。
 
 **Example**
 
@@ -316,34 +526,54 @@ probability = [0.1,0.2,0.3]
 ```
 
 
+
 **注意事项**
 0<=n<=10000,0<=m<=10000
 
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+
+class Solution
+{
+public:
+	/**
+	 * @param n: Your money
+	 * @param prices: Cost of each university application
+	 * @param probability: Probability of getting the University's offer
+	 * @return: the highest probability
+	 */
+	double backPackIX(int n, vector<int>& prices, vector<double>& probability)
+	{
+
+		vector<double> probability_rejected;
+		for (double& p : probability)
+			probability_rejected.push_back(1 - p);
+
+
+		vector<double> dp(n + 1, 1); // get the min probability of rejection
+		for (int i = 0; i < prices.size(); ++i)
+			for (int j = n; j >= prices[i]; --j)
+				dp[j] = min(dp[j], dp[j - prices[i]] * probability_rejected[i]);
+
+		return 1 - dp[n];
+	}
+};
+
+
+int main()
+{
+	vector<int> prices{ 4, 4, 5 };
+	vector<double> probability{ 0.1, 0.2, 0.3 };
+	Solution solution;
+	cout << solution.backPackIX(10, prices, probability) << endl;
+}
 ```
-
-
-
-### 背包问题 X —— [最少小费](https://www.lintcode.com/problem/backpack-x/description)
-
-
-你总共有n元，商人总共有三种商品，它们的价格分别是150元,250元,350元，三种商品的数量可以认为是无限多的，购买完商品以后需要将剩下的钱给商人作为小费，求最少需要给商人多少小费
-
-**Example**
-
-样例 1:
-```
-给定: n = 900
-返回: 0
-```
-
-
-```c++
-
-```
-
 
 
 ### [322\. Coin Change](https://leetcode.com/problems/coin-change/)
@@ -463,12 +693,36 @@ You can assume that
 Language: **C++**
 
 ```c++
-class Solution {
+
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution
+{
 public:
-    int change(int amount, vector<int>& coins) {
-        
-    }
+	int change(int amount, vector<int>& coins)
+	{
+		vector<int> dp(amount + 1, 0);
+		dp[0] = 1;
+		for (int i = 0; i < coins.size(); ++i)
+			for (int j = 0; j <= amount - coins[i]; ++j)
+				if (dp[j]) dp[j + coins[i]] += dp[j];
+		return dp[amount];
+	}
 };
+
+int main()
+{
+	vector<int> coins1{ 1, 2, 5 };
+	vector<int> coins2{ 333, 243, 214, 132, 281 };
+	Solution solution;
+	cout << solution.change(11, coins1) << endl;
+	cout << solution.change(9334, coins2) << endl;
+}
+
 ```
 
 
@@ -512,10 +766,198 @@ Explanation: You could form "10", but then you'd have nothing left. Better form 
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
 class Solution {
 public:
-    int findMaxForm(vector<string>& strs, int m, int n) {
-        
-    }
+	int findMaxForm(vector<string>& strs, int m, int n)
+	{
+		// dp[i][j]: the max number of combinations using i '0' and j '1'
+		vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+		for (string& s : strs)
+		{
+			int zeros = count(s.begin(), s.end(), '0');
+			int ones = count(s.begin(), s.end(), '1');
+
+			for (int i = m; i >= zeros; --i)
+				for (int j = n; j >= ones; --j)
+					dp[i][j] = max(dp[i][j], dp[i - zeros][j - ones] + 1);
+		}
+		return dp[m][n];
+	}
 };
+
+int main()
+{
+	vector<string> strs{ "10", "0001", "111001", "1", "0" };
+	Solution solution;
+	cout << solution.findMaxForm(strs, 5, 3) << endl;
+}
+
+```
+
+
+
+### [494\. Target Sum](https://leetcode.com/problems/target-sum/)
+
+Difficulty: **Medium**
+
+
+You are given a list of non-negative integers, a1, a2, ..., an, and a target, S. Now you have 2 symbols `+` and `-`. For each integer, you should choose one from `+` and `-` as its new symbol.
+
+Find out how many ways to assign symbols to make sum of integers equal to target S.
+
+**Example 1:**  
+
+```
+Input: nums is [1, 1, 1, 1, 1], S is 3\.
+Output: 5
+Explanation:
+
+-1+1+1+1+1 = 3
++1-1+1+1+1 = 3
++1+1-1+1+1 = 3
++1+1+1-1+1 = 3
++1+1+1+1-1 = 3
+
+There are 5 ways to assign symbols to make the sum of nums be target 3.
+```
+
+**Note:**  
+
+1.  The length of the given array is positive and will not exceed 20\.
+2.  The sum of elements in the given array will not exceed 1000.
+3.  Your output answer is guaranteed to be fitted in a 32-bit integer.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <numeric>
+
+using namespace std;
+
+// 1D DP
+// https://www.youtube.com/watch?v=zks6mN06xdQ&t=9s
+class Solution0
+{
+public:
+	int findTargetSumWays(vector<int>& nums, int S)
+	{
+		S = abs(S);
+		const int sum = accumulate(nums.begin(), nums.end(), 0);
+		if (sum < S || (S + sum) % 2 == 1) return 0;
+		const int target = (S + sum) / 2;
+		vector<int> dp(target + 1, 0);
+		dp[0] = 1;
+		for (const int& num : nums)
+			for (int j = target; j >= num; --j)
+				dp[j] += dp[j - num];
+		return dp[target];
+	}
+};
+
+
+// 1D DP
+// https://www.youtube.com/watch?v=r6Wz4W1TbuI&t=139s
+class Solution1
+{
+public:
+	int findTargetSumWays(vector<int>& nums, int S)
+	{
+		const int n = nums.size();
+		const int sum = accumulate(nums.begin(), nums.end(), 0);
+		if (sum < abs(S)) return 0;
+		const int offset = sum;
+		const int max_n = sum * 2 + 1;
+		vector<int> ways(max_n, 0);
+		ways[offset] = 1;
+		for (int i = 0; i < n; ++i)
+		{
+			vector<int> tmp(max_n, 0);
+			for (int j = nums[i]; j < max_n - nums[i]; ++j)
+				if (ways[j])
+				{
+					tmp[j + nums[i]] += ways[j];
+					tmp[j - nums[i]] += ways[j];
+				}
+			swap(ways, tmp);
+		}
+		return ways[S + offset];
+	}
+};
+
+
+// 2D DP
+// https://www.youtube.com/watch?v=r6Wz4W1TbuI&t=139s
+class Solution2
+{
+public:
+	int findTargetSumWays(vector<int>& nums, int S)
+	{
+		const int n = nums.size();
+		const int sum = accumulate(nums.begin(), nums.end(), 0);
+		if (sum < abs(S)) return 0;
+		const int offset = sum;
+		vector<vector<int>> ways(n + 1, vector<int>(sum + offset + 1, 0));
+		ways[0][offset] = 1;
+		for (int i = 0; i < n; ++i)
+			for (int j = nums[i]; j < 2 * sum + 1 - nums[i]; ++j)
+				if (ways[i][j])
+				{
+					ways[i + 1][j + nums[i]] += ways[i][j];
+					ways[i + 1][j - nums[i]] += ways[i][j];
+				}
+		return ways.back()[S + offset];
+	}
+};
+
+// slow
+class Solution3
+{
+public:
+	int findTargetSumWays(vector<int>& nums, int S)
+	{
+		if (nums.size() == 0) return 0;
+
+		unordered_map<int, int> cur;
+		cur[0] = 1;
+
+		for (int i = 0; i < nums.size(); ++i)
+		{
+			unordered_map<int, int> tmp;
+			for (auto& d : cur)
+			{
+				tmp[d.first + nums[i]] += cur[d.first];
+				tmp[d.first - nums[i]] += cur[d.first];
+			}
+			cur = tmp;
+		}
+		return cur.count(S) ? cur[S] : 0;
+	}
+};
+
+int main()
+{
+	vector<int> nums{ 1, 1, 1, 1, 1 };
+	Solution0 solution0;
+	Solution1 solution1;
+	Solution2 solution2;
+	Solution3 solution3;
+	cout << solution0.findTargetSumWays(nums, 3) << endl;
+	cout << solution1.findTargetSumWays(nums, 3) << endl;
+	cout << solution2.findTargetSumWays(nums, 3) << endl;
+	cout << solution3.findTargetSumWays(nums, 3) << endl;
+}
+
 ```

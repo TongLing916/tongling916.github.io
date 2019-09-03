@@ -2212,53 +2212,6 @@ int main()
 
 
 
-
-### [494\. Target Sum](https://leetcode.com/problems/target-sum/)
-
-Difficulty: **Medium**
-
-
-You are given a list of non-negative integers, a1, a2, ..., an, and a target, S. Now you have 2 symbols `+` and `-`. For each integer, you should choose one from `+` and `-` as its new symbol.
-
-Find out how many ways to assign symbols to make sum of integers equal to target S.
-
-**Example 1:**  
-
-```
-Input: nums is [1, 1, 1, 1, 1], S is 3\.
-Output: 5
-Explanation:
-
--1+1+1+1+1 = 3
-+1-1+1+1+1 = 3
-+1+1-1+1+1 = 3
-+1+1+1-1+1 = 3
-+1+1+1+1-1 = 3
-
-There are 5 ways to assign symbols to make the sum of nums be target 3.
-```
-
-**Note:**  
-
-1.  The length of the given array is positive and will not exceed 20\.
-2.  The sum of elements in the given array will not exceed 1000.
-3.  Your output answer is guaranteed to be fitted in a 32-bit integer.
-
-
-#### Solution
-
-Language: **C++**
-
-```c++
-class Solution {
-public:
-    int findTargetSumWays(vector<int>& nums, int S) {
-        
-    }
-};
-```
-
-
 ### [516\. Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence/)
 
 Difficulty: **Medium**
@@ -2301,12 +2254,83 @@ One possible longest palindromic subsequence is "bb".
 Language: **C++**
 
 ```c++
-class Solution {
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+// 1D DP
+class Solution1
+{
 public:
-    int longestPalindromeSubseq(string s) {
-        
-    }
+	int longestPalindromeSubseq(string s)
+	{
+		const int n = s.length();
+		vector<int> dp0(n); // sols of len = l
+		vector<int> dp1(n); // sols of len = l - 1
+		vector<int> dp2(n); // sols of len = l - 2
+		for (int l = 1; l <= n; ++l)
+		{
+			for (int i = 0; i <= n - l; ++i)
+			{
+				int j = i + l - 1;
+				if (i == j)
+				{
+					dp0[i] = 1;
+					continue;
+				}
+				if (s[i] == s[j]) dp0[i] = dp2[i + 1] + 2;
+				else dp0[i] = max(dp1[i + 1], dp1[i]);
+			}
+			dp0.swap(dp1);
+			dp2.swap(dp0);
+		}
+		return dp1[0];
+	}
 };
+
+
+// 2D DP
+class Solution2
+{
+public:
+	int longestPalindromeSubseq(string s)
+	{
+		const int n = s.length();
+
+		// dp[i][j]: solutions between index i and j
+		vector<vector<int>> dp(n, vector<int>(n, 0));
+		for (int l = 1; l <= n; ++l)
+			for (int i = 0; i <= n - l; ++i)
+			{
+				int j = i + l - 1;
+				if (i == j)
+				{
+					dp[i][j] = 1;
+					continue;
+				}
+
+				if (s[i] == s[j]) dp[i][j] = dp[i + 1][j - 1] + 2;
+				else dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+			}
+		return dp[0][n - 1];
+	}
+};
+
+int main()
+{
+	string s1 = "bbbab";
+	string s2 = "cabcba";
+	Solution1 solution1;
+	Solution2 solution2;
+	cout << solution1.longestPalindromeSubseq(s1) << endl;
+	cout << solution1.longestPalindromeSubseq(s2) << endl;
+	cout << solution2.longestPalindromeSubseq(s1) << endl;
+	cout << solution2.longestPalindromeSubseq(s2) << endl;
+}
+
 ```
 
 
@@ -2339,17 +2363,67 @@ Explanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and su
 2.  You may assume the sum of all the numbers is in the range of a signed 32-bit integer.
 
 
+#### Train of Thought
+
+See [560. Subarray Sum Equals K](http://lingtong.de/2019/07/21/Hash-Table/#560-Subarray-Sum-Equals-K).
+
+* Running sum from first element to index i : sum_i. If we mod k, it will be some format like : `sum_i = k * x + modk_1`
+* Running sum from first element to index j : sum_j. If we mod k, it will be some format like : `sum_j = k * y + modk_2`
+
+If they have the same mod, which is `modk_1 == modk_2`, subtracting these two running sum we get the difference `sum_i - sum_j = (x - y) * k = constant * k`, and the difference is the sum of elements between index i and j, and the value is a multiple of k.
+
+
 #### Solution
 
 Language: **C++**
 
 ```c++
-class Solution {
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution
+{
 public:
-    bool checkSubarraySum(vector<int>& nums, int k) {
-        
-    }
+	bool checkSubarraySum(vector<int>& nums, int k)
+	{
+		unordered_map<int, int> dict{ {0, -1} };
+		int sum = 0;
+
+		for (int i = 0; i < nums.size(); ++i)
+		{
+			sum += nums[i];
+			if (k) sum %= k;
+			if (dict.count(sum))
+			{
+				if (i - dict[sum] > 1) return true;
+			}
+			else
+			{
+				dict[sum] = i;
+			}
+		}
+
+		return false;
+	}
 };
+
+int main()
+{
+	Solution solution;
+	vector<int> nums{ 23, 2, 4, 6, 7 };
+	cout << solution.checkSubarraySum(nums, 6) << endl;
+	cout << solution.checkSubarraySum(nums, -6) << endl;
+	cout << solution.checkSubarraySum(nums, 15) << endl;
+	cout << solution.checkSubarraySum(nums, 0) << endl;
+
+	vector<int> nums2{ 0, 0 };
+	cout << solution.checkSubarraySum(nums2, -1) << endl;
+	cout << solution.checkSubarraySum(nums2, 0) << endl;
+}
+
 ```
 
 
@@ -2390,11 +2464,49 @@ Explanation:
 Language: **C++**
 
 ```c++
-class Solution {
+class Solution
+{
+private:
+	const int mod = 1e9 + 7;
+
 public:
-    int findPaths(int m, int n, int N, int i, int j) {
-        
-    }
+	int findPaths(int m, int n, int N, int i, int j)
+	{
+		if (N <= 0 || m <= 0 || n <= 0) return 0;
+
+		// dict[i][j]: the number of paths to go out of boundary at (i, j) using k moves
+		vector<vector<int>> dict(m, vector<int>(n, 0));
+
+		// initialize when N == 1
+		for (int c = 0; c < n; ++c)
+		{
+			++dict[0][c];
+			++dict[m - 1][c];
+		}
+		for (int r = 0; r < m; ++r)
+		{
+			++dict[r][0];
+			++dict[r][n - 1];
+		}
+
+		int ans = dict[i][j];
+		for (int k = 2; k <= N; ++k)
+		{
+			vector<vector<int>> dict_tmp(m, vector<int>(n, 0));
+			for (int r = 0; r < m; ++r)
+				for (int c = 0; c < n; ++c)
+				{
+					if (r > 0) dict_tmp[r][c] = (dict_tmp[r][c] + dict[r - 1][c]) % mod;
+					if (r < m - 1) dict_tmp[r][c] = (dict_tmp[r][c] + dict[r + 1][c]) % mod;
+					if (c > 0) dict_tmp[r][c] = (dict_tmp[r][c] + dict[r][c - 1]) % mod;
+					if (c < n - 1) dict_tmp[r][c] = (dict_tmp[r][c] + dict[r][c + 1]) % mod;
+				}
+			dict.swap(dict_tmp);
+			ans = (ans + dict[i][j]) % mod;
+		}
+
+		return ans;
+	}
 };
 ```
 
@@ -2450,12 +2562,55 @@ You cannot add more items, though only $9 for 2A ,2B and 1C.
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+
+using namespace std;
+
+bool operator> (const vector<int>& a, const vector<int>& b) {
+	for (int i = 0; i < a.size(); ++i)
+		if (a[i] < b[i]) return false;
+	return true;
+}
+
+void operator+= (vector<int>& a, const vector<int>& b) {
+	for (int i = 0; i < a.size(); ++i)
+		a[i] += b[i];
+	return;
+}
+void operator-= (vector<int>& a, const vector<int>& b) {
+	for (int i = 0; i < a.size(); ++i)
+		a[i] -= b[i];
+	return;
+}
+
 class Solution {
 public:
-    int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
-        
-    }
+	int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
+		int cost = inner_product(needs.begin(), needs.end(), price.begin(), 0);
+		for (auto& spe : special) {
+			if (spe.back() > cost) continue;
+			if (needs > spe) {
+				needs -= spe;
+				cost = min(cost, spe.back() + shoppingOffers(price, special, needs));
+				needs += spe;
+			}
+		}
+		return cost;
+	}
 };
+
+int main()
+{
+	vector<int> price{ 2, 5 };
+	vector<vector<int>> special{ {3,0,5},{1,2,10} };
+	vector<int> needs{ 3, 2 };
+	Solution solution;
+	cout << solution.shoppingOffers(price, special, needs) << endl;
+}
+
 ```
 
 
