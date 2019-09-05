@@ -127,6 +127,419 @@ int main()
 }
 ```
 
+
+### [144\. Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)
+
+Difficulty: **Medium**
+
+
+Given a binary tree, return the _preorder_ traversal of its nodes' values.
+
+**Example:**
+
+```
+Input: [1,null,2,3]
+   1
+    \
+     2
+    /
+   3
+
+Output: [1,2,3]
+```
+
+**Follow up:** Recursive solution is trivial, could you do it iteratively?
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+
+#include <iostream>
+
+#include <vector>
+
+#include <stack>
+
+using std::cout;
+using std::endl;
+using std::vector;
+using std::stack;
+
+struct TreeNode
+{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution
+{
+public:
+	vector<int> preorderTraversal(TreeNode* root)
+	{
+		vector<int> res;
+		stack<TreeNode*> s;
+		s.push(root);
+		TreeNode* cur;
+		while (s.size())
+		{
+			cur = s.top();
+			s.pop();
+			if (cur)
+			{
+				res.push_back(cur->val);
+				s.push(cur->right);
+				s.push(cur->left);
+			}
+		}
+
+		return res;
+	}
+};
+
+class Solution2
+{
+public:
+	vector<int> preorderTraversal(TreeNode* root)
+	{
+		vector<int> res;
+		preorderTraversal(root, res);
+		return res;
+	}
+
+	void preorderTraversal(TreeNode* root, vector<int>& res)
+	{
+		if (!root) return;
+
+		res.push_back(root->val);
+		preorderTraversal(root->left, res);
+		preorderTraversal(root->right, res);
+	}
+};
+
+int main()
+{
+    std::cout << "Hello World!\n";
+}
+
+```
+
+
+### [145\. Binary Tree Postorder Traversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)
+
+Difficulty: **Hard**
+
+
+Given a binary tree, return the _postorder_ traversal of its nodes' values.
+
+**Example:**
+
+```
+Input: [1,null,2,3]
+   1
+    \
+     2
+    /
+   3
+
+Output: [3,2,1]
+```
+
+**Follow up:** Recursive solution is trivial, could you do it iteratively?
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+
+#include <vector>
+
+#include <stack>
+
+using std::cout;
+using std::endl;
+using std::vector;
+using std::stack;
+
+struct TreeNode
+{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+	vector<int> postorderTraversal(TreeNode* root)
+	{
+		vector<int> res;
+		stack<TreeNode*> s;
+		s.push(root);
+		TreeNode* cur;
+
+		while (s.size())
+		{
+			cur = s.top();
+			s.pop();
+			if (cur)
+			{
+				res.push_back(cur->val);
+				if (cur->left) s.push(cur->left);
+				if (cur->right) s.push(cur->right);
+			}
+		}
+
+		reverse(res.begin(), res.end());
+		return res;
+	}
+};
+
+class Solution2 {
+public:
+	vector<int> postorderTraversal(TreeNode* root)
+	{
+		vector<int> res;
+		postorderTraversal(root, res);
+		return res;
+	}
+
+	void postorderTraversal(TreeNode* root, vector<int>& res)
+	{
+		if (!root) return;
+
+		postorderTraversal(root->left, res);
+		postorderTraversal(root->right, res);
+		res.push_back(root->val);
+	}
+};
+
+int main()
+{
+    std::cout << "Hello World!\n";
+}
+
+```
+
+
+### [105\. Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+Difficulty: **Medium**
+
+
+Given preorder and inorder traversal of a tree, construct the binary tree.
+
+**Note:**  
+You may assume that duplicates do not exist in the tree.
+
+For example, given
+
+```
+preorder = [3,9,20,15,7]
+inorder = [9,3,15,20,7]
+```
+
+Return the following binary tree:
+
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+
+#include <iostream>
+
+#include <vector>
+
+#include <unordered_map>
+
+using std::vector;
+using std::unordered_map;
+
+struct TreeNode
+{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution1
+{
+public:
+	TreeNode* buildTreeHelper(vector<int>& preorder, int pre_lo, int pre_hi, vector<int>& inorder, int in_lo, int in_hi)
+	{
+		if (pre_hi - pre_lo < 0) return nullptr;
+
+		int root_val = preorder[pre_lo];
+		TreeNode* root = new TreeNode(root_val);
+		int i = in_lo;
+		for (; i <= in_hi; ++i)
+			if (inorder[i] == root_val) break;
+		root->left = buildTreeHelper(preorder, pre_lo + 1, pre_lo + i - in_lo, inorder, in_lo, i - 1);
+		root->right = buildTreeHelper(preorder, pre_lo + i - in_lo + 1, pre_hi, inorder, i + 1, in_hi);
+		return root;
+	}
+
+	TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder)
+	{
+		return buildTreeHelper(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1);
+	}
+};
+
+class Solution2
+{
+private:
+	unordered_map<int, int> dict;
+public:
+	TreeNode* buildTreeHelper(vector<int>& preorder, int pre_lo, int pre_hi, vector<int>& inorder, int in_lo, int in_hi)
+	{
+		if (pre_hi - pre_lo < 0) return nullptr;
+
+		TreeNode* root = new TreeNode(preorder[pre_lo]);
+		int i = dict[root->val];
+		root->left = buildTreeHelper(preorder, pre_lo + 1, pre_lo + i - in_lo, inorder, in_lo, i - 1);
+		root->right = buildTreeHelper(preorder, pre_lo + i - in_lo + 1, pre_hi, inorder, i + 1, in_hi);
+		return root;
+	}
+
+	TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder)
+	{
+		for (int i = 0; i < inorder.size(); ++i)
+			dict[inorder[i]] = i;
+		return buildTreeHelper(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1);
+	}
+};
+
+int main()
+{
+    std::cout << "Hello World!\n";
+}
+
+```
+
+
+
+### [106\. Construct Binary Tree from Inorder and Postorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+Difficulty: **Medium**
+
+
+Given inorder and postorder traversal of a tree, construct the binary tree.
+
+**Note:**  
+You may assume that duplicates do not exist in the tree.
+
+For example, given
+
+```
+inorder = [9,3,15,20,7]
+postorder = [9,15,7,20,3]
+```
+
+Return the following binary tree:
+
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+ #include <iostream>
+
+ #include <vector>
+
+ #include <unordered_map>
+
+ using std::vector;
+ using std::unordered_map;
+
+ struct TreeNode
+ {
+ 	int val;
+ 	TreeNode* left;
+ 	TreeNode* right;
+ 	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ };
+
+ class Solution {
+ private:
+ 	TreeNode* buildTreeHelper(vector<int>& inorder, int in_lo, int in_hi, vector<int>& postorder, int post_lo, int post_hi)
+ 	{
+ 		if (post_lo > post_hi) return nullptr;
+ 		int root_val = postorder[post_hi];
+ 		TreeNode* root = new TreeNode(root_val);
+
+ 		int i = in_lo;
+ 		for (; i <= in_hi; ++i)
+ 			if (inorder[i] == root_val) break;
+
+ 		root->left = buildTreeHelper(inorder, in_lo, i - 1, postorder, post_lo, post_lo + i - in_lo - 1);
+ 		root->right = buildTreeHelper(inorder, i + 1, in_hi, postorder, post_lo + i - in_lo, post_hi - 1);
+ 		return root;
+ 	}
+ public:
+ 	TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+ 		return buildTreeHelper(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1);
+ 	}
+ };
+
+ class Solution2
+ {
+ private:
+ 	unordered_map<int, int> dict;
+ public:
+ 	TreeNode* buildTreeHelper(vector<int>& inorder, int in_lo, int in_hi, vector<int>& postorder, int post_lo, int post_hi)
+ 	{
+ 		if (post_hi < post_lo) return nullptr;
+ 		TreeNode* root = new TreeNode(postorder[post_hi]);
+ 		int i = dict[root->val];
+ 		root->left = buildTreeHelper(inorder, in_lo, i - 1, postorder, post_lo, post_lo + i - in_lo - 1);
+ 		root->right = buildTreeHelper(inorder, i + 1, in_hi, postorder, post_lo + i - in_lo, post_hi - 1);
+ 		return root;
+ 	}
+ 	TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder)
+ 	{
+ 		for (int i = 0; i < inorder.size(); ++i)
+ 			dict[inorder[i]] = i;
+ 		return buildTreeHelper(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1);
+ 	}
+ };
+
+ int main()
+ {
+     std::cout << "Hello World!\n";
+ }
+```
+
+
+
+
+
 ### [236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 #### Question
