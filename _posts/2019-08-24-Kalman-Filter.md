@@ -28,8 +28,8 @@ $$ must be a __linear__ function in its arguments with added Gaussian noise.
 $$x_{t}=A_{t} x_{t-1}+B_{t} u_{t}+\varepsilon_{t}$$
 
 $$
-\begin{array}{l}{p\left(x_{t} | u_{t}, x_{t-1}\right)} \\ {\quad=\operatorname{det}\left(2 \pi R_{t}\right)^{-\frac{1}{2}} \exp \left\{-\frac{1}{2}\left(x_{t}-A_{t} x_{t-1}-B_{t} u_{t}\right)^{T} R_{t}^{-1}\left(x_{t}-A_{t} x_{t-1}-B_{t} u_{t}\right)\right\}}\end{array}
-$$,
+\begin{array}{l}p\left(x_{t} | u_{t}, x_{t-1}\right) =\operatorname{det}\left(2 \pi R_{t}\right)^{-\frac{1}{2}} \exp \left\{-\frac{1}{2}\left(x_{t}-A_{t} x_{t-1}-B_{t} u_{t}\right)^{T} R_{t}^{-1}\left(x_{t}-A_{t} x_{t-1}-B_{t} u_{t}\right)\right\}\end{array}
+$$
 
 where $$x_{t}$$ is the state vector, $$u_{t}$$ is the control vector. The random variable $$\varepsilon_{t}$$ is a Gaussian random vector that models the randomness in the state transition. Its mean is zero and its covariance will be denoted $$R_{t}$$.
 
@@ -37,11 +37,11 @@ where $$x_{t}$$ is the state vector, $$u_{t}$$ is the control vector. The random
 
 $$
 z_{t}=C_{t} x_{t}+\delta_{t}
-$$,
+$$
 
 $$
 p\left(z_{t} | x_{t}\right)=\operatorname{det}\left(2 \pi Q_{t}\right)^{-\frac{1}{2}} \exp \left\{-\frac{1}{2}\left(z_{t}-C_{t} x_{t}\right)^{T} Q_{t}^{-1}\left(z_{t}-C_{t} x_{t}\right)\right\}
-$$,
+$$
 
 where $$z_{t}$$ is the measurement vector and the vector $$\delta_{t}$$ describes the measurement noise. The distribution of $$\delta_{t}$$ is a multivariate Gaussian with zero mean and covariance $$Q_{t}$$.
 
