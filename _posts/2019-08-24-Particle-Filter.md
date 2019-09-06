@@ -40,4 +40,108 @@ The real trick of the particle filter is  _resampling_ or _importance resampling
 
 ### Implementation (Python)
 
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+class Particle:
+    def __init__(self, state, weight):
+        self.state = state
+        self.weight = weight
+```
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from math import pi, sqrt, exp
+
+import numpy as np
+from numpy.linalg import inv, det
+
+from particle import Particle
+
+class ParticleFilter():
+    # ===========================================================
+    # ParticleFilter.init(x0, P0)
+    # -------------------
+    #
+    # Initialization of the kalman filter class
+    #
+    # x_k = x0
+    # P_k = P0
+    #
+    # Inputs:
+    # - x   :  State vector (n x 1)
+    # - P   :  State covariance matrix (n x n)
+    # ===========================================================
+    def __init__(self, particles, map):
+        self.particles = particles
+        self.map = map
+
+    # ===========================================================
+    # prediction_measurement(state)
+    # -------------------
+    #
+    # Mesurement function:
+    #
+    # zk = h(xk)
+    #
+    # Inputs:
+    # - state  :  State vector (n x 1)
+    #
+    # Return:
+    # - prediction : Measurement predicted according to the state
+    # ===========================================================
+    def prediction_measurement(self, state):
+        pos = state[0]
+        prediction = min(abs(self.map - pos))
+        return prediction
+
+    # ===========================================================
+    # prediction_and_update(Ak, Rk, zk, Qk)
+    # --------------------------------
+    #
+    # Prediction and update of the Particle filter
+    #
+    #
+    # Inputs:
+    # - Ak    :  State transition matrix (n x n)
+    # - Rk    :  System noise matrix Rk = E{w w^T}
+    # - zk    :  Measurement vector
+    # - Qk    :  Measurement covariance noise matrix Qk = E{v v^T}
+    # ===========================================================
+    def prediction_and_update(self, Ak, Rk, zk, Qk):
+        # prediction
+        new_weights = []
+        for particle in self.particles:
+            particle.state = np.dot(Ak, particle.state) + np.dot(Rk, np.random.randn(np.shape(Rk)[0], 1))
+            prediction = self.prediction_measurement(particle.state)
+            particle.weight = float(particle.weight * (1/sqrt(2*pi*Qk) * exp(-0.5*(zk-prediction)**2 / Qk)))
+            new_weights.append(particle.weight)
+
+
+        # normalization of weights
+        new_weights = np.array(new_weights)
+        total_weights = np.sum(new_weights)
+        if total_weights != 0:
+            new_weights = new_weights / total_weights
+            for particle in self.particles:
+                particle.weight = particle.weight / total_weights
+
+        N_eff = 1./ np.sum(new_weights**2) # rule of thumb
+
+        # resampling
+        if N_eff < len(self.particles)*0.75:
+            cumulative_weights = np.cumsum(new_weights)
+            new_particles = self.particles
+            if total_weights != 0:
+                for i in range(len(self.particles)):
+                    r = np.random.rand()
+                    index = next(index for index, val in enumerate(cumulative_weights) if val > r)
+                    new_particles[i] = self.particles[index]
+                    new_particles[i].weight = 1./len(new_particles)
+            self.particles = new_particles    
+```
+
 ### Implementation (C++)

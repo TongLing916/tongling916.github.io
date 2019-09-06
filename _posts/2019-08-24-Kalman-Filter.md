@@ -103,7 +103,7 @@ class KalmanFilter():
     #
     # Inputs:
     # - Ak    :  State transition matrix (n x n)
-    # - Rk    :  System noise matrix Qk = E{w w^T}
+    # - Rk    :  System noise matrix Rk = E{w w^T}
     # - uk    :  Control variable of known inputs (optional) (n x 1)
     # - Bk    :  Control matrix (optional) (n x n)
     # ===========================================================
