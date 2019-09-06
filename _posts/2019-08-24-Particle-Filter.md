@@ -22,7 +22,7 @@ $$
 
 ### Algorithm
 
-![]()
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-particle-filter.PNG)
 
 $$w_{t}^{[m]}$$ is called _importance factor_.
 
@@ -36,7 +36,7 @@ The real trick of the particle filter is  _resampling_ or _importance resampling
 
 3. A third source of error pertains to the divergence of the proposal and target distribution. The efficiency of the particle filter relies crucially on the 'match' between the proposal and the target distribution.
 
-4. A fourth and final disadvantage is known as the _particle deprivation problem_. Particle deprivation occurs as the result of random resampling: an unlucky series of random numbers can wipe out all particles near the true state. A popular solution to this problem is to add a small number of randomly generated particles into the set after each resampling process, regardless of the actual sequence of motion and measurement commands. 
+4. A fourth and final disadvantage is known as the _particle deprivation problem_. Particle deprivation occurs as the result of random resampling: an unlucky series of random numbers can wipe out all particles near the true state. A popular solution to this problem is to add a small number of randomly generated particles into the set after each resampling process, regardless of the actual sequence of motion and measurement commands.
 
 ### Implementation (Python)
 
