@@ -18,13 +18,13 @@ tags:
 
 
 * 根据目的准则分类，即模式是用来完成什么工作的
-    * 创建型 (creational)模式与对象的创建有关。(Facotry Method, Abstract Facotry, Builder, Protoype, Singleton)
+    * 创建型 (creational)模式与对象的创建有关。(Facotry Method, Abstract Facotry, Builder, Prototype, Singleton)
     * 结构型 (structural)模式处理类或对象的组合。(Adapter (类), Adapter (对象), Bridge, Composite, Decorator, Facade, Flyweight, Proxy)
     * 行为型 (behavioral)模式对类或对象怎样交互和怎样分配职责进行描述。(Interpreter, Template Method, Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Visitor)
 
 * 根据范围准则分类，即指定模式主要是用于类还是用于对象。
     * 类模式处理类和子类之间的关系，这些关系通过继承建立，是静态的，在编译时便确定下来了。(Facotry Method, Adapter, Interpreter, Template Method)
-    * 对象模式处理对象间的关系，这些关系在运行时是可以变化的，更具动态性。(Abstract Facotry, Builder, Protoype, Singleton, Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy, Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Visitor)
+    * 对象模式处理对象间的关系，这些关系在运行时是可以变化的，更具动态性。(Abstract Facotry, Builder, Prototype, Singleton, Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy, Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Visitor)
 
 * 面向对象设计的原则
     * 针对接口编程，而不是针对实现编程。
@@ -40,6 +40,25 @@ tags:
 
 * 提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。
 
+* 适用性：
+    * 一个系统要独立于它的产品的创建，组合和表示
+    * 一个系统要由多个产品系列中的一个来配置
+    * 要强调一系列相关的产品对象的设计以便进行联合使用
+    * 提供一个产品类库，但只想显式它们的接口而不是实现
+
+* 参与者
+    * AbstractFactory
+    * ConcreteFactory
+    * AbstractProduct
+    * ConcreteProduct
+    * Client
+
+* `AbstractFactory`类通常由工厂方法（`Factory Method`）实现，但它们也可以用`Prototype`实现。
+
+* 一个具体的工厂通常是一个单件（`Singleton`）。
+
+
+
 ### Adapter (适配器)
 
 * 将一个类的接口转换成客户希望的另外一个接口。`Adapter`模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
@@ -51,6 +70,20 @@ tags:
 ### Builder (生成器)
 
 * 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。
+
+* 适用性：
+    * 当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时。
+    * 当构造过程必须允许被构造的对象由不同的表示时。
+
+* 参与者
+    * Builder
+    * ConcreteBuilder
+    * Director
+    * Product
+
+* `Abstract Factory`与`Builder`相似，因为它也可以创建复杂对象。主要的区别是`Builder`模式着重于一步步构造一个复杂对象。而`Abstract Factory`着重于多个系列的产品对象（简单的或复杂的）。`Builder`在最后一步返回产品，而对于`Abstract Factory`i说，产品是立即返回的。
+
+* `Composite`通常是由`Builder`生成的。
 
 ### Chain of Responsibility (职责链)
 
