@@ -38,6 +38,8 @@ tags:
 
 ### Abstract Factory (抽象工厂)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/abstract_factory.PNG)
+
 * 提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。
 
 * 适用性：
@@ -68,6 +70,8 @@ tags:
 * 将抽象部分与它的实现部分分离，使它们都可以独立地变化。
 
 ### Builder (生成器)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/builder.PNG)
 
 * 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。
 
@@ -107,6 +111,8 @@ tags:
 
 ### Factory method (工厂方法)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/factory_method.PNG)
+
 * 定义一个用于创建对象的接口，让子类决定将哪一个类实例化。工厂方法使一个类的实例化延迟到其子类。
 
 ### Flyweight (享元)
@@ -135,7 +141,11 @@ tags:
 
 ### Prototype (原型)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/prototype.PNG)
+
 * 用原型实例指定创建对象的种类，并且通过拷贝这个原型来创建新的对象。
+
+
 
 ### Proxy (代理)
 
@@ -143,7 +153,10 @@ tags:
 
 ### Singleton (单件)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/singleton.PNG)
+
 * 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
+
 
 ### State (状态)
 
