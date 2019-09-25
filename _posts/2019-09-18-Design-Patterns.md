@@ -36,6 +36,29 @@ tags:
     * 控制器（Controller）定义用户界面对用户输入的相应方式。
 
 
+
+### 创建型模式
+
+* 用一个系统创建的那些对象的类对系统进行参数化有两种方法
+    * 一种是生成创建对象的类的子类，这对应于使用`Factory Method`模式。缺点：仅为了改变产品类，就可能需要创建一个新的子类。
+    * 另一种更依赖于对象组合：定义一个对象负责明确产品对象的类，并将它作为该系统的参数。这是`Abstract Factory`，`Builder`和`Prototype`模式的关键特征。它们都涉及创建一个新的负责创建产品对象的“工厂对象”。`Abstract Factory`由这个工厂对象产生多个类的对象。`Builder`使用一个相对复杂的协议，由这个工厂对象逐步创建一个复杂产品。`Prototype`由该工厂对象通过拷贝原型对象来创建产品。
+
+### 结构性模式
+
+* `Adapter`主要是为了解决两个已有不同接口之间不匹配的问题。它不考虑这些接口是怎么实现的，也不考虑它们各自可能会如何演化。这种方式不需要对两个独立设计的类中的任一个进行重新设计，就能够使它们协同工作。该模式在类已经设计好后实施。
+
+* `Bridge`则对抽象接口与它的（可能是多个）实现部分进行桥接。虽然这一模式允许你修改实现它的类，但是它仍然为用户提供了一个稳定的接口。该模式在设计类之前实施。
+
+* `Facade`定义一个新的接口，而`Adapter`则复用一个原有的接口。
+
+* `Composite`在于构造类，使多个相关的对象能够以统一的方式处理，而多个对象可以被当作一个对象来处理。它的重点不在于修饰，而在于表示。
+
+* `Decorator`目的在于使你不需要生成子类即可给对象添加职责。这就避免了静态实现所有功能组合，从而导致子类急剧增加。
+
+* `Proxy`像`Decorator`一样，可以构成一个对象并为用户提供一致的接口。但与`Decorator`不同的是，`Proxy`不能动态地添加或分离性质，它也不是为递归组合而设计的。它的目的是，当直接访问一个实体不方便或不符合需求时，为这个实体提供一个替代者。
+
+
+
 ### Abstract Factory (抽象工厂)
 
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/abstract_factory.PNG)
@@ -63,11 +86,47 @@ tags:
 
 ### Adapter (适配器)
 
-* 将一个类的接口转换成客户希望的另外一个接口。`Adapter`模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
+* 类适配器使用多重继承对一个接口与另一个接口进行匹配。
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/class_adapter.PNG)
+
+* 对象匹配器依赖于对象组合。
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/object_adapter.PNG)
+
+* 意图：将一个类的接口转换成客户希望的另外一个接口。`Adapter`模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
+
+* 适用性：
+    * 你想使用一个已经存在的类，而它的接口不符合你的需求。
+    * 你想创建一个可以复用的类，该类可以与其他不相关的类或不可预见的类（即那些接口可能不一定兼容的类）协同工作。
+    * （仅适用于对象Adapter）你想使用一些已经存在的子类，但是不可能对每一个都进行子类化以匹配它们的接口。对象适配器可以适配它的父类接口。
+
+* 参与者
+    * Target
+    * Client
+    * Adaptee
+    * Adapter
 
 ### Bridge (桥接)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/bridge.PNG)
+
 * 将抽象部分与它的实现部分分离，使它们都可以独立地变化。
+
+* 适用性
+    * 你不希望在抽象和它的实现部分之间有一个固定的绑定关系。例如，这种情况可能是因为，在程序运行时实现部分应该可以被选择或者切换。
+    * 类的抽象以及它的实现都应该可以通过生成子类的方法加以扩充。这时`Bridge`模式使你可以对不同的抽象接口和实现部分进行组合，并分别对他们进行扩充。
+    * 对一个抽象的实现部分的修改应对客户不产生影响，即客户的代码不必重新编译。
+    * （C++）你想对客户完全隐藏抽象的实现部分。在C++中，类的表示在类接口中是可见的。
+
+* 参与者
+    * Abstraction
+    * RefinedAbstraction
+    * Implementor
+    * ConcreteImplementor
+
+
+
 
 ### Builder (生成器)
 
@@ -99,15 +158,52 @@ tags:
 
 ### Composite (组合)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/composite.PNG)
+
 * 将对象组合成树形结构以表示“部分-整体”的层次结构。`Composite`使得客户对单个对象和组合对象的使用具有一致性。
+
+* 适用性
+    * 你想表示对象的部分-整体层次结构。
+    * 你希望用户忽略组合对象和单个对象的不同，用户将统一地使用组合结构中的所有对象。
+
+* 参与者
+    * Component
+    * Leaf
+    * Composite
+    * Client
 
 ### Decorator (装饰)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/decorator.PNG)
+
 * 动态地给一个对象添加一些额外的职责。就扩展功能而言，`Decorator`模式比生成子类方式更为灵活。
+
+* 适用性
+    * 在不影响其他对象的情况下，以动态，透明的方式给单个对象添加职责。
+    * 处理那些可以撤销的职责。
+    * 当不能采用生成子类的方法进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种可能情况可能是，类定义被隐藏，或类定义不能用于生成子类。
+
+* 参与者
+    * Component
+    * ConcreteComponent
+    * Decorator
+    * ConcreteDecorator
 
 ### Facade (外观)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/facade.PNG)
+
 * 为子系统中的一组接口提供一个一致的界面，`Facade`模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。
+
+* 适用性
+    * 当你要为一个复杂子系统提供一个简单接口时。
+    * 客户程序与抽象类的实现部分之间存在着很大的依赖性。
+    * 当你需要构建一个层次结构的子系统时，使用`Facade`模式定义子系统中每层的入口点。如果子系统之间是相互依赖的，可以让它们仅通过`Facade`进行通信，从而简化了它们之间的依赖关系。
+
+* 参与者
+    * Facade
+    * Subsystem classes
+
 
 ### Factory method (工厂方法)
 
@@ -187,7 +283,23 @@ Product* StandardCreator<TheProduct>::CreateProduct()
 
 ### Flyweight (享元)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/flyweight.PNG)
+
 * 运用共享技术有效地支持大量细粒度的对象。
+
+* 当以下情况都成立时使用`Flyweight`模式：
+    * 一个应用程序使用了大量的对象。
+    * 完全由于使用大量的对象造成很大的存储开销。
+    * 对象的大多数状态都可变为外部状态。
+    * 如果删除对象的外部状态，那么可以用相对较少的共享对象取代很多组对象。
+    * 应用程序不依赖于对象标识。由于`Flyweight`对象可以被共享，因此对于概念上明显有别的对象，标识测试将返回真值。
+
+* 参与者
+    * Flyweight
+    * ConcreteFlyweight
+    * UnsharedConcreteFlyweight
+    * FlyweightFactory
+    * Client
 
 ### Interpreter (解释器)
 
@@ -197,17 +309,33 @@ Product* StandardCreator<TheProduct>::CreateProduct()
 
 * 提供一种方法顺序访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。
 
+* 适用性
+
+* 参与者
+
 ### Mediator (中介者)
 
 * 用一个中介对象来封装一系列的对象交互。中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。
+
+* 适用性
+
+* 参与者
 
 ### Memento (备忘录)
 
 * 在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到保存的状态。
 
+* 适用性
+
+* 参与者
+
 ### Observer (观察者)
 
 * 定义对象间的一种一对多的以来关系，以便当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并自动刷新。
+
+* 适用性
+
+* 参与者
 
 ### Prototype (原型)
 
@@ -215,11 +343,35 @@ Product* StandardCreator<TheProduct>::CreateProduct()
 
 * 用原型实例指定创建对象的种类，并且通过拷贝这个原型来创建新的对象。
 
+* 适用性：
+    * 当一个系统应该独立于它的产品创建，构成和表示时。
+    * 当要实例化的类是在运行时指定时，例如，通过动态装载。
+    * 为了避免创建一个与产品类平行的工厂类层次时。
+    * 当一个类的实例只能有几个不同状态组合中的一种时。建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。
+
+* 参与者
+    * Prototype
+    * ConcretePrototype
+    * Client
+
 
 
 ### Proxy (代理)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/proxy.PNG)
+
 * 为其他对象提供一个代理以控制对这个对象的访问。
+
+* 适用性
+    * 远程代理为一个对象在不同的地址空间提供局部代表。
+    * 虚代理根据需要创建开销很大的对象。
+    * 保护代理控制对原始对象的访问。
+    * 智能指引取代了简单的指针。
+
+* 参与者
+    * Proxy
+    * Subject
+    * RealSubject
 
 ### Singleton (单件)
 
@@ -227,19 +379,68 @@ Product* StandardCreator<TheProduct>::CreateProduct()
 
 * 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
 
+* 适用性：
+    * 当类只能有一个实例，而且客户可以从一个众所周知的访问点访问它时。
+    * 当这个唯一实例应该是通过子类化可扩展的，并且客户应该无须更改代码就能使用一个扩展的实例时。
+
+* 参与者
+    * Singleton
+
+```c++
+class Singleton
+{
+public:
+	static Singleton* Instance();
+protected:
+	Singleton();
+private:
+	static Singleton* _instance;
+};
+
+Singleton* Singleton::_instance = 0;
+
+Singleton* Singleton::Instance()
+{
+	if (_instance == 0) _instance = new Singleton;
+	return _instance;
+}  
+```
+
+//_
+
+* Instance使用惰性初始化，它的返回值直到被第一次访问时才创建和保存。
+
+* 构造器是protected。试图直接实例化Singleton的客户将得到又给编译时的错误信息。这就保证了仅有一个实例可以被创建。
+
 
 ### State (状态)
 
 * 允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它所属的类。
 
+* 适用性
+
+* 参与者
+
 ### Strategy (策略)
 
 * 定义一系列的算法，把它们一个个封装起来，并且使它们可相互替换。本模式使得算法的变化可独立于使用它的客户。
+
+* 适用性
+
+* 参与者
 
 ### Template method (模板方法)
 
 * 定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。模板方法使得子类不改变一个算法的结构即可重定义该算法的某些特定步骤。
 
+* 适用性
+
+* 参与者
+
 ### Visitor (访问者)
 
-* 表示一个作用于某对象结构中的各元素的操作。它使你可以在不改变各元素的类的前提下定义作用域这些元素的新操作。                     
+* 表示一个作用于某对象结构中的各元素的操作。它使你可以在不改变各元素的类的前提下定义作用域这些元素的新操作。       
+
+* 适用性
+
+* 参与者              
