@@ -115,6 +115,76 @@ tags:
 
 * 定义一个用于创建对象的接口，让子类决定将哪一个类实例化。工厂方法使一个类的实例化延迟到其子类。
 
+* 适用性
+    * 当一个类不知道它所必须创建的对象的类的时候。
+    * 当一个类希望由它的子类来指定它所创建的对象的时候。
+    * 当类将创建对象的职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化的时候。
+
+* 参与者
+    * Product
+    * ConcreteProduct
+    * Creator
+    * ConcreteCreator
+
+* 工厂方法主要有两种不同的情况
+    * Creator类是一个抽象类，并且不提供它所声明的工厂方法的实现。
+    * Creator是一个具体的类而且为工厂方法提供第一个缺省的实现。也有可能有一个定义了缺省实现的抽象类。
+
+* C++中的工厂方法都是虚函数并且常常是纯虚函数。一定要注意在Creator的构造器中不要调用工厂方法---ConcreteCreator中该工厂方法还不可用。
+
+* 惰性初始化 (lazy initialization): 构造器只是将产品初始化为0，而不是创建一个具体产品。访问者返回该产品。但首先它要检查确定该产品的存在，如果产品不存在，访问者就创建它。
+
+```c++
+class Creator
+{
+public:
+	Product* GetProduct();
+protected:
+	virtual Product* CreateProduct();
+private:
+	Product* _product;
+};
+
+Product* Creator::GetProduct()
+{
+	if (_product == 0)
+		_product = CreateProduct();
+
+	return _product;
+}
+```
+__
+
+* 工厂方法另一个潜在的问题是它们可能仅为了创建适当的Product对象而迫使你创建Creator子类。在C++中另一个解决方法是提供一个模板子类，它使用Product类作为模板参数。
+
+```c++
+class Creator
+{
+public:
+	virtual Product* CreateProduct() = 0;
+};
+
+template <class TheProduct>
+class StandardCreator : public Creator
+{
+public:
+	virtual Product* CreateProduct();
+};
+
+template <class TheProduct>
+Product* StandardCreator<TheProduct>::CreateProduct()
+{
+	return new TheProduct;
+}
+```
+
+* `Abstract Factory`经常用`工厂方法`来实现。
+
+* `工厂方法`通常在`Template Method`被调用。
+
+* `Prototype`不需要创建Creator的子类。但是它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象，而`Factory Method`不需要这样的操作。
+
+
 ### Flyweight (享元)
 
 * 运用共享技术有效地支持大量细粒度的对象。
