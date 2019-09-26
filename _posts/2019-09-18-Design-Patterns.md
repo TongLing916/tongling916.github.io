@@ -152,9 +152,36 @@ tags:
 
 ### Chain of Responsibility (职责链)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/chain_of_responsibility.PNG)
+
+
 * 解除请求的发送者和接收者之间的耦合，使多个对象都有机会处理这个请求。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它。
 
+* 适用性
+    * 有多个对象可以处理一个请求，哪个对象处理该请求运行时自动确定。
+    * 你想在不明确指定接收者的情况下，向多个对象中的一个提交一个请求。
+    * 可处理一个请求的对象集合应被动态指定。
+
+* 参与者
+    * Handler
+    * ConcreteHandler
+    * Client
+
 ### Command (命令)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/command.PNG)
+
+* 适用性
+    * 抽象出待执行的动作以参数化某对象。
+    * 在不同的时刻指定，排列和执行请求。
+    * 支持取消操作。
+
+* 参与者
+    * Command
+    * ConcreteCommand
+    * Client
+    * Invoker
+    * Receiver
 
 * 将一个请求封装为一个对象，从而使你可用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可取消的操作。
 
@@ -305,39 +332,86 @@ Product* StandardCreator<TheProduct>::CreateProduct()
 
 ### Interpreter (解释器)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/interpreter.PNG)
+
 * 给定一个语言，定义它的文法的一种表示，并定义一个解释器，该解释器使用该表示来解释语言中的句子。
 
+* 适用性：当一个语言需要解释执行，并且你可将该语言中的句子表示为一个抽象语法树时，可使用解释器模式。
+    * 文法简单。
+    * 效率不是问题。
+
+* 参与者
+    * AbstractExpression
+    * TerminalExpression
+    * NonterminalExpression
+    * Context
+    * Client
+
 ### Iterator (迭代器)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/iterator.PNG)
 
 * 提供一种方法顺序访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。
 
 * 适用性
+    * 访问一个聚合对象的内容而无须暴露它的内部表示。
+    * 支持对聚合对象的多种遍历。
+    * 为遍历不同的聚合结构提供一个统一的接口（即支持多态迭代）。
 
 * 参与者
+    * Iterator
+    * ConcreteIterator
+    * Aggregate
+    * ConcreteAggregate
+
 
 ### Mediator (中介者)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/mediator.PNG)
 
 * 用一个中介对象来封装一系列的对象交互。中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。
 
 * 适用性
+    * 一组对象以定义良好但复杂的方式进行通信，产生的相互依赖关系结构混乱且难以理解。
+    * 一个对象引用其他很多对象并且直接与这些对象通信，导致难以复用该对象。
+    * 想定制一个分布在多个类中的行为，而又不想生成太多的子类。
 
 * 参与者
+    * Mediator
+    * ConcreteMediator
+    * Colleague class
 
 ### Memento (备忘录)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/memento.PNG)
 
 * 在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到保存的状态。
 
 * 适用性
+    * 必须保存一个对象在某个时刻的（部分）状态，这样以后需要时它才能恢复到先前的状态。
+    * 如果一个接口让其他对象直接得到这些状态，将会暴露对象的实现细节并破坏对象的封装性。
 
 * 参与者
+    * Memento
+    * Originator
+    * Caretaker
 
 ### Observer (观察者)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/observer.PNG)
 
 * 定义对象间的一种一对多的以来关系，以便当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并自动刷新。
 
 * 适用性
+    * 一个抽象模型有两个方面，其中一个方面依赖于另一方面。将这二者封装在独立的对象中，以使它们可以独自地改变和复用。
+    * 对一个对象的改变需要同时改变其他对象，而不知道具体有多少对象有待改变。
+    * 一个对象必须通知其他对象，而它又不能假定其他对象是谁。换言之，你不希望这些对象是紧密耦合的。
 
 * 参与者
+    * Subject
+    * Observer
+    * ConcreteSubject
+    * ConcreteObserver
 
 ### Prototype (原型)
 
@@ -417,32 +491,65 @@ Singleton* Singleton::Instance()
 
 ### State (状态)
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/state.PNG)
+
 * 允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它所属的类。
 
 * 适用性
+    * 一个对象的行为取决于它的状态，并且它必须在运行时根据状态改变它的行为。
+    * 一个操作中含有庞大的多分支的条件语句，且这些分支依赖于该对象的状态。
 
 * 参与者
+    * Context
+    * State
+    * ConcreteState subclasses
 
 ### Strategy (策略)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/strategy.PNG)
 
 * 定义一系列的算法，把它们一个个封装起来，并且使它们可相互替换。本模式使得算法的变化可独立于使用它的客户。
 
 * 适用性
+    * 许多相关的类仅仅是行为有异。
+    * 需要使用一个算法的不同变体。
+    * 算法使用客户不应该直到的数据。
+    * 一个类定义了多种行为，并且这些行为在这个类的操作中以多个条件语句的形式出现。
 
 * 参与者
+    * Strategy
+    * ConcreteStrategy
+    * Context
 
 ### Template method (模板方法)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/template_method.PNG)
 
 * 定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。模板方法使得子类不改变一个算法的结构即可重定义该算法的某些特定步骤。
 
 * 适用性
+    * 一次性实现一个算法的不变部分，并将可变的行为留给子类来实现。
+    * 各子类中的公共的行为应被提取出来并集中到一个公共父类中以避免代码重复。
+    * 控制子类扩展。
 
 * 参与者
+    * AbstractClass
+    * ConcreteClass
 
 ### Visitor (访问者)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/visitor.PNG)
 
 * 表示一个作用于某对象结构中的各元素的操作。它使你可以在不改变各元素的类的前提下定义作用域这些元素的新操作。       
 
 * 适用性
+    * 一个对象结构包含很多类对象，它们有不同的接口，而你想对这些对象实施一些依赖于其具体类的操作。
+    * 需要对一个对象结构中的对象进行很多不同并且不相关的操作，而你想避免让这些操作“污染”这些对象的类。
+    * 定义对象结构的类很少改变，但经常需要在此结构上定义新的操作。
 
 * 参与者              
+    * Visitor
+    * ConcreteVisitor
+    * Element
+    * ConcreteElement
+    * ObjectStructure
