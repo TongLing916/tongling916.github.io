@@ -8,6 +8,8 @@ tags:
     - Language
 ---
 
+>> <<Design Patterns: Elements of Reusable Object-Oriented Software>>
+
 ### Basics
 
 * 一个模式有四个基本要素
