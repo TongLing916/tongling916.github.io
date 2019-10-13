@@ -46,3 +46,22 @@ tags:
 3. [（本题为图像处理方向）视觉slam中常用的边缘化处理的原理和方法。 ](https://www.nowcoder.com/profile/968642742/test/25480638/167636#summary)
 
 4. [（本题为图像处理方向）单目视觉slam中尺寸漂移是怎么产生的？ ](https://www.nowcoder.com/profile/968642742/test/25480638/167637#summary)
+
+5. 如何用李代数解决求导问题？
+
+1）用李代数表示姿态，然后根据李代数加法对李代数求导。这个方法要求计算一个雅可比矩阵。
+2）对李群左乘或者右乘微小扰动，然后对该扰动求导，称为左扰动或右扰动模型。这种方法不需要求雅可比矩阵。
+
+6. ORB-SLAM2用的哪种模型？为什么不用计算雅可比矩阵？
+
+用了是左乘扰动模型，省略了计算雅可比矩阵。
+
+7. 数据怎么在ORB-SLAM2的三个线程间传递的？（从代码层面解释）
+`main`里面启动三个线程（不考虑`Viewer`的话）-`mpTracker`, `mpLocalMapper`, `mpLoopCloser`。
+
+对于每张输入的图片，`main`函数会调用`System::TrackMonocular()`，这个函数会使用`mpTracker->GrabImageMonocular()`函数进行tracking。通过最后一步判断是否为keyframe，来决定我们是否应该插入一个keyframe到`mpLocalMapper`的`std::list<KeyFrame*> mlNewKeyFrames`变量中。
+
+`mpLocalMapper`一直处于`while(1)`循环中，调用`CheckNewKeyFrames()`函数。`LocalMapping::CheckNewKeyFrames()`会检查`std::list<KeyFrame*> mlNewKeyFrames`这个变量是否为空。转换成BoW，删除多余的地图点，创建新的地图点，试图找到更多的地图点，进行Local BA，删除多余的keyframe，以及最后把新的keyframe加入到`mpLoopCloser`的`std::list<KeyFrame*> mlpLoopKeyFrameQueue`变量中。
+
+
+`mpLoopCloser`一直处于`while(1)`循环中，调用`CheckNewKeyFrames()`函数。`LoopClosing::CheckNewKeyFrames()`会检查`std::list<KeyFrame*> mlpLoopKeyFrameQueue`这个变量是否为空。检查是否是一个loop，计算sim3，进行loop fusion，以及Essential Graph Optimization（位姿图优化）。
