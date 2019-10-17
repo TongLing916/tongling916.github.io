@@ -78,4 +78,122 @@ $$。
 
 [参考资料](https://blog.csdn.net/LaplaceSmoothing/article/details/94581854)
 
+拟合二维平面中的带噪音直线，
+其中有不超过10%的样本点远离了直线，另外90%的样本点可能有高斯噪声的偏移
+要求输出为
+ax+by+c＝0的形式
+其中a > 0 且 a^2 + b^2 = 1
+
+输入描述:
+第一个数n表示有多少个样本点  之后n*2个数 每次是每个点的x 和y
+
+
+输出描述:
+输出a,b,c三个数，至多可以到6位有效数字
+示例1
+输入
+5
+3 4
+6 8
+9 12
+15 20
+10 -10
+输出
+-0.800000 0.600000 0.000000
+说明
+本题共有10个测试点，每个点会根据选手输出的参数计算非噪音数据点的拟合误差E，并根据E来对每个数据点进行评分0-10分
+输入数据的范围在0-10000
+
 #### 实现
+
+```c++
+#include <cmath>		
+#include <iostream>
+#include <limits>
+#include <random>
+#include <vector>
+using namespace std;
+
+struct Point
+{
+	double x, y;
+};
+
+vector<double> ransac(vector<Point>& points, double outlier_prob = 0.1, double p = 0.99, double threshold = 10.0)
+{
+	default_random_engine generator;
+	int n_sample = points.size();
+	uniform_int_distribution<int> sampler(0, n_sample - 1);
+
+	int s = 2;   // 拟合模型需要的最小数据量
+
+	// 计算理论最大迭代次数
+	double inlier_prob = 1 - outlier_prob;
+	double sample_fail = 1 - inlier_prob * inlier_prob;
+	int N = log(1 - p) / log(sample_fail);	// p: 取样N次，至少一次没有野值的概率
+
+	double a_res = 0, b_res = 0, c_res = 0;
+	double min_error = numeric_limits<double>::max();
+	while (N--)
+	{
+		// 随机采样 s 个样本
+		int idx1 = 0, idx2 = 0;
+		while (idx1 == idx2)
+		{
+			idx1 = sampler(generator);
+			idx2 = sampler(generator);
+		}
+		Point p1 = points[idx1], p2 = points[idx2];
+
+		// 拟合模型：a*x1+b*y1+c=0 和 a*x2+b*y2+c=0
+		// 两式相减：a*(x1-x2) = b*(y2-y1)
+		//    解得：a=z*(y2-y1), b=z*(x1-x2)
+		// 归一化时 z 会被约去，令 z=1，得 a=y2-y1, b=x1-x2
+		// 把上述a,b代入 a*x1+b*y1+c=0 解得 c=x2*y1-y2*x1
+		double a = p2.y - p1.y;
+		double b = p1.x - p2.x;
+		double c = (p2.x * p1.y) - (p2.y * p1.x);
+
+		// 归一化到 a^2 + b^2 = 1
+		double coef = sqrt(a * a + b * b);
+		a /= coef;
+		b /= coef;
+		c /= coef;
+
+		// 测试数据，计算可能的局内点
+		double error = 0.0;
+		int n_inlier = 0;
+		for (int i = 0; i < n_sample; ++i)
+		{
+			double err_i = fabs(a * points[i].x + b * points[i].y + c);
+			if (err_i < threshold)
+			{   // 若低于阈值，则为内点
+				++n_inlier;
+				error += err_i;
+			}
+		}
+
+		// 若有足够多的点被归类为局内点
+		if (static_cast<double>(n_inlier) / static_cast<double>(n_sample) > 0.7)
+			if (error < min_error)
+			{   // 若新模型更好
+				min_error = error;
+				a_res = a;
+				b_res = b;
+				c_res = c;
+			}
+	}
+	return { a_res, b_res, c_res };
+}
+
+int main()
+{
+	int N = 0;
+	cin >> N;
+	vector<Point> points(N, { 0,0 });
+	for (int i = 0; i < N; ++i)
+		cin >> points[i].x >> points[i].y;
+	vector<double> res = ransac(points, 0.1, 0.99, 10);
+	cout << res[0] << " " << res[1] << " " << res[2] << endl;
+}
+```
