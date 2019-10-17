@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "鲁棒估计"
-date:       2019-9-18
+date:       2019-10-17
 author:     Tong
 catalog: true
 tags:
