@@ -23,6 +23,7 @@ tags:
 #### 实现
 
 ```c++
+// ORB-SLAM2: https://github.com/raulmur/ORB_SLAM2
 // To ensure that the centroid of the points is (0,0) and their average distance from the origin is square root 2.
 void Initializer::Normalize(const vector<cv::KeyPoint> &vKeys, vector<cv::Point2f> &vNormalizedPoints, cv::Mat &T)
 {
