@@ -8,7 +8,7 @@ tags:
     - SLAM
 ---
 
->> <<Introduction to autonomous mobile robots>> 5.2.4 An error model for odometric position estimation
+> <<Introduction to autonomous mobile robots>> 5.2.4 An error model for odometric position estimation
 
 
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/differential_drive_robot.PNG)
