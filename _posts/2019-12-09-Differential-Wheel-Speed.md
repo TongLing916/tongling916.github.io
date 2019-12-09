@@ -10,6 +10,10 @@ tags:
 
 >> <<Introduction to autonomous mobile robots>> 5.2.4 An error model for odometric position estimation
 
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/differential_drive_robot.PNG)
+
+
 ### Motion model of A differential-drive robot
 
 The pose of a robot is represented by the vector:
@@ -63,4 +67,4 @@ $$
 
 ### Mathmatical Proof
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/differential_wheel_speed.jpg)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/proof_of_differential_model.PNG)
