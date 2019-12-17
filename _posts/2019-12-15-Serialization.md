@@ -13,9 +13,9 @@ tags:
 > https://www.boost.org/doc/libs/1_62_0/boost/archive/binary_oarchive.hpp
 
 
-## Basic serialization (`text_iarchive`)
+### Basic serialization (`text_iarchive`)
 
-### `obj.h`
+#### `obj.h`
 
 ```c++
 #pragma once
@@ -48,7 +48,7 @@ class Obj {
 
 ```
 
-### `main.cc`
+#### `main.cc`
 
 ```c++
 #include "obj.h"
@@ -102,7 +102,7 @@ int main() {
 }
 ```
 
-### `CMakeLists.txt`
+#### `CMakeLists.txt`
 
 ```bash
 cmake_minimum_required(VERSION 2.8)
@@ -143,11 +143,11 @@ add_executable( ${PROJECT_NAME} main.cc )
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 ```
 
-## More on pointer seiralization
+### More on pointer seiralization
 
 - 我们一旦对一个指针或者引用进行serialization, 那么它所指向的object也会被serialization.因此，我们不需要显性地serialize被指向的变量。
 
-### `main.cc`
+#### `main.cc`
 
 ```c++
 #include <assert.h>
@@ -193,6 +193,8 @@ int main() {
 
 - 当deserialize一个指针时，如果它所指的对象还没有被deserialize, 那么这个被指的对象也会自动被deserialize.这意味着，我们不能在deserialize一个指针之后，再对该指针所指对象进行deserialization. (The reason is that once the pointer deserialization has forced the object deserialization, one cannot rebuild this object at a different address.)
 
+#### `main.cc`
+
 ```c++
 #include "obj.h"
 #include <fstream>
@@ -230,9 +232,9 @@ int main()
 }
 ```
 
-## Explicit save and load function definitions
+### Explicit save and load function definitions
 
-### `obj.h`
+#### `obj.h`
 
 ```c++
 #pragma once
@@ -266,11 +268,11 @@ class Obj {
 };
 ```
 
-## Serialization of C-strings
+### Serialization of C-strings
 
 - C-string不能被直接序列化，因为它是一种以`\0`结尾的`char`数组。
 
-### `SerializeCStringHelper.h`
+#### `SerializeCStringHelper.h`
 
 ```c++
 #pragma once
@@ -318,7 +320,7 @@ class SerializeCStringHelper {
 };
 ```
 
-### `main.cc`
+#### `main.cc`
 
 ```c++
 #include <assert.h>
@@ -364,9 +366,9 @@ int main() {
 ```
 
 
-## Non-intrusive serialization
+### Non-intrusive serialization
 
-### `obj_public.h`
+#### `obj_public.h`
 
 ```c++
 #pragma once
@@ -396,7 +398,7 @@ void serialize(Archive& ar, ObjPublic& o, const unsigned int version) {
 }  // namespace boost
 ```
 
-### `obj_private.h`
+#### `obj_private.h`
 
 ```c++
 #pragma once
@@ -445,7 +447,7 @@ void serialize(Archive& ar, ObjPrivate& o, const unsigned int version) {
 }  // namespace boost
 ```
 
-### `obj.h`
+#### `obj.h`
 
 ```c++
 #pragma once
@@ -483,7 +485,7 @@ BOOST_SERIALIZATION_SPLIT_FREE(Obj)
 ```
 
 
-### `main.cc`
+#### `main.cc`
 
 ```c++
 #include <boost/archive/text_iarchive.hpp>
@@ -526,7 +528,7 @@ int main() {
 }
 ```
 
-## Serialization of STL containers
+### Serialization of STL containers
 
 - STL containers会被自动序列化，只需要加入以下头文件。
 
@@ -621,7 +623,7 @@ private:
 };
 ```
 
-## Versioning
+### Versioning
 
 - We want maintain back-compatibility when the class Obj evolves. For instance, if a new data member ‘ID_’ is added, we want to read an old archive and build new Obj, with the missing data member taking the default value.
 
@@ -667,7 +669,7 @@ private:
 };
 ```
 
-## Serialization of const data or objects
+### Serialization of const data or objects
 
 ```c++
 #pragma once
@@ -694,7 +696,7 @@ private:
 };
 ```
 
-## Text, XML, and binary archives
+### Text, XML, and binary archives
 
 ```c++
 // Text archive that defines boost::archive::text_oarchive
