@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "C++ Serialization"
+title:      "Boost Serialization"
 date:       2019-12-15
 author:     Tong
 catalog: true
