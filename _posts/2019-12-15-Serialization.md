@@ -8,10 +8,11 @@ tags:
     - Language
 ---
 
-> http://www.ocoudert.com/blog/2011/07/09/a-practical-guide-to-c-serialization/
-> https://www.boost.org/doc/libs/1_71_0/libs/serialization/doc/serialization.html
-> https://www.boost.org/doc/libs/1_62_0/boost/archive/binary_oarchive.hpp
+> <http://www.ocoudert.com/blog/2011/07/09/a-practical-guide-to-c-serialization/>
 
+> <https://www.boost.org/doc/libs/1_71_0/libs/serialization/doc/serialization.html>
+
+> <https://www.boost.org/doc/libs/1_62_0/boost/archive/binary_oarchive.hpp>
 
 ### Basic serialization (`text_iarchive`)
 
