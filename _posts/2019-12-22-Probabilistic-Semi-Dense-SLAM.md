@@ -9,3 +9,16 @@ tags:
 ---
 
 > <<Probabilistic Semi-Dense Mapping from Highly Accurate Feature-Based Monocular SLAM>>
+
+### Equation 2
+
+$$e()$$
+
+
+### Equation 3
+
+Due to the fact, 
+
+$$
+e\left(u_{j}\right)=\left(r_{I}^{2}+\frac{1}{\theta} r_{G}^{2}\right) \frac{1}{\sigma_{I}^{2}}
+$$
