@@ -9,6 +9,3 @@ tags:
 ---
 
 > <<Probabilistic Semi-Dense Mapping from Highly Accurate Feature-Based Monocular SLAM>>
-
-
-论文中公式推导过程
