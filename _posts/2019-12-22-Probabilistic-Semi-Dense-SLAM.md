@@ -17,12 +17,29 @@ tags:
 #### Equation 1
 
 $$
-\mathbf{x}_{j}^{\top} \mathbf{F}_{j i} \mathbf{x}_{i}=\mathbf{x}_{j}^{\top} \mathbf{l}_{j}=0 \quad \rightarrow \quad v_{j}=m \cdot u_{j}+n，
+\mathbf{x}_{j}^{\top} \mathbf{F}_{j i} \mathbf{x}_{p}=\mathbf{x}_{j}^{\top} \mathbf{l}_{j}=0 \quad \rightarrow \quad v_{j}=m \cdot u_{j}+n，
 $$
-where $$x_i$$ and $$x_j$$ are pixels on frame $$i$$ and $$j$$. $$F_{ji}$$ is the fundamental matrix. $$l_j = \mathbf{F}_{j i} \mathbf{x}_{i}$$ represents the epipolar line on the frame $j$, with which we can obtain the exact coordinates of every pixel on the line if we know $$u_j$$ or $$v_j$$.
+
+where $$x_p$$ and $$x_j$$ are pixels on frame $$i$$ and $$j$$. $$F_{ji}$$ is the fundamental matrix between them. $$l_j = \mathbf{F}_{j i} \mathbf{x}_{p}$$ represents the epipolar line on the frame $j$, with which we can obtain the exact coordinates of every pixel on the line if we know $$u_j$$ or $$v_j$$.
 
 
 #### Equation 2
+
+$$e\left(u_{j}\right)$$: similarity error between two pixels
+
+$$r_{I}$$: the photometric error
+
+$$r_{G}$$: the gradient modulo error. (the difference between the derivatives of gradients)
+
+$$\sigma_{I}$$ and $$\sigma_{G}$$: the standard deviation of the intensity and gradient respectively
+
+$$I_p$$: pixel intensity at $$\mathbf{x}_{p}$$ in frame $$i$$
+
+$$I\left(u_{j}\right)$$: pixel intensity at $$(u_j, v_j)$$ in frame $$j$$
+
+$$G_p$$: gradient modulo at $$\mathbf{x}_{p}$$ in frame $$i$$
+
+$$G\left(u_{j}\right)$$: gradient modulo at $$(u_j, v_j)$$ in frame $$j$$
 
 $$
 e\left(u_{j}\right)=\frac{r_{I}^{2}}{\sigma_{I}^{2}}+\frac{r_{G}^{2}}{\sigma_{G}^{2}}, \quad r_{I}=I_{p}-I\left(u_{j}\right), \quad r_{G}=G_{p}-G\left(u_{j}\right)
