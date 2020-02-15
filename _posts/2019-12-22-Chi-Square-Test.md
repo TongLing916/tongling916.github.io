@@ -14,3 +14,6 @@ tags:
 如何取值？
 
 为什么ORB-SLAM2那么取值？
+
+
+what is condition number?

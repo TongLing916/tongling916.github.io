@@ -1,20 +1,24 @@
 ---
 layout:     post
-title:      "非线性优化"
-date:       2019-10-17
+title:      "Numerical Optimization"
+date:       2020-1-20
 author:     Tong
 catalog: true
 tags:
     - SLAM
 ---
 
-### 梯度下降法
+> https://github.com/RainerKuemmerle/g2o
 
-### 牛顿法
+### Theory
 
-### 高斯牛顿法
+#### 梯度下降法
 
-#### 简单例子
+#### 牛顿法
+
+#### 高斯牛顿法
+
+##### 简单例子
 
 ```c++
 #include <iostream>
@@ -103,18 +107,21 @@ int main(int argc, char **argv)
 }
 ```
 
-### Levenberg-Marquard Algorithm
+#### Levenberg-Marquard Algorithm
 
-#### 缺点
+##### 缺点
 
 当一次更新被拒绝后，修改后的信息矩阵需要被重新分解，而分解的过程是整个算法中最耗时的一个部分。
 
-### Dogleg
+#### Dogleg
 
-#### 思想
+##### 思想
 
 分别利用高斯牛顿法和梯度下降法计算更新量，然后将其有效地结合起来。如果更新被拒绝，更新的方向仍然是有效的，并且它们可以一种不同的方式重新结合起来，知道目标函数的值下降为止。因此，每次状态估计量的更新只涉及一个而非多个矩阵的分解。
 
-#### 缺点
+##### 缺点
 
 高斯牛顿法和Dogleg算法，都要测观测量雅可比矩阵是满秩的，以保证可逆性。当遇到欠约束的系统（没有足够的观测值），或者数值上病态的系统，就可以使用LM算法，尽管收敛速度可能受到影响。
+
+
+### Implementation
