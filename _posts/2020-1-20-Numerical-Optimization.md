@@ -47,7 +47,9 @@ $$. This makes sense because 1) if the slope $$
 \phi^{\prime}(\alpha)
 $$ is strongly negative, we have an indication that we can reduce $$f$$ significantly by moving further along the chosen direction. 2) if $$
 \phi^{\prime}(\alpha)
-$$ is only slightly negative or even positive, it is a sign that we cannot expect much more decrease in $$f$$ in this direction.
+$$ is only slightly negative or even positive, it is a sign that we cannot expect much more decrease in $$f$$ in this direction.$$
+\nabla f\left(x_{k}+\alpha_{k} p_{k}\right)^{T} p_{k} \geq c_{2} \nabla f_{k}^{T} p_{k}
+$$
 
 
 
