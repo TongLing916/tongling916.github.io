@@ -33,23 +33,44 @@ $$, but in general, it is too expensive. more pratical strategies perform an _in
 
 - The line search is done in two stages: A __bracketing phase__ finds an interval containning desirable step lengths, and a __bisection__ or __interpolation phase__ computes a good step length within this interval.
 
-- _The Wolfe Conditions_
-    - _Armijo condition_: $$\alpha_{k}$$ should give _sufficient decrease_ in the objective function $$f$$. $$
-f\left(x_{k}+\alpha p_{k}\right) \leq f\left(x_{k}\right)+c_{1} \alpha \nabla f_{k}^{T} p_{k}
-$$.
-    - _Curvature condition_: 1) rules out unacceptably short steps. 2) ensures that the slope of $$
-\phi
-$$ at $$
-\alpha_{k}
-$$ is greater than $$c_2$$ times the initial slope $$
-\phi^{\prime}(0)
-$$. This makes sense because 1) if the slope $$
-\phi^{\prime}(\alpha)
-$$ is strongly negative, we have an indication that we can reduce $$f$$ significantly by moving further along the chosen direction. 2) if $$
-\phi^{\prime}(\alpha)
-$$ is only slightly negative or even positive, it is a sign that we cannot expect much more decrease in $$f$$ in this direction.$$
-\nabla f\left(x_{k}+\alpha_{k} p_{k}\right)^{T} p_{k} \geq c_{2} \nabla f_{k}^{T} p_{k}
+- The _Wolfe conditions_
+    - _Armijo condition_: $$\alpha_{k}$$ should give _sufficient decrease_ in the objective function $$f$$.
+        - $$f\left(x_{k}+\alpha p_{k}\right) \leq f\left(x_{k}\right)+c_{1} \alpha \nabla f_{k}^{T} p_{k}$$.
+    - _Curvature condition_: 1) rules out unacceptably short steps. 2) ensures that the slope of $$\phi$$ at $$\alpha_{k}$$ is greater than $$c_2$$ times the initial slope $$\phi^{\prime}(0)$$. This makes sense because 1) if the slope $$\phi^{\prime}(\alpha)$$ is strongly negative, we have an indication that we can reduce $$f$$ significantly by moving further along the chosen direction. 2) if $$\phi^{\prime}(\alpha)$$ is only slightly negative or even positive, it is a sign that we cannot expect much more decrease in $$f$$ in this direction.
+        - $$\nabla f\left(x_{k}+\alpha_{k} p_{k}\right)^{T} p_{k} \geq c_{2}\nabla f_{k}^{T} p_{k}$$
+
+- The _strong Wolfe conditions_ ($$0<c_{1}<c_{2}<1$$)
+    - $$f\left(x_{k}+\alpha_{k} p_{k}\right) \leq f\left(x_{k}\right)+c_{1} \alpha_{k} \nabla f_{k}^{T} p_{k}$$
+    - $$\left|\nabla f\left(x_{k}+\alpha_{k} p_{k}\right)^{T} p_{k}\right| \leq c_{2}\left|\nabla f_{k}^{T} p_{k}\right|$$
+    - The only __difference__ with the Wolfe conditions is that we no longer allow the derivative $$\phi^{\prime}\left(\alpha_{k}\right)$$ to be too positive. Hence, we excluse points that far from stationary points of $$\phi$$.
+
+- __Lemma 3.1__
+    - Suppose that $$
+f: \mathbb{R}^{n} \rightarrow \mathbf{R}
+$$ is continuously differntiable. Let $$p_k$$ be a descent direction at $$x_k$$, and assume that $$f$$ is bounded below along the ray $$
+\left\{x_{k}+\alpha p_{k} | \alpha>0\right\}
+$$. Then if $$0<c_{1}<c_{2}<1$$, there exist intervals of step lengths satisfying the Wolfe conditions and the strong Wolfe conditions.
+
+- __Property__ of the Wolfe conditions
+    - Scale-invariant
+
+- __Usage__ of the Wolfe conditions
+    - Most line search methods.
+    - Quasi-Newton methods.
+
+- The _Goldstein conditions_
+    - Step length $$\alpha$$ achieves sufficient decrease while preventing $$\alpha$$ being too small.
+    - $$
+f\left(x_{k}\right)+(1-c) \alpha_{k} \nabla f_{k}^{T} p_{k} \leq f\left(x_{k}+\alpha_{k} p_{k}\right) \leq f\left(x_{k}\right)+c \alpha_{k} \nabla f_{k}^{T} p_{k}, $$
+0<c<1 / 2
 $$
+$$
+
+- A __disadvantage__ of the Goldstein conditions vis-a-vis the Wolfe conditions is that the first equality may exclude all minimizers of $$\phi$$.
+
+- __Usage__ of the Goldstein conditions
+    - Newton-type methods.
+    - __NOT__ well suited for quasi-Newton methods.
 
 
 
