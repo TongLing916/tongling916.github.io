@@ -10,7 +10,7 @@ tags:
 
 > https://github.com/RainerKuemmerle/g2o
 
-### Line Search Methods
+### 3. Line Search Methods
 
 - The iteration is given by $$
 x_{k+1}=x_{k}+\alpha_{k} p_{k}
@@ -24,7 +24,7 @@ $$.
 p_{k}=-B_{k}^{-1} \nabla f_{k}
 $$, $$B_{k}$$ is a symmetric and nonsingular matrix.
 
-#### Step Length
+#### 3.1. Step Length
 
 - The ideal choice would be the global minimizer of the univariate function $
 \phi(\cdot)$ defined by$$
@@ -34,7 +34,7 @@ $$, but in general, it is too expensive. more pratical strategies perform an _in
 - The line search is done in two stages: A __bracketing phase__ finds an interval containning desirable step lengths, and a __bisection__ or __interpolation phase__ computes a good step length within this interval.
 
 - _The Wolfe Conditions_
-    - _Armijo condition_: $$\alpha_{k$$ should give _sufficient decrease_ in the objective function $$f$$. $$
+    - _Armijo condition_: $$\alpha_{k}$$ should give _sufficient decrease_ in the objective function $$f$$. $$
 f\left(x_{k}+\alpha p_{k}\right) \leq f\left(x_{k}\right)+c_{1} \alpha \nabla f_{k}^{T} p_{k}
 $$.
     - _Curvature condition_: 1) rules out unacceptably short steps. 2) ensures that the slope of $$
@@ -43,26 +43,30 @@ $$ at $$
 \alpha_{k}
 $$ is greater than $$c_2$$ times the initial slope $$
 \phi^{\prime}(0)
-$$. 
+$$. This makes sense because 1) if the slope $$
+\phi^{\prime}(\alpha)
+$$ is strongly negative, we have an indication that we can reduce $$f$$ significantly by moving further along the chosen direction. 2) if $$
+\phi^{\prime}(\alpha)
+$$ is only slightly negative or even positive, it is a sign that we cannot expect much more decrease in $$f$$ in this direction.
 
 
 
-#### Convergence of Line Search Methods
+#### 3.2. Convergence of Line Search Methods
 
-#### Rate of Convergence
+#### 3.3. Rate of Convergence
 
-#### Step-Length Selection Algorithms
-
-
+#### 3.4. Step-Length Selection Algorithms
 
 
 
 
-### Nonlinear Least-Squares Problems
 
-#### Background
 
-#### Algorithms for Nonlinear Least-Squares Problems
+### 10. Nonlinear Least-Squares Problems
+
+#### 10.1. Background
+
+#### 10.2. Algorithms for Nonlinear Least-Squares Problems
 
 - The Gauss-Newton Method
 
