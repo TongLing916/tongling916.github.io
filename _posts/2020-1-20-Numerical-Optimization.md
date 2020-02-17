@@ -10,6 +10,38 @@ tags:
 
 > https://github.com/RainerKuemmerle/g2o
 
+### Line Search Methods
+
+- The iteration is given by $$
+x_{k+1}=x_{k}+\alpha_{k} p_{k}
+$$.
+
+- The positive scalar $$\alpha_{k}$$ is called the _step length_.
+
+- $p_{k}$ is a _descent direction_ - one for which $p_{k}^{T} \nabla f_{k}<0$.
+
+- Usually, $$
+p_{k}=-B_{k}^{-1} \nabla f_{k}
+$$, $$B_{k}$$ is a symmetric and nonsingular matrix.
+
+#### Step Length
+
+- The ideal choice would be the global minimizer of the univariate function $
+\phi(\cdot)$ defined by
+
+
+
+#### Convergence of Line Search Methods
+
+#### Rate of Convergence
+
+#### Step-Length Selection Algorithms
+
+
+
+
+
+
 ### Theory
 
 #### 梯度下降法
