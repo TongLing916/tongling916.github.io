@@ -72,7 +72,12 @@ $$
     - Newton-type methods.
     - __NOT__ well suited for quasi-Newton methods.
 
+- _Backtracking_ approach
+    - Core: By choosing step lengths appropriately, we can use __only__ _Armijo condition_ to terminate the line search procedure.
+    - In this procedure, the initial step length $$\bar{\alpha}$$ is chosen to be 1 in Newton and quasi-Newton methods, but can have different values in other algorithms such as steepest descent or conjugate gradient.
+    - This simple and popular strategy for terminating a line search is well suited for Newton methods but is less appropriate for quasi-Newton and conjugate gradient methods.
 
+![]()
 
 #### 3.2. Convergence of Line Search Methods
 
