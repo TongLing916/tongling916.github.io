@@ -77,7 +77,7 @@ $$
     - In this procedure, the initial step length $$\bar{\alpha}$$ is chosen to be 1 in Newton and quasi-Newton methods, but can have different values in other algorithms such as steepest descent or conjugate gradient.
     - This simple and popular strategy for terminating a line search is well suited for Newton methods but is less appropriate for quasi-Newton and conjugate gradient methods.
 
-![]()
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/backtracking_line_search.PNG?token=AEVZO3IRCDC4CTR3G7HODA26LBKY4)
 
 #### 3.2. Convergence of Line Search Methods
 
