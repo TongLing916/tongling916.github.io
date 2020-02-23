@@ -87,6 +87,7 @@ $$
 
 ### Camera Bundle Selection
 
+### Literature
 
 [^Vogiatzis2008]: G. Vogiatzis, P. H. S. Torr, S. M. Seitz, and R. Cipolla. Reconstructing relief surfaces. Image and Vision Computing (IVC), 26(3):397–404, 2008.
 

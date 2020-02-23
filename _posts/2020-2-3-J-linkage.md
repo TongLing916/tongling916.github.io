@@ -63,4 +63,6 @@ The Jaccard distance measures the degree of overlap of the two sets and ranges f
 
 ### T-linkage [2014]
 
+### Literature
+
 [^Toldo2008]: R. Toldo and A. Fusiello. Robust multiple structures estimation with J-linkage. In European Conference on Computer Vision, pages 537–547, 2008.
