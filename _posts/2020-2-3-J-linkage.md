@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "J-linkage: Robust fitting of multiple models"
+title:      "J-linkage: Robust fitting of multiple models [2008]"
 date:       2020-2-3
 author:     Tong
 catalog: true
@@ -10,7 +10,7 @@ tags:
 
 > http://www.diegm.uniud.it/fusiello/demo/jlk/
 
-### J-linkage
+### J-linkage [^Toldo2008]
 
 * Paper: _Robust Multiple Structures Estimation with J-linkage_
 
@@ -61,4 +61,6 @@ The Jaccard distance measures the degree of overlap of the two sets and ranges f
     5. Repeat from step 3 while the smallest Jaccard distance is lower than 1.
 
 
-### T-linkage
+### T-linkage [2014]
+
+[^Toldo2008]: R. Toldo and A. Fusiello. Robust multiple structures estimation with J-linkage. In European Conference on Computer Vision, pages 537–547, 2008.
