@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Superpixel Soup: Monocular Dense 3D Reconstruction of a Complex Dynamic Scene"
+title:      "Superpixel Soup: Monocular Dense 3D Reconstruction of a Complex Dynamic Scene [2019]"
 date:       2020-2-23
 author:     Tong
 catalog: true

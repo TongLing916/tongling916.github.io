@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Numerical Optimization"
+title:      "Chapter 3. Line Search Methods"
 date:       2020-1-20
 author:     Tong
 catalog: true
@@ -8,23 +8,15 @@ tags:
     - SLAM
 ---
 
-> https://github.com/RainerKuemmerle/g2o
-
-### 3. Line Search Methods
-
-- The iteration is given by $$
-x_{k+1}=x_{k}+\alpha_{k} p_{k}
-$$.
+- The iteration is given by $$x_{k+1}=x_{k}+\alpha_{k} p_{k} \quad (3.1)$$.
 
 - The positive scalar $$\alpha_{k}$$ is called the _step length_.
 
 - $$p_{k}$$ is a _descent direction_ - one for which $$p_{k}^{T} \nabla f_{k}<0$$.
 
-- Usually, $$
-p_{k}=-B_{k}^{-1} \nabla f_{k}
-$$, $$B_{k}$$ is a symmetric and nonsingular matrix.
+- Usually, $$p_{k}=-B_{k}^{-1} \nabla f_{k}$$, $$B_{k}$$ is a symmetric and nonsingular matrix.
 
-#### 3.1. Step Length
+### 3.1. Step Length
 
 - The ideal choice would be the global minimizer of the univariate function $
 \phi(\cdot)$ defined by$$
@@ -33,7 +25,7 @@ $$, but in general, it is too expensive. more pratical strategies perform an _in
 
 - The line search is done in two stages: A __bracketing phase__ finds an interval containning desirable step lengths, and a __bisection__ or __interpolation phase__ computes a good step length within this interval.
 
-- The _Wolfe conditions_
+- The _Wolfe conditions_ (3.6)
     - _Armijo condition_: $$\alpha_{k}$$ should give _sufficient decrease_ in the objective function $$f$$.
         - $$f\left(x_{k}+\alpha p_{k}\right) \leq f\left(x_{k}\right)+c_{1} \alpha \nabla f_{k}^{T} p_{k}$$.
     - _Curvature condition_: 1) rules out unacceptably short steps. 2) ensures that the slope of $$\phi$$ at $$\alpha_{k}$$ is greater than $$c_2$$ times the initial slope $$\phi^{\prime}(0)$$. This makes sense because 1) if the slope $$\phi^{\prime}(\alpha)$$ is strongly negative, we have an indication that we can reduce $$f$$ significantly by moving further along the chosen direction. 2) if $$\phi^{\prime}(\alpha)$$ is only slightly negative or even positive, it is a sign that we cannot expect much more decrease in $$f$$ in this direction.
@@ -79,117 +71,72 @@ $$
 
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/backtracking_line_search.PNG?token=AEVZO3IRCDC4CTR3G7HODA26LBKY4)
 
-#### 3.2. Convergence of Line Search Methods
+### 3.2. Convergence of Line Search Methods
 
-#### 3.3. Rate of Convergence
+- We discuss requirements on search directions $$p_{k}$$ in this section, focusing on one key property: the angle $$\theta_{k}$$ between $$p_{k}$$ and the steepest descent direction $$-\nabla f_{k}$$, defined by
+$$
+\cos \theta_{k}=\frac{-\nabla f_{k}^{T} p_{k}}{\left\|\nabla f_{k}\right\|\left\|p_{k}\right\|}.
+$$
 
-#### 3.4. Step-Length Selection Algorithms
+- The steepest descent method is globally convergent.
 
+- __Theorem 3.2.__: Consider any iteration of the form (3.1), where $$p_{k}$$ is a descent direction and $$\alpha_{k}$$ satisfies the Wolfe conditions (3.6). Suppose that $$f$$ is bounded below in $$\mathbb{R}^{n}$$ and that $$f$$ is continuously differentiable in an open set $$\mathcal{N}$$ containing the level set $$\mathcal{L} \stackrel{\text { def}}{=}\left\{x: f(x) \leq f\left(x_{0}\right)\right\}$$, where $$x_{0}$$ is the starting point of the iteration. Assume also that the gradient $$\nabla f(x)$$ is Lipschitz continuous on $$\mathcal{N}$$, that is, there exists a constant $$L > 0$$ such that
+$$
+\|\nabla f(x)-\nabla f(\tilde{x})\| \leq L\|x-\tilde{x}\|, \quad \text { for all } x, \tilde{x} \in \mathcal{N} \quad (3.13)
+$$
+Then,
+$$
+\sum_{k \geq 0} \cos ^{2} \theta_{k}\left\|\nabla f_{k}\right\|^{2}<\infty \quad (3.14)
+$$
 
+- Inequality (3.14), which we call the _Zoutendijk condition_, implies that
+$$
+\cos ^{2} \theta_{k}\left\|\nabla f_{k}\right\|^{2} \rightarrow 0   \quad (3.16)
+$$
+This limit can be used in turn to derive global convergence results for line search algorithms.
 
+- If our method for choosing the search direction $$p_{k}$$ in the iteration (3.1) ensures that the angle $$\theta_{k}$$ defined by (3.12) is bounded away from $$90^{\circ}$$, there is a positive constant $$\delta$$ such that
+$$
+\cos \theta_{k} \geq \delta>0, \quad \text { for all } k.    \quad(3.17)
+$$
+It follows immediately from (3.16) that
+$$
+\lim _{k \rightarrow \infty}\left\|\nabla f_{k}\right\|=0. \quad(3.18)
+$$
 
+- In other words, we can be sure that the gradient norms $$\left\|\nabla f_{k}\right\|$$ converge to zero, provided that the search directions are never too close to orthogonality with the gradient.
 
+- We use the term _globally convergent_ to refer to algorithms for which the property (3.18) is satisfied.
 
-### 10. Nonlinear Least-Squares Problems
+- We cannot guarantee that the method converges to a minimizer, but only that it is attracted by stationary points. Only by making additional requirements on the search direction $$p_{k}$$ - by introducing negative curvature information from the Hessian $$\nabla^{2} f\left(x_{k}\right)$$, for example - can we strength these results to include convergence to a local minimum.
 
-#### 10.1. Background
+- A weaker result
+$$
+\liminf _{k \rightarrow \infty}\left\|\nabla f_{k}\right\|=0 \quad (3.21)
+$$.
+In other words, just a subsequence of the gradient norms $$\left\|\nabla f_{k_{j}}\right\|$$ converges to zero, rather than the whole sequence.
 
-#### 10.2. Algorithms for Nonlinear Least-Squares Problems
+- Consider _any_ algorithm for which
+    - every iteration produces a decrease in the objective function.
+    - every $$m$$th iteration is a steepest descent step, with step length chosen to satisfy the Wolfe or Goldstein conditions.
+Then, since $$\cos \theta_{k}=1$$ for the steepest descent steps, the result (3.21) holds.
 
-- The Gauss-Newton Method
+### 3.3. Rate of Convergence
 
-- Simple Example of Gauss-Newton Method
+#### Convergence rate of steepest descent
 
-```c++
-#include <iostream>
-#include <chrono>
-#include <cmath>
-#include <vector>
-#include <opencv2/opencv.hpp>
-#include <Eigen/Core>
-#include <Eigen/Dense>
+#### Quasi-Newton methods
 
-using namespace std;
-using namespace Eigen;
+#### Newton's method
 
-// y = exp(ar * x * x + br * x + cr)
-int main(int argc, char **argv)
-{
-    double ar = 1.0, br = 2.0, cr = 1.0;
-    double ae = 2.0, be = -1.0, ce = 5.0;
-    int N = 100;
-    double w_sigma = 1.0;
-    double inv_sigma = 1.0 / w_sigma;
-    cv::RNG rng;
+#### Coordinate descent methods
 
-    vector<double> x_data, y_data;
-    for (int i = 0; i < N; ++i)
-    {
-        double x = i / 100.0;
-        x_data.push_back(x);
-        y_data.push_back(exp(ar * x * x + br * x + cr) + rng.gaussian(w_sigma));
-    }
+### 3.4. Step-Length Selection Algorithms
 
-    int iterations = 100;
-    double cost = 0, last_cost = 0;
+#### Interpolation
 
-    chrono::steady_clock::time_point t1 = chrono::steady_clock::now();
-    for (int iter = 0; iter < iterations; ++iter)
-    {
-        Matrix3d H = Matrix3d::Zero();
-        Vector3d b = Vector3d::Zero();
-        cost = 0;
+#### The initial step length
 
-        for (int i = 0; i < N; ++i)
-        {
-            double xi = x_data[i], yi = y_data[i];
-            double error = yi - exp(ae * xi * xi + be * xi + ce);
-            Vector3d J;
-            J[0] = -xi * xi * exp(ae * xi * xi + be * xi + ce);
-            J[1] = -xi * exp(ae * xi * xi + be * xi + ce);
-            J[2] = -exp(ae * xi * xi + be * xi + ce);
+#### A line search algorithm for the Wolfe conditions
 
-            H += inv_sigma * inv_sigma * J * J.transpose();
-            b += -inv_sigma * inv_sigma * error * J;
-
-            cost += error * error;
-        }
-
-        Vector3d dx = H.ldlt().solve(b);
-        if (isnan(dx[0]))
-        {
-            cout << "result is nan!" << endl;
-            break;
-        }
-
-        if (iter > 0 && cost >= last_cost)
-        {
-            cout << "cost: " << cost << " >= last_cost: " << last_cost << ", break." << endl;
-            break;
-        }
-
-        ae += dx[0];
-        be += dx[1];
-        ce += dx[2];
-
-        last_cost = cost;
-        cout << "total cost: " << cost << ", update: " << dx.transpose() << endl
-             << "estimated params: " << ae << ", " << be << ", " << ce << endl
-             << endl;
-    }
-
-    chrono::steady_clock::time_point t2 = chrono::steady_clock::now();
-    chrono::duration<double> time_used = chrono::duration_cast<chrono::duration<double>>(t2 - t1);
-    cout << "solve time cost = " << time_used.count() << " seconds." << endl;
-
-    cout << "estimated abc = " << ae << ", " << be << ", " << ce << endl;
-    cout << "real abc = " << ar << ", " << br << ", " << cr << endl;
-}
-```
-
-- Levenberg-Marquard Algorithm
-    - 缺点: 当一次更新被拒绝后，修改后的信息矩阵需要被重新分解，而分解的过程是整个算法中最耗时的一个部分。
-
-- Dogleg
-    - 思想: 分别利用高斯牛顿法和梯度下降法计算更新量，然后将其有效地结合起来。如果更新被拒绝，更新的方向仍然是有效的，并且它们可以一种不同的方式重新结合起来，知道目标函数的值下降为止。因此，每次状态估计量的更新只涉及一个而非多个矩阵的分解。
-    - 缺点: 高斯牛顿法和Dogleg算法，都要测观测量雅可比矩阵是满秩的，以保证可逆性。当遇到欠约束的系统（没有足够的观测值），或者数值上病态的系统，就可以使用LM算法，尽管收敛速度可能受到影响。
+####
