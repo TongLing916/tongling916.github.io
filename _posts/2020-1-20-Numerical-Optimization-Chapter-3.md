@@ -155,9 +155,9 @@ Suppose that $$f$$ is twice differentiable and that the Hessian $$\nabla^{2} f\l
 
 #### Quasi-Newton methods
 
-#### Coordinate descent methods
+### 3.4 Newton's Method with Hessian Modification
 
-### 3.4. Step-Length Selection Algorithms
+### 3.5. Step-Length Selection Algorithms
 
 #### Interpolation
 
