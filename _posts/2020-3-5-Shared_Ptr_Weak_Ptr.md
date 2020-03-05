@@ -85,20 +85,15 @@ class B {
 
 int main() {
   auto pa = std::make_shared<A>(250);
-
   auto pb = std::make_shared<B>();
 
   pa->b = pb;
-
   pb->id_to_a[pa->val] = pa;
-
   cout << pa.use_count() << endl;  // 1
 
   if (!pb->id_to_a[pa->val].expired()) {
     auto pa2 = pb->id_to_a[pa->val].lock();
-
     cout << pa2.use_count() << endl;  // 2
-
     cout << pa2->val << endl;  // 250
   }
 
