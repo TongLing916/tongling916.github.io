@@ -1,11 +1,7 @@
 ---
 layout:     post
 title:      "shared_ptr and weak_ptr"
-<<<<<<< HEAD
 date:       2020-3-5
-=======
-date:       2020-2-22
->>>>>>> 5e41068f17ea1bb6ec3a4098cc43cabb835e72d2
 author:     Tong
 catalog: true
 tags:
