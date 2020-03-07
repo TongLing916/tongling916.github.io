@@ -12,7 +12,7 @@ tags:
 
 ### Bayes Filter
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-bayes-filter.PNG)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-bayes-filter.PNG?token=AEVZO3PPN3OMJK4YA7YHVK26NRROC)
 
 ### Kalman Filter
 

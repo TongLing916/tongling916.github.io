@@ -22,7 +22,7 @@ $$
 
 ### Algorithm
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-particle-filter.PNG)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/post-particle-filter.PNG?token=AEVZO3LOVFHVDISFO66GSUK6NRROW)
 
 $$w_{t}^{[m]}$$ is called _importance factor_.
 
