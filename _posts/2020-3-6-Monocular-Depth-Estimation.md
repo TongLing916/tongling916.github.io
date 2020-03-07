@@ -1,18 +1,22 @@
 ---
 layout:     post
-title:      "Dense Monocular Depth Estimation in Complex Dynamic Scenes [2016]"
-date:       2020-2-22
+title:      "Monocular Reconstruction"
+date:       2020-3-6
 author:     Tong
 catalog: true
 tags:
     - SLAM
 ---
 
-### Abstract
+## Dense Monocular Depth Estimation in Complex Dynamic Scenes[^Ranftl2016]
+
+### Test
+
+#### Abstract
 
 We present an approach to dense depth estimation from a single monocular camera that is moving through a dynamic scene. The approach produces a dense depth map from two consecutive frames. Moving objects are reconstructed along with the surrounding environment. We provide a novel motion segmentation algorithm that segments the optical flow field into a set of motion models, each with its own epipolar geometry. We then show that the scene can be reconstructed based on these motion models by optimizing a convex program. The optimization jointly reasons about the scales of different objects and assembles the scene in a common coordinate frame, determined up to a global scale. Experimental results demonstrate that the presented approach outperforms prior methods for monocular depth estimation in dynamic scenes.
 
-### Overview
+#### Overview
 
 - Our approach comprises two stages.
     - The first stage performs motion segmentation. This stage segments the dynamic scene into a set of motion models, each described by its own epipolar geometry. This enables reconstruction of each component of the scene up to an unknown scale. We propose a novel motion segmentation algorithm that is based on a convex relaxation of Potts model[^Chambolle2012]. Our algorithm supports dense segmentation of complex dynamic scenes into possibly dozens of independently moving components.
@@ -22,7 +26,7 @@ We present an approach to dense depth estimation from a single monocular camera 
     - First, the scene is segmented into a set of epipolar motion models. The segmentation is performed on optical flow and is formulated as a variational labeling problem.
     - The second stage performs triangulation and joint reconstruction of all objects. The key assumption in the second stage is that the scene consists of objects that are connected in space. In particular, we assume that dynamic objects are connected to the surrounding environment.
 
-### Motion Segmentation
+#### Motion Segmentation
 
 - The task of the motion segmentation stage is to decompose the dynamic scene into a set of independent rigid motions, each described by a fundamental matrix, together with a per-pixel assignment to these motion models.
 
@@ -65,7 +69,7 @@ $$
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/algorithm_motion_segmentation.png)
 
 
-### Reconstruction
+#### Reconstruction
 
 - We use a superpixel-based formulation in order to robustly reconstruct the dynamic scene from optical flow correspondences and the epipolar models estimated.
 
@@ -84,6 +88,8 @@ E(s, \theta)=E_{\mathrm{ord}}(\theta)+E_{\mathrm{sm}}(\theta)+E_{\mathrm{fit}}(s
 $$
 
 ### Literature
+
+[^Ranftl2016]: Ranftl, Rene, et al. "Dense monocular depth estimation in complex dynamic scenes." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016.
 
 [^Chambolle2012]: A. Chambolle, D. Cremers, and T. Pock. A convex approach to minimal partitions. SIAM Journal on Imaging Sciences, 5(4), 2012.
 
