@@ -85,9 +85,19 @@ $$
 E(s, \theta)=E_{\mathrm{ord}}(\theta)+E_{\mathrm{sm}}(\theta)+E_{\mathrm{fit}}(s, \theta)
 $$
 
-### Coarse-to-fine planar regularization for dense monocular depth estimation
+### Coarse-to-fine planar regularization for dense monocular depth estimation[^Liwicki2016]
 
 #### Abstract
+
+Simultaneous localization and mapping (*SLAM*) using the whole image data is an appealing framework to address shortcoming of sparse feature-based methods { in particular frequent failures in textureless environments. Hence, direct methods bypassing the need of feature extraction and matching became recently popular. Many of these methods operate by alternating between pose estimation and computing (semi-)dense depth maps, and are therefore not fully exploiting the advantages of joint optimization with respect to depth and pose. In this work, we propose a framework for monocular SLAM, and its local model in particular, which optimizes simultaneously over depth and pose. In addition to a planarity enforcing smoothness regularizer for the depth we also constrain the complexity of depth map updates, which provides a natural way to avoid poor local minima and reduces unknowns in the optimization. Starting from a holistic objective we develop a method suitable for online and real-time monocular SLAM. We evaluate our method quantitatively in pose and depth on the TUM dataset, and qualitatively on our own video sequences.
+
+#### Contributions
+
+1. we formulate a global energy for planar regularized inverse depth that is optimized iteratively at each frame,
+2. we revisit depth and pose optimization normally considered separately, and introduce a coarse-to-ne strategy that refines both truly simultaneously,
+3. we establish our method as semi-dense, andnd pose and depth twice as fast as LSD-SLAM, by adding minimal cost to LSD-SLAM's tracking thread,
+4. we evaluate pose and depth quantitatively on the TUM dataset.
+
 
 ### Literature
 

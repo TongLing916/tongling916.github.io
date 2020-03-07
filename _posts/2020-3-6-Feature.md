@@ -431,7 +431,6 @@ int main(int arg, char** argv) {
 }
 ```
 
-
 ### LIFT
 
 ### Superpoint
