@@ -436,8 +436,16 @@ int main(int arg, char** argv) {
 
 ### Superpoint
 
-### LSD: A Line Segment Detector 
+### LSD[^Gioi2008][^Gioi2012]
+
+### LBD[^Zhang2013]
 
 ### Literature
 
 [^Rublee2011]: Rublee, Ethan, et al. "ORB: An efficient alternative to SIFT or SURF." 2011 International conference on computer vision. Ieee, 2011.
+
+[^Gioi2008]: Von Gioi, Rafael Grompone, et al. "LSD: A fast line segment detector with a false detection control." IEEE transactions on pattern analysis and machine intelligence 32.4 (2008): 722-732.
+
+[^Gioi2012]: Von Gioi, Rafael Grompone, et al. "LSD: a line segment detector." Image Processing On Line 2 (2012): 35-55.
+
+[^Zhang2013]: Zhang, Lilian, and Reinhard Koch. "An efficient and robust line segment matching approach based on LBD descriptor and pairwise geometric consistency." Journal of Visual Communication and Image Representation 24.7 (2013): 794-805.

@@ -1,12 +1,16 @@
 ---
 layout:     post
-title:      "Monocular Reconstruction"
+title:      "Monocular Depth Estimation"
 date:       2020-3-6
 author:     Tong
 catalog: true
 tags:
     - SLAM
 ---
+
+# Test
+
+## Test
 
 ## Dense Monocular Depth Estimation in Complex Dynamic Scenes[^Ranftl2016]
 
@@ -87,6 +91,10 @@ $$
 E(s, \theta)=E_{\mathrm{ord}}(\theta)+E_{\mathrm{sm}}(\theta)+E_{\mathrm{fit}}(s, \theta)
 $$
 
+### Coarse-to-fine planar regularization for dense monocular depth estimation
+
+#### Abstract
+
 ### Literature
 
 [^Ranftl2016]: Ranftl, Rene, et al. "Dense monocular depth estimation in complex dynamic scenes." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016.
@@ -100,3 +108,5 @@ $$
 [^Torr1998]: P. H. S. Torr. Geometric motion segmentation and model selection. Philosophical Transactions of the Royal Society A, 356(1740), 1998.
 
 [^Vedaldi2008]: Vedaldi and S. Soatto. Quick shift and kernel methods for mode seeking. In ECCV, 2008.
+
+[^Liwicki2016]: Liwicki, Stephan, et al. "Coarse-to-fine planar regularization for dense monocular depth estimation." European Conference on Computer Vision. Springer, Cham, 2016.
