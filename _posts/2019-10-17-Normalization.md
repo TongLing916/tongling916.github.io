@@ -5,7 +5,7 @@ date:       2019-10-17
 author:     Tong
 catalog: true
 tags:
-    - SLAM
+    - Technique
 ---
 
 ### 归一化 (Normalization)

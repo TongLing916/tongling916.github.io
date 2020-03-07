@@ -1,15 +1,14 @@
 ---
 layout:     post
-title:      "鲁棒估计"
+title:      "Robust Estimation"
 date:       2019-10-17
 author:     Tong
 catalog: true
 tags:
-    - SLAM
+    - Technique
 ---
 
-
-### RANSAC (Random Sample Consensus)
+### RANSAC (Random Sample Consensus)[^Fischler1981]
 
 #### 目标
 
@@ -107,93 +106,89 @@ ax+by+c＝0的形式
 #### 实现
 
 ```c++
-#include <cmath>		
+#include <cmath>
 #include <iostream>
 #include <limits>
 #include <random>
 #include <vector>
 using namespace std;
 
-struct Point
-{
-	double x, y;
+struct Point {
+  double x, y;
 };
 
-vector<double> ransac(vector<Point>& points, double outlier_prob = 0.1, double p = 0.99, double threshold = 10.0)
-{
-	default_random_engine generator;
-	int n_sample = points.size();
-	uniform_int_distribution<int> sampler(0, n_sample - 1);
+vector<double> ransac(vector<Point>& points, double outlier_prob = 0.1,
+                      double p = 0.99, double threshold = 10.0) {
+  default_random_engine generator;
+  int n_sample = points.size();
+  uniform_int_distribution<int> sampler(0, n_sample - 1);
 
-	int s = 2;   // 拟合模型需要的最小数据量
+  int s = 2;  // 拟合模型需要的最小数据量
 
-	// 计算理论最大迭代次数
-	double inlier_prob = 1 - outlier_prob;
-	double sample_fail = 1 - inlier_prob * inlier_prob;
-	int N = log(1 - p) / log(sample_fail);	// p: 取样N次，至少一次没有野值的概率
+  // 计算理论最大迭代次数
+  double inlier_prob = 1 - outlier_prob;
+  double sample_fail = 1 - inlier_prob * inlier_prob;
+  int N = log(1 - p) / log(sample_fail);  // p: 取样N次，至少一次没有野值的概率
 
-	double a_res = 0, b_res = 0, c_res = 0;
-	double min_error = numeric_limits<double>::max();
-	while (N--)
-	{
-		// 随机采样 s 个样本
-		int idx1 = 0, idx2 = 0;
-		while (idx1 == idx2)
-		{
-			idx1 = sampler(generator);
-			idx2 = sampler(generator);
-		}
-		Point p1 = points[idx1], p2 = points[idx2];
+  double a_res = 0, b_res = 0, c_res = 0;
+  double min_error = numeric_limits<double>::max();
+  while (N--) {
+    // 随机采样 s 个样本
+    int idx1 = 0, idx2 = 0;
+    while (idx1 == idx2) {
+      idx1 = sampler(generator);
+      idx2 = sampler(generator);
+    }
+    Point p1 = points[idx1], p2 = points[idx2];
 
-		// 拟合模型：a*x1+b*y1+c=0 和 a*x2+b*y2+c=0
-		// 两式相减：a*(x1-x2) = b*(y2-y1)
-		//    解得：a=z*(y2-y1), b=z*(x1-x2)
-		// 归一化时 z 会被约去，令 z=1，得 a=y2-y1, b=x1-x2
-		// 把上述a,b代入 a*x1+b*y1+c=0 解得 c=x2*y1-y2*x1
-		double a = p2.y - p1.y;
-		double b = p1.x - p2.x;
-		double c = (p2.x * p1.y) - (p2.y * p1.x);
+    // 拟合模型：a*x1+b*y1+c=0 和 a*x2+b*y2+c=0
+    // 两式相减：a*(x1-x2) = b*(y2-y1)
+    //    解得：a=z*(y2-y1), b=z*(x1-x2)
+    // 归一化时 z 会被约去，令 z=1，得 a=y2-y1, b=x1-x2
+    // 把上述a,b代入 a*x1+b*y1+c=0 解得 c=x2*y1-y2*x1
+    double a = p2.y - p1.y;
+    double b = p1.x - p2.x;
+    double c = (p2.x * p1.y) - (p2.y * p1.x);
 
-		// 归一化到 a^2 + b^2 = 1
-		double coef = sqrt(a * a + b * b);
-		a /= coef;
-		b /= coef;
-		c /= coef;
+    // 归一化到 a^2 + b^2 = 1
+    double coef = sqrt(a * a + b * b);
+    a /= coef;
+    b /= coef;
+    c /= coef;
 
-		// 测试数据，计算可能的局内点
-		double error = 0.0;
-		int n_inlier = 0;
-		for (int i = 0; i < n_sample; ++i)
-		{
-			double err_i = fabs(a * points[i].x + b * points[i].y + c);
-			if (err_i < threshold)
-			{   // 若低于阈值，则为内点
-				++n_inlier;
-				error += err_i;
-			}
-		}
+    // 测试数据，计算可能的局内点
+    double error = 0.0;
+    int n_inlier = 0;
+    for (int i = 0; i < n_sample; ++i) {
+      double err_i = fabs(a * points[i].x + b * points[i].y + c);
+      if (err_i < threshold) {  // 若低于阈值，则为内点
+        ++n_inlier;
+        error += err_i;
+      }
+    }
 
-		// 若有足够多的点被归类为局内点
-		if (static_cast<double>(n_inlier) / static_cast<double>(n_sample) > 0.7)
-			if (error < min_error)
-			{   // 若新模型更好
-				min_error = error;
-				a_res = a;
-				b_res = b;
-				c_res = c;
-			}
-	}
-	return { a_res, b_res, c_res };
+    // 若有足够多的点被归类为局内点
+    if (static_cast<double>(n_inlier) / static_cast<double>(n_sample) > 0.7)
+      if (error < min_error) {  // 若新模型更好
+        min_error = error;
+        a_res = a;
+        b_res = b;
+        c_res = c;
+      }
+  }
+  return {a_res, b_res, c_res};
 }
 
-int main()
-{
-	int N = 0;
-	cin >> N;
-	vector<Point> points(N, { 0,0 });
-	for (int i = 0; i < N; ++i)
-		cin >> points[i].x >> points[i].y;
-	vector<double> res = ransac(points, 0.1, 0.99, 10);
-	cout << res[0] << " " << res[1] << " " << res[2] << endl;
+int main() {
+  int N = 0;
+  cin >> N;
+  vector<Point> points(N, {0, 0});
+  for (int i = 0; i < N; ++i) cin >> points[i].x >> points[i].y;
+  vector<double> res = ransac(points, 0.1, 0.99, 10);
+  cout << res[0] << " " << res[1] << " " << res[2] << endl;
 }
 ```
+
+### Literature
+
+[^Fischler1981]: Fischler, Martin A., and Robert C. Bolles. "Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography." Communications of the ACM 24.6 (1981): 381-395.

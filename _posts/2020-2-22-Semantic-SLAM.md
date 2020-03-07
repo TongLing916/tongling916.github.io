@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Kimera: an Open-Source Library for Real-Time Metric-Semantic Localization and Mapping [2019]"
+title:      "Semantic SLAM"
 date:       2020-2-22
 author:     Tong
 catalog: true
@@ -8,10 +8,9 @@ tags:
     - SLAM
 ---
 
-> https://github.com/MIT-SPARK/Kimera
+### [Kimera](https://github.com/MIT-SPARK/Kimera)[^Rosinol2019]
 
-### Abstract
-
+#### Abstract
 
 ### Literature
 

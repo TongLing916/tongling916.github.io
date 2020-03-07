@@ -5,7 +5,7 @@ date:       2020-3-6
 author:     Tong
 catalog: true
 tags:
-    - SLAM
+    - Technique
 ---
 
 ### Abstract
