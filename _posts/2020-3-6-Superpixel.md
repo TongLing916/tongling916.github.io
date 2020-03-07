@@ -8,5 +8,6 @@ tags:
     - SLAM
 ---
 
+### Abstract
 
 [^Achanta2012]: Achanta, Radhakrishna, et al. "SLIC superpixels compared to state-of-the-art superpixel methods." IEEE transactions on pattern analysis and machine intelligence 34.11 (2012): 2274-2282.

@@ -8,13 +8,7 @@ tags:
     - SLAM
 ---
 
-# Test
-
-## Test
-
-## Dense Monocular Depth Estimation in Complex Dynamic Scenes[^Ranftl2016]
-
-### Test
+### Dense Monocular Depth Estimation in Complex Dynamic Scenes[^Ranftl2016]
 
 #### Abstract
 
