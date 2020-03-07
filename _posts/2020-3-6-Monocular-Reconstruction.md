@@ -99,7 +99,7 @@ We present a method which enables rapid and dense reconstruction of scenes brows
 
 #### Overview
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/live_dense_reconstruction_pipeline_overview.png)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/live_dense_reconstruction_pipeline_overview.png?token=AEVZO3PH2J2VTSC2OIM4OPS6NRNDM)
 
 #### Structure from Motion
 
