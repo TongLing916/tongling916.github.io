@@ -8,21 +8,30 @@ tags:
     - Technique
 ---
 
-### Harris
+### Harris[^Harris1988]
+#### Abstract
 
-### Shi-Tomasi
+### Shi-Tomasi[^Shi1994]
+#### Abstract
 
-### SIFT
+### SIFT[^Lowe2004]
+#### Abstract
 
-### SURF
+### SURF[^Bay2006]
+#### Abstract
 
-### BRIEF
+### BRIEF[^Calonder2010]
+#### Abstract
 
-### BRISK
+### BRISK[^Leutenegger2011]
+#### Abstract
 
-### FREAK
+### FREAK[^Alahi2012]
+#### Abstract
 
 ### ORB[^Rublee2011]
+
+#### Abstract
 
 #### Oriented FAST
 
@@ -431,20 +440,55 @@ int main(int arg, char** argv) {
 }
 ```
 
-### LIFT
+### LIFT[^Yi2016]
 
-### Superpoint
+#### Abstract
 
 ### LSD[^Gioi2008][^Gioi2012]
 
+#### Abstract
+
+We propose a linear-time line segment detector that gives accurate results, a controlled number of false detections, and requires no parameter tuning. This algorithm is tested and compared to state-of-the-art algorithms on a wide set of natural images.
+
+
+
 ### LBD[^Zhang2013]
+
+#### Abstract
+
+We present a line matching algorithm which utilizes both the local appearance of lines and their geometric attributes. To overcome the problem of segment fragmentation and geometric variation, we extract lines in the scale space. To depict the local appearance of lines, we design a novel line descriptor called _Line Band Descriptor_ (LBD). To evaluate the pairwise geometric consistency, we define the pairwise geometric attributes between line pairs. Then we built a relational graph for candidate line matches and employ a spectral technique to solve this matching problem efficiently. The advantages of the proposed algorithm are as follows:
+    1. it’s robust to image transformations because of the multi-scale line detection strategy;
+    2. it’s efficient because the designed LBD descriptor is fast to compute and the appearance similarities reduce the dimension of the graph matching problem;
+    3. it’s accurate even for low-texture images because of the pairwise geometric consistency evaluation.
+
+### Superpoint[^DeTone2018]
+
+#### Abstract    
 
 ### Literature
 
-[^Rublee2011]: Rublee, Ethan, et al. "ORB: An efficient alternative to SIFT or SURF." 2011 International conference on computer vision. Ieee, 2011.
+[^Harris1988]: Harris, Christopher G., and Mike Stephens. "A combined corner and edge detector." Alvey vision conference. Vol. 15. No. 50. 1988.
+
+[^Shi1994]: Shi, Jianbo. "Good features to track." 1994 Proceedings of IEEE conference on computer vision and pattern recognition. IEEE, 1994.
+
+[^Lowe2004]: Lowe, David G. "Distinctive image features from scale-invariant keypoints." International journal of computer vision 60.2 (2004): 91-110.
+
+[^Bay2006]: Bay, Herbert, Tinne Tuytelaars, and Luc Van Gool. "Surf: Speeded up robust features." European conference on computer vision. Springer, Berlin, Heidelberg, 2006.
 
 [^Gioi2008]: Von Gioi, Rafael Grompone, et al. "LSD: A fast line segment detector with a false detection control." IEEE transactions on pattern analysis and machine intelligence 32.4 (2008): 722-732.
+
+[^Calonder2010]: Calonder, Michael, et al. "Brief: Binary robust independent elementary features." European conference on computer vision. Springer, Berlin, Heidelberg, 2010.
+
+[^Leutenegger2011]: Leutenegger, Stefan, Margarita Chli, and Roland Y. Siegwart. "BRISK: Binary robust invariant scalable keypoints." 2011 International conference on computer vision. Ieee, 2011.
+
+[^Rublee2011]: Rublee, Ethan, et al. "ORB: An efficient alternative to SIFT or SURF." 2011 International conference on computer vision. Ieee, 2011.
+
+[^Alahi2012]: Alahi, Alexandre, Raphael Ortiz, and Pierre Vandergheynst. "Freak: Fast retina keypoint." 2012 IEEE Conference on Computer Vision and Pattern Recognition. Ieee, 2012.
 
 [^Gioi2012]: Von Gioi, Rafael Grompone, et al. "LSD: a line segment detector." Image Processing On Line 2 (2012): 35-55.
 
 [^Zhang2013]: Zhang, Lilian, and Reinhard Koch. "An efficient and robust line segment matching approach based on LBD descriptor and pairwise geometric consistency." Journal of Visual Communication and Image Representation 24.7 (2013): 794-805.
+
+[^Yi2016]: Yi, Kwang Moo, et al. "Lift: Learned invariant feature transform." European Conference on Computer Vision. Springer, Cham, 2016.
+
+[^DeTone2018]: DeTone, Daniel, Tomasz Malisiewicz, and Andrew Rabinovich. "Superpoint: Self-supervised interest point detection and description." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops. 2018.
