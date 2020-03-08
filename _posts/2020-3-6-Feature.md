@@ -450,7 +450,21 @@ int main(int arg, char** argv) {
 
 We propose a linear-time line segment detector that gives accurate results, a controlled number of false detections, and requires no parameter tuning. This algorithm is tested and compared to state-of-the-art algorithms on a wide set of natural images.
 
+#### Introduction
 
+The aim of this paper is to present a linear-time algorithm that cumulates most of the advantages of the previous algorithms without their drawbacks. The Burns et al.[^Burns1986] line segment finder, that made a breakthrough in the extraction of the line segments, will be improved and combined with a validation criterion inspired from Desolneux et al[^Desolneux2000][^Desolneux2002][^Desolneux2003][^Desolneux2008]. The result is LSD, a linear-time line segment detector that requires no parameter tuning and gives accurate results.
+
+#### Line-Support Regions
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/region_grow.PNG?token=AEVZO3KSFXCWZRZZAWVTC6K6NXHVK)
+
+#### Rectangular approximation of regions
+
+#### Line Segment Validation
+
+#### The complete LSD algorithm
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/LSD_line_segment_detector.PNG?token=AEVZO3P73T5ZAUEED4AVYMS6NXHVS)
 
 ### LBD[^Zhang2013]
 
@@ -467,15 +481,25 @@ We present a line matching algorithm which utilizes both the local appearance of
 
 ### Literature
 
+[^Burns1986]: J.B. Burns, A.R. Hanson, and E.M. Riseman, “Extracting Straight Lines,” IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 8, no. 4, pp. 425 -455, July 1986.
+
 [^Harris1988]: Harris, Christopher G., and Mike Stephens. "A combined corner and edge detector." Alvey vision conference. Vol. 15. No. 50. 1988.
 
 [^Shi1994]: Shi, Jianbo. "Good features to track." 1994 Proceedings of IEEE conference on computer vision and pattern recognition. IEEE, 1994.
+
+[^Desolneux2000]: A. Desolneux, L. Moisan, and J.M. Morel, “Meaningful Alignments,” Int’l J. Computer Vision, vol. 40, no. 1, pp. 7-23, 2000.
+
+[^Desolneux2002]: A. Desolneux, S. Ladjal, L. Moisan, and J.M. Morel, “Dequantizing Image Orientation,” IEEE Trans. Image Processing, vol. 11, no. 10, pp. 1129-1140, Oct. 2002.
+
+[^Desolneux2003]: A. Desolneux, L. Moisan, and J.M. Morel, “Computational Gestalts and Perception Thresholds,” J. Physiology-Paris, vol. 97, pp. 311-324, 2003.
 
 [^Lowe2004]: Lowe, David G. "Distinctive image features from scale-invariant keypoints." International journal of computer vision 60.2 (2004): 91-110.
 
 [^Bay2006]: Bay, Herbert, Tinne Tuytelaars, and Luc Van Gool. "Surf: Speeded up robust features." European conference on computer vision. Springer, Berlin, Heidelberg, 2006.
 
 [^Gioi2008]: Von Gioi, Rafael Grompone, et al. "LSD: A fast line segment detector with a false detection control." IEEE transactions on pattern analysis and machine intelligence 32.4 (2008): 722-732.
+
+[^Desolneux2008]: A. Desolneux, L. Moisan, and J.M. Morel, From Gestalt Theory to Image Analysis, A Probabilistic Approach. Springer, 2008.
 
 [^Calonder2010]: Calonder, Michael, et al. "Brief: Binary robust independent elementary features." European conference on computer vision. Springer, Berlin, Heidelberg, 2010.
 
