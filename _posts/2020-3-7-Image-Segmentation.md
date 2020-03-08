@@ -31,7 +31,7 @@ Computer vision applications have come to rely increasingly on superpixels in re
 
 - __Algorithm 1: SLIC superpixel segmentation__
 
-!()[https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/SLIC_superpixel_segmentation.PNG?token=AEVZO3KP5VLUO3NE3GKR3J26NWKVC]
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/SLIC_superpixel_segmentation.PNG?token=AEVZO3IDMJ2PPC5NC3TXBX26NWNEM)
 
 - __Distance measure__
     - The distance measure $$D$$ computes the distance between a pixel $$i$$ and cluster center $$C_k$$ in Algorithm 1.
