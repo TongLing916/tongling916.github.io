@@ -38,13 +38,17 @@ Computer vision applications have come to rely increasingly on superpixels in re
     - A pixel's color is represented in the CIELAB color space $$[l a b]^T$$, whose range of possible values is known.
     - The pixel's position is $$[x y]^T$$.
     - To combine the two distances into a single measure, it is necessary to normalize color proximity and spatial proximity by their respective maximum distances within a cluster, $$N_s$$ and $$N_c$$.
+
     $$\begin{array}{l}
     d_{c}=\sqrt{\left(l_{j}-l_{i}\right)^{2}+\left(a_{j}-a_{i}\right)^{2}+\left(b_{j}-b_{i}\right)^{2}} \\
     d_{s}=\sqrt{\left(x_{j}-x_{i}\right)^{2}+\left(y_{j}-y_{i}\right)^{2}} \\
     D^{\prime}=\sqrt{\left(\frac{d_{c}}{N_{c}}\right)^{2}+\left(\frac{d_{s}}{N_{x}}\right)^{2}}
     \end{array}$$
+
     - The maximum spatial distance expected within a given cluster sphould correspond to the sampling interval, $$N_S = S = \sqrt{N/K}$$. Determining the maximum color distance $$N_c$$ is not so straightforward, as color distances can vary significantly from cluster to cluster and image to image. This problem can be avoided by fixing $$N_c$$ to a constant $$m$$ so that
+
     $$D^{\prime}=\sqrt{\left(\frac{d_{c}}{m}\right)^{2}+\left(\frac{d_{s}}{S}\right)^{2}}$$
+
     $$D=\sqrt{d_{c}^{2}+\left(\frac{d_{s}}{S}\right)^{2} m^{2}}$$
 
 - __Post-processing__
