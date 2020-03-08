@@ -8,9 +8,7 @@ tags:
     - Technique
 ---
 
-### Mean Shift: A Robust Approach toward Feature Space Analysis[^Comaniciu2002]
-
-### SLIC Superpixels Compared to State-of-the-art Superpixel Methods
+### SLIC Superpixels Compared to State-of-the-art Superpixel Methods[^Achanta2012]
 
 #### Abstract
 
