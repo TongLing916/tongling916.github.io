@@ -31,13 +31,29 @@ Computer vision applications have come to rely increasingly on superpixels in re
 
 #### SLIC Superpixels
 
-- __Algorithm__
+- __Algorithm 1: SLIC superpixel segmentation__
+
+!()[https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/SLIC_superpixel_segmentation.PNG?token=AEVZO3KP5VLUO3NE3GKR3J26NWKVC]
 
 - __Distance measure__
+    - The distance measure $$D$$ computes the distance between a pixel $$i$$ and cluster center $$C_k$$ in Algorithm 1.
+    - A pixel's color is represented in the CIELAB color space $$[l a b]^T$$, whose range of possible values is known.
+    - The pixel's position is $$[x y]^T$$.
+    - To combine the two distances into a single measure, it is necessary to normalize color proximity and spatial proximity by their respective maximum distances within a cluster, $$N_s$$ and $$N_c$$.
+    $$\begin{array}{l}
+    d_{c}=\sqrt{\left(l_{j}-l_{i}\right)^{2}+\left(a_{j}-a_{i}\right)^{2}+\left(b_{j}-b_{i}\right)^{2}} \\
+    d_{s}=\sqrt{\left(x_{j}-x_{i}\right)^{2}+\left(y_{j}-y_{i}\right)^{2}} \\
+    D^{\prime}=\sqrt{\left(\frac{d_{c}}{N_{c}}\right)^{2}+\left(\frac{d_{s}}{N_{x}}\right)^{2}}
+    \end{array}$$
+    - The maximum spatial distance expected within a given cluster sphould correspond to the sampling interval, $$N_S = S = \sqrt{N/K}$$. Determining the maximum color distance $$N_c$$ is not so straightforward, as color distances can vary significantly from cluster to cluster and image to image. This problem can be avoided by fixing $$N_c$$ to a constant $$m$$ so that
+    $$D^{\prime}=\sqrt{\left(\frac{d_{c}}{m}\right)^{2}+\left(\frac{d_{s}}{S}\right)^{2}}$$
+    $$D=\sqrt{d_{c}^{2}+\left(\frac{d_{s}}{S}\right)^{2} m^{2}}$$
 
 - __Post-processing__
+    - SLIC does not explicitly enforce connectivity. At the end of the clustering procedure, some “orphaned” pixels that do not belong to the same connected component as their cluster center may remain. To correct for this, such pixels are assigned the label of the nearest cluster center using a connected components algorithm.
 
 - __Complexity__
+    - The complexity of SLIC is linear in the number of pixels, irrespective of $$k$$.
 
 ### Literature
 
