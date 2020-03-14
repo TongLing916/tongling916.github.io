@@ -42,7 +42,7 @@ The algorithm has three main components.
     - Next, an iterative update process is applied to the NNF, in which good patch offsets are propagated to adjacent pixels,
     - followed by random search in the neighborhood of the best offset found so far.
 
-### Memory efficient semi-global matching [^Hirschmüller2012]
+### Memory efficient semi-global matching [^Hirschmueller2012]
 
 #### Abstract
 
@@ -72,7 +72,7 @@ Since the initial comparison of Seitz et al. [^Seitz2006], the accuracy of dense
 
 [^Barnes2009]: Barnes, Connelly, et al. "PatchMatch: A randomized correspondence algorithm for structural image editing." ACM Transactions on Graphics (ToG). Vol. 28. No. 3. ACM, 2009.
 
-[^Hirschmüller2012]: Hirschmüller, Heiko, Maximilian Buder, and Ines Ernst. "Memory efficient semi-global matching." ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences 3 (2012): 371-376.
+[^Hirschmueller2012]: Hirschmüller, Heiko, Maximilian Buder, and Ines Ernst. "Memory efficient semi-global matching." ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences 3 (2012): 371-376.
 
 [^Jancosek2014]: Jancosek, Michal, and Tomas Pajdla. "Exploiting visibility information in surface reconstruction to preserve weakly supported surfaces." International scholarly research notices 2014 (2014).
 
