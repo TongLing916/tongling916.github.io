@@ -60,6 +60,19 @@ $$
 
 ### KinectFusion[^Newcombe2011b]
 
+### SE-SLAM: Semi-Dense Structured Edge-Based Monocular SLAM [^Tarrio2019]
+
+#### Abstract
+
+Abstract—Vision-based Simultaneous Localization And Mapping (VSLAM) is a mature problem in Robotics. Most VSLAM systems are feature based methods, which are robust and present high accuracy, but yield sparse maps with limited application for further navigation tasks. Most recently, direct methods which operate directly on image intensity have been introduced, capable of reconstructing richer maps at the cost of higher processing power. In this work, an edge-based monocular SLAM system (SE-SLAM) is proposed as a middle point: edges present good localization as point features, while enabling a structural semi-dense map reconstruction. However, edges are not easy to associate, track and optimize over time, as they lack descriptors and biunivocal correspondence, unlike point features. To tackle these issues, this paper presents a method to match edges between frames in a consistent manner; a feasible strategy to solve the optimization problem, since its size rapidly increases when working with edges; and the use of non-linear optimization techniques. The resulting system achieves comparable  precision to state of the art feature-based and dense/semi-dense systems, while inherently building a structural semi-dense reconstruction of the environment, providing relevant structure data for further navigation algorithms. To achieve such accuracy, state of the art non-linear optimization is needed, over a continuous feed of 10000 edgepoints per frame, to optimize the full semi-dense output. Despite its heavy processing requirements, the system achieves near to real-time operation, thanks to a custom built solver and parallelization of its key stages. In order to encourage further development of edge-based SLAM systems, SE-SLAM source code will be released as open source.
+
+#### Contribution
+
+- A method to associate edges between frames and relatively far keyframes, in a consistent manner, that enables the application of techniques traditionally reserved to point features.
+- A parametrization, residual and variable selection and marginalization strategy that exploits edges’ nature, to make the optimization problem treatable, since its size increases rapidly if applying existing methods to edges.
+- A non-linear optimization approach that better adapts to an edge based input.
+
+
 ### Literature
 
 [^Szeliski2004]: R. Szeliski and D. Scharstein. Sampling the disparity space image. IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 26:419–425, 2004.
@@ -71,3 +84,5 @@ $$
 [^Newcombe2011a]: Newcombe, Richard A., Steven J. Lovegrove, and Andrew J. Davison. "DTAM: Dense tracking and mapping in real-time." 2011 international conference on computer vision. IEEE, 2011.
 
 [^Newcombe2011b]: Newcombe, Richard A., et al. "KinectFusion: Real-time dense surface mapping and tracking." 2011 10th IEEE International Symposium on Mixed and Augmented Reality. IEEE, 2011.
+
+[^Tarrio2019]: Tarrio, Juan Jose, Claus Smitt, and Sol Pedre. "SE-SLAM: Semi-Dense Structured Edge-Based Monocular SLAM." arXiv preprint arXiv:1909.03917 (2019).
