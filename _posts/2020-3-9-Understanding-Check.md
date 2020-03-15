@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Understanding Check"
+title:      "Vision Algorithms for Mobile Robotics - Understanding Check"
 date:       2020-3-9
 author:     Tong
 catalog: true
@@ -36,7 +36,35 @@ correspondences it requires?
 
 ### 4. Filtering & Edge detection
 
+- Explain the differences between convolution and correlation?
+- Explain the differences between a box filter and a Gaussian filter
+- Explain why should one increase the size of the kernel of a Gaussian filter if is large (i.e. close to the size of the filter kernel?
+- Explain when would we need a median & bilateral filter?
+- Explain how to handle boundary issues?
+- Explain the working principle of edge detection with a 1D signal?
+- Explain how noise does affect this procedure?
+- Explain the differential property of convolution?
+- Show how to compute the first derivative of an image intensity function along 𝑥and 𝑦
+- Explain why the Laplacian of Gaussian operator is useful?
+- List the properties of smoothing and derivative filters
+- Illustrate the Canny edge detection algorithm?
+- Explain what non maxima suppression is and how it is implemented?
+
 ### 5. Point Feature Detectors, Part 1
+
+- Explain what is template matching and how it is implemented?
+- Explain what are the limitations of template matching? Can you use it to recognize cars?
+- Illustrate the similarity metrics SSD, SAD, NCC, and Census transform?
+- What is the intuitive explanation behind SSD and NCC?
+- Explain what are good features to track? In particular, can you explain what are corners and blobs together with their pros and cons?
+- Explain the Harris corner detector? In particular:
+    - Use the Moravec definition of corner, edge and flat region.
+    - Show how to get the second moment matrix from the definition of SSD and first order approximation (show that this is a quadratic expression) and what is the intrinsic interpretation of the second moment matrix using an ellipse?
+    - What is the M matrix like for an edge, for a flat region, for an axis aligned 90 degree corner and for a non axis aligned 90 degree corner?
+    - What do the eigenvalues of M reveal?
+    - Can you compare Harris detection with Shi Tomasi detection?
+    - Can you explain whether the Harris detector is invariant to illumination or scale changes? Is it invariant to view point changes?
+    - What is the repeatability of the Harris detector after rescaling by a factor of 2?
 
 ### 6. Point Feature Detectors, Part 2
 
