@@ -8,7 +8,7 @@ tags:
     - Technique
 ---
 
-### Efficient Inference in Fully Connected CRFs with Gaussian Edge Potentials [^Krähenbühl2011]
+### Efficient Inference in Fully Connected CRFs with Gaussian Edge Potentials [^Kraehenbuehl2011]
 
 #### Abstract
 
@@ -31,7 +31,7 @@ Our main contribution is a highly efficient inference algorithm for fully connec
 
 ### Literature
 
-[^Krähenbühl2011]: Krähenbühl, Philipp, and Vladlen Koltun. "Efficient inference in fully connected crfs with gaussian edge potentials." Advances in neural information processing systems. 2011.
+[^Kraehenbuehl2011]: Krähenbühl, Philipp, and Vladlen Koltun. "Efficient inference in fully connected crfs with gaussian edge potentials." Advances in neural information processing systems. 2011.
 
 [^Paris2006]: Paris, Sylvain, and Frédo Durand. "A fast approximation of the bilateral filter using a signal processing approach." European conference on computer vision. Springer, Berlin, Heidelberg, 2006.
 
