@@ -60,7 +60,7 @@ Output: 4
 
 #### Naive Solution (TLE)
 
-假设`moves[i][j]`代表`i`个鸡蛋和`j`层楼的最小移动数，那么如果我们把这第`i`个鸡蛋在第`k`层扔下，那么
+- 假设`moves[i][j]`代表`i`个鸡蛋和`j`层楼的最小移动数，那么如果我们把这第`i`个鸡蛋在第`k`层扔下，那么
     - 如果鸡蛋碎了，那么`floor[i][j] = 1 + floor[i - 1][k - 1]`.
     - 如果鸡蛋没碎，那么`floor[i][j] = 1 + floor[i][j - k]`
 
@@ -95,7 +95,7 @@ class Solution {
 
 #### Solution
 
-`floors[i][j]`代表`i`个鸡蛋和`j`次移动，能检测的最多楼层数。所以，状态转移方程是`floors[i][j] = floors[i - 1][j - 1] + floors[i - 1][j] + 1`. 这意味着当我们移动一次时，
+- `floors[i][j]`代表`i`个鸡蛋和`j`次移动，能检测的最多楼层数。所以，状态转移方程是`floors[i][j] = floors[i - 1][j - 1] + floors[i - 1][j] + 1`. 这意味着当我们移动一次时，
     - 如果鸡蛋碎了，我们就可以检验`floors[i - 1][j - 1]`层。
     - 如果鸡蛋没碎，我们就可以检测`floors[i][j - 1]`层.
 
@@ -240,12 +240,11 @@ using namespace std;
 int main() {
     int K, H;
     cin >> K >> H;
-    // floors[i][j]: max floors when i eggs
-    vector<int> floors(K + 1, 0);
+    vector<int> dp(K + 1, 0);
     int m = 0;
-    while (floors[K] < H) {
+    while (dp[K] < H) {
         for (int i = K; i > 0; --i) {
-            floors[i] += floors[i - 1] + 1;
+            dp[i] += dp[i - 1] + 1;
         }
         ++m;
     }
