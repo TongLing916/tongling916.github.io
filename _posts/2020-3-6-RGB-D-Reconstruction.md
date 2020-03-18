@@ -1,12 +1,28 @@
 ---
 layout:     post
-title:      "Dense SLAM"
-date:       2020-2-22
+title:      "RGB-D Reconstruction"
+date:       2020-3-6
 author:     Tong
 catalog: true
 tags:
-    - SLAM
+    - Reconstruction
 ---
+
+### Bundlefusion: Real-time globally consistent 3d reconstruction using on-the-fly surface reintegration [^Dai17]
+
+#### Abstract
+
+### DynamicFusion: Reconstruction and Tracking of Non-rigid Scenes in Real-Time [^Newcombe15]
+
+#### Abstract
+
+### ElasticFusion: Dense SLAM Without A Pose Graph [^Whelan15]
+
+#### Abstract
+
+### [Volumetric 3D Mapping in Real-Time on a CPU](https://github.com/tum-vision/fastfusion) [^Steinbruecker14]
+
+#### Abstract
 
 ### DTAM[^Newcombe2011a]
 
@@ -60,20 +76,14 @@ $$
 
 ### KinectFusion[^Newcombe2011b]
 
-### SE-SLAM: Semi-Dense Structured Edge-Based Monocular SLAM [^Tarrio2019]
-
-#### Abstract
-
-Abstract—Vision-based Simultaneous Localization And Mapping (VSLAM) is a mature problem in Robotics. Most VSLAM systems are feature based methods, which are robust and present high accuracy, but yield sparse maps with limited application for further navigation tasks. Most recently, direct methods which operate directly on image intensity have been introduced, capable of reconstructing richer maps at the cost of higher processing power. In this work, an edge-based monocular SLAM system (SE-SLAM) is proposed as a middle point: edges present good localization as point features, while enabling a structural semi-dense map reconstruction. However, edges are not easy to associate, track and optimize over time, as they lack descriptors and biunivocal correspondence, unlike point features. To tackle these issues, this paper presents a method to match edges between frames in a consistent manner; a feasible strategy to solve the optimization problem, since its size rapidly increases when working with edges; and the use of non-linear optimization techniques. The resulting system achieves comparable  precision to state of the art feature-based and dense/semi-dense systems, while inherently building a structural semi-dense reconstruction of the environment, providing relevant structure data for further navigation algorithms. To achieve such accuracy, state of the art non-linear optimization is needed, over a continuous feed of 10000 edgepoints per frame, to optimize the full semi-dense output. Despite its heavy processing requirements, the system achieves near to real-time operation, thanks to a custom built solver and parallelization of its key stages. In order to encourage further development of edge-based SLAM systems, SE-SLAM source code will be released as open source.
-
-#### Contribution
-
-- A method to associate edges between frames and relatively far keyframes, in a consistent manner, that enables the application of techniques traditionally reserved to point features.
-- A parametrization, residual and variable selection and marginalization strategy that exploits edges’ nature, to make the optimization problem treatable, since its size increases rapidly if applying existing methods to edges.
-- A non-linear optimization approach that better adapts to an edge based input.
-
 
 ### Literature
+
+[^Dai17]: Dai, Angela, et al. "Bundlefusion: Real-time globally consistent 3d reconstruction using on-the-fly surface reintegration." ACM Transactions on Graphics (ToG) 36.4 (2017): 1.
+
+[^Steinbruecker14]: Steinbrücker, Frank, Jürgen Sturm, and Daniel Cremers. "Volumetric 3D mapping in real-time on a CPU." 2014 IEEE International Conference on Robotics and Automation (ICRA). IEEE, 2014.
+
+[^Newcombe15]: Newcombe, Richard A., Dieter Fox, and Steven M. Seitz. "Dynamicfusion: Reconstruction and tracking of non-rigid scenes in real-time." Proceedings of the IEEE conference on computer vision and pattern recognition. 2015.
 
 [^Szeliski2004]: R. Szeliski and D. Scharstein. Sampling the disparity space image. IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 26:419–425, 2004.
 
@@ -85,4 +95,4 @@ Abstract—Vision-based Simultaneous Localization And Mapping (VSLAM) is a matur
 
 [^Newcombe2011b]: Newcombe, Richard A., et al. "KinectFusion: Real-time dense surface mapping and tracking." 2011 10th IEEE International Symposium on Mixed and Augmented Reality. IEEE, 2011.
 
-[^Tarrio2019]: Tarrio, Juan Jose, Claus Smitt, and Sol Pedre. "SE-SLAM: Semi-Dense Structured Edge-Based Monocular SLAM." arXiv preprint arXiv:1909.03917 (2019).
+[^Whelan15]: Whelan, Thomas, et al. "ElasticFusion: Dense SLAM without a pose graph." Robotics: Science and Systems, 2015.

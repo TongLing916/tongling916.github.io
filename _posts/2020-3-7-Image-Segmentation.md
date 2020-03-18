@@ -8,6 +8,32 @@ tags:
     - Technique
 ---
 
+
+### Manifold SLIC: A Fast Method to Compute Content-Sensitive Superpixel [^Liu18]
+
+#### Abstract
+
+Superpixels are perceptually meaningful atomic regions that can effectively capture image features. Among various methods for computing uniform superpixels, _simple linear iterative clustering_ (SLIC) is popular due to its simplicity and high performance. In this paper, we extend SLIC to compute content-sensitive superpixels, i.e., small superpixels in content-dense regions (e.g., with high intensity or color variation) and large superpixels in content-sparse regions. Rather than the conventional SLIC method that clusters pixels in $$\mathbb{R}^{5}$$, we map the image $$I$$ to a 2-dimensional manifold $$\mathcal{M} \subset \mathbb{R}^{5}$$, whose area elements are a good measure of the content density in $$I$$. We propose an efficient method to compute _restricted centroidal Voronoi tessellation_ (RCVT) — a uniform tessellation — on $$\mathcal{M}$$, which induces the content-sensitive superpixels in $$I$$. Unlike other algorithms that characterize content-sensitivity by geodesic distances, manifold SLIC tackles the problem by measuring areas of Voronoi cells on $$\mathcal{M}$$, which can be computed at a very low cost. As a result, it runs 10 times faster than the state-of-the-art content-sensitive superpixels algorithm. We evaluate manifold SLIC and seven representative methods on the BSDS500 benchmark and observe that our method outperforms the existing methods.
+
+#### Introduction
+
+Our key idea is to represent the image $$I$$ as a 2-mainifold $$\mathcal{M}$$ embedded in the combined color and image space $$\mathbb{R}^{5}$$, on which the area elements are a good measure of content density in $$I$$.
+
+We develop an efficient algorithm to compute restricted CVT — a uniform tessellation — on $$\mathcal{M}$$, which induces the conten-tsensitive superpixels in $$I$$.
+
+Unlike other algorithms that characterize content-sensitivity by geodesic distances, manifold SLIC addresses the problem by measuring areas of Voronoi cells on $$\mathcal{M}$$, which can be computed at a very low cost.
+
+#### Algorithm
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/Manifold_SLIC.PNG)
+
+### Structure-sensitive superpixels via geodesic distance [^Wang13]
+
+#### Abstract
+
+Segmenting images into superpixels as supporting regions for feature vectors and primitives to reduce computational complexity has been commonly used as a fundamental step in various image analysis and computer vision tasks. In this paper, we describe the structure-sensitive superpixel technique by exploiting Lloyd’s algorithm with the geodesic distance. Our method generates smaller superpixels to achieve relatively low under-segmentation in structuredense regions with high intensity or color variation, and produces larger segments to increase computational efficiency in structure-sparse regions with homogeneous appearance. We adopt geometric flows to compute geodesic distances amongst pixels. In the segmentation procedure, the density of over-segments is automatically adjusted through iteratively optimizing an energy functional that embeds color homogeneity, structure density. Comparative experiments with the Berkeley database show that the proposed algorithm outperforms the prior arts while offering a comparable computational efficiency as TurboPixels. Further applications in image compression, object closure extraction and video segmentation demonstrate the effective extensions of our approach.
+
+
 ### SLIC Superpixels Compared to State-of-the-art Superpixel Methods[^Achanta2012]
 
 #### Abstract
@@ -31,12 +57,12 @@ Computer vision applications have come to rely increasingly on superpixels in re
 
 - __Algorithm 1: SLIC superpixel segmentation__
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/SLIC_superpixel_segmentation.PNG?token=AEVZO3IDMJ2PPC5NC3TXBX26NWNEM)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/SLIC_superpixel_segmentation.PNG)
 
 - __Distance measure__
     - The distance measure $$D$$ computes the distance between a pixel $$i$$ and cluster center $$C_k$$ in Algorithm 1.
-    - A pixel's color is represented in the CIELAB color space $$[l a b]^T$$, whose range of possible values is known.
-    - The pixel's position is $$[x y]^T$$.
+    - A pixel's color is represented in the CIELAB color space $$[l \quad a \quad b]^T$$, whose range of possible values is known.
+    - The pixel's position is $$[x \quad y]^T$$.
     - To combine the two distances into a single measure, it is necessary to normalize color proximity and spatial proximity by their respective maximum distances within a cluster, $$N_s$$ and $$N_c$$.
 
     $$\begin{array}{l}
@@ -57,6 +83,18 @@ Computer vision applications have come to rely increasingly on superpixels in re
 - __Complexity__
     - The complexity of SLIC is linear in the number of pixels, irrespective of $$k$$.
 
+
+### Turbopixels: Fast superpixels using geometric flows [^Levinshtein2009]
+
+#### Abstract
+
+We describe a geometric-flow-based algorithm for computing a dense oversegmentation of an image, often referred to as superpixels. It produces segments that, on one hand, respect local image boundaries, while, on the other hand, limiting undersegmentation through a compactness constraint. It is very fast, with complexity that is approximately linear in image size, and can be applied to megapixel sized images with high superpixel densities in a matter of minutes. We show qualitative demonstrations of high-quality results on several complex images. The Berkeley database is used to quantitatively compare its performance to a number of oversegmentation algorithms, showing that it yields less undersegmentation than algorithms that lack a compactness constraint while offering a significant speedup over N-cuts, which does enforce compactness.
+
+#### Algorithm
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/Turbopixels.PNG)
+
+
 ### Literature
 
 [^Achanta2012]: Achanta, Radhakrishna, et al. "SLIC superpixels compared to state-of-the-art superpixel methods." IEEE transactions on pattern analysis and machine intelligence 34.11 (2012): 2274-2282.
@@ -76,3 +114,7 @@ Computer vision applications have come to rely increasingly on superpixels in re
 [^Vincent1991]: Luc Vincent and Pierre Soille. Watersheds in digital spaces: An efficient algorithm based on immersion simulations. IEEE Transactions on Pattern Analalysis and Machine Intelligence, 13(6):583–598, 1991.
 
 [^Levinshtein2009]: A. Levinshtein, A. Stere, K. Kutulakos, D. Fleet, S. Dickinson, and K. Siddiqi. Turbopixels: Fast superpixels using geometric flows. IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 2009.
+
+[^Liu18]: Y. Liu, M. Yu, B. Li and Y. He, "Intrinsic Manifold SLIC: A Simple and Efficient Method for Computing Content-Sensitive Superpixels," in IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 40, no. 3, pp. 653-666, 1 March 2018.
+
+[^Wang13]: Wang, Peng, et al. "Structure-sensitive superpixels via geodesic distance." International journal of computer vision 103.1 (2013): 1-21.

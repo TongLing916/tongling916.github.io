@@ -1444,37 +1444,72 @@ We cannot find a way to divide the set of nodes into two independent subsets.
 Language: **C++**
 
 ```c++
+#include <iostream>
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+// dfs
 class Solution {
-public:
-    bool isBipartite(vector<vector<int>>& graph) {
-        int n = graph.size();
-        vector<int> colors(n, 0); // 0: unvisited; 1: blue; -1: red.
-        for (int i = 0; i < n; ++i)
-        {
-            if (colors[i]) continue;
-            queue<int> q;
-            q.push(i);
-            colors[i] = 1;
-            while (!q.empty())
-            {
-                int v = q.front();
-                q.pop();
-                for (auto& next : graph[v])
-                {
-                    if (colors[next] == 0)
-                    {
-                        colors[next] = -colors[v];
-                        q.push(next);
-                    }
-                    else if (colors[next] == colors[v])
-                    {
-                        return false;
-                    }
-                }
-            }
-        }        
-        return true;
-    }
+ public:
+  bool validColor(vector<vector<int>>& graph, vector<int>& colors, int& node,
+                  int color) {
+    if (colors[node] == -color) {
+      return false;
+    }
+    if (colors[node] == color) {
+      return true;
+    }
+    colors[node] = color;
+    for (auto& v : graph[node]) {
+      // the graph could be disconnected, so we need to check every node
+      if (!validColor(graph, colors, v, -color)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool isBipartite(vector<vector<int>>& graph) {
+    int n = graph.size();
+    vector<int> colors(n, 0);  // 0: unvisited; 1: blue; -1: red.
+    for (int i = 0; i < n; ++i)
+      if (colors[i] == 0 && !validColor(graph, colors, i, 1)) {
+        return false;
+      }
+    return true;
+  }
+};
+
+// bfs
+class Solution2 {
+ public:
+  bool isBipartite(vector<vector<int>>& graph) {
+    int n = graph.size();
+    vector<int> colors(n, 0);  // 0: unvisited; 1: blue; -1: red.
+    for (int i = 0; i < n; ++i) {
+      if (colors[i]) {
+        continue;
+      }
+      queue<int> q;
+      q.push(i);
+      colors[i] = 1;
+      while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        for (auto& next : graph[v]) {
+          if (colors[next] == 0) {
+            colors[next] = -colors[v];
+            q.push(next);
+          } else if (colors[next] == colors[v]) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
 };
 ```
 
@@ -1587,6 +1622,148 @@ int main()
 
 ```
 
+
+
+### [886\. Possible Bipartition](https://leetcode.com/problems/possible-bipartition/)
+
+Difficulty: **Medium**
+
+
+Given a set of `N` people (numbered `1, 2, ..., N`), we would like to split everyone into two groups of **any** size.
+
+Each person may dislike some other people, and they should not go into the same group. 
+
+Formally, if `dislikes[i] = [a, b]`, it means it is not allowed to put the people numbered `a` and `b` into the same group.
+
+Return `true` if and only if it is possible to split everyone into two groups in this way.
+
+
+**Example 1:**
+
+```
+Input: N = 4, dislikes = [[1,2],[1,3],[2,4]]
+Output: true
+Explanation: group1 [1,4], group2 [2,3]
+```
+
+
+**Example 2:**
+
+```
+Input: N = 3, dislikes = [[1,2],[1,3],[2,3]]
+Output: false
+```
+
+
+**Example 3:**
+
+```
+Input: N = 5, dislikes = [[1,2],[2,3],[3,4],[4,5],[1,5]]
+Output: false
+```
+
+**Note:**
+
+1.  `1 <= N <= 2000`
+2.  `0 <= dislikes.length <= 10000`
+3.  `1 <= dislikes[i][j] <= N`
+4.  `dislikes[i][0] < dislikes[i][1]`
+5.  There does not exist `i != j` for which `dislikes[i] == dislikes[j]`.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <algorithm>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <vector>
+using namespace std;
+
+class Solution {
+ public:
+  bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
+    coloring_.resize(N + 1, 0);  // 0: unset, 1: group A, -1: group B;
+    graph_.resize(N + 1, {});
+    for (const auto& d : dislikes) {
+      graph_[d[0]].emplace_back(d[1]);
+      graph_[d[1]].emplace_back(d[0]);
+    }
+    for (int i = 1; i <= N; ++i) {
+      if (coloring_[i] == 0 && !bipartiteGraphColor(i, 1)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+ private:
+  bool bipartiteGraphColor(const int id, const int color) {
+    if (coloring_[id] == 0) {
+      coloring_[id] = color;
+    } else if (coloring_[id] != color) {
+      return false;
+    } else {
+      return true;
+    }
+
+    if (graph_[id].empty()) {
+      return true;
+    }
+
+    const int new_color = -color;
+    for (const int g : graph_[id]) {
+      if (!bipartiteGraphColor(g, new_color)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+ private:
+  vector<int> coloring_;
+  vector<vector<int>> graph_;
+};
+```
+
+```c++
+class Solution {
+ public:
+  bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
+    vector<vector<int>> G(N);
+    for (const auto& v : dislikes) {
+      G[v[0] - 1].emplace_back(v[1] - 1);
+      G[v[1] - 1].emplace_back(v[0] - 1);
+    }
+    vector<int> color(N, 0);
+    queue<int> q;
+    for (int i = 0; i < N; ++i) {
+      if (color[i] == 0) {
+        color[i] = 1;
+        q.push(i);
+        while (!q.empty()) {
+          int p = q.front();
+          q.pop();
+          for (int v : G[p]) {
+            if (color[v] == color[p]) {
+              return false;
+            }
+            if (color[v] != 0) {
+              continue;
+            }
+            color[v] = -color[p];
+            q.push(v);
+          }
+        }
+      }
+    }
+    return true;
+  }
+};
+```
 
 ### [1043\. Partition Array for Maximum Sum](https://leetcode.com/problems/partition-array-for-maximum-sum/)
 

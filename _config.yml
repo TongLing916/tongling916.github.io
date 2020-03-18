@@ -4,7 +4,7 @@ SEOTitle: Tong's This Is It
 header-img: img/mallorca.jpg
 email: ling_tong@outlook.com
 description: "Learning by doing."
-keyword: "SLAM, CV, KF, EKF, PK, German, English"
+keyword: "SLAM, German"
 url: "http://tongling916.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 github_repo: "https://github.com/tongling916/tongling916.github.io.git" # you code repository

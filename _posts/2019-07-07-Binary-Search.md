@@ -12,6 +12,64 @@ tags:
 
 1. Cast the Integer number to a `long int`. Then, use `<<` to speed up the computation. (See `29. Divide Two Integers` and `50. Pow(x, n)`)
 
+2. [Template](https://zxi.mytechroad.com/blog/algorithms/binary-search/sp5-binary-search/)
+
+```c++
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int binary_search(const vector<int>& A, const int val) {
+  int l = 0;
+  int r = static_cast<int>(A.size());
+  while (l < r) {
+    const int m = l + ((r - l) >> 1);
+    if (A[m] == val) {
+      return m;
+    } else if (A[m] > val) {
+      r = m;
+    } else {
+      l = m + 1;
+    }
+  }
+  return -1;
+}
+
+int upper_bound(const vector<int>& A, int val, int l, int r) {
+  while (l < r) {
+    const int m = l + ((r - l) >> 1);
+    if (A[m] > val) {
+      r = m;
+    } else {
+      l = m + 1;
+    }
+  }
+  return l;
+}
+
+int lower_bound(const vector<int>& A, const int val, int l, int r) {
+  while (l < r) {
+    const int m = l + ((r - l) >> 1);
+    if (A[m] >= val) {
+      r = m;
+    } else {
+      l = m + 1;
+    }
+  }
+  return l;
+}
+
+int main() {
+  vector<int> A{1, 2, 2, 2, 4, 4, 5};
+  cout << lower_bound(A, 0, 0, A.size()) << endl;  // 0
+  cout << lower_bound(A, 2, 0, A.size()) << endl;  // 1
+  cout << lower_bound(A, 3, 0, A.size()) << endl;  // 4
+  cout << upper_bound(A, 2, 0, A.size()) << endl;  // 4
+  cout << upper_bound(A, 4, 0, A.size()) << endl;  // 6
+  cout << upper_bound(A, 5, 0, A.size()) << endl;  // 7
+}
+```
+
 
 ### [29. Divide Two Integers](https://leetcode.com/problems/divide-two-integers/)
 
@@ -952,3 +1010,229 @@ int main()
 }
 
 ```
+
+### [230\. Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst/)
+
+Difficulty: **Medium**
+
+
+Given a binary search tree, write a function `kthSmallest` to find the **k**th smallest element in it.
+
+**Note:**  
+You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
+
+**Example 1:**
+
+```
+Input: root = [3,1,4,null,2], k = 1
+   3
+  / \
+ 1   4
+  \
+   2
+Output: 1
+```
+
+**Example 2:**
+
+```
+Input: root = [5,3,6,2,4,null,null,1], k = 3
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+Output: 3
+```
+
+**Follow up:**  
+What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <queue>
+#include <functional>
+
+using namespace std;
+
+struct TreeNode
+{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+	int kthSmallest(TreeNode* root, int k)
+	{
+		if (!root) return -1;
+
+		int cnt_left = countNodes(root->left);
+		if (cnt_left == k - 1) return root->val;
+		else if (cnt_left < k - 1) return kthSmallest(root->right, k - cnt_left - 1);
+		else return kthSmallest(root->left, k);
+	}
+
+	int countNodes(TreeNode* root)
+	{
+		if (!root) return 0;
+		return 1 + countNodes(root->left) + countNodes(root->right);
+	}
+};
+
+// pq max heap
+class Solution2 {
+public:
+	int kthSmallest(TreeNode* root, int k)
+	{
+		dfs(root, k);
+		return pq_.size() < k ? -1 : pq_.top();
+	}
+
+private:
+	void dfs(TreeNode* root, int& k)
+	{
+		if (!root) return;
+		pq_.push(root->val);
+		cout << pq_.top() << endl;
+		if (pq_.size() > k) pq_.pop();
+		dfs(root->left, k);
+		dfs(root->right, k);
+	}
+
+	priority_queue<int, vector<int>, less<int>> pq_;
+};
+
+int main()
+{
+	TreeNode node1(3);
+	TreeNode node2(1);
+	TreeNode node3(4);
+	TreeNode node4(2);
+
+	TreeNode* root = &node1;
+	root->left = &node2;
+	root->right = &node3;
+	root->left->right = &node4;
+
+	Solution2 solution;
+	cout << solution.kthSmallest(root, 1) << endl;
+}
+
+```
+
+### [378\. Kth Smallest Element in a Sorted Matrix](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/)
+
+Difficulty: **Medium**
+
+
+Given a _n_ x _n_ matrix where each of the rows and columns are sorted in ascending order, find the kth smallest element in the matrix.
+
+Note that it is the kth smallest element in the sorted order, not the kth distinct element.
+
+**Example:**
+
+```
+matrix = [
+   [ 1,  5,  9],
+   [10, 11, 13],
+   [12, 13, 15]
+],
+k = 8,
+
+return 13.
+```
+
+**Note:**  
+You may assume k is always valid, 1 ≤ k ≤ n<sup>2</sup>.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+
+// binary search
+class Solution
+{
+public:
+	int kthSmallest(vector<vector<int>>& matrix, int k)
+	{
+		int row = matrix.size();
+		if (row == 0) return -1;
+		int col = matrix[0].size();
+		if (col == 0) return -1;
+		if (row * col < k) return -1;
+
+		int lo = matrix[0][0], hi = matrix[row - 1][col - 1];
+		while (lo < hi)
+		{
+			int mid = lo + (hi - lo) / 2;
+			int count = 0;
+			for (int i = 0; i < row; ++i)
+			{
+				int j = 0;
+				for (; j < col; ++j)
+					if (matrix[i][j] > mid) break;
+				count += j;
+			}
+			if (count < k) lo = mid + 1;
+			else hi = mid;
+		}
+		return lo;
+	}
+};
+
+// priority queue
+class Solution2
+{
+public:
+	int kthSmallest(vector<vector<int>>& matrix, int k)
+	{
+		int row = matrix.size();
+		if (row == 0) return -1;
+		int col = matrix[0].size();
+		if (col == 0) return -1;
+		if (row * col < k) return -1;
+
+		for (int r = 0; r < row; ++r)
+			for (int c = 0; c < col; ++c)
+			{
+				pq_.push(matrix[r][c]);
+				if (pq_.size() > k) pq_.pop();
+			}
+		return pq_.top();
+	}
+private:
+	priority_queue<int> pq_;
+};
+
+int main()
+{
+	vector<vector<int>> matrix{ {1, 5, 9},
+								{10, 11, 13},
+								{12, 13, 15} };
+
+	Solution solution;
+	cout << solution.kthSmallest(matrix, 8) << endl;
+}
+
+```
+
+

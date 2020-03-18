@@ -8,28 +8,159 @@ tags:
     - Technique
 ---
 
-### Harris[^Harris1988]
+> https://www.vlfeat.org/
+
+### A combined corner and edge detector [^Harris1988]
+
 #### Abstract
 
-### Shi-Tomasi[^Shi1994]
+Consistency of image edge filtering is of prime importance for 3D interpretation of image sequences using feature tracking algorithms. To cater for image regions containing texture and isolated features, a combined corner and edge detector based on the local auto-correlation function is utilised, and it is shown to perform with good consistency on natural imagery.
+
+#### Corness function
+
+$$
+R = \lambda_1 \lambda_2 - k(\lambda_1 + \lambda_2)^2 = det(M) - k\text{trace}^2 (M)
+$$
+
+#### Algorithm
+
+1. Compute derivatives in $$x$$ and $$y$$ directions ($$I_x$$, $$I_y$$) e.g. with Sobel filter
+2. Compute $$I_x^2$$, $$I_y^2$$, $$I_x I_y$$
+3. Convolve  $$I_x^2$$, $$I_y^2$$, $$I_x I_y$$ with a box filter to get  $$\sum I_x^2$$, $$\sum I_y^2$$, $$\sum I_x I_y$$, which are the entries of the matrix $$M$$ (optionally use a Gaussian filter instead of a box filter to avoid aliasing and give more “weight” to the central pixels)
+4. Compute Harris Corner Measure $$R$$ (according to Shi Tomasi or Harris)
+5. Find points with large corner response ($$R$$ >threshold)
+6. Take the points of local maxima of $$R$$
+
+#### [Implementation](http://rpg.ifi.uzh.ch/teaching.html)
+
+```matlab
+function scores = harris(img, patch_size, kappa)
+
+sobel_para = [-1 0 1];
+sobel_orth = [1 2 1];
+
+Ix = conv2(sobel_orth', sobel_para, img, 'valid');
+Iy = conv2(sobel_para', sobel_orth, img, 'valid');
+Ixx = double(Ix .^ 2);
+Iyy = double(Iy .^ 2);
+Ixy = double(Ix .* Iy);
+
+patch = ones(patch_size, patch_size);
+pr = floor(patch_size / 2);  % patch radius
+sIxx = conv2(Ixx, patch, 'valid');
+sIyy = conv2(Iyy, patch, 'valid');
+sIxy = conv2(Ixy, patch, 'valid');
+
+scores = (sIxx .* sIyy - sIxy .^ 2) ... determinant
+    - kappa * (sIxx + sIyy) .^ 2;  % square trace
+
+scores(scores<0) = 0;
+
+scores = padarray(scores, [1+pr 1+pr]);
+
+end
+```
+
+#### [Non-maximum suppression](http://rpg.ifi.uzh.ch/teaching.html)
+
+```matlab
+function keypoints = selectKeypoints(scores, num, r)
+% Selects the num best scores as keypoints and performs non-maximum 
+% supression of a (2r + 1)*(2r + 1) box around the current maximum.
+
+keypoints = zeros(2, num);
+temp_scores = padarray(scores, [r r]);
+for i = 1:num
+    [~, kp] = max(temp_scores(:));
+    [row, col] = ind2sub(size(temp_scores), kp);
+    kp = [row;col];
+    keypoints(:, i) = kp - r;
+    temp_scores(kp(1)-r:kp(1)+r, kp(2)-r:kp(2)+r) = ...
+        zeros(2*r + 1, 2*r + 1);
+end
+
+end
+```
+
+### Good Features to Track [^Shi1994]
+
 #### Abstract
 
-### SIFT[^Lowe2004]
+No feature-based vision system can work unless good features can be identified and tracked from frame to frame. Although tracking itself is by and large a solved problem, selecting features that can be tracked well and correspond to physical points in the world is still hard. We propose a feature selection criterion that is optimal by construction because it is based on how the tracker works, and a feature monitoring method that can detect occlusions, disocclusions, and features that do not correspond to points in the world, These methods are based on a new tracking algorithm that extends previous Newton-Raphson style search methods to work under affine image transformations. We test performance with several simulations and experiments.
+
+#### Cornerness function
+
+A corner can be then be identified by checking whether the minimum of the two eigenvalues of $$M$$ is larger than a certain user-defined threshold.
+
+$$
+R = \min(\lambda_1, \lambda_2) > \text{threshold}
+$$
+
+#### [Implementation](http://rpg.ifi.uzh.ch/teaching.html)
+
+```matlab
+function scores = shi_tomasi(img, patch_size)
+
+sobel_para = [-1 0 1];
+sobel_orth = [1 2 1];
+
+Ix = conv2(sobel_orth', sobel_para, img, 'valid');
+Iy = conv2(sobel_para', sobel_orth, img, 'valid');
+Ixx = double(Ix .^ 2);
+Iyy = double(Iy .^ 2);
+Ixy = double(Ix .* Iy);
+
+patch = ones(patch_size, patch_size);
+pr = floor(patch_size / 2);  % patch radius
+sIxx = conv2(Ixx, patch, 'valid');
+sIyy = conv2(Iyy, patch, 'valid');
+sIxy = conv2(Ixy, patch, 'valid');
+
+trace = sIxx + sIyy;
+determinant = sIxx .* sIyy - sIxy .^ 2;
+
+% the eigen values of a matrix M=[a,b;c,d] are 
+% lambda1/2 = (Tr(A)/2 +- ((Tr(A)/2)^2-det(A))^.5
+% The smaller one is the one with the negative sign
+scores = trace/2 - ((trace/2).^2 - determinant).^0.5;
+scores(scores<0) = 0;
+
+scores = padarray(scores, [1+pr 1+pr]);
+
+end
+```
+
+### Distinctive Image Features from Scale-Invariant Keypoints [^Lowe2004]
+
 #### Abstract
 
-### SURF[^Bay2006]
+This paper presents a method for extracting distinctive invariant features from images that can be used to perform reliable matching between different views of an object or scene. The features are invariant to image scale and rotation, and are shown to provide robust matching across a a substantial range of affine distortion, change in 3D viewpoint, addition of noise, and change in illumination. The features are highly distinctive, in the sense that a single feature can be correctly matched with high probability against a large database of features from many images. This paper also describes an approach to using these features for object recognition. The recognition proceeds by matching individual features to a database of features from known objects using a fast nearest-neighbor algorithm, followed by a Hough transform to identify clusters belonging to a single object, and finally performing verification through least-squares solution for consistent pose parameters. This approach to recognition can robustly identify objects among clutter and occlusion while achieving near real-time performance.
+
+### SURF: Speeded Up Robust Features [^Bay2006]
+
 #### Abstract
 
-### BRIEF[^Calonder2010]
+In this paper, we present a novel scale- and rotation-invariant interest point detector and descriptor, coined SURF (Speeded Up Robust Features). It approximates or even outperforms previously proposed schemes with respect to repeatability, distinctiveness, and robustness, yet can be computed and compared much faster. 
+
+This is achieved by relying on integral images for image convolutions; by building on the strengths of the leading existing detectors and descriptors (in casu, using a Hessian matrix-based measure for the detector, and a distribution-based descriptor); and by simplifying these methods to the essential. This leads to a combination of novel detection, description, and matching steps. The paper presents experimental results on a standard evaluation set, as well as on imagery obtained in the context of a real-life object recognition application. Both show SURF’s strong performance.
+
+### BRIEF: Binary Robust Independent Elementary Features [^Calonder2010]
+
 #### Abstract
 
-### BRISK[^Leutenegger2011]
+We propose to use binary strings as an efficient feature point descriptor, which we call BRIEF.We show that it is highly discriminative even when using relatively few bits and can be computed using simple intensity difference tests. Furthermore, the descriptor similarity can be evaluated using the Hamming distance, which is very efficient to compute, instead of the $$L_2$$ norm as is usually done.
+
+As a result, BRIEF is very fast both to build and to match. We compare it against SURF and U-SURF on standard benchmarks and show that it yields a similar or better recognition performance, while running in a fraction of the time required by either.
+
+### BRISK: Binary Robust Invariant Scalable Keypoints [^Leutenegger2011]
+
 #### Abstract
 
-### FREAK[^Alahi2012]
-#### Abstract
+Effective and efficient generation of keypoints from an image is a well-studied problem in the literature and forms the basis of numerous Computer Vision applications. Established leaders in the field are the SIFT and SURF algorithms which exhibit great performance under a variety of image transformations, with SURF in particular considered as the most computationally efficient amongst the highperformance methods to date.
 
-### ORB[^Rublee2011]
+In this paper we propose BRISK, a novel method for keypoint detection, description and matching. A comprehensive evaluation on benchmark datasets reveals BRISK’s adaptive, high quality performance as in state-of-the-art algorithms, albeit at a dramatically lower computational cost (an order of magnitude faster than SURF in cases). The key to speed lies in the application of a novel scale-space FAST-based detector in combination with the assembly of a bit-string descriptor from intensity comparisons retrieved by dedicated sampling of each keypoint neighborhood.
+
+### ORB: an efficient alternative to SIFT or SURF [^Rublee2011]
 
 #### Abstract
 
@@ -39,15 +170,9 @@ tags:
 
 ```
 
-#### 非极大值抑制 (non-maximum suppression)
-
-```c++
-
-```
-
 #### Rotated BRIEF
 
-#### [实现](https://github.com/gaoxiang12/slambook2/blob/master/ch7/orb_self.cpp)
+#### [Implementation](https://github.com/gaoxiang12/slambook2/blob/master/ch7/orb_self.cpp)
 
 ```c++
 #include <cassert>
@@ -440,11 +565,22 @@ int main(int arg, char** argv) {
 }
 ```
 
-### LIFT[^Yi2016]
+
+### FREAK: Fast Retina Keypoint [^Alahi2012]
 
 #### Abstract
 
-### LSD[^Gioi2008][^Gioi2012]
+A large number of vision applications rely on matching keypoints across images. The last decade featured an arms-race towards faster and more robust keypoints and association algorithms: Scale Invariant Feature Transform (SIFT)[^Lowe2004], Speed-up Robust Feature (SURF)[^Bay2006], and more recently Binary Robust Invariant Scalable Keypoints (BRISK)[^Leutenegger2011] to name a few. These days, the deployment of vision algorithms on smart phones and embedded devices with low memory and computation complexity has even upped the ante: the goal is to make descriptors faster to compute, more compact while remaining robust to scale, rotation and noise.
+
+To best address the current requirements, we propose a novel keypoint descriptor inspired by the human visual system and more precisely the retina, coined Fast Retina Keypoint (FREAK). A cascade of binary strings is computed by efficiently comparing image intensities over a retinal sampling pattern. Our experiments show that FREAKs are in general faster to compute with lower memory load and also more robust than SIFT, SURF or BRISK. They are thus competitive alternatives to existing keypoints in particular for embedded applications.
+
+### LIFT: Learned Invariant Feature Transform [^Yi2016]
+
+#### Abstract
+
+We introduce a novel Deep Network architecture that implements the full feature point handling pipeline, that is, detection, orientation estimation, and feature description. While previous works have successfully tackled each one of these problems individually, we show how to learn to do all three in a unied manner while preserving end-to-end differentiability. We then demonstrate that our Deep pipeline outperforms state-of-the-art methods on a number of benchmark datasets, without the need of retraining.
+
+### LSD: a line segment detector [^Gioi2008][^Gioi2012]
 
 #### Abstract
 
@@ -456,7 +592,7 @@ The aim of this paper is to present a linear-time algorithm that cumulates most 
 
 #### Line-Support Regions
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/region_grow.PNG?token=AEVZO3KSFXCWZRZZAWVTC6K6NXHVK)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/region_grow.PNG)
 
 #### Rectangular approximation of regions
 
@@ -464,9 +600,9 @@ The aim of this paper is to present a linear-time algorithm that cumulates most 
 
 #### The complete LSD algorithm
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/LSD_line_segment_detector.PNG?token=AEVZO3P73T5ZAUEED4AVYMS6NXHVS)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/LSD_line_segment_detector.PNG)
 
-### LBD[^Zhang2013]
+### An efficient and robust line segment matching approach based on LBD descriptor and pairwise geometric consistency [^Zhang2013]
 
 #### Abstract
 
@@ -475,9 +611,11 @@ We present a line matching algorithm which utilizes both the local appearance of
     2. it’s efficient because the designed LBD descriptor is fast to compute and the appearance similarities reduce the dimension of the graph matching problem;
     3. it’s accurate even for low-texture images because of the pairwise geometric consistency evaluation.
 
-### Superpoint[^DeTone2018]
+### SuperPoint: Self-Supervised Interest Point Detection and Description [^DeTone2018]
 
 #### Abstract    
+
+This paper presents a self-supervised framework for training interest point detectors and descriptors suitable for a large number of multiple-view geometry problems in computer vision. As opposed to patch-based neural networks, our fully-convolutional model operates on full-sized images and jointly computes pixel-level interest point locations and associated descriptors in one forward pass. We introduce Homographic Adaptation, a multi-scale, multihomography approach for boosting interest point detection repeatability and performing cross-domain adaptation (e.g., synthetic-to-real). Our model, when trained on the MS-COCO generic image dataset using Homographic Adaptation, is able to repeatedly detect a much richer set of interest points than the initial pre-adapted deep model and any other traditional corner detector. The final system gives rise to state-of-the-art homography estimation results on HPatches when compared to LIFT, SIFT and ORB.
 
 ### Literature
 

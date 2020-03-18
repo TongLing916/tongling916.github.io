@@ -5,7 +5,7 @@ date:       2020-3-6
 author:     Tong
 catalog: true
 tags:
-    - SLAM
+    - Reconstruction
 ---
 
 ### Superpixel Soup: Monocular Dense 3D Reconstruction of a Complex Dynamic Scene[^Kumar2019]
@@ -59,111 +59,44 @@ We partition the reference image using SLIC superpixels [^Achanta2012]. We used 
     - Further, what about as rigid as possible assumption, _when as rigid as possible assumption may fail?_ When the motion of the dynamic objects between consecutive frame is significantly large such that most of its neighboring relations in the reference frame get violated in the next frame.
     - Additionally, if the non-rigid shape shrinks or expands over frames such as a _deflating or inflating balloon_, ARAP model fails.
 
-
-### REMODE: Probabilistic, Monocular Dense Reconstruction in Real Time[^Pizzoli2014]
-
-> https://github.com/uzh-rpg/rpg_open_remode
+### SE-SLAM: Semi-Dense Structured Edge-Based Monocular SLAM [^Tarrio2019]
 
 #### Abstract
 
-In this paper, we solve the problem of estimating dense and accurate depth maps from a single moving camera.
-A probabilistic depth measurement is carried out in real time on a per-pixel basis and the computed uncertainty is used to reject erroneous estimations and provide live feedback on the reconstruction progress. Our contribution is a novel approach to depth map computation that combines Bayesian estimation and recent development on convex optimization for image processing. We demonstrate that our method outperforms state of-the-art techniques in terms of accuracy, while exhibiting high efficiency in memory usage and computing power. We call our approach REMODE (REgularized MOnocular Depth Estimation) and the CUDA-based implementation runs at 30Hz on a laptop computer.
-
-
-#### Contributions
-
-- A probabilistic depth map, in which the Bayesian scheme in [^Vogiatzis2011] is integrated in a monocular SLAM algorithm to estimate per-pixel depths based on the live camera stream.
-
-- A fast smoothing method that takes into account the measurement uncertainty to provide spatial regularity and mitigates the effect of noisy camera localization.
-
-#### Smoothing depth map
-
-$$
-\min _{F} \int_{\Omega}\left\{G(\mathbf{u})\|\nabla F(\mathbf{u})\|_{\epsilon}+\lambda\|F(\mathbf{u})-D(\mathbf{u})\|_{1}\right\} d \mathbf{u},
-$$
-
-where $$D(\mathbf{u})$$ is the depth map to smooth, $$F(\mathbf{u})$$ is the de-noised depth map, $$G(\mathbf{u})$$ is a weighting function related to the "G-Weighted Total Variation", introduced in [^Bresson2007] in the context of image segmentation.
-
-### Live Dense Reconstruction with a Single Moving Camera[^Newcombe2010]
-
-#### Abstract
-
-We present a method which enables rapid and dense reconstruction of scenes browsed by a single live camera. We take point-based real-time structure from motion (SFM) as our starting point, generating accurate 3D camera pose estimates and a sparse point cloud. Our main novel contribution is to use an approximate but smooth base mesh generated from the SFM to predict the view at a bundle of poses around automatically selected reference frames spanning the scene, and then warp the base mesh into highly accurate depth maps based on view-predictive optical flow and a constrained scene flow update. The quality of the resulting depth maps means that a convincing global scene model can be obtained simply by placing them side by side and removing overlapping regions. We show that a cluttered indoor environment can be reconstructed from a live hand-held camera in a few seconds, with all processing performed by current desktop hardware. Real-time monocular dense reconstruction opens up many application areas, and we demonstrate both real-time novel view synthesis and advanced augmented reality where augmentations interact physically with the 3D scene and are correctly clipped by occlusions.
-
+Abstract—Vision-based Simultaneous Localization And Mapping (VSLAM) is a mature problem in Robotics. Most VSLAM systems are feature based methods, which are robust and present high accuracy, but yield sparse maps with limited application for further navigation tasks. Most recently, direct methods which operate directly on image intensity have been introduced, capable of reconstructing richer maps at the cost of higher processing power. In this work, an edge-based monocular SLAM system (SE-SLAM) is proposed as a middle point: edges present good localization as point features, while enabling a structural semi-dense map reconstruction. However, edges are not easy to associate, track and optimize over time, as they lack descriptors and biunivocal correspondence, unlike point features. To tackle these issues, this paper presents a method to match edges between frames in a consistent manner; a feasible strategy to solve the optimization problem, since its size rapidly increases when working with edges; and the use of non-linear optimization techniques. The resulting system achieves comparable  precision to state of the art feature-based and dense/semi-dense systems, while inherently building a structural semi-dense reconstruction of the environment, providing relevant structure data for further navigation algorithms. To achieve such accuracy, state of the art non-linear optimization is needed, over a continuous feed of 10000 edgepoints per frame, to optimize the full semi-dense output. Despite its heavy processing requirements, the system achieves near to real-time operation, thanks to a custom built solver and parallelization of its key stages. In order to encourage further development of edge-based SLAM systems, SE-SLAM source code will be released as open source.
 
 #### Contribution
 
-- In the approach we propose, real-time SFM is first used to estimate live camera pose and provide a 3D feature point cloud to which we fit an initial base surface approximating the real scene.
+- A method to associate edges between frames and relatively far keyframes, in a consistent manner, that enables the application of techniques traditionally reserved to point features.
+- A parametrization, residual and variable selection and marginalization strategy that exploits edges’ nature, to make the optimization problem treatable, since its size increases rapidly if applying existing methods to edges.
+- A non-linear optimization approach that better adapts to an edge based input.
 
-- The key to dense reconstruction is precise dense correspondence between images offering sufficient baseline for triangulation, and the main novelty of our approach is the manner in which this is enabled. In a similar manner to [^Vogiatzis2008] we utilise a coarse base surface model as the initial starting point for dense reconstruction. Our base surface permits view predictions to be made between the cameras in a local bundle, and these predictions are then compared with the true images using GPU-based variational optical flow. This permits dense correspondence fields of sub-pixel accuracy to be obtained, even in areas of very low image texture, and this correspondence information is then used to update the base surface prior into highly accurate local depth maps using constrained scene flow optimisation. Depth map creation is pipelined, and multiple depth maps are straightforwardly fused to create complete scene reconstructions.
+### FLaME: Fast Lightweight Mesh Estimation using Variational Smoothing on Delaunay Graphs [^Greene2017]
 
-#### Overview
+#### Abstract
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/live_dense_reconstruction_pipeline_overview.png?token=AEVZO3PH2J2VTSC2OIM4OPS6NRNDM)
+We propose a lightweight method for dense online monocular depth estimation capable of reconstructing 3D meshes on computationally constrained platforms. Our main contribution is to pose the reconstruction problem as a non-local variational optimization over a time-varying Delaunay graph of the scene geometry, which allows for an efficient, keyframeless approach to depth estimation. The graph can be tuned to favor reconstruction quality or speed and is continuously smoothed and augmented as the camera explores the scene. Unlike keyframe-based approaches, the optimized surface is always available at the current pose, which is necessary for low-latency obstacle avoidance.
 
-#### Structure from Motion
+#### Introduction
 
-- We make a rough initial surface normal estimate for each point by averaging the optic axis directions of the key-frames in which it is visible.
+Instead of a dense every-pixel approach, we propose a novel alternative that we call FLaME (Fast Lightweight Mesh Estimation) that directly estimates a triangular mesh of the scene (similar to the stereo work of [^Pillai2016]) and is advantageous for several reasons. 
+    - First, meshes are more compact, efficient representations of the geometry and therefore require fewer depth estimates to encode the scene for a given level of detail. 
+    - Second, by interpreting the mesh as a graph we show that we can exploit its connectivity structure to apply (and accelerate) state-of-the-art second-order variational regularization techniques that otherwise require GPUs to run online. 
+    - Third, by reformulating the regularization objective in terms of the vertices and edges of this graph, we allow the smoothing optimization to be both incremental (in that new terms can be trivially added and removed as the graph is modified over time) and keyframeless (in that the solution can be easily propagated in time without restarting the optimization).
 
-#### Base Surface Construction
+#### Algorithm Overview
 
-- A reconstructed mesh is extracted using the method of [^Bloomenthal1994].
+FLaME directly estimates an inverse depth mesh of the environment that efficiently encodes the scene geometry and allows for efficient, incremental, and keyframeless second-order variational regularization to recover smooth surfaces. Given an image sequence $$I_k$$ from a moving camera with known pose $$T^{W}_{k}$$, our task entails:
+- Estimating the inverse depth for a set of sampled pixels
+- Constructing the mesh using the sampled points
+- Defining a suitable smoothness cost over the graph induced by the mesh 
+- Minimizing the smoothness cost[^Chambolle2011]
+- Projecting the mesh from frame to frame
 
-- We use a state of the art multi-scale compactly supported radial basis function (MSCSRBF) technique for 3D scattered data interpolation [^Ohtake2003].
-
-#### Constrained Scene Flow Dense Reconstruction
-
-##### Scene Motion and Image Motion
-
-- A small 3D motion of surface point $$\Delta \mathbf{x}_{j}$$ leads to a new point position $$\mathbf{x}_{j}^{\prime}$$ with corresponding projection $$\mathbf{u}_{j}^{\prime i}$$. If is sufficiently small, then image displacement $$\Delta \mathbf{u}_{j}^{i}=\mathbf{u}_{j}^{\prime i}-\mathbf{u}_{j}^{i}$$ can be approximated by the first order linearisation of $$\mathbf{P}^{i}$$ around $$\mathbf{x}_{j}$$. In this case, $$\Delta \mathbf{x}_{j}$$ is called scene flow[^Vedula1999]:
-$$
-\Delta \mathbf{u}_{j}^{i}=\mathbf{J}_{\mathbf{x}_{j}}^{i} \Delta \mathbf{x}_{j}
-$$
-
-$$
-\left.\left.\mathbf{J}_{\mathrm{x}_{j}}^{i} \equiv \frac{\partial \mathbf{P}^{i}}{\partial \mathbf{x}}\right|_{\mathbf{x}_{j}} \equiv\left[\begin{array}{ccc}
-{\frac{\partial \mathbf{P}_{u}^{i}}{\partial x}} & {\frac{\partial \mathbf{P}_{u}^{i}}{\partial y}} & {\frac{\partial \mathbf{P}_{u}^{i}}{\partial z}} \\
-{\frac{\partial \mathbf{P}_{v}^{i}}{\partial x}} & {\frac{\partial \mathbf{P}_{v}^{i}}{\partial y}} & {\frac{\partial \mathbf{P}_{v}^{i}}{\partial z}}
-\end{array}\right]\right|_{\mathbf{x}_{j}}
-$$
-
-##### Optimising the Base Mesh
-
-- We wish to use image correspondences information to obtain the vertex updates $$\Delta \mathbf{x}_{j}$$ required to deform each vertex of the current base model $$\mathbf{x}_{j}$$ into a new estimate $$\mathbf{x}_{j}^{\prime}$$ accurately representing the true scene.
-
-##### Triangulating the Depth Map
-
-##### Surface Errors
-
-- $$E^{s}$$: The per vertex mean reprojection error
-
-- $$E^{v}$$: A measure of the visibility of the surface element in the reference view
-
-$$
-E^{s}=\left\|\mathbf{K}_{j} \lambda_{j}-\Delta \mathbf{u}_{j}\right\|_{2}, E^{v}=\left|\mathbf{r}_{j}^{i} \cdot \mathbf{n}_{j}^{i}\right|
-$$
-
-#### High Quality Dense Correspondence
-
-- Our image pairs, each consisting of the reference image and a comparison view, are relatively short baseline. We therefore make use of high accuracy, variational optimisation based optical algorithm to obtain dense, sub-pixel quality correspondences.
-
-##### View-Predictive Optical Flow Correspondence
-
-- Our dense base mesh provides not only a prediction of the position and normal of a visible element at a given frame, but also of every pixel’s intensity. We back-project the reference frame image onto the base model surface and project the textured model into the comparison camera frame to synthesize an image prediction in that camera. This is performed efficiently on GPU hardware using projective texturing.
-
-##### Minimally Destructive View Prediction  
-
-##### Iterating Model Prediction
-
-#### Local Model Integration
-
-- Two classes of algorithms to enable the fusion of multiple depth maps
-    - Make use of the computed depth maps, dense oriented point samples, or volumetric signed distance functions computed from the depth maps to fit a globally consistent function that is then polygonised.
-    - Work directly on the partial mesh reconstructions.
-
-- Approach in this paper: Given a newly triangulated mesh obtained at reference $$P^{r e f}$$, we render a depth map of the currently integrated dense reconstruction into $$P^{r e f}$$ and remove the vertices in the new model where the distance to the current vertex is within $$\epsilon_{d i s t}$$ of the new depth value. We also remove less visible vertices with high solution error in the new mesh where  $$E^{v}<0.9$$and $$E^{s}>1 e^{-3}$$.
-
-#### Camera Bundle Selection
+FLaME Overview: FLaME operates on image streams with known poses. 
+- Inverse depth is estimated for a set of features using the fast, filtering-based approach of [^Engel2013]. 
+- When the inverse depth estimate for a given feature converges, it is inserted as a new vertex in a graph defined in the current frame and computed through Delaunay triangulations[^Shewchuk1996][^Shewchuk2002]. 
+- This Delaunay graph is then used to efficiently smooth away noise in the inverse depth values and promote piecewise planar structure by minimizing a second-order variational cost defined over the graph.    
 
 ### Dense Monocular Depth Estimation in Complex Dynamic Scenes[^Ranftl2016]
 
@@ -255,34 +188,6 @@ Simultaneous localization and mapping (*SLAM*) using the whole image data is an 
 3. we establish our method as semi-dense, andnd pose and depth twice as fast as LSD-SLAM, by adding minimal cost to LSD-SLAM's tracking thread,
 4. we evaluate pose and depth quantitatively on the TUM dataset.
 
-
-### FLaME: Fast Lightweight Mesh Estimation using Variational Smoothing on Delaunay Graphs [^Greene2017]
-
-#### Abstract
-
-We propose a lightweight method for dense online monocular depth estimation capable of reconstructing 3D meshes on computationally constrained platforms. Our main contribution is to pose the reconstruction problem as a non-local variational optimization over a time-varying Delaunay graph of the scene geometry, which allows for an efficient, keyframeless approach to depth estimation. The graph can be tuned to favor reconstruction quality or speed and is continuously smoothed and augmented as the camera explores the scene. Unlike keyframe-based approaches, the optimized surface is always available at the current pose, which is necessary for low-latency obstacle avoidance.
-
-#### Introduction
-
-Instead of a dense every-pixel approach, we propose a novel alternative that we call FLaME (Fast Lightweight Mesh Estimation) that directly estimates a triangular mesh of the scene (similar to the stereo work of [^Pillai2016]) and is advantageous for several reasons. 
-    - First, meshes are more compact, efficient representations of the geometry and therefore require fewer depth estimates to encode the scene for a given level of detail. 
-    - Second, by interpreting the mesh as a graph we show that we can exploit its connectivity structure to apply (and accelerate) state-of-the-art second-order variational regularization techniques that otherwise require GPUs to run online. 
-    - Third, by reformulating the regularization objective in terms of the vertices and edges of this graph, we allow the smoothing optimization to be both incremental (in that new terms can be trivially added and removed as the graph is modified over time) and keyframeless (in that the solution can be easily propagated in time without restarting the optimization).
-
-#### Algorithm Overview
-
-FLaME directly estimates an inverse depth mesh of the environment that efficiently encodes the scene geometry and allows for efficient, incremental, and keyframeless second-order variational regularization to recover smooth surfaces. Given an image sequence $$I_k$$ from a moving camera with known pose $$T^{W}_{k}$$, our task entails:
-- Estimating the inverse depth for a set of sampled pixels
-- Constructing the mesh using the sampled points
-- Defining a suitable smoothness cost over the graph induced by the mesh 
-- Minimizing the smoothness cost[^Chambolle2011]
-- Projecting the mesh from frame to frame
-
-FLaME Overview: FLaME operates on image streams with known poses. 
-- Inverse depth is estimated for a set of features using the fast, filtering-based approach of [^Engel2013]. 
-- When the inverse depth estimate for a given feature converges, it is inserted as a new vertex in a graph defined in the current frame and computed through Delaunay triangulations[^Shewchuk1996][^Shewchuk2002]. 
-- This Delaunay graph is then used to efficiently smooth away noise in the inverse depth values and promote piecewise planar structure by minimizing a second-order variational cost defined over the graph.    
-
 ### Dense Mono Reconstruction: Living with the Pain of the Plain Plane [^Pinies2015]
 
 #### Abstract
@@ -291,6 +196,106 @@ This paper is about dense depthmap estimation using a monocular camera in worksp
 
 We solve this problem via the introduction of a new nonlocal higher-order regularisation term that enforces piecewise affine constraints between image pixels that are far apart in the image. This property leverages the observation that the depth at the edges of bland regions are often well estimated whereas their inner pixels are deeply problematic. A welcome by-product of our proposed technique is an estimate of the surface normals at each pixel. We will show that in terms of implementation, our algorithm is a natural extension of the often used variational approaches. We evaluate the proposed technique using real datasets for which we have ground truth models.
 
+### REMODE: Probabilistic, Monocular Dense Reconstruction in Real Time[^Pizzoli2014]
+
+> https://github.com/uzh-rpg/rpg_open_remode
+
+#### Abstract
+
+In this paper, we solve the problem of estimating dense and accurate depth maps from a single moving camera.
+A probabilistic depth measurement is carried out in real time on a per-pixel basis and the computed uncertainty is used to reject erroneous estimations and provide live feedback on the reconstruction progress. Our contribution is a novel approach to depth map computation that combines Bayesian estimation and recent development on convex optimization for image processing. We demonstrate that our method outperforms state of-the-art techniques in terms of accuracy, while exhibiting high efficiency in memory usage and computing power. We call our approach REMODE (REgularized MOnocular Depth Estimation) and the CUDA-based implementation runs at 30Hz on a laptop computer.
+
+
+#### Contributions
+
+- A probabilistic depth map, in which the Bayesian scheme in [^Vogiatzis2011] is integrated in a monocular SLAM algorithm to estimate per-pixel depths based on the live camera stream.
+
+- A fast smoothing method that takes into account the measurement uncertainty to provide spatial regularity and mitigates the effect of noisy camera localization.
+
+#### Smoothing depth map
+
+$$
+\min _{F} \int_{\Omega}\left\{G(\mathbf{u})\|\nabla F(\mathbf{u})\|_{\epsilon}+\lambda\|F(\mathbf{u})-D(\mathbf{u})\|_{1}\right\} d \mathbf{u},
+$$
+
+where $$D(\mathbf{u})$$ is the depth map to smooth, $$F(\mathbf{u})$$ is the de-noised depth map, $$G(\mathbf{u})$$ is a weighting function related to the "G-Weighted Total Variation", introduced in [^Bresson2007] in the context of image segmentation.
+
+### Live Dense Reconstruction with a Single Moving Camera[^Newcombe2010]
+
+#### Abstract
+
+We present a method which enables rapid and dense reconstruction of scenes browsed by a single live camera. We take point-based real-time structure from motion (SFM) as our starting point, generating accurate 3D camera pose estimates and a sparse point cloud. Our main novel contribution is to use an approximate but smooth base mesh generated from the SFM to predict the view at a bundle of poses around automatically selected reference frames spanning the scene, and then warp the base mesh into highly accurate depth maps based on view-predictive optical flow and a constrained scene flow update. The quality of the resulting depth maps means that a convincing global scene model can be obtained simply by placing them side by side and removing overlapping regions. We show that a cluttered indoor environment can be reconstructed from a live hand-held camera in a few seconds, with all processing performed by current desktop hardware. Real-time monocular dense reconstruction opens up many application areas, and we demonstrate both real-time novel view synthesis and advanced augmented reality where augmentations interact physically with the 3D scene and are correctly clipped by occlusions.
+
+
+#### Contribution
+
+- In the approach we propose, real-time SFM is first used to estimate live camera pose and provide a 3D feature point cloud to which we fit an initial base surface approximating the real scene.
+
+- The key to dense reconstruction is precise dense correspondence between images offering sufficient baseline for triangulation, and the main novelty of our approach is the manner in which this is enabled. In a similar manner to [^Vogiatzis2008] we utilise a coarse base surface model as the initial starting point for dense reconstruction. Our base surface permits view predictions to be made between the cameras in a local bundle, and these predictions are then compared with the true images using GPU-based variational optical flow. This permits dense correspondence fields of sub-pixel accuracy to be obtained, even in areas of very low image texture, and this correspondence information is then used to update the base surface prior into highly accurate local depth maps using constrained scene flow optimisation. Depth map creation is pipelined, and multiple depth maps are straightforwardly fused to create complete scene reconstructions.
+
+#### Overview
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/live_dense_reconstruction_pipeline_overview.png?token=AEVZO3PH2J2VTSC2OIM4OPS6NRNDM)
+
+#### Structure from Motion
+
+- We make a rough initial surface normal estimate for each point by averaging the optic axis directions of the key-frames in which it is visible.
+
+#### Base Surface Construction
+
+- A reconstructed mesh is extracted using the method of [^Bloomenthal1994].
+
+- We use a state of the art multi-scale compactly supported radial basis function (MSCSRBF) technique for 3D scattered data interpolation [^Ohtake2003].
+
+#### Constrained Scene Flow Dense Reconstruction
+
+- Scene Motion and Image Motion
+    - A small 3D motion of surface point $$\Delta \mathbf{x}_{j}$$ leads to a new point position $$\mathbf{x}_{j}^{\prime}$$ with corresponding projection $$\mathbf{u}_{j}^{\prime i}$$. If is sufficiently small, then image displacement $$\Delta \mathbf{u}_{j}^{i}=\mathbf{u}_{j}^{\prime i}-\mathbf{u}_{j}^{i}$$ can be approximated by the first order linearisation of $$\mathbf{P}^{i}$$ around $$\mathbf{x}_{j}$$. In this case, $$\Delta \mathbf{x}_{j}$$ is called scene flow[^Vedula1999]:
+    $$
+    \Delta \mathbf{u}_{j}^{i}=\mathbf{J}_{\mathbf{x}_{j}}^{i} \Delta \mathbf{x}_{j}
+    $$
+
+    $$
+    \left.\left.\mathbf{J}_{\mathrm{x}_{j}}^{i} \equiv \frac{\partial \mathbf{P}^{i}}{\partial \mathbf{x}}\right|_{\mathbf{x}_{j}} \equiv\left[\begin{array}{ccc}
+    {\frac{\partial \mathbf{P}_{u}^{i}}{\partial x}} & {\frac{\partial \mathbf{P}_{u}^{i}}{\partial y}} & {\frac{\partial \mathbf{P}_{u}^{i}}{\partial z}} \\
+    {\frac{\partial \mathbf{P}_{v}^{i}}{\partial x}} & {\frac{\partial \mathbf{P}_{v}^{i}}{\partial y}} & {\frac{\partial \mathbf{P}_{v}^{i}}{\partial z}}
+    \end{array}\right]\right|_{\mathbf{x}_{j}}
+    $$
+
+- Optimising the Base Mesh
+    - We wish to use image correspondences information to obtain the vertex updates $$\Delta \mathbf{x}_{j}$$ required to deform each vertex of the current base model $$\mathbf{x}_{j}$$ into a new estimate $$\mathbf{x}_{j}^{\prime}$$ accurately representing the true scene.
+
+- Triangulating the Depth Map
+    - Surface Errors
+    - $$E^{s}$$: The per vertex mean reprojection error
+    - $$E^{v}$$: A measure of the visibility of the surface element in the reference view
+    $$
+    E^{s}=\left\|\mathbf{K}_{j} \lambda_{j}-\Delta \mathbf{u}_{j}\right\|_{2}, E^{v}=\left|\mathbf{r}_{j}^{i} \cdot \mathbf{n}_{j}^{i}\right|
+    $$
+
+- High Quality Dense Correspondence
+    - Our image pairs, each consisting of the reference image and a comparison view, are relatively short baseline. We therefore make use of high accuracy, variational optimisation based optical algorithm to obtain dense, sub-pixel quality correspondences.
+
+- View-Predictive Optical Flow Correspondence
+    - Our dense base mesh provides not only a prediction of the position and normal of a visible element at a given frame, but also of every pixel’s intensity. We back-project the reference frame image onto the base model surface and project the textured model into the comparison camera frame to synthesize an image prediction in that camera. This is performed efficiently on GPU hardware using projective texturing.
+
+- Minimally Destructive View Prediction  
+
+- Iterating Model Prediction
+
+#### Local Model Integration
+
+- Two classes of algorithms to enable the fusion of multiple depth maps
+    - Make use of the computed depth maps, dense oriented point samples, or volumetric signed distance functions computed from the depth maps to fit a globally consistent function that is then polygonised.
+    - Work directly on the partial mesh reconstructions.
+
+- Approach in this paper: Given a newly triangulated mesh obtained at reference $$P^{r e f}$$, we render a depth map of the currently integrated dense reconstruction into $$P^{r e f}$$ and remove the vertices in the new model where the distance to the current vertex is within $$\epsilon_{d i s t}$$ of the new depth value. We also remove less visible vertices with high solution error in the new mesh where  $$E^{v}<0.9$$and $$E^{s}>1 e^{-3}$$.
+
+#### Camera Bundle Selection
+
+### Statistical optimization for 3-D reconstruction from a single view [^Kanatani05]
+
+#### Abstract
 
 ### Literature
 
@@ -352,3 +357,6 @@ We solve this problem via the introduction of a new nonlocal higher-order regula
 
 [^Vedaldi2008]: Vedaldi and S. Soatto. Quick shift and kernel methods for mode seeking. In ECCV, 2008.
 
+[^Kanatani05]: Kanatani, Kenichi, and Yasuyuki Sugaya. "Statistical optimization for 3-D reconstruction from a single view." IEICE TRANSACTIONS on Information and Systems 88.10 (2005): 2260-2268.
+
+[^Tarrio2019]: Tarrio, Juan Jose, Claus Smitt, and Sol Pedre. "SE-SLAM: Semi-Dense Structured Edge-Based Monocular SLAM." arXiv preprint arXiv:1909.03917 (2019).

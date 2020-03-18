@@ -8,9 +8,6 @@ tags:
     - Algorithm
 ---
 
-### Summary
-
-
 ### [307\. Range Sum Query - Mutable](https://leetcode.com/problems/range-sum-query-mutable/)
 
 Difficulty: **Medium**

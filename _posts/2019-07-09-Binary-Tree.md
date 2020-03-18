@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Binary Tree"
+title:      "Binary Tree / Heap"
 date:       2019-7-9
 author:     Tong
 catalog: true
@@ -639,4 +639,261 @@ int main()
 	Solution1 solution;
 	cout << solution.lowestCommonAncestor(root, &node5, &node4)->val << endl;
 }
+```
+
+
+
+### [373\. Find K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
+
+Difficulty: **Medium**
+
+
+You are given two integer arrays **nums1** and **nums2** sorted in ascending order and an integer **k**.
+
+Define a pair **(u,v)** which consists of one element from the first array and one element from the second array.
+
+Find the k pairs **(u<sub style="display: inline;">1</sub>,v<sub style="display: inline;">1</sub>),(u<sub style="display: inline;">2</sub>,v<sub style="display: inline;">2</sub>) ...(u<sub style="display: inline;">k</sub>,v<sub style="display: inline;">k</sub>)** with the smallest sums.
+
+**Example 1:**
+
+```
+Input: nums1 = [1,7,11], nums2 = [2,4,6], k = 3
+Output: [[1,2],[1,4],[1,6]]
+Explanation: The first 3 pairs are returned from the sequence:
+             [1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]
+```
+
+**Example 2:**
+
+```
+Input: nums1 = [1,1,2], nums2 = [1,2,3], k = 2
+Output: [1,1],[1,1]
+Explanation: The first 2 pairs are returned from the sequence:
+             [1,1],[1,1],[1,2],[2,1],[1,2],[2,2],[1,3],[1,3],[2,3]
+```
+
+**Example 3:**
+
+```
+Input: nums1 = [1,2], nums2 = [3], k = 3
+Output: [1,3],[2,3]
+Explanation: All possible pairs are returned from the sequence: [1,3],[2,3]
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <utility>
+
+using namespace std;
+
+typedef pair<int, int> PII;
+
+class Solution
+{
+public:
+	vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k)
+	{
+		vector<vector<int>> res;
+		if (nums1.empty() || nums2.empty() || k <= 0) return res;
+		auto comp = [&nums1, &nums2](PII& a, PII& b) {
+			return nums1[a.first] + nums2[a.second] > nums1[b.first] + nums2[b.second];
+		};
+		priority_queue<PII, vector<PII>, decltype(comp)> min_pq(comp);
+		min_pq.push({ 0, 0 });
+		while (k-- > 0 && min_pq.size())
+		{
+			PII ids = min_pq.top();
+			min_pq.pop();
+			res.push_back(vector<int>{nums1[ids.first], nums2[ids.second]});
+			if (ids.first + 1 < nums1.size()) min_pq.push({ ids.first + 1, ids.second });
+			if (ids.first == 0 && ids.second + 1 < nums2.size()) min_pq.push({ ids.first, ids.second + 1 });
+		}
+		return res;
+	}
+};
+
+ostream& operator<< (ostream& stream, const vector<vector<int>>& nums)
+{
+	for (const vector<int>& num : nums)
+		stream << num[0] << " " << num[1] << endl;
+	return stream;
+}
+
+int main()
+{
+	vector<int> nums1{ 1, 7, 11 };
+	vector<int> nums2{ 2, 4, 6 };
+	Solution solution;
+	cout << solution.kSmallestPairs(nums1, nums2, 3) << endl;
+}
+```
+
+
+### [671\. Second Minimum Node In a Binary Tree](https://leetcode.com/problems/second-minimum-node-in-a-binary-tree/)
+
+Difficulty: **Easy**
+
+
+Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly `two` or `zero` sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes. More formally, the property `root.val = min(root.left.val, root.right.val)` always holds.
+
+Given such a binary tree, you need to output the **second minimum** value in the set made of all the nodes' value in the whole tree.
+
+If no such second minimum value exists, output -1 instead.
+
+**Example 1:**
+
+```
+Input:
+    2
+   / \
+  2   5
+     / \
+    5   7
+
+Output: 5
+Explanation: The smallest value is 2, the second smallest value is 5.
+```
+
+**Example 2:**
+
+```
+Input:
+    2
+   / \
+  2   2
+
+Output: -1
+Explanation: The smallest value is 2, but there isn't any second smallest value.
+```
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+struct TreeNode
+{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+	int findSecondMinimumValue(TreeNode* root)
+	{
+		first_ = LONG_MAX;
+		second_ = LONG_MAX;
+		dfs(root);
+		return second_ == LONG_MAX ? -1 : second_;
+	}
+
+private:
+	void dfs(TreeNode* root)
+	{
+		if (!root) return;
+		if (root->val < first_)
+		{
+			second_ = first_;
+			first_ = root->val;
+		}
+		else if (root->val != first_ && root->val < second_)
+		{
+			second_ = root->val;
+		}
+		dfs(root->left);
+		dfs(root->right);
+	}
+
+
+	long first_;
+	long second_;
+};
+```
+
+
+### [703\. Kth Largest Element in a Stream](https://leetcode.com/problems/kth-largest-element-in-a-stream/)
+
+Difficulty: **Easy**
+
+
+Design a class to find the **k**th largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+Your `KthLargest` class will have a constructor which accepts an integer `k` and an integer array `nums`, which contains initial elements from the stream. For each call to the method `KthLargest.add`, return the element representing the kth largest element in the stream.
+
+**Example:**
+
+```
+int k = 3;
+int[] arr = [4,5,8,2];
+KthLargest kthLargest = new KthLargest(3, arr);
+kthLargest.add(3);   // returns 4
+kthLargest.add(5);   // returns 5
+kthLargest.add(10);  // returns 5
+kthLargest.add(9);   // returns 8
+kthLargest.add(4);   // returns 8
+```
+
+**Note:**  
+You may assume that `nums`' length ≥ `k-1` and `k` ≥ 1.
+
+
+#### Solution
+
+Language: **C++**
+
+```c++
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class KthLargest {
+private:
+	priority_queue<int, vector<int>, greater<int>> pq_; // min heap
+	int size_;
+
+public:
+	KthLargest(int k, vector<int>& nums)
+	{
+		size_ = k;
+		for (const int num : nums)
+		{
+			pq_.push(num);
+			if (pq_.size() > k) pq_.pop(); // remove the top element
+		}
+	}
+
+	int add(int val)
+	{
+		pq_.push(val);
+		if (pq_.size() > size_) pq_.pop();
+		return pq_.top();
+	}
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
+
+int main()
+{
+	vector<int> nums{ 4, 5, 8, 2 };
+	KthLargest* obj = new KthLargest(3, nums);
+	cout << obj->add(3) << endl;
+	cout << obj->add(5) << endl;
+}
+
 ```

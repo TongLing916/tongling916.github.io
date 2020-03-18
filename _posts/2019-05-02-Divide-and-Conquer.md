@@ -8,11 +8,6 @@ tags:
     - Algorithm
 ---
 
-### Summary
-
-1.
-
-
 ### [4. Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
 
 #### Question
@@ -230,4 +225,108 @@ int main()
 		cout << i << " ";
 	cout << endl;
 }
+```
+
+### [399. Nuts 和 Bolts 的问题](https://www.lintcode.com/problem/nuts-bolts-problem/)
+
+给定一组 `n` 个不同大小的 nuts 和 `n` 个不同大小的 bolts. nuts 和 `bolts 一一匹配.
+
+不允许将 nut 之间互相比较, 也不允许将 bolt 之间互相比较. 也就是说, 只许将 nut 与 bolt 进行比较, 或将 bolt 与 nut 进行比较. 我们会提供一个比较函数, 用于nut和bolt的比较.
+
+利用我们提供的函数, 你需要将 nuts 或者 bolts 重新排列, 使得它们按照顺序一一匹配.
+样例
+
+给出 ```nuts = ['ab','bc','dd','gg'], bolts = ['AB','GG', 'DD', 'BC']```
+
+你的程序应该找出bolts和nuts的匹配.
+
+根据比较函数, 一组可能的返回结果是：
+```
+nuts = ['ab','bc','dd','gg'], bolts = ['AB','BC','DD','GG']
+```
+如果我们给你另外的比较函数，可能返回的结果是：
+```
+nuts = ['ab','bc','dd','gg'], bolts = ['BC','AB','DD','GG']
+```
+因此的结果完全取决于比较函数，而不是字符串本身。因为你必须使用比较函数来进行排序。
+
+各自的排序当中nuts和bolts的顺序是无关紧要的，只要他们一一匹配就可以。
+
+
+#### Solution
+
+```c++
+class Solution {
+ public:
+  /**
+   * @param nuts: a vector of integers
+   * @param bolts: a vector of integers
+   * @param compare: a instance of Comparator
+   * @return: nothing
+   */
+  void sortNutsAndBolts(vector<string>& nuts, vector<string>& bolts,
+                        Comparator& compare) {
+    std::random_shuffle(nuts.begin(), nuts.end());
+    std::random_shuffle(bolts.begin(), bolts.end());
+    quickSort(nuts, bolts, 0, nuts.size() - 1, compare);
+  }
+
+ private:
+  void quickSort(vector<string>& nuts, vector<string>& bolts, const int l,
+                 const int r, Comparator& compare) {
+    if (l >= r) {
+      return;
+    }
+
+    string pivot = nuts[l];  // 选取nuts[l]作为快速排序的pivot
+    int pos = 0, cnt = 0;
+
+    // 一次循环, 处理出pivot的排名
+    for (int i = l; i <= r; ++i) {
+      const int t = compare.cmp(pivot, bolts[i]);
+      if (t == 1) {
+        ++cnt;
+      } else if (t == 0) {
+        pos = i;
+      }
+    }
+    cnt += l;
+    std::swap(bolts[pos], bolts[cnt]);
+    pos = cnt;
+
+    // pivot处于pos位置
+
+    // 对bolts进行划分, 比pivot小的归到pos左边, 大的归到右边
+    for (int i = l, j = r; i < pos && pos < j;) {
+      while (i < pos && compare.cmp(pivot, bolts[i]) == 1) {
+        ++i;
+      }
+      while (pos < j && compare.cmp(pivot, bolts[j]) == -1) {
+        --j;
+      }
+      if (i < pos && pos < j) {
+        std::swap(bolts[i++], bolts[j--]);
+      }
+    }
+
+    // 对nuts进行划分, 同上的过程
+    pivot = bolts[pos];
+    std::swap(nuts[pos], nuts[l]);
+    for (int i = l, j = r; i < pos && pos < j;) {
+      while (i < pos && compare.cmp(nuts[i], pivot) == -1) {
+        ++i;
+      }
+      while (pos < j && compare.cmp(nuts[j], pivot) == 1) {
+        --j;
+      }
+      if (i < pos && pos < j) {
+        std::swap(nuts[i++], nuts[j--]);
+      }
+    }
+
+    // 递归处理左右
+    quickSort(nuts, bolts, l, pos - 1, compare);
+    quickSort(nuts, bolts, pos + 1, r, compare);
+  }
+};
 ```
