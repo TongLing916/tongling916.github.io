@@ -11,7 +11,7 @@ tags:
 > <<Introduction to autonomous mobile robots>> 5.2.4 An error model for odometric position estimation
 
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/differential_drive_robot.PNG?token=AEVZO3JZK3M4UQ2S6N2JE326NRRS6)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/differential_drive_robot.PNG?token=AEVZO3O626Q3I6J57ULZGE26PKX3W)
 
 
 ### Motion model of A differential-drive robot
@@ -65,6 +65,6 @@ $$
 p^{\prime}=f\left(x, y, \theta, \Delta s_{r}, \Delta s_{l}\right)=\left[\begin{array}{c}{\frac{\Delta s_{r}+\Delta s_{l}}{2} \cos \left(\theta+\frac{\Delta s_{r}-\Delta s_{l}}{2 b}\right)} \\ {\frac{\Delta s_{r}+\Delta s_{l}}{2} \sin \left(\theta+\frac{\Delta s_{r}-\Delta s_{l}}{2 b}\right)} \\ {\frac{\Delta s_{r}-\Delta s_{l}}{b}}\end{array}\right].
 $$
 
-### Mathmatical Proof
+### Mathematical Proof
 
-![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/proof_of_differential_model.PNG?token=AEVZO3N5LQADIO4E5UTTW7K6NRRVA)
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/proof_of_differential_model.PNG?token=AEVZO3IRRUVF6GVLBS5TWN26PKX6Q)
