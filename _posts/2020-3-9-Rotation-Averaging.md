@@ -8,10 +8,10 @@ tags:
     - Math
 ---
 
-### Rotation averaging[^Hartley2013]
+### Rotation averaging[^Hartley13]
 
 
 
 ### Literature
 
-[^Hartley2013]: Hartley, Richard, et al. "Rotation averaging." International journal of computer vision 103.3 (2013): 267-305.
+[^Hartley13]: Hartley, Richard, et al. "Rotation averaging." International journal of computer vision 103.3 (2013): 267-305.

@@ -10,7 +10,7 @@ tags:
 
 > https://www.vlfeat.org/
 
-### A combined corner and edge detector [^Harris1988]
+### A combined corner and edge detector [^Harris88]
 
 #### Abstract
 
@@ -82,7 +82,7 @@ end
 end
 ```
 
-### Good Features to Track [^Shi1994]
+### Good Features to Track [^Shi94]
 
 #### Abstract
 
@@ -130,13 +130,13 @@ scores = padarray(scores, [1+pr 1+pr]);
 end
 ```
 
-### Distinctive Image Features from Scale-Invariant Keypoints [^Lowe2004]
+### Distinctive Image Features from Scale-Invariant Keypoints [^Lowe04]
 
 #### Abstract
 
 This paper presents a method for extracting distinctive invariant features from images that can be used to perform reliable matching between different views of an object or scene. The features are invariant to image scale and rotation, and are shown to provide robust matching across a a substantial range of affine distortion, change in 3D viewpoint, addition of noise, and change in illumination. The features are highly distinctive, in the sense that a single feature can be correctly matched with high probability against a large database of features from many images. This paper also describes an approach to using these features for object recognition. The recognition proceeds by matching individual features to a database of features from known objects using a fast nearest-neighbor algorithm, followed by a Hough transform to identify clusters belonging to a single object, and finally performing verification through least-squares solution for consistent pose parameters. This approach to recognition can robustly identify objects among clutter and occlusion while achieving near real-time performance.
 
-### SURF: Speeded Up Robust Features [^Bay2006]
+### SURF: Speeded Up Robust Features [^Bay06]
 
 #### Abstract
 
@@ -144,7 +144,7 @@ In this paper, we present a novel scale- and rotation-invariant interest point d
 
 This is achieved by relying on integral images for image convolutions; by building on the strengths of the leading existing detectors and descriptors (in casu, using a Hessian matrix-based measure for the detector, and a distribution-based descriptor); and by simplifying these methods to the essential. This leads to a combination of novel detection, description, and matching steps. The paper presents experimental results on a standard evaluation set, as well as on imagery obtained in the context of a real-life object recognition application. Both show SURF’s strong performance.
 
-### BRIEF: Binary Robust Independent Elementary Features [^Calonder2010]
+### BRIEF: Binary Robust Independent Elementary Features [^Calonder10]
 
 #### Abstract
 
@@ -152,7 +152,7 @@ We propose to use binary strings as an efficient feature point descriptor, which
 
 As a result, BRIEF is very fast both to build and to match. We compare it against SURF and U-SURF on standard benchmarks and show that it yields a similar or better recognition performance, while running in a fraction of the time required by either.
 
-### BRISK: Binary Robust Invariant Scalable Keypoints [^Leutenegger2011]
+### BRISK: Binary Robust Invariant Scalable Keypoints [^Leutenegger11]
 
 #### Abstract
 
@@ -160,7 +160,7 @@ Effective and efficient generation of keypoints from an image is a well-studied 
 
 In this paper we propose BRISK, a novel method for keypoint detection, description and matching. A comprehensive evaluation on benchmark datasets reveals BRISK’s adaptive, high quality performance as in state-of-the-art algorithms, albeit at a dramatically lower computational cost (an order of magnitude faster than SURF in cases). The key to speed lies in the application of a novel scale-space FAST-based detector in combination with the assembly of a bit-string descriptor from intensity comparisons retrieved by dedicated sampling of each keypoint neighborhood.
 
-### ORB: an efficient alternative to SIFT or SURF [^Rublee2011]
+### ORB: an efficient alternative to SIFT or SURF [^Rublee11]
 
 #### Abstract
 
@@ -566,21 +566,21 @@ int main(int arg, char** argv) {
 ```
 
 
-### FREAK: Fast Retina Keypoint [^Alahi2012]
+### FREAK: Fast Retina Keypoint [^Alahi12]
 
 #### Abstract
 
-A large number of vision applications rely on matching keypoints across images. The last decade featured an arms-race towards faster and more robust keypoints and association algorithms: Scale Invariant Feature Transform (SIFT)[^Lowe2004], Speed-up Robust Feature (SURF)[^Bay2006], and more recently Binary Robust Invariant Scalable Keypoints (BRISK)[^Leutenegger2011] to name a few. These days, the deployment of vision algorithms on smart phones and embedded devices with low memory and computation complexity has even upped the ante: the goal is to make descriptors faster to compute, more compact while remaining robust to scale, rotation and noise.
+A large number of vision applications rely on matching keypoints across images. The last decade featured an arms-race towards faster and more robust keypoints and association algorithms: Scale Invariant Feature Transform (SIFT)[^Lowe04], Speed-up Robust Feature (SURF)[^Bay06], and more recently Binary Robust Invariant Scalable Keypoints (BRISK)[^Leutenegger11] to name a few. These days, the deployment of vision algorithms on smart phones and embedded devices with low memory and computation complexity has even upped the ante: the goal is to make descriptors faster to compute, more compact while remaining robust to scale, rotation and noise.
 
 To best address the current requirements, we propose a novel keypoint descriptor inspired by the human visual system and more precisely the retina, coined Fast Retina Keypoint (FREAK). A cascade of binary strings is computed by efficiently comparing image intensities over a retinal sampling pattern. Our experiments show that FREAKs are in general faster to compute with lower memory load and also more robust than SIFT, SURF or BRISK. They are thus competitive alternatives to existing keypoints in particular for embedded applications.
 
-### LIFT: Learned Invariant Feature Transform [^Yi2016]
+### LIFT: Learned Invariant Feature Transform [^Yi16]
 
 #### Abstract
 
 We introduce a novel Deep Network architecture that implements the full feature point handling pipeline, that is, detection, orientation estimation, and feature description. While previous works have successfully tackled each one of these problems individually, we show how to learn to do all three in a unied manner while preserving end-to-end differentiability. We then demonstrate that our Deep pipeline outperforms state-of-the-art methods on a number of benchmark datasets, without the need of retraining.
 
-### LSD: a line segment detector [^Gioi2008][^Gioi2012]
+### LSD: a line segment detector [^Gioi08][^Gioi12]
 
 #### Abstract
 
@@ -588,7 +588,7 @@ We propose a linear-time line segment detector that gives accurate results, a co
 
 #### Introduction
 
-The aim of this paper is to present a linear-time algorithm that cumulates most of the advantages of the previous algorithms without their drawbacks. The Burns et al.[^Burns1986] line segment finder, that made a breakthrough in the extraction of the line segments, will be improved and combined with a validation criterion inspired from Desolneux et al[^Desolneux2000][^Desolneux2002][^Desolneux2003][^Desolneux2008]. The result is LSD, a linear-time line segment detector that requires no parameter tuning and gives accurate results.
+The aim of this paper is to present a linear-time algorithm that cumulates most of the advantages of the previous algorithms without their drawbacks. The Burns et al.[^Burns86] line segment finder, that made a breakthrough in the extraction of the line segments, will be improved and combined with a validation criterion inspired from Desolneux et al[^Desolneux00][^Desolneux02][^Desolneux03][^Desolneux08]. The result is LSD, a linear-time line segment detector that requires no parameter tuning and gives accurate results.
 
 #### Line-Support Regions
 
@@ -602,7 +602,7 @@ The aim of this paper is to present a linear-time algorithm that cumulates most 
 
 ![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/LSD_line_segment_detector.PNG)
 
-### An efficient and robust line segment matching approach based on LBD descriptor and pairwise geometric consistency [^Zhang2013]
+### An efficient and robust line segment matching approach based on LBD descriptor and pairwise geometric consistency [^Zhang13]
 
 #### Abstract
 
@@ -611,7 +611,7 @@ We present a line matching algorithm which utilizes both the local appearance of
     2. it’s efficient because the designed LBD descriptor is fast to compute and the appearance similarities reduce the dimension of the graph matching problem;
     3. it’s accurate even for low-texture images because of the pairwise geometric consistency evaluation.
 
-### SuperPoint: Self-Supervised Interest Point Detection and Description [^DeTone2018]
+### SuperPoint: Self-Supervised Interest Point Detection and Description [^DeTone18]
 
 #### Abstract    
 
@@ -619,38 +619,38 @@ This paper presents a self-supervised framework for training interest point dete
 
 ### Literature
 
-[^Burns1986]: J.B. Burns, A.R. Hanson, and E.M. Riseman, “Extracting Straight Lines,” IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 8, no. 4, pp. 425 -455, July 1986.
+[^Burns86]: J.B. Burns, A.R. Hanson, and E.M. Riseman, “Extracting Straight Lines,” IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 8, no. 4, pp. 425 -455, July 1986.
 
-[^Harris1988]: Harris, Christopher G., and Mike Stephens. "A combined corner and edge detector." Alvey vision conference. Vol. 15. No. 50. 1988.
+[^Harris88]: Harris, Christopher G., and Mike Stephens. "A combined corner and edge detector." Alvey vision conference. Vol. 15. No. 50. 1988.
 
-[^Shi1994]: Shi, Jianbo. "Good features to track." 1994 Proceedings of IEEE conference on computer vision and pattern recognition. IEEE, 1994.
+[^Shi94]: Shi, Jianbo. "Good features to track." 1994 Proceedings of IEEE conference on computer vision and pattern recognition. IEEE, 1994.
 
-[^Desolneux2000]: A. Desolneux, L. Moisan, and J.M. Morel, “Meaningful Alignments,” Int’l J. Computer Vision, vol. 40, no. 1, pp. 7-23, 2000.
+[^Desolneux00]: A. Desolneux, L. Moisan, and J.M. Morel, “Meaningful Alignments,” Int’l J. Computer Vision, vol. 40, no. 1, pp. 7-23, 2000.
 
-[^Desolneux2002]: A. Desolneux, S. Ladjal, L. Moisan, and J.M. Morel, “Dequantizing Image Orientation,” IEEE Trans. Image Processing, vol. 11, no. 10, pp. 1129-1140, Oct. 2002.
+[^Desolneux02]: A. Desolneux, S. Ladjal, L. Moisan, and J.M. Morel, “Dequantizing Image Orientation,” IEEE Trans. Image Processing, vol. 11, no. 10, pp. 1129-1140, Oct. 2002.
 
-[^Desolneux2003]: A. Desolneux, L. Moisan, and J.M. Morel, “Computational Gestalts and Perception Thresholds,” J. Physiology-Paris, vol. 97, pp. 311-324, 2003.
+[^Desolneux03]: A. Desolneux, L. Moisan, and J.M. Morel, “Computational Gestalts and Perception Thresholds,” J. Physiology-Paris, vol. 97, pp. 311-324, 2003.
 
-[^Lowe2004]: Lowe, David G. "Distinctive image features from scale-invariant keypoints." International journal of computer vision 60.2 (2004): 91-110.
+[^Lowe04]: Lowe, David G. "Distinctive image features from scale-invariant keypoints." International journal of computer vision 60.2 (2004): 91-110.
 
-[^Bay2006]: Bay, Herbert, Tinne Tuytelaars, and Luc Van Gool. "Surf: Speeded up robust features." European conference on computer vision. Springer, Berlin, Heidelberg, 2006.
+[^Bay06]: Bay, Herbert, Tinne Tuytelaars, and Luc Van Gool. "Surf: Speeded up robust features." European conference on computer vision. Springer, Berlin, Heidelberg, 2006.
 
-[^Gioi2008]: Von Gioi, Rafael Grompone, et al. "LSD: A fast line segment detector with a false detection control." IEEE transactions on pattern analysis and machine intelligence 32.4 (2008): 722-732.
+[^Gioi08]: Von Gioi, Rafael Grompone, et al. "LSD: A fast line segment detector with a false detection control." IEEE transactions on pattern analysis and machine intelligence 32.4 (2008): 722-732.
 
-[^Desolneux2008]: A. Desolneux, L. Moisan, and J.M. Morel, From Gestalt Theory to Image Analysis, A Probabilistic Approach. Springer, 2008.
+[^Desolneux08]: A. Desolneux, L. Moisan, and J.M. Morel, From Gestalt Theory to Image Analysis, A Probabilistic Approach. Springer, 2008.
 
-[^Calonder2010]: Calonder, Michael, et al. "Brief: Binary robust independent elementary features." European conference on computer vision. Springer, Berlin, Heidelberg, 2010.
+[^Calonder10]: Calonder, Michael, et al. "Brief: Binary robust independent elementary features." European conference on computer vision. Springer, Berlin, Heidelberg, 2010.
 
-[^Leutenegger2011]: Leutenegger, Stefan, Margarita Chli, and Roland Y. Siegwart. "BRISK: Binary robust invariant scalable keypoints." 2011 International conference on computer vision. Ieee, 2011.
+[^Leutenegger11]: Leutenegger, Stefan, Margarita Chli, and Roland Y. Siegwart. "BRISK: Binary robust invariant scalable keypoints." 2011 International conference on computer vision. Ieee, 2011.
 
-[^Rublee2011]: Rublee, Ethan, et al. "ORB: An efficient alternative to SIFT or SURF." 2011 International conference on computer vision. Ieee, 2011.
+[^Rublee11]: Rublee, Ethan, et al. "ORB: An efficient alternative to SIFT or SURF." 2011 International conference on computer vision. Ieee, 2011.
 
-[^Alahi2012]: Alahi, Alexandre, Raphael Ortiz, and Pierre Vandergheynst. "Freak: Fast retina keypoint." 2012 IEEE Conference on Computer Vision and Pattern Recognition. Ieee, 2012.
+[^Alahi12]: Alahi, Alexandre, Raphael Ortiz, and Pierre Vandergheynst. "Freak: Fast retina keypoint." 2012 IEEE Conference on Computer Vision and Pattern Recognition. Ieee, 2012.
 
-[^Gioi2012]: Von Gioi, Rafael Grompone, et al. "LSD: a line segment detector." Image Processing On Line 2 (2012): 35-55.
+[^Gioi12]: Von Gioi, Rafael Grompone, et al. "LSD: a line segment detector." Image Processing On Line 2 (2012): 35-55.
 
-[^Zhang2013]: Zhang, Lilian, and Reinhard Koch. "An efficient and robust line segment matching approach based on LBD descriptor and pairwise geometric consistency." Journal of Visual Communication and Image Representation 24.7 (2013): 794-805.
+[^Zhang13]: Zhang, Lilian, and Reinhard Koch. "An efficient and robust line segment matching approach based on LBD descriptor and pairwise geometric consistency." Journal of Visual Communication and Image Representation 24.7 (2013): 794-805.
 
-[^Yi2016]: Yi, Kwang Moo, et al. "Lift: Learned invariant feature transform." European Conference on Computer Vision. Springer, Cham, 2016.
+[^Yi16]: Yi, Kwang Moo, et al. "Lift: Learned invariant feature transform." European Conference on Computer Vision. Springer, Cham, 2016.
 
-[^DeTone2018]: DeTone, Daniel, Tomasz Malisiewicz, and Andrew Rabinovich. "Superpoint: Self-supervised interest point detection and description." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops. 2018.
+[^DeTone18]: DeTone, Daniel, Tomasz Malisiewicz, and Andrew Rabinovich. "Superpoint: Self-supervised interest point detection and description." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops. 2018.

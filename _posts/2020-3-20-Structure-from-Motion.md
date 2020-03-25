@@ -8,7 +8,7 @@ tags:
     - Reconstruction
 ---
 
-### Global fusion of relative motions for robust, accurate and scalable structure from motion [^Moulon2013]
+### Global fusion of relative motions for robust, accurate and scalable structure from motion [^Moulon13]
 
 #### Abstract
 
@@ -30,4 +30,4 @@ Structure from Motion (SfM) algorithms take as input multi-view stereo images (a
 
 [^Moulon2012a]: Moulon, Pierre, Pascal Monasse, and Renaud Marlet. "Adaptive structure from motion with a contrario model estimation." Asian Conference on Computer Vision. Springer, Berlin, Heidelberg, 2012.
 
-[^Moulon2013]: Moulon, Pierre, Pascal Monasse, and Renaud Marlet. "Global fusion of relative motions for robust, accurate and scalable structure from motion." Proceedings of the IEEE International Conference on Computer Vision. 2013.
+[^Moulon13]: Moulon, Pierre, Pascal Monasse, and Renaud Marlet. "Global fusion of relative motions for robust, accurate and scalable structure from motion." Proceedings of the IEEE International Conference on Computer Vision. 2013.

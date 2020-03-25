@@ -8,7 +8,7 @@ tags:
     - Reconstruction
 ---
 
-> [OpenMVG](https://github.com/openMVG/openMVG) [^Moulon2016]
+> [OpenMVG](https://github.com/openMVG/openMVG) [^Moulon16]
 
 ### [Adaptive structure from motion with a contrario model estimation](http://www.lingtong.de/2020/03/20/Structure-from-Motion/#adaptive-structure-from-motion-with-a-contrario-model-estimation-)
 
@@ -20,6 +20,6 @@ tags:
 
 ### Literature
 
-[^Moulon2016]: Moulon, Pierre, et al. "Openmvg: Open multiple view geometry." International Workshop on Reproducible Research in Pattern Recognition. Springer, Cham, 2016.
+[^Moulon16]: Moulon, Pierre, et al. "Openmvg: Open multiple view geometry." International Workshop on Reproducible Research in Pattern Recognition. Springer, Cham, 2016.
 
 

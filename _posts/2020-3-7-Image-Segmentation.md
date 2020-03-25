@@ -34,7 +34,7 @@ Unlike other algorithms that characterize content-sensitivity by geodesic distan
 Segmenting images into superpixels as supporting regions for feature vectors and primitives to reduce computational complexity has been commonly used as a fundamental step in various image analysis and computer vision tasks. In this paper, we describe the structure-sensitive superpixel technique by exploiting Lloyd’s algorithm with the geodesic distance. Our method generates smaller superpixels to achieve relatively low under-segmentation in structuredense regions with high intensity or color variation, and produces larger segments to increase computational efficiency in structure-sparse regions with homogeneous appearance. We adopt geometric flows to compute geodesic distances amongst pixels. In the segmentation procedure, the density of over-segments is automatically adjusted through iteratively optimizing an energy functional that embeds color homogeneity, structure density. Comparative experiments with the Berkeley database show that the proposed algorithm outperforms the prior arts while offering a comparable computational efficiency as TurboPixels. Further applications in image compression, object closure extraction and video segmentation demonstrate the effective extensions of our approach.
 
 
-### SLIC Superpixels Compared to State-of-the-art Superpixel Methods[^Achanta2012]
+### SLIC Superpixels Compared to State-of-the-art Superpixel Methods[^Achanta12]
 
 #### Abstract
 
@@ -43,15 +43,15 @@ Computer vision applications have come to rely increasingly on superpixels in re
 #### Existing superpixel methods
 
 - Graph-based algorithms: Graph-based approaches to superpixel generation treat each pixel as a node in a graph. Edge weights between two nodes are proportional to the similarity between neighboring pixels. Superpixels are created by minimizing a cost function defined over the graph.
-    - NC05[^Shi2000]: The Normalized cuts algorithm recursively partitions a graph of all pixels in the image using contour and texture cues, globally minimizing a cost function defined on the edges at the partition boundaries.
-    - GS04[^Felzenszwalb2004]: It performs an agglomerative clustering of pixels as nodes on a graph, such that each superpixel is the minimum spanning tree of the constituent pixels.
-    - SL08[^Moore2008]: Moore et al. propose a method to generate superpixels that conform to a grid by finding optimal paths, or seams, that split the image into smaller vertical or horizontal regions.
-    - GCa10 and GCb10[^Veksler2010]: Superpixels are obtained by stitching together overlapping image patches such that each pixel belongs to only one of the overlapping regions. They suggest two variants of their method, one for generating compact superpixels (GCa10) and one for constant-intensity superpixels (GCb10).
+    - NC05[^Shi00]: The Normalized cuts algorithm recursively partitions a graph of all pixels in the image using contour and texture cues, globally minimizing a cost function defined on the edges at the partition boundaries.
+    - GS04[^Felzenszwalb04]: It performs an agglomerative clustering of pixels as nodes on a graph, such that each superpixel is the minimum spanning tree of the constituent pixels.
+    - SL08[^Moore08]: Moore et al. propose a method to generate superpixels that conform to a grid by finding optimal paths, or seams, that split the image into smaller vertical or horizontal regions.
+    - GCa10 and GCb10[^Veksler10]: Superpixels are obtained by stitching together overlapping image patches such that each pixel belongs to only one of the overlapping regions. They suggest two variants of their method, one for generating compact superpixels (GCa10) and one for constant-intensity superpixels (GCb10).
 - Gradient-ascent-based algorithms: Starting from a rough initial clustering of pixels, gradient ascent methods iteratively refine the clusters until some convergence criterion is met to form superpixels.
-    - MS02[^Comaniciu2002]: mean shift, an iterative mode-seeking procedure for locating local maxima of a density function, is applied to find modes in the color or intensity feature space of an image.
-    - QS08[^Vedaldi2008]: Quick shift also uses a mode-seeking segmentation scheme. It initializes the segmentation using a medoid shift procedure. It then moves each point in the feature space to the nearest neighbor that increases the Parzen density estimate.
-    - WS91[^Vincent1991]: The watershed approach performs a gradient ascent starting from local minima to produce watersheds, lines that separate catchment basins.
-    - TP09[^Levinshtein2009]: The Turbopixel method progressively dilates a set of seed locations using level-set based geometric flow.
+    - MS02[^Comaniciu02]: mean shift, an iterative mode-seeking procedure for locating local maxima of a density function, is applied to find modes in the color or intensity feature space of an image.
+    - QS08[^Vedaldi08]: Quick shift also uses a mode-seeking segmentation scheme. It initializes the segmentation using a medoid shift procedure. It then moves each point in the feature space to the nearest neighbor that increases the Parzen density estimate.
+    - WS91[^Vincent91]: The watershed approach performs a gradient ascent starting from local minima to produce watersheds, lines that separate catchment basins.
+    - TP09[^Levinshtein09]: The Turbopixel method progressively dilates a set of seed locations using level-set based geometric flow.
 
 #### SLIC Superpixels
 
@@ -84,7 +84,7 @@ Computer vision applications have come to rely increasingly on superpixels in re
     - The complexity of SLIC is linear in the number of pixels, irrespective of $$k$$.
 
 
-### Turbopixels: Fast superpixels using geometric flows [^Levinshtein2009]
+### Turbopixels: Fast superpixels using geometric flows [^Levinshtein09]
 
 #### Abstract
 
@@ -97,23 +97,23 @@ We describe a geometric-flow-based algorithm for computing a dense oversegmentat
 
 ### Literature
 
-[^Achanta2012]: Achanta, Radhakrishna, et al. "SLIC superpixels compared to state-of-the-art superpixel methods." IEEE transactions on pattern analysis and machine intelligence 34.11 (2012): 2274-2282.
+[^Achanta12]: Achanta, Radhakrishna, et al. "SLIC superpixels compared to state-of-the-art superpixel methods." IEEE transactions on pattern analysis and machine intelligence 34.11 (2012): 2274-2282.
 
-[^Shi2000]: Shi, Jianbo, and Jitendra Malik. "Normalized cuts and image segmentation." IEEE Transactions on pattern analysis and machine intelligence 22.8 (2000): 888-905.
+[^Shi00]: Shi, Jianbo, and Jitendra Malik. "Normalized cuts and image segmentation." IEEE Transactions on pattern analysis and machine intelligence 22.8 (2000): 888-905.
 
-[^Felzenszwalb2004]: Felzenszwalb, Pedro F., and Daniel P. Huttenlocher. "Efficient graph-based image segmentation." International journal of computer vision 59.2 (2004): 167-181.
+[^Felzenszwalb04]: Felzenszwalb, Pedro F., and Daniel P. Huttenlocher. "Efficient graph-based image segmentation." International journal of computer vision 59.2 (2004): 167-181.
 
-[^Comaniciu2002]: Comaniciu, Dorin, and Peter Meer. "Mean shift: A robust approach toward feature space analysis." IEEE Transactions on pattern analysis and machine intelligence 24.5 (2002): 603-619.
+[^Comaniciu02]: Comaniciu, Dorin, and Peter Meer. "Mean shift: A robust approach toward feature space analysis." IEEE Transactions on pattern analysis and machine intelligence 24.5 (2002): 603-619.
 
-[^Moore2008]: Alastair Moore, Simon Prince, Jonathan Warrell, Umar Mohammed, and Graham Jones. Superpixel Lattices. IEEE Computer Vision and Pattern Recognition (CVPR), 2008.
+[^Moore08]: Alastair Moore, Simon Prince, Jonathan Warrell, Umar Mohammed, and Graham Jones. Superpixel Lattices. IEEE Computer Vision and Pattern Recognition (CVPR), 2008.
 
-[^Veksler2010]: O. Veksler, Y. Boykov, and P. Mehrani. Superpixels and supervoxels in an energy optimization framework. In European Conference on Computer Vision (ECCV), 2010.
+[^Veksler10]: O. Veksler, Y. Boykov, and P. Mehrani. Superpixels and supervoxels in an energy optimization framework. In European Conference on Computer Vision (ECCV), 2010.
 
-[^Vedaldi2008]: A. Vedaldi and S. Soatto. Quick shift and kernel methods for mode seeking. In European Conference on Computer Vision (ECCV), 2008.
+[^Vedaldi08]: A. Vedaldi and S. Soatto. Quick shift and kernel methods for mode seeking. In European Conference on Computer Vision (ECCV), 2008.
 
-[^Vincent1991]: Luc Vincent and Pierre Soille. Watersheds in digital spaces: An efficient algorithm based on immersion simulations. IEEE Transactions on Pattern Analalysis and Machine Intelligence, 13(6):583–598, 1991.
+[^Vincent91]: Luc Vincent and Pierre Soille. Watersheds in digital spaces: An efficient algorithm based on immersion simulations. IEEE Transactions on Pattern Analalysis and Machine Intelligence, 13(6):583–598, 1991.
 
-[^Levinshtein2009]: A. Levinshtein, A. Stere, K. Kutulakos, D. Fleet, S. Dickinson, and K. Siddiqi. Turbopixels: Fast superpixels using geometric flows. IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 2009.
+[^Levinshtein09]: A. Levinshtein, A. Stere, K. Kutulakos, D. Fleet, S. Dickinson, and K. Siddiqi. Turbopixels: Fast superpixels using geometric flows. IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 2009.
 
 [^Liu18]: Y. Liu, M. Yu, B. Li and Y. He, "Intrinsic Manifold SLIC: A Simple and Efficient Method for Computing Content-Sensitive Superpixels," in IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 40, no. 3, pp. 653-666, 1 March 2018.
 

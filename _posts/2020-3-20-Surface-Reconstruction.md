@@ -16,7 +16,7 @@ tags:
 
 #### Abstract
 
-### Exploiting visibility information in surface reconstruction to preserve weakly supported surfaces [^Jancosek2014]
+### Exploiting visibility information in surface reconstruction to preserve weakly supported surfaces [^Jancosek14]
 
 #### Abstract
 
@@ -26,7 +26,7 @@ We present a novel method for 3D surface reconstruction from __an input cloud of
 
 The method proposed in this work is a generalization of the method proposed in [^Jancosek11]. The main contribution of the newly proposed method is that it produces more accurate results than the method proposed in [^Jancosek11] and accordingly is able to reconstruct weakly supported surfaces better. We propose a new interface classifier and we justify the design of the interface classifier by experiments.
 
-### Let there be color! Large-scale texturing of 3D reconstructions [^Waechter2014]
+### Let there be color! Large-scale texturing of 3D reconstructions [^Waechter14]
 
 #### Abstract
 
@@ -50,9 +50,9 @@ The method proposed in this work is a generalization of the method proposed in [
 
 [^Kazhdan06]: Kazhdan, Michael, Matthew Bolitho, and Hugues Hoppe. "Poisson surface reconstruction." Proceedings of the fourth Eurographics symposium on Geometry processing. Vol. 7. 2006.
 
-[^Jancosek2014]: Jancosek, Michal, and Tomas Pajdla. "Exploiting visibility information in surface reconstruction to preserve weakly supported surfaces." International scholarly research notices 2014 (2014).
+[^Jancosek14]: Jancosek, Michal, and Tomas Pajdla. "Exploiting visibility information in surface reconstruction to preserve weakly supported surfaces." International scholarly research notices 2014 (2014).
 
-[^Waechter2014]: Waechter, Michael, Nils Moehrle, and Michael Goesele. "Let there be color! Large-scale texturing of 3D reconstructions." European conference on computer vision. Springer, Cham, 2014.
+[^Waechter14]: Waechter, Michael, Nils Moehrle, and Michael Goesele. "Let there be color! Large-scale texturing of 3D reconstructions." European conference on computer vision. Springer, Cham, 2014.
 
 [^Jancosek11]: M. Jancosek and T. Pajdla, “Multi-view reconstruction preserving weakly-supported surfaces,” in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR ’11), pp. 3121–3128, June 2011.
 

@@ -16,11 +16,11 @@ tags:
 
 #### Abstract
 
-### High accuracy and visibility-consistent dense multiview stereo [^Vu2011]
+### High accuracy and visibility-consistent dense multiview stereo [^Vu11]
 
 #### Abstract
 
-Since the initial comparison of Seitz et al. [^Seitz2006], the accuracy of dense multiview stereovision methods has been increasing steadily. A number of limitations, however, make most of these methods not suitable to outdoor scenes taken under uncontrolled imaging conditions. The present work consists of a complete dense multiview stereo pipeline which circumvents these limitations, being able to handle large-scale scenes without sacrificing accuracy. Highly detailed reconstructions are produced within very reasonable time thanks to two key stages in our pipeline: a minimum s-t cut optimization over an adaptive domain that robustly and efficiently filters a quasidense point cloud from outliers and reconstructs an initial surface by integrating visibility constraints, followed by a mesh-based variational refinement that captures small details, smartly handling photo-consistency, regularization, and adaptive resolution. The pipeline has been tested over a wide range of scenes: from classic compact objects taken in a laboratory setting, to outdoor architectural scenes, landscapes, and cultural heritage sites. The accuracy of its reconstructions has also been measured on the dense multiview benchmark proposed by Strecha et al. [^Strecha2008], showing the results to compare more than favorably with the current state-of-the-art methods.
+Since the initial comparison of Seitz et al. [^Seitz06], the accuracy of dense multiview stereovision methods has been increasing steadily. A number of limitations, however, make most of these methods not suitable to outdoor scenes taken under uncontrolled imaging conditions. The present work consists of a complete dense multiview stereo pipeline which circumvents these limitations, being able to handle large-scale scenes without sacrificing accuracy. Highly detailed reconstructions are produced within very reasonable time thanks to two key stages in our pipeline: a minimum s-t cut optimization over an adaptive domain that robustly and efficiently filters a quasidense point cloud from outliers and reconstructs an initial surface by integrating visibility constraints, followed by a mesh-based variational refinement that captures small details, smartly handling photo-consistency, regularization, and adaptive resolution. The pipeline has been tested over a wide range of scenes: from classic compact objects taken in a laboratory setting, to outdoor architectural scenes, landscapes, and cultural heritage sites. The accuracy of its reconstructions has also been measured on the dense multiview benchmark proposed by Strecha et al. [^Strecha08], showing the results to compare more than favorably with the current state-of-the-art methods.
 
 #### Contributions
 
@@ -84,7 +84,7 @@ City environments often lack textured areas, contain repetitive structures, stro
 
 #### Abstract 
 
-### Stereo Processing by Semiglobal Matching and Mutual Information[^Hirschmuller2007]
+### Stereo Processing by Semiglobal Matching and Mutual Information[^Hirschmuller07]
 
 #### Abstract
 
@@ -92,7 +92,7 @@ This paper describes the Semiglobal Matching (SGM) stereo method. It uses a pixe
 
 #### 1. Introduction
 
-This paper describes the Semiglobal Matching (SGM) method [^Hirschmuller2005], [^Hirschmuller2006], which calculates the matching cost hierarchically by __Mutual Information__. __Cost aggregation__ is performed as approximation of a global energy function by pathwise optimizations from all directions through the image. __Disparity computation__ is done by winner takes all and supported by disparity refinements like consistency checking and subpixel interpolation. __Multibaseline matching__ is handled by fusion of disparities. Further __disparity refinements__ include peak filtering, intensity consistent disparity selection, and gap interpolation. Previously unpublished is the extension for matching almost arbitrarily large images and the fusion of several disparity images using orthographic projection.
+This paper describes the Semiglobal Matching (SGM) method [^Hirschmuller05], [^Hirschmuller06], which calculates the matching cost hierarchically by __Mutual Information__. __Cost aggregation__ is performed as approximation of a global energy function by pathwise optimizations from all directions through the image. __Disparity computation__ is done by winner takes all and supported by disparity refinements like consistency checking and subpixel interpolation. __Multibaseline matching__ is handled by fusion of disparities. Further __disparity refinements__ include peak filtering, intensity consistent disparity selection, and gap interpolation. Previously unpublished is the extension for matching almost arbitrarily large images and the fusion of several disparity images using orthographic projection.
 
 #### 2. Semiglobal Matching
 
@@ -100,7 +100,7 @@ The Semiglobal Matching (SGM) method is based on the idea of pixelwise matching 
 
 - 2.1 Pixelwise Matching Cost Calculation
     1. Input images are assumed to have a known epipolar geometry.
-    2. The matching cost calculation can be based on Mutual Information (MI)[^Viola1997], which is insensitive to recording and illumination changes. It is defined from the entropy $$H$$ of two images (that is, their information content), as well as their joint entropy:$$M I_{I_{1}, I_{2}}=H_{I_{1}}+H_{I_{2}}-H_{I_{1}, I_{2}}$$
+    2. The matching cost calculation can be based on Mutual Information (MI)[^Viola97], which is insensitive to recording and illumination changes. It is defined from the entropy $$H$$ of two images (that is, their information content), as well as their joint entropy:$$M I_{I_{1}, I_{2}}=H_{I_{1}}+H_{I_{2}}-H_{I_{1}, I_{2}}$$
     3. The entropies are calculated from the probability distributions $$P$$ of intensities of the associated images: $$\begin{aligned} H_{I} &=-\int_{0}^{1} P_{I}(i) \log P_{I}(i) d i \\ H_{I_{1}, I_{2}} &=-\int_{0}^{1} \int_{0}^{1} P_{I_{1}, I_{2}}\left(i_{1}, i_{2}\right) \log P_{I_{1}, I_{2}}\left(i_{1}, i_{2}\right) d i_{1} d i_{2} \end{aligned}$$
     4. The MI matching cost $$\begin{aligned} C_{M I}(\mathbf{p}, d) &=-m i_{I_{b}, f_{D}\left(I_{m}\right)}\left(I_{b \mathbf{p}}, I_{m \mathbf{q}}\right) \\ \mathbf{q} &=e_{b m}(\mathbf{p}, d) \end{aligned}$$
     5. An implementation of the hierarchical MI computation (HMI) would collect all alleged correspondences defined by an initial disparity (that is, up-scaled from previous hierarchical level or random in the beginning). From the correspondences, the probability distribution $$P$$ is calculated according to (6). The size of $$P$$ is the square of the number of intensities, which is constant (for example, $$256 \times 256$$). The subsequent operations consist of Gaussian convolutions of P and calculating the logarithm.$$P_{I_{1}, I_{2}}(i, k)=\frac{1}{n} \sum_{\mathbf{p}} \mathrm{T}\left[(i, k)=\left(I_{1 \mathrm{p}}, I_{2 \mathrm{p}}\right)\right] \quad (6)$$
@@ -109,7 +109,7 @@ The Semiglobal Matching (SGM) method is based on the idea of pixelwise matching 
     1. An additional constraint is added that supports smoothness by penalizing changes of neighboring disparities. The pixelwise cost and the smoothness constraints are expressed by defining the energy $$E(D)$$ that depends on the disparity image $$D$$: 
     $$E(D)= \sum_{\mathbf{p}}\left(C\left(\mathbf{p}, D_{\mathbf{p}}\right)+\sum_{\mathbf{q} \in N_{\mathbf{p}}} P_{1} \mathbf{T}\left[\left|D_{\mathbf{p}}-D_{\mathbf{q}}\right|=1\right]\right. \left.+\sum_{\mathbf{q} \in N_{\mathbf{p}}} P_{2} \mathbf{T}\left[\left|D_{\mathbf{p}}-D_{\mathbf{q}}\right|>1\right]\right)$$
     2. Discontinuities are often visible as intensity changes. This is exploited by adapting $$P2$$ to the intensity gradient.
-    3. Unfortunately, such a global minimization, that is, in 2D, is NP-complete for many discontinuity preserving energies[^Boykov2001]. This leads to the new idea of aggregating matching costs in 1D from all directions equally.
+    3. Unfortunately, such a global minimization, that is, in 2D, is NP-complete for many discontinuity preserving energies[^Boykov01]. This leads to the new idea of aggregating matching costs in 1D from all directions equally.
     4. The aggregated (smoothed) cost $$S(p, d)$$ for a pixel $$p$$ and disparity $$d$$ is calculated by summing the costs of all 1D minimum cost paths that end in pixel $$p$$ at disparity $$d$$. $$\begin{aligned}L_{\mathbf{r}}(\mathbf{p}, d)=& C(\mathbf{p}, d)+\min \left(L_{\mathbf{r}}(\mathbf{p}-\mathbf{r}, d)\right.\\& L_{\mathbf{r}}(\mathbf{p}-\mathbf{r}, d-1)+P_{1} \\& L_{\mathbf{r}}(\mathbf{p}-\mathbf{r}, d+1)+P_{1} \\&\left.\min L_{\mathbf{r}}(\mathbf{p}-\mathbf{r}, i)+P_{2}\right)-\min _{k} L_{\mathbf{r}}(\mathbf{p}-\mathbf{r}, k)\end{aligned}$$
 
 - 2.3 Disparity Computation
@@ -131,25 +131,25 @@ The Semiglobal Matching (SGM) method is based on the idea of pixelwise matching 
 
 ### Literature
 
-[^Hirschmuller2005]: Hirschmuller, Heiko. "Accurate and efficient stereo processing by semi-global matching and mutual information." 2005 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR'05). Vol. 2. IEEE, 2005.
+[^Hirschmuller05]: Hirschmuller, Heiko. "Accurate and efficient stereo processing by semi-global matching and mutual information." 2005 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR'05). Vol. 2. IEEE, 2005.
 
-[^Hirschmuller2006]: Hirschmuller, Heiko. "Stereo vision in structured environments by consistent semi-global matching." 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR'06). Vol. 2. IEEE, 2006.
+[^Hirschmuller06]: Hirschmuller, Heiko. "Stereo vision in structured environments by consistent semi-global matching." 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR'06). Vol. 2. IEEE, 2006.
 
-[^Hirschmuller2007]: Hirschmuller, Heiko. "Stereo processing by semiglobal matching and mutual information." IEEE Transactions on pattern analysis and machine intelligence 30.2 (2007): 328-341.
+[^Hirschmuller07]: Hirschmuller, Heiko. "Stereo processing by semiglobal matching and mutual information." IEEE Transactions on pattern analysis and machine intelligence 30.2 (2007): 328-341.
 
-[^Viola1997]: Viola, Paul, and William M. Wells III. "Alignment by maximization of mutual information." International journal of computer vision 24.2 (1997): 137-154.
+[^Viola97]: Viola, Paul, and William M. Wells III. "Alignment by maximization of mutual information." International journal of computer vision 24.2 (1997): 137-154.
 
-[^Boykov2001]: Boykov, Yuri, Olga Veksler, and Ramin Zabih. "Fast approximate energy minimization via graph cuts." IEEE Transactions on pattern analysis and machine intelligence 23.11 (2001): 1222-1239.
+[^Boykov01]: Boykov, Yuri, Olga Veksler, and Ramin Zabih. "Fast approximate energy minimization via graph cuts." IEEE Transactions on pattern analysis and machine intelligence 23.11 (2001): 1222-1239.
 
 [^Micusik09]: Micusik, Branislav, and Jana Kosecka. "Piecewise planar city 3D modeling from street view panoramic sequences." 2009 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2009.
 
 [^Woodford08]: Woodford, O. J., Torr, P. H. S., Reid, I. D., & Fitzgibbon, A. W. (2008). Global stereo reconstruction under second order smoothness priors. 2008 IEEE Conference on Computer Vision and Pattern Recognition. 
 
-[^Vu2011]: Vu, Hoang-Hiep, et al. "High accuracy and visibility-consistent dense multiview stereo." IEEE transactions on pattern analysis and machine intelligence 34.5 (2011): 889-901.
+[^Vu11]: Vu, Hoang-Hiep, et al. "High accuracy and visibility-consistent dense multiview stereo." IEEE transactions on pattern analysis and machine intelligence 34.5 (2011): 889-901.
 
-[^Seitz2006]: Seitz, Steven M., et al. "A comparison and evaluation of multi-view stereo reconstruction algorithms." 2006 IEEE computer society conference on computer vision and pattern recognition (CVPR'06). Vol. 1. IEEE, 2006.
+[^Seitz06]: Seitz, Steven M., et al. "A comparison and evaluation of multi-view stereo reconstruction algorithms." 2006 IEEE computer society conference on computer vision and pattern recognition (CVPR'06). Vol. 1. IEEE, 2006.
 
-[^Strecha2008]: Strecha, Christoph, et al. "On benchmarking camera calibration and multi-view stereo for high resolution imagery." 2008 IEEE Conference on Computer Vision and Pattern Recognition. Ieee, 2008.
+[^Strecha08]: Strecha, Christoph, et al. "On benchmarking camera calibration and multi-view stereo for high resolution imagery." 2008 IEEE Conference on Computer Vision and Pattern Recognition. Ieee, 2008.
 
 [^Furukawa15]: Furukawa, Yasutaka, and Carlos Hernández. "Multi-view stereo: A tutorial." Foundations and Trends® in Computer Graphics and Vision 9.1-2 (2015): 1-148.
 

@@ -8,7 +8,7 @@ tags:
     - Technique
 ---
 
-### RANSAC (Random Sample Consensus)[^Fischler1981]
+### RANSAC (Random Sample Consensus)[^Fischler81]
 
 #### 目标
 
@@ -191,4 +191,4 @@ int main() {
 
 ### Literature
 
-[^Fischler1981]: Fischler, Martin A., and Robert C. Bolles. "Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography." Communications of the ACM 24.6 (1981): 381-395.
+[^Fischler81]: Fischler, Martin A., and Robert C. Bolles. "Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography." Communications of the ACM 24.6 (1981): 381-395.

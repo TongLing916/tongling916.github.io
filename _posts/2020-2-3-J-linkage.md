@@ -8,7 +8,7 @@ tags:
     - Technique
 ---
 
-### [J-linkage](http://www.diegm.uniud.it/fusiello/demo/jlk/)[^Toldo2008]
+### [J-linkage](http://www.diegm.uniud.it/fusiello/demo/jlk/)[^Toldo08]
 
 * Problem: fitting multiple instances of a model to data corrupted by noise and outliers.
 
@@ -57,10 +57,10 @@ The Jaccard distance measures the degree of overlap of the two sets and ranges f
     5. Repeat from step 3 while the smallest Jaccard distance is lower than 1.
 
 
-### T-linkage[^Magri2014]
+### T-linkage[^Magri14]
 
 ### Literature
 
-[^Toldo2008]: R. Toldo and A. Fusiello. Robust multiple structures estimation with J-linkage. In European Conference on Computer Vision, pages 537–547, 2008.
+[^Toldo08]: R. Toldo and A. Fusiello. Robust multiple structures estimation with J-linkage. In European Conference on Computer Vision, pages 537–547, 2008.
 
-[^Magri2014]: Magri, Luca, and Andrea Fusiello. "T-linkage: A continuous relaxation of j-linkage for multi-model fitting." Proceedings of the IEEE conference on computer vision and pattern recognition. 2014.
+[^Magri14]: Magri, Luca, and Andrea Fusiello. "T-linkage: A continuous relaxation of j-linkage for multi-model fitting." Proceedings of the IEEE conference on computer vision and pattern recognition. 2014.

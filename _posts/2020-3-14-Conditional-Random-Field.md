@@ -8,7 +8,7 @@ tags:
     - Technique
 ---
 
-### Efficient Inference in Fully Connected CRFs with Gaussian Edge Potentials [^Kraehenbuehl2011]
+### Efficient Inference in Fully Connected CRFs with Gaussian Edge Potentials [^Kraehenbuehl11]
 
 #### Abstract
 
@@ -27,14 +27,14 @@ Most state-of-the-art techniques for multi-class image segmentation and labeling
 
 In this paper, we use a _fully connected CRF_ that establishes pairwise potentials on all pairs of pixels in the image. The main challenge is the size of the model, which has tens of thousands of nodes and billions of edges even on low-resolution images.
 
-Our main contribution is a highly efficient inference algorithm for fully connected CRF models in which the pairwise edge potentials are defined by a linear combination of Gaussian kernels in an arbitrary feature space. The algorithm is based on a mean field approximation to the CRF distribution. This approximation is iteratively optimized through a series of message passing steps, each of which updates a single variable by aggregating information from all other variables. We show that a mean field update of all variables in a fully connected CRF can be performed using Gaussian filtering in feature space. This allows us to reduce the computational complexity of message passing from quadratic to linear in the number of variables by employing efficient approximate high-dimensional filtering [^Paris2006][^Adams2009][^Adams2010]. The resulting approximate inference algorithm is sublinear in the number of edges in the model.
+Our main contribution is a highly efficient inference algorithm for fully connected CRF models in which the pairwise edge potentials are defined by a linear combination of Gaussian kernels in an arbitrary feature space. The algorithm is based on a mean field approximation to the CRF distribution. This approximation is iteratively optimized through a series of message passing steps, each of which updates a single variable by aggregating information from all other variables. We show that a mean field update of all variables in a fully connected CRF can be performed using Gaussian filtering in feature space. This allows us to reduce the computational complexity of message passing from quadratic to linear in the number of variables by employing efficient approximate high-dimensional filtering [^Paris06][^Adams09][^Adams10]. The resulting approximate inference algorithm is sublinear in the number of edges in the model.
 
 ### Literature
 
-[^Kraehenbuehl2011]: Krähenbühl, Philipp, and Vladlen Koltun. "Efficient inference in fully connected crfs with gaussian edge potentials." Advances in neural information processing systems. 2011.
+[^Kraehenbuehl11]: Krähenbühl, Philipp, and Vladlen Koltun. "Efficient inference in fully connected crfs with gaussian edge potentials." Advances in neural information processing systems. 2011.
 
-[^Paris2006]: Paris, Sylvain, and Frédo Durand. "A fast approximation of the bilateral filter using a signal processing approach." European conference on computer vision. Springer, Berlin, Heidelberg, 2006.
+[^Paris06]: Paris, Sylvain, and Frédo Durand. "A fast approximation of the bilateral filter using a signal processing approach." European conference on computer vision. Springer, Berlin, Heidelberg, 2006.
 
-[^Adams2009]: Adams, Andrew, et al. "Gaussian kd-trees for fast high-dimensional filtering." ACM SIGGRAPH 2009 papers. 2009. 1-12.
+[^Adams09]: Adams, Andrew, et al. "Gaussian kd-trees for fast high-dimensional filtering." ACM SIGGRAPH 2009 papers. 2009. 1-12.
 
-[^Adams2010]: Adams, Andrew, Jongmin Baek, and Myers Abraham Davis. "Fast high‐dimensional filtering using the permutohedral lattice." Computer Graphics Forum. Vol. 29. No. 2. Oxford, UK: Blackwell Publishing Ltd, 2010.
+[^Adams10]: Adams, Andrew, Jongmin Baek, and Myers Abraham Davis. "Fast high‐dimensional filtering using the permutohedral lattice." Computer Graphics Forum. Vol. 29. No. 2. Oxford, UK: Blackwell Publishing Ltd, 2010.

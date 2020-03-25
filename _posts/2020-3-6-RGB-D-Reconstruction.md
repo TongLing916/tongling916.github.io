@@ -39,7 +39,7 @@ The overall structure of our algorithm is straightforward. Given a dense model o
 
 #### Dense Mapping
 
-- Define a projective photometric cost volume $$\mathrm{C}_{r}$$. A row $$\mathrm{C}_{r}(\mathbf{u})$$ in the cost volume called a disparity space image in stereo matching [^Szeliski2004], and generalized more recently in [^Rhemann2011] for any discrete per pixel labelling) stores the accumulated photometric error as a function of inverse depth $$d$$.
+- Define a projective photometric cost volume $$\mathrm{C}_{r}$$. A row $$\mathrm{C}_{r}(\mathbf{u})$$ in the cost volume called a disparity space image in stereo matching [^Szeliski04], and generalized more recently in [^Rhemann11] for any discrete per pixel labelling) stores the accumulated photometric error as a function of inverse depth $$d$$.
 
 $$
 \mathbf{C}_{r}(\mathbf{u}, d)=\frac{1}{|\mathcal{I}(r)|} \sum_{m \in \mathcal{I}(r)}\left\|\rho_{r}\left(\mathbf{I}_{m}, \mathbf{u}, d\right)\right\|_{1},
@@ -66,7 +66,7 @@ $$
 
 where $$\nabla \xi(\mathbf{u})$$ is the gradient of the inverse depth map, $$g(\mathbf{u})$$ is the per pixel weight.
 
-- Following the large displacement optic flow method of [^Steinbrucker2009], we approximate the energy functional by coupling the data and regularisation terms through an auxiliary variable $$\alpha: \Omega \rightarrow \mathbb{R}$$,
+- Following the large displacement optic flow method of [^Steinbrucker09], we approximate the energy functional by coupling the data and regularisation terms through an auxiliary variable $$\alpha: \Omega \rightarrow \mathbb{R}$$,
 
 $$
 \mathbf{E}_{\boldsymbol{\xi}, \boldsymbol{\alpha}}=\int_{\Omega}\{ g(\mathbf{u})\|\boldsymbol{\nabla} \boldsymbol{\xi}(\mathbf{u})\|_{\boldsymbol{\epsilon}}+\frac{1}{2 \theta}(\boldsymbol{\xi}(\mathbf{u})-\boldsymbol{\alpha}(\mathbf{u}))^{2} +\lambda \mathbf{C}(\mathbf{u}, \boldsymbol{\alpha}(\mathbf{u}))\} \mathrm{d} \mathbf{u}
@@ -85,11 +85,11 @@ $$
 
 [^Newcombe15]: Newcombe, Richard A., Dieter Fox, and Steven M. Seitz. "Dynamicfusion: Reconstruction and tracking of non-rigid scenes in real-time." Proceedings of the IEEE conference on computer vision and pattern recognition. 2015.
 
-[^Szeliski2004]: R. Szeliski and D. Scharstein. Sampling the disparity space image. IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 26:419–425, 2004.
+[^Szeliski04]: R. Szeliski and D. Scharstein. Sampling the disparity space image. IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 26:419–425, 2004.
 
-[^Rhemann2011]: C. Rhemann, A. Hosni, M. Bleyer, C. Rother, and M. Gelautz. Fast cost-volume filtering for visual correspondence and beyond. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2011.
+[^Rhemann11]: C. Rhemann, A. Hosni, M. Bleyer, C. Rother, and M. Gelautz. Fast cost-volume filtering for visual correspondence and beyond. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2011.
 
-[^Steinbrucker2009]: F. Steinbrucker, T. Pock, and D. Cremers. Large displacement optical flow computation without warping. In Proceedings of the International Conference on Computer Vision (ICCV), 2009.
+[^Steinbrucker09]: F. Steinbrucker, T. Pock, and D. Cremers. Large displacement optical flow computation without warping. In Proceedings of the International Conference on Computer Vision (ICCV), 2009.
 
 [^Newcombe2011a]: Newcombe, Richard A., Steven J. Lovegrove, and Andrew J. Davison. "DTAM: Dense tracking and mapping in real-time." 2011 international conference on computer vision. IEEE, 2011.
 

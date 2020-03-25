@@ -12,7 +12,7 @@ tags:
 
 #### Abstract
 
-### Memory efficient semi-global matching [^Hirschmueller2012]
+### Memory efficient semi-global matching [^Hirschmueller12]
 
 #### Abstract
 
@@ -25,22 +25,22 @@ Semi-Global Matching (SGM) is a robust stereo method that has proven its usefuln
 
 We present an efficient algorithm to fuse two-view correspondences into multi-view consistent tracks. The proposed method relies on the Union-Find [^Galler1964] algorithm to solve the fusion problem. It is very simple and has a lower computational complexity than other available methods. Our experiments show that it is faster and computes more tracks.
 
-### Automatic homographic registration of a pair of images, with a contrario elimination of outliers [^Moisan2012]
+### Automatic homographic registration of a pair of images, with a contrario elimination of outliers [^Moisan12]
 
 > [Demo](http://www.ipol.im/pub/art/2012/mmm-oh/?utm_source=doi)
 
 #### Abstract
 
-The RANSAC [^Fischler1981] algorithm (RANdom SAmple Consensus) is a robust method to estimate parameters of a model fitting the data, in presence of outliers among the data. Its random nature is due only to complexity considerations. It iteratively extracts a random sample out of all data, of minimal size sufficient to estimate the parameters. At each such trial, the number of inliers (data that fits the model within an acceptable error threshold) is counted. In the end, the set of parameters maximizing the number of inliers is accepted.
+The RANSAC [^Fischler81] algorithm (RANdom SAmple Consensus) is a robust method to estimate parameters of a model fitting the data, in presence of outliers among the data. Its random nature is due only to complexity considerations. It iteratively extracts a random sample out of all data, of minimal size sufficient to estimate the parameters. At each such trial, the number of inliers (data that fits the model within an acceptable error threshold) is counted. In the end, the set of parameters maximizing the number of inliers is accepted.
 
-The variant proposed by Moisan and Stival [^Moisan2004] consists in introducing an a contrario [^Desolneux2000] criterion to avoid the hard thresholds for inlier/outlier discrimination. It has three consequences:
+The variant proposed by Moisan and Stival [^Moisan04] consists in introducing an a contrario [^Desolneux00] criterion to avoid the hard thresholds for inlier/outlier discrimination. It has three consequences:
     1. The threshold for inlier/outlier discrimination is adaptive, it does not need to be fixed.
     2. It gives a decision on the adequacy of the final model: it does not provide a wrong set of parameters if it does not have enough confidence.
     3. The procedure to draw a new sample can be amended as soon as one set of parameters is deemed meaningful: the new sample can be drawn among the _inliers_ of this model.
 
-In this particular instantiation, we apply it to the estimation of the homography registering two images of the same scene. The homography is an 8-parameter model arising in two situations when using a pinhole camera: the scene is planar (a painting, a facade, etc.) or the viewpoint location is fixed (pure rotation around the optical center). When the homography is found, it is used to stitch the images in the coordinate frame of the second image and build a panorama. The point correspondences between images are computed by the SIFT [^Lowe2004] algorithm.
+In this particular instantiation, we apply it to the estimation of the homography registering two images of the same scene. The homography is an 8-parameter model arising in two situations when using a pinhole camera: the scene is planar (a painting, a facade, etc.) or the viewpoint location is fixed (pure rotation around the optical center). When the homography is found, it is used to stitch the images in the coordinate frame of the second image and build a panorama. The point correspondences between images are computed by the SIFT [^Lowe04] algorithm.
 
-### PatchMatch: A Randomized Correspondence Algorithm for Structural Image Editing [^Barnes2009]
+### PatchMatch: A Randomized Correspondence Algorithm for Structural Image Editing [^Barnes09]
 
 #### Abstract
 
@@ -74,22 +74,22 @@ The algorithm has three main components.
 
 ### Literature
 
-[^Barnes2009]: Barnes, Connelly, et al. "PatchMatch: A randomized correspondence algorithm for structural image editing." ACM Transactions on Graphics (ToG). Vol. 28. No. 3. ACM, 2009.
+[^Barnes09]: Barnes, Connelly, et al. "PatchMatch: A randomized correspondence algorithm for structural image editing." ACM Transactions on Graphics (ToG). Vol. 28. No. 3. ACM, 2009.
 
-[^Hirschmueller2012]: Hirschmüller, Heiko, Maximilian Buder, and Ines Ernst. "Memory efficient semi-global matching." ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences 3 (2012): 371-376.
+[^Hirschmueller12]: Hirschmüller, Heiko, Maximilian Buder, and Ines Ernst. "Memory efficient semi-global matching." ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences 3 (2012): 371-376.
 
 [^Moulon2012b]: Moulon, Pierre, and Pascal Monasse. "Unordered feature tracking made fast and easy." 2012.
 
 [^Galler1964]: Galler, Bernard A., and Michael J. Fisher. "An improved equivalence algorithm." Communications of the ACM 7.5 (1964): 301-303.
 
-[^Moisan2012]: Moisan, Lionel, Pierre Moulon, and Pascal Monasse. "Automatic homographic registration of a pair of images, with a contrario elimination of outliers." Image Processing On Line 2 (2012): 56-73.
+[^Moisan12]: Moisan, Lionel, Pierre Moulon, and Pascal Monasse. "Automatic homographic registration of a pair of images, with a contrario elimination of outliers." Image Processing On Line 2 (2012): 56-73.
 
-[^Fischler1981]: M.A. Fischler and R.C. Bolles. Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography. Communications of the ACM, 24(6):381–395, 1981. http://dx.doi.org/10.1145/358669.358692.
+[^Fischler81]: M.A. Fischler and R.C. Bolles. Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography. Communications of the ACM, 24(6):381–395, 1981. http://dx.doi.org/10.1145/358669.358692.
 
-[^Desolneux2000]: A. Desolneux, L. Moisan, and J.M. Morel. Meaningful alignments. International Journal of Computer Vision, 40(1):7–23, 2000. http://dx.doi.org/10.1023/A:1026593302236
+[^Desolneux00]: A. Desolneux, L. Moisan, and J.M. Morel. Meaningful alignments. International Journal of Computer Vision, 40(1):7–23, 2000. http://dx.doi.org/10.1023/A:1026593302236
 
-[^Moisan2004]: L. Moisan and B. Stival. A probabilistic criterion to detect rigid point matches between two images and estimate the fundamental matrix. International Journal of Computer Vision, 57(3):201–218, 2004. http://dx.doi.org/10.1023/B:VISI.0000013094.38752.54.
+[^Moisan04]: L. Moisan and B. Stival. A probabilistic criterion to detect rigid point matches between two images and estimate the fundamental matrix. International Journal of Computer Vision, 57(3):201–218, 2004. http://dx.doi.org/10.1023/B:VISI.0000013094.38752.54.
 
-[^Lowe2004]: D.G. Lowe. Distinctive image features from scale-invariant keypoints. International journal of computer vision, 60(2):91–110, 2004. http://dx.doi.org/10.1023/B:VISI.0000029664.99615.94.
+[^Lowe04]: D.G. Lowe. Distinctive image features from scale-invariant keypoints. International journal of computer vision, 60(2):91–110, 2004. http://dx.doi.org/10.1023/B:VISI.0000029664.99615.94.
 
 [^Remondino14]: Remondino, Fabio, et al. "State of the art in high density image matching." The photogrammetric record 29.146 (2014): 144-166.

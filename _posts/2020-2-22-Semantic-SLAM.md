@@ -8,10 +8,10 @@ tags:
     - SLAM
 ---
 
-### [Kimera](https://github.com/MIT-SPARK/Kimera)[^Rosinol2019]
+### [Kimera](https://github.com/MIT-SPARK/Kimera)[^Rosinol19]
 
 #### Abstract
 
 ### Literature
 
-[^Rosinol2019]: Rosinol, Antoni, et al. "Kimera: an Open-Source Library for Real-Time Metric-Semantic Localization and Mapping." arXiv preprint arXiv:1910.02490 (2019).
+[^Rosinol19]: Rosinol, Antoni, et al. "Kimera: an Open-Source Library for Real-Time Metric-Semantic Localization and Mapping." arXiv preprint arXiv:1910.02490 (2019).
