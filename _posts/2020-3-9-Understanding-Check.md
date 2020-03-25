@@ -100,8 +100,21 @@ correspondences it requires?
 ### 6. Point Feature Detectors, Part 2
 
 1. How does automatic scale selection work?
+    - Design a function on the image patch, which is "sclae invariant" (i.e., which has the same value for corresponding patches, even if they are at different scales)
+    - Approach
+        - Take a local maximum or minimum of this function
+        - The patch size for which the maximum or minimum is achieved should be _invariant_ to image rescaling.
+        - __Important__: this scale invariant patch size is found in each image __independently__!
+        - When the right scale is found, the patches must be normalized so that they can be compared by SSD.
 2. What are the good and the bad properties that a function for automatic scale selection should have or not have?
+    - A "good" function for scale function should have a single & sharp peak.
+    - __Sharp, local intensity changes__ are good regions to monitor in order to identify the scale 
+        - __Blobs and corners__ are the __ideal locations__!
 3. How can we implement scale invariant detection efficiently? (show that we can do this by resampling the image vs rescaling the kernel)
+    - The __idea function__ for determining the scale is __one that highlights sharp discontinuities__.
+    - __Solution:__ convolve image with a __kernel that highlights edges__ $$f = \text{Kernel} * \text{Image}$$
+    - It has been shown that the __Laplacian of Gaussian kernel__ is optimal under certain assumptions [^Lindeberg94]: $$\operatorname{Lo} G(x, y, \sigma)=\nabla^{2} G_{\sigma}(x, y)=\frac{\partial^{2} G_{\sigma}(x, y)}{\partial x^{2}}+\frac{\partial^{2} G_{\sigma}(x, y)}{\partial y^{2}}$$
+    - Correct scale is found as local maxima or minima across consecutive smoothed images
 4. What is a feature descriptor? (patch of intensity value vs histogram of oriented gradients ). How do we match descriptors?
 5. How is the keypoint detection done in SIFT and how does this differ from Harris?
 6. How does SIFT achieve orientation invariance?
@@ -162,3 +175,8 @@ correspondences it requires?
 ### 13. Visual inertial fusion
 
 ### 14. Event based vision
+
+
+### Literature
+
+[^Lindeberg94]: Lindeberg, Scale-space theory: A basic tool for analysing structures at different scales, Journal of Applied Statistics, 1994.
