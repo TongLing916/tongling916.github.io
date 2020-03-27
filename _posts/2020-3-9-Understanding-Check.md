@@ -62,7 +62,7 @@ correspondences it requires?
     $$
     S A D= \sum_{u=-k}^{k} \sum_{v=-k}^{k} \left| H(u, v)-F(u, v) \right| 
     $$
-    - __Normalized Cross Correlation (NCC)__: $$N C C=\frac{\sum_{u=-k v=-k}^{k} \sum_{u=-k v=-k}^{k} H(u, v) F(u, v)}{\sqrt{\sum_{u=-k v=-k}^{k} \sum_{k=k}^{k} H(u, v)^{2}} \sqrt{\sum_{u=-k}^{k} \sum_{k}^{k} F(u, v)^{2}}}$$
+    - __Normalized Cross Correlation (NCC)__: $$N C C=\frac{\sum_{u=-k}^{k} \sum_{v=-k}^{k} H(u, v) F(u, v)}{\sqrt{\sum_{u=-k}^{k} \sum_{v=-k}^{k} H(u, v)^{2}} \sqrt{\sum_{u=-k}^{k} \sum_{v=-k}^{k} F(u, v)^{2}}}$$
     - Census transform: It maps an image patch to a bit string.
         - If a pixel is greater than the center pixel, its corresponding bit is set to 1, else to 0.
         - For a $$w \times w$$ window, the string will be $$w^2 - 1$$ bits long.
@@ -113,14 +113,60 @@ correspondences it requires?
 3. How can we implement scale invariant detection efficiently? (show that we can do this by resampling the image vs rescaling the kernel)
     - The __idea function__ for determining the scale is __one that highlights sharp discontinuities__.
     - __Solution:__ convolve image with a __kernel that highlights edges__ $$f = \text{Kernel} * \text{Image}$$
-    - It has been shown that the __Laplacian of Gaussian kernel__ is optimal under certain assumptions [^Lindeberg94]: $$\operatorname{Lo} G(x, y, \sigma)=\nabla^{2} G_{\sigma}(x, y)=\frac{\partial^{2} G_{\sigma}(x, y)}{\partial x^{2}}+\frac{\partial^{2} G_{\sigma}(x, y)}{\partial y^{2}}$$
+    - It has been shown that the __Laplacian of Gaussian kernel__ is optimal under certain assumptions [^Lindeberg94]: $$\operatorname{LoG}(x, y, \sigma)=\nabla^{2} G_{\sigma}(x, y)=\frac{\partial^{2} G_{\sigma}(x, y)}{\partial x^{2}}+\frac{\partial^{2} G_{\sigma}(x, y)}{\partial y^{2}}$$
     - Correct scale is found as local maxima or minima across consecutive smoothed images
-4. What is a feature descriptor? (patch of intensity value vs histogram of oriented gradients ). How do we match descriptors?
-5. How is the keypoint detection done in SIFT and how does this differ from Harris?
-6. How does SIFT achieve orientation invariance?
-7. How is the SIFT descriptor built?
-8. What is the repeatability of the SIFT detector after a rescaling of 2? And for a 50 degrees viewpoint change?
-9. Illustrate the 1st to 2nd closest ratio of SIFT detection: what’s the intuitive reasoning behind it? Where does the 0.8 factor come from?
+4. How do we match descriptors?
+    - Descriptor matching can be done using __(Z)SSD, (Z)SAD, or (Z)NCC, or Hamming Distance (Note: Hamming distance can only be used for binary descriptors__, like Census transform, or ORB, BRIEF, BRISK, FREAK).
+5. How does a patch descriptor work?
+    1. __Find correct scale__ using LoG operator
+    2. __Rescale the patch__ to a default size (e.g., 8x8 pixels)
+    3. __Find local orientation__: Dominant direction of gradient for the image patch (e.g., Harriseigenvectors)
+    4. __De-rotate patch through "patch warping"__: This puts the patches into a __canonical orientation__.
+6. How to warp a patch?
+    1. Start with an "__empty__" canonical patch (all pixels set to 0)
+    2. For each pixel (x, y) in the empty patch, apply the __warping function W(x, y)__ to compute the corresponding position in the source image. It will be in floating point and will fall between the image pixels.
+    3. __Interpolate__ the intensity values of the 4 closest pixels in the detected image. E.g., __bilinear interpolation__: $$I(x, y) = I(0, 0)(1-x)(1-y) + I(0, 1)(1 - x)(y) + I(1, 0)(x)(1-y) + I(1, 1)(x)(y)$$
+7. How does a HOG (Histogram of Oriented Gradients) descriptor?
+    1. Firstly, __multiply the patch by a Gaussian kernel__ to make the shape circular rather than square.
+    2. Then, __compute gradient vectors__ at each pixel.
+    3. Build a __histogram of gradient orientations__, weighted by the gradient magnitudes. The histogram represents the HOG descriptor.
+    4. Extract all local maxima of HOG.
+        - Each local maximum above a threshold is a candidate dominant orientation. In this case, __construct a different keypoint desciptor (with different dominant orientation)for each__
+    5. To __make the descriptor rotation invariant__, apply circular shift to the descriptor elements such that the dominant orientation coincides with 0 radians
+8. How is the keypoint detection done in SIFT ([Scale Invariant Feature Transform](https://www.vlfeat.org/overview/sift.html)) and how does this differ from Harris?
+    1. __Build a space-scale pyramid__:
+        - The initial image is __incrementally convolved with Gaussians__ $$G(k^i \sigma)$$ to produce blurred images separated by a constant factor $$k$$ in scale space
+            - The initial Gaussian $$G(\sigma)$$ has $$\sigma = 1.6$$
+            - $$k$$ is chosen: $$k=2^{\frac{1}{s}}$$, where $$s$$ is the number of intervals into which each octave of scale space is divided.
+            - For efficiency reasons, when $$k^i$$ equals $$2$$, the image is downsampled by a factor of $$2$$, and then procedure is repeated again up to $$5$$ octaves (pyramid levels).
+    2. __Scale-space__ extrema detection
+        - Detect maxima and minima of difference-of-Gaussian ($$DoG(x,y) = G_{k \sigma}(x, y) - G_{\sigma}(x, y)$$) in scale space
+        - Each point is compared to its 8 neighbors in the current image and 9 neighbors in each of the two adjacent scales. (above and below). (Note: for each max and min found, output is the __location__ $$(x, y)$$ and the scale)
+9. How does SIFT achieve orientation invariance?
+   - The last step of HOG
+10. How does SIFT achieve affine illumination invariance?
+    - __Intensity normalization__: The descriptor vector $$v$$ is then normalized such that its $$l_2$$ norm is $$1$$. This guarantees that the descriptor is invariant to linear illumination changes (the descriptor is already invariant to additive illumination because it is based on gradients; so, overall, the SIFT descriptor is invariant to affine illumination changes.
+11. How is the SIFT descriptor built?
+    - Multiply the patch by a Gaussian filter
+    - Divide patch into 4 × 4 sub patches = 16 cells
+    - Compute HOG (8 bins, i.e., 8 directions) for all pixels inside each sub patch
+    - Concatenate all HOGs into a single 1D vector:
+        - Resulting SIFT descriptor: 4 × 4 × 8 = 128 values
+    - Descriptor Matching: SSD (i.e., Euclidean distance)
+12. What is the repeatability of the SIFT detector after a rescaling of 2? And for a 50 degrees viewpoint change?
+    - The highest repeatability (repeatability = correspondences detected / correspondences present) is obtained when sampling 3 scales per octave.
+    - SIFT features are __invariant__ to 2D __rotation__, and __reasonbly invariant to rescaling, viewpoint changes__ (up to 50 degrees), and __illumination__.
+13. How does feature matching work?
+    1. __Define distance function__ that compares two descriptors (SSD, SAD, NCC or Hamming distance for binary descriptors, e.g., Census, BRIEF, BRISK)
+    2. __Brute-force matching__
+        1. Test all the features in the second image
+        2. Take the one at min distance, i.e., the __closest descriptor__
+14. Explaint the problem of __closest descriptor__?
+    - It can give good scores to very ambiguous (bad) matches (curse of dimensionality)
+    - __Better approach__: compute ratio of distances to $$1^{st}$$ and $$2^{nd}$$ closest descriptor
+    $$\frac{d_1}{d_2} < \text{Threshold (usually 0.8)}$$
+15. Illustrate the 1st to 2nd closest ratio of SIFT detection: what’s the intuitive reasoning behind it? Where does the 0.8 factor come from?
+    - (From SIFT paper) A threshold of 0.8 eliminates 90% of the false matches while discarding less than 5% of the correct matches.
 
 ### 7. Multiple-view geometry
 

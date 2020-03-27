@@ -144,6 +144,31 @@ In this paper, we present a novel scale- and rotation-invariant interest point d
 
 This is achieved by relying on integral images for image convolutions; by building on the strengths of the leading existing detectors and descriptors (in casu, using a Hessian matrix-based measure for the detector, and a distribution-based descriptor); and by simplifying these methods to the essential. This leads to a combination of novel detection, description, and matching steps. The paper presents experimental results on a standard evaluation set, as well as on imagery obtained in the context of a real-life object recognition application. Both show SURF’s strong performance.
 
+#### Introduction
+
+- Based on ideas similar to __SIFT__
+- Approximated computation for detection and descriptor (using box filter instead of original second order partial derivatives of a Gaussian)
+- Results comparable with SIFT, plus:
+  - Faster computation
+  - Generally shorter descriptors
+
+
+### Fusing points and lines for high performance tracking [^Rosten05]
+
+#### Abstract
+
+This paper addresses the problem of real-time 3D model-based tracking by combining point-based and edge-based tracking systems. We present a careful analysis of the properties of these two sensor systems and show that this leads to some non-trivial design choices that collectively yield extremely high performance.  In particular, we present amethod for integrating the two systems and robustly combining the pose estimates they produce. Further we show how online learning can be used to improve the performance of feature tracking. Finally, to aid real-time performance, we introduce the FAST feature detector which can perform full-frame feature detection at 400Hz. The combination of these techniques results in a system which is capable of tracking average prediction errors of 200 pixels. This level of robustness allows us to track very rapid motions,such as 50◦camera shake at 6Hz.
+
+#### Introduction
+
+- __FAST__: Features from Accelrated Segment Test
+- Studies intensity of pixels on circle around candidate pixel C
+- C is a fast corner __if__ a set of __N__ contiguous pixels on circle are:
+  - all brighter than __intensity of C + threshold__, or
+  - all darker than __intensity of C + threshold__
+- Typically tests for __9__ contiguous pixels on a __16__-pixel circumference
+- __Very fas detector__ - in the order of 100 Mega-pixel/second
+
 ### BRIEF: Binary Robust Independent Elementary Features [^Calonder10]
 
 #### Abstract
@@ -151,6 +176,20 @@ This is achieved by relying on integral images for image convolutions; by buildi
 We propose to use binary strings as an efficient feature point descriptor, which we call BRIEF.We show that it is highly discriminative even when using relatively few bits and can be computed using simple intensity difference tests. Furthermore, the descriptor similarity can be evaluated using the Hamming distance, which is very efficient to compute, instead of the $$L_2$$ norm as is usually done.
 
 As a result, BRIEF is very fast both to build and to match. We compare it against SURF and U-SURF on standard benchmarks and show that it yields a similar or better recognition performance, while running in a fraction of the time required by either.
+
+#### Introduction
+
+- Goal: high speed (in description and matching)
+- __Binary__ descriptor formation:
+  - Smooth image
+  - __for each__ detected keypoints (e.g. FAST),
+  - __sample__ 256 intensity pairs $$(p_1^i, p_2^i)$$ (i = 1, ..., 256) within a squared patch around the keypoint
+  - Create an empty 256-element descriptor
+  - for each $$i^{th}$$ pair
+    - __if__ $$I_{p_1^i} < I_{p_2^i}$$, then set $$i^{th}$$ bit of desciptor to $$1$$, __else__ to 0.
+- The __pattern is generated randomly__ (or by __machine learning__) only once, the same pattern is used for all patches.
+- __Pro:__ binary descriptor allows __very fast__ Hamming distance matching (count of the number of bits that are different in the descriptors matches)
+- __Cons__: Not scale/rotation invariant
 
 ### BRISK: Binary Robust Invariant Scalable Keypoints [^Leutenegger11]
 
@@ -160,9 +199,30 @@ Effective and efficient generation of keypoints from an image is a well-studied 
 
 In this paper we propose BRISK, a novel method for keypoint detection, description and matching. A comprehensive evaluation on benchmark datasets reveals BRISK’s adaptive, high quality performance as in state-of-the-art algorithms, albeit at a dramatically lower computational cost (an order of magnitude faster than SURF in cases). The key to speed lies in the application of a novel scale-space FAST-based detector in combination with the assembly of a bit-string descriptor from intensity comparisons retrieved by dedicated sampling of each keypoint neighborhood.
 
+#### Introduction
+
+- Detect corners in scale-space using FAST
+- Rotation and scale invariant
+- __Binary__, formed by pairwise intensity comparisons (like BRIEF)
+- __Pattern__ defined intensity comparisons in the keypoint neighbors
+- Use smoothing kernels with different sizes (longer distance -> larger size)
+- Use smoothed pixel values
+- Compare short- and long-distance pairs for orientation assignment & descriptor formation
+- Detection and descriptor speed: ~10 times faster than SURF
+- Slower than BRIEF, but scale- and rotation-invariant
+
 ### ORB: an efficient alternative to SIFT or SURF [^Rublee11]
 
 #### Abstract
+
+Feature matching is at the base of many computer vision problems, such as object recognition or structure from motion.  Current methods rely on costly descriptors for detection and matching. In this paper, we propose a very fast binary descriptor based on BRIEF, called ORB, which is rotation invariant and resistant to noise. We demonstrate through experiments how ORB is at two orders of magnitude faster than SIFT, while performing as well in many situations. The efficiency is tested on several real-world applications, including object detection and patch-tracking on a smart phone.
+
+#### Introduction
+
+- Oriented FAST and Rotated BRIEF
+- Keypoint detector based on __FAST__
+- __BRIEF__ descriptors are _steered_ according to keypoint orientation (to provide rotation invariance)
+- Good binary features are learned by minimizing the correlation on a set of trainng patches. 
 
 #### Oriented FAST
 
@@ -574,11 +634,32 @@ A large number of vision applications rely on matching keypoints across images. 
 
 To best address the current requirements, we propose a novel keypoint descriptor inspired by the human visual system and more precisely the retina, coined Fast Retina Keypoint (FREAK). A cascade of binary strings is computed by efficiently comparing image intensities over a retinal sampling pattern. Our experiments show that FREAKs are in general faster to compute with lower memory load and also more robust than SIFT, SURF or BRISK. They are thus competitive alternatives to existing keypoints in particular for embedded applications.
 
+#### Introduction
+
+- Rotation and scale invariant
+  - Fast, compact and robust keypoint descriptor
+  - __Sampling pattern__ inspired by the human retina: higher density of points near the center.
+  - __Pairwise__ intensity comparisons form __binary__ strings.
+  - Pairs are __learned__ (as in ORB)
+  - Use smoothing kernels with different sizes
+  - Orientation mechanism similar to BRISK
+  - Coarse-to-fine matching (cascaded approach): first compare the first 128 bits; if distance smaller than threshold, proceed to compare the next bits, etc.
+- Faster to compute, less memory and more robust than SIFT, SURF or BRISK
+
 ### LIFT: Learned Invariant Feature Transform [^Yi16]
 
 #### Abstract
 
 We introduce a novel Deep Network architecture that implements the full feature point handling pipeline, that is, detection, orientation estimation, and feature description. While previous works have successfully tackled each one of these problems individually, we show how to learn to do all three in a unied manner while preserving end-to-end differentiability. We then demonstrate that our Deep pipeline outperforms state-of-the-art methods on a number of benchmark datasets, without the need of retraining.
+
+#### Introduction
+
+- Rotation, scale, viewpoint and illumination invariant
+  - Learning-based method which does both keypoint detection (__in scale space__) and description.
+  - First, a network predicts the __patch orientation__ which is used to derotate the patch.
+  - Then, another neural network is used to generate a __patch descriptor__ (128 dimensional) from the derotated patch.
+  - __Illumination invariance__ is achieved by randomizing illuminations during training.
+  - LIFT keypoints showed the best matching score and repeatability. Even better than SIFT.
 
 ### LSD: a line segment detector [^Gioi08][^Gioi12]
 
@@ -617,6 +698,12 @@ We present a line matching algorithm which utilizes both the local appearance of
 
 This paper presents a self-supervised framework for training interest point detectors and descriptors suitable for a large number of multiple-view geometry problems in computer vision. As opposed to patch-based neural networks, our fully-convolutional model operates on full-sized images and jointly computes pixel-level interest point locations and associated descriptors in one forward pass. We introduce Homographic Adaptation, a multi-scale, multihomography approach for boosting interest point detection repeatability and performing cross-domain adaptation (e.g., synthetic-to-real). Our model, when trained on the MS-COCO generic image dataset using Homographic Adaptation, is able to repeatedly detect a much richer set of interest points than the initial pre-adapted deep model and any other traditional corner detector. The final system gives rise to state-of-the-art homography estimation results on HPatches when compared to LIFT, SIFT and ORB.
 
+#### Introduction
+
+- Joint regression of keypoint location and descriptors
+- Trained on synthetic images and refined on homographies of real images
+- Detector less accurate than SIFT, but descriptor shown to outperform SIFT
+
 ### Literature
 
 [^Burns86]: J.B. Burns, A.R. Hanson, and E.M. Riseman, “Extracting Straight Lines,” IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 8, no. 4, pp. 425 -455, July 1986.
@@ -632,6 +719,8 @@ This paper presents a self-supervised framework for training interest point dete
 [^Desolneux03]: A. Desolneux, L. Moisan, and J.M. Morel, “Computational Gestalts and Perception Thresholds,” J. Physiology-Paris, vol. 97, pp. 311-324, 2003.
 
 [^Lowe04]: Lowe, David G. "Distinctive image features from scale-invariant keypoints." International journal of computer vision 60.2 (2004): 91-110.
+
+[^Rosten05]: Rosten, Drummond, "Fusing points and lines for high performance tracking", International Conference on Computer Vision (ICCV), 2005
 
 [^Bay06]: Bay, Herbert, Tinne Tuytelaars, and Luc Van Gool. "Surf: Speeded up robust features." European conference on computer vision. Springer, Berlin, Heidelberg, 2006.
 

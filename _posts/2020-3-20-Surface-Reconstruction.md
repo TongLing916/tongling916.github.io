@@ -12,6 +12,10 @@ tags:
 
 #### Abstract
 
+### Floating scale surface reconstruction [^Fuhrmann14]
+
+#### Abstract
+
 ### Reconstructing the World’s Museums [^Xiao14]
 
 #### Abstract
@@ -61,3 +65,5 @@ The method proposed in this work is a generalization of the method proposed in [
 [^Berger17]: Berger, Matthew, et al. "A survey of surface reconstruction from point clouds." Computer Graphics Forum. Vol. 36. No. 1. 2017.
 
 [^Cazals06]: Cazals, Frédéric, and Joachim Giesen. "Delaunay triangulation based surface reconstruction." Effective computational geometry for curves and surfaces. Springer, Berlin, Heidelberg, 2006. 231-276.
+
+[^Fuhrmann14]: Fuhrmann, Simon, and Michael Goesele. "Floating scale surface reconstruction." ACM Transactions on Graphics (ToG) 33.4 (2014): 1-11.
