@@ -8,6 +8,22 @@ tags:
     - Reconstruction
 ---
 
+### Very Large-Scale Global SfM by Distributed Motion Averaging [^Zhu18]
+
+#### Abstract
+
+### A survey of structure from motion [^Ozyesil17]
+
+#### Abstract
+
+### GSLAM: Initialization-Robust Monocular Visual SLAM via Global Structure-from-Motion [^Tang17]
+
+#### Abstract
+
+### Global Structure-from-Motion by Similarity Averaging [^Cui15]
+
+#### Abstract
+
 ### Global fusion of relative motions for robust, accurate and scalable structure from motion [^Moulon13]
 
 #### Abstract
@@ -24,6 +40,10 @@ Structure from Motion (SfM) algorithms take as input multi-view stereo images (a
 
 #### Abstract
 
+### Building Rome in a day [^Agarwal11]
+
+#### Abstract
+
 ### Literature
 
 [^Crandall11]: Crandall, David J., et al. "Discrete-continuous optimization for large-scale structure from motion." computer vision and pattern recognition (2011): 3001-3008.
@@ -31,3 +51,13 @@ Structure from Motion (SfM) algorithms take as input multi-view stereo images (a
 [^Moulon2012a]: Moulon, Pierre, Pascal Monasse, and Renaud Marlet. "Adaptive structure from motion with a contrario model estimation." Asian Conference on Computer Vision. Springer, Berlin, Heidelberg, 2012.
 
 [^Moulon13]: Moulon, Pierre, Pascal Monasse, and Renaud Marlet. "Global fusion of relative motions for robust, accurate and scalable structure from motion." Proceedings of the IEEE International Conference on Computer Vision. 2013.
+
+[^Cui15]: Cui, Zhaopeng, and Ping Tan. "Global Structure-from-Motion by Similarity Averaging." international conference on computer vision (2015): 864-872.
+
+[^Tang17]: Tang, Chengzhou, Oliver Wang, and Ping Tan. "GSLAM: Initialization-Robust Monocular Visual SLAM via Global Structure-from-Motion." international conference on 3d vision (2017): 155-164.
+
+[^Ozyesil17]: Ozyesil, Onur, et al. "A survey of structure from motion." Acta Numerica (2017): 305-364.
+
+[^Zhu18]: Zhu, Siyu, et al. "Very Large-Scale Global SfM by Distributed Motion Averaging." computer vision and pattern recognition (2018): 4568-4577.
+
+[^Agarwal11]: Agarwal, Sameer, et al. "Building rome in a day." Communications of the ACM 54.10 (2011): 105-112.

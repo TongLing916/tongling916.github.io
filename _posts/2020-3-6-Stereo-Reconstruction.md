@@ -65,6 +65,10 @@ Our multiview stereo method consists of a pipeline that naturally handles large-
 
 - The [maxflow algorithm](http://www.adastral.ucl.ac.uk/~vladkolm/software.html) described in [^Boykov04] is used to compute a minimum s-t-cut of our specifically designed network graphs.
 
+### Manhattan-world stereo [^Furukawa09]
+
+#### Abstract
+
 ### Piecewise Planar City 3D Modeling from Street View Panoramic Sequences [^Micusik09]
 
 #### Abstract
@@ -81,6 +85,14 @@ City environments often lack textured areas, contain repetitive structures, stro
 - Our technique avoids expensive voxelization of space, operates directly on 3D reconstructed points through an effective kd-tree representation. As the result, a textured triangulated surface mesh of an observed environment is obtained.
 
 ### Global stereo reconstruction under second order smoothness priors [^Woodford08]
+
+#### Abstract 
+
+### Multi-View Stereo via Graph Cuts on the Dual of an Adaptive Tetrahedral Mesh [^Sinha07]
+
+#### Abstract 
+
+### Accurate, Dense, and Robust Multi-View Stereopsis [^Furukawa07]
 
 #### Abstract 
 
@@ -128,6 +140,47 @@ The Semiglobal Matching (SGM) method is based on the idea of pixelwise matching 
 - 2.7 Fusion of Disparity Images
     - First, the height data is segmented in the same way as described in Section 2.5.1 by allowing height values of neighboring grid cells within one segment to vary by a certain predefined amount. Each segment is considered to be a physical surface. Holes can exist within or between segments. The former are filled by Inverse Distance Weighted (IDW) interpolation from all valid pixels just next to the hole. The latter case is handled by only considering valid pixels of the segment whose pixel have the lowest mean compared to the valid bordering pixel of all other segments next to the hole. This strategy performs smooth interpolation but maintains height discontinuities by extrapolating the background. Using IDW instead of pathwise interpolation is computationally more expensive, but it is performed only once on the fused result and not on each disparity image individually.
 
+### Real-time visibility-based fusion of depth maps [^Merrell07]
+
+#### Abstract
+
+### Multi-view stereo for community photo collections [^Goesele07]
+
+#### Abstract
+
+We present a multi-view stereo algorithm that addresses the extreme changes in lighting, scale, clutter, and other effects in large online community photo collections. Our idea is to intelligently choose images to match, both at a per-view and per-pixel level. We show that such adaptive view selection enables robust performance even with dramatic appearance variability. The stereo matching technique takes as input sparse 3D points reconstructed from structure-from-motion methods and iteratively grows surfaces from these points. Optimizing for surface normals within a photoconsistency measure significantly improves the matching results. While the focus of our approach is to estimate high-quality depth maps, we also show examples of merging the resulting depth maps into compelling scene reconstructions. We demonstrate our algorithm on standard multi-view stereo datasets and on casually acquired photo collections of famous scenes gathered from the Internet.
+
+#### Introduction
+
+- In this paper we present a stereo matching approach that starts from irregular distributions of viewpoints, and produces robust high-quality depth maps in the presence of extreme appearance variations.
+- Our main contribution is the design and analysis of such an adaptive view selection process. 
+- We also
+    1. present a new multi-view stereo matching algorithm that uses a surface growing approach to iteratively reconstruct robust and accurate depth maps. This surface growing approach[^Otto89] takes as input sparse feature points, leveraging the success of structure-from-motion techniques [^Brown05][^Snavely06]  which produce such output and have recently been demonstrated to operate effectively on CPCs (community photo collections). 
+    2. Instead of obtaining a discrete depth map, as is common in many stereo methods [^Scharstein02], we opt instead to reconstruct a sub-pixel-accurate continuous depth map. 
+    3. To greatly improve resilience to appearance differences in the source views, we use a photometric window matching approach in which both surface depth and normal are optimized together, and we adaptively discard views that do not reinforce cross-correlation of the matched windows. 
+    4. Used in conjunction with a depth-merging approach, the resulting approach is shown to be competitive with the current top-performing multi-view stereo reconstruction methods on the Middlebury benchmarks [^Seitz06].
+
+#### Algorithm
+
+- Our approach to reconstructing geometry from Internet collections consists of several stages. 
+    1. First, we calibrate the cameras geometrically and radiometrically.
+    2. Next, we estimate a depth map for each input image — each image serves as a reference view exactly once. In order to find good matches, we apply a two-level view selection algorithm. 
+        1. At the image level, _global view selection_ identifies for each reference view a set of good neighborhood images to use for stereo matching. 
+        2. Then, at the pixel level, _local view selection_ determines a subset of these images that yields a stable stereo match. This subset generally varies from pixel to pixel.
+
+- Stereo matching is performed at each pixel by optimizing for both depth and normal, starting from an initial estimate provided by SIFT feature points or copied from previously computed neighbors. During the stereo optimization, poorly matching views may be discarded and new ones added according to the local view selection criteria. The traversal of pixels is prioritized by their estimated matching confidence. Pixels may be revisited and their depths updated if a higher-confidence match is found.
+
+### Multi-View Stereo Revisited [^Goesele06]
+
+#### Abstract
+
+### Multi-camera Scene Reconstruction via Graph Cuts [^Kolmogorov02]
+
+#### Abstract
+
+### Photorealistic scene reconstruction by voxel coloring [^Seitz97]
+
+#### Abstract
 
 ### Literature
 
@@ -153,6 +206,10 @@ The Semiglobal Matching (SGM) method is based on the idea of pixelwise matching 
 
 [^Furukawa15]: Furukawa, Yasutaka, and Carlos Hernández. "Multi-view stereo: A tutorial." Foundations and Trends® in Computer Graphics and Vision 9.1-2 (2015): 1-148.
 
+[^Furukawa09]: Furukawa, Yasutaka, et al. "Manhattan-world stereo." 2009 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2009.
+
+[^Furukawa07]: Furukawa, Yasutaka, and Jean Ponce. "Accurate, Dense, and Robust Multi-View Stereopsis." computer vision and pattern recognition (2007): 1-8.
+
 [^Faugeras02]: Faugeras, Olivier, and Renaud Keriven. Variational principles, surface evolution, PDE's, level set methods and the stereo problem. IEEE, 2002.
 
 [^Boissonnat00]: J.-D. Boissonnat, O. Devillers, M. Teillaud, and M. Yvinec, “Triangulations in CGAL,” Proc. 16th Ann. Symp. Computational Geometry, pp. 11-18, 2000.
@@ -160,3 +217,23 @@ The Semiglobal Matching (SGM) method is based on the idea of pixelwise matching 
 [^Boykov04]: Y. Boykov and V. Kolmogorov, “An Experimental Comparison of Min-Cut/Max-Flow Algorithms for Energy Minimization in Vision,” IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 26, no. 9, pp. 1124-1137, Sept. 2004.
 
 [^Yamaguchi14]: Yamaguchi, Koichiro, David McAllester, and Raquel Urtasun. "Efficient joint segmentation, occlusion labeling, stereo and flow estimation." European Conference on Computer Vision. Springer, Cham, 2014.
+
+[^Sinha07]: Sinha, Sudipta N., Philippos Mordohai, and Marc Pollefeys. "Multi-View Stereo via Graph Cuts on the Dual of an Adaptive Tetrahedral Mesh." international conference on computer vision (2007): 1-8.
+
+[^Kolmogorov02]: Kolmogorov, Vladimir, and Ramin Zabih. "Multi-camera Scene Reconstruction via Graph Cuts." european conference on computer vision (2002): 82-96.
+
+[^Seitz97]: Seitz, Steven M., and Charles R. Dyer. "Photorealistic scene reconstruction by voxel coloring." computer vision and pattern recognition (1997): 1067-1073.
+
+[^Merrell07]: Merrell, Paul, et al. "Real-time visibility-based fusion of depth maps." 2007 IEEE 11th International Conference on Computer Vision. IEEE, 2007.
+
+[^Goesele06]: Goesele, Michael, Brian Curless, and Steven M. Seitz. "Multi-view stereo revisited." 2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR'06). Vol. 2. IEEE, 2006.
+
+[^Goesele07]: Goesele, Michael, et al. "Multi-view stereo for community photo collections." 2007 IEEE 11th International Conference on Computer Vision. IEEE, 2007.
+
+[^Brown05]: M. Brown and D. G. Lowe. Unsupervised 3D object recognition and reconstruction in unordered datasets. In Proc. 3DIM, pages 56–63, 2005.
+
+[^Snavely06]: N. Snavely, S. M. Seitz, and R. Szeliski. Photo tourism: exploring photo collections in 3D. In SIGGRAPH Conf. Proc., pages 835–846, 2006.
+
+[^Scharstein02]: D. Scharstein and R. Szeliski. A taxonomy and evaluation of dense two-frame stereo correspondence algorithms. IJCV, 47(1):7–42, 2002.
+
+[^Otto89]: G. P. Otto and T. K. W. Chau. ‘Region-growing’ algorithm for matching of terrain images. Image Vision Comput., 7(2):83–94, 1989.

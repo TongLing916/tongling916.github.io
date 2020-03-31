@@ -14,7 +14,6 @@ tags:
 
 #### 3D Point
 
-
 ### Photometric Error (3D Point)
 
 #### Camera Pose
@@ -28,6 +27,8 @@ tags:
 #### Inverse Depth
 
 ### Photometric Error (DSO)
+
+考虑使用Huber kernel对Jacobian中系数的影响
 
 #### Camera Pose
 
