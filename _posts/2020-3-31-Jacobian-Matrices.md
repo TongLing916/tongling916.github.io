@@ -15,14 +15,25 @@ tags:
 #### 3D Point
 
 
-### Photometric Error
+### Photometric Error (3D Point)
+
+#### Camera Pose
+
+#### 3D Point
+
+### Photometric Error (Inverse Depth)
 
 #### Camera Pose
 
 #### Inverse Depth
 
-#### 3D Point
+### Photometric Error (DSO)
 
+#### Camera Pose
+
+#### Inverse Depth
+
+#### Affine Parameters
 
 ### Pose Graph Error
 
