@@ -36,9 +36,11 @@ tags:
 
 #### Affine Parameters
 
+### Photometric Error (Plane)
+
+#### Plane [a, b, c, d]
+
 ### Pose Graph Error
 
 #### Similarity Sim(3)
-
-
 
