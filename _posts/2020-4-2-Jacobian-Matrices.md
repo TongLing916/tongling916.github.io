@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Important Jacobians in SLAM"
-date:       2020-3-31
+date:       2020-4-2
 author:     Tong
 catalog: true
 tags:
@@ -165,7 +165,7 @@ $$
 | $$a_i, b_i$$                                                                            | affine brightness transfer function $$e^{-a_{i}}\left(I_{i}-b_{i}\right)$$ |
 | $$\|\cdot\|_{\gamma}$$                                                                  | Huber cost function                                                        |
 
-In the following sections, we only consider the __single residual__
+In the following sections, we only consider the __residual of a single point__
 
 $$
 r_{ji} = w_{\mathbf{p}}\left\|\left(I_{j}\left[\mathbf{p}^{\prime}\right]-b_{j}\right)-\frac{t_{j} e^{a_{j}}}{t_{i} e^{a_{i}}}\left(I_{i}[\mathbf{p}]-b_{i}\right)\right\|_{\gamma}
@@ -182,8 +182,8 @@ $$
 
 | Variable                                              | Meaning                                      |
 | ----------------------------------------------------- | -------------------------------------------- |
-| $$e^{a_{ji}} = \frac{t_{j}}{t_{i}}e^{a_{j} - a_{i}}$$ | affine tranfer parameter from $$i$$ to $$j$$ |
-| $$b_{ji} = b_{j} - a_{ji}b_{i}$$                      | affine tranfer parameter from $$i$$ to $$j$$ |
+| $$e^{a_{ji}} = \frac{t_{j}}{t_{i}}e^{a_{j} - a_{i}}$$ | $$a_{ji}$$ is an affine tranfer parameter from $$i$$ to $$j$$ |
+| $$b_{ji} = b_{j} - e^{a_{ji}}b_{i}$$                  | $$b_{ji}$$ is an affine tranfer parameter from $$i$$ to $$j$$ |
 | $$\omega_{h}$$                                        | Huber weight, considered a constant          |
 
 #### Preparation
@@ -470,6 +470,52 @@ where
 $$m_x = \omega_{h} g^j_x f_x, \quad m_y = \omega_{h} g^j_y f_y
 $$
 
+#### Codes
+
+| Variable used in codes          | Variable used here      | Meaning      |
+| -------- | ----------------------------- |-------- |
+|`residual` | $$I_{j}\left[\mathbf{p}_{j}\right]-e^{a_{ji}}I_{i}[\mathbf{p}_{i}] - b_{ji}$$| 单个点的误差 |
+| `hw` | $$\omega_{h}$$ |Huber weight |
+| `refToNew_aff_current` | $$\begin{bmatrix}a_{ji} \\ b_{ji}\end{bmatrix}$$ | 光度变化系数 |
+| `r2new_aff` | $$\begin{bmatrix}e^{a_{ji}} \\ b_{ji}\end{bmatrix}$$ |光度变化系数　|
+| `dp0` | $$\frac{\partial r_{ji}}{\partial t_{ji}^x}$$ | 对`translation`的偏导　|
+| `dp1` | $$\frac{\partial r_{ji}}{\partial t_{ji}^y}$$ | 对`translation`的偏导　|
+| `dp2` | $$\frac{\partial r_{ji}}{\partial t_{ji}^z}$$ | 对`translation`的偏导　|
+| `dp3` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^x}$$ | 对`rotation`的偏导 |
+| `dp4` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^y}$$ | 对`rotation`的偏导 |
+| `dp5` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^z}$$ | 对`rotation`的偏导 |
+| `dp6` | $$\frac{\partial r_{ji}}{\partial a_{ji}}$$ | 对光度变化系数的偏导|
+| `dp7` | $$\frac{\partial r_{ji}}{\partial b_{ji}}$$ | 对光度变化系数的偏导|
+| `dd` | $$\frac{\partial r_{ji}}{\partial \rho_{i}}$$ |对逆深度的偏导|
+| `r` | $$r_{ji}$$ | 使用Huber kernel后单个点的误差|
+
+
+#### Complete Jacobian
+
+- For each optimization, we have total `8 + N` variables to optmize, i.e., `6` for the relative pose $$\mathbf{T}_{ji}$$, `2` for the relative photometric parameters $$a_{ji}, b_{ji}$$, `N` for inverse depths of `N` points of interest.
+
+- Considering a non-linear least squares formualtion, we have $$E(\mathbf{x}) = \mathbf{e}^T\mathbf{e}$$
+
+| Variable| Meaning|
+| ---| --- |
+| $$E$$ | Total energy to minimize |
+| $$\mathbf{e} = \begin{bmatrix}r_{1} \\ r_{2} \\ . \\.\\. \\ r_{N} \end{bmatrix}$$  |  residual vector comprised of `N` points' residuals  |
+|$$\mathbf{x} = \begin{bmatrix} t^x \\t^y \\t^z \\ \phi^x \\\phi^y\\\phi^z \\ a \\ b \\ \rho_1 \\ \rho_2 \\ . \\ . \\. \\ \rho_N \end{bmatrix}$$| variables to optimize (`8 + N`)|
+
+- __Complete Jacobian__ ($$N \times (8 + N)$$)
+
+$$
+\mathbf{J}=\begin{bmatrix}
+\frac{\partial r_{1}}{\partial t^x} & \frac{\partial r_{1}}{\partial t^y} & \frac{\partial r_{1}}{\partial t^z} & \frac{\partial r_{1}}{\partial \phi^x} & \frac{\partial r_{1}}{\partial \phi^y} & \frac{\partial r_{1}}{\partial \phi^z} & \frac{\partial r_{1}}{\partial a} & \frac{\partial r_{1}}{\partial b} & \frac{\partial r_{1}}{\partial \rho_{1}} & 0 & . & . & . & 0 \\ 
+\frac{\partial r_{2}}{\partial t^x} & \frac{\partial r_{2}}{\partial t^y} & \frac{\partial r_{2}}{\partial t^z} & \frac{\partial r_{2}}{\partial \phi^x} & \frac{\partial r_{2}}{\partial \phi^y} & \frac{\partial r_{2}}{\partial \phi^z} & \frac{\partial r_{2}}{\partial a} & \frac{\partial r_{2}}{\partial b} & 0 & \frac{\partial r_{2}}{\partial \rho_{2}} & . & . & . & 0 \\
+. & . & . & . & . & . & . & . & . & . & . & . & . & . \\
+. & . & . & . & . & . & . & . & . & . & . & . & . & . \\
+. & . & . & . & . & . & . & . & . & . & . & . & . & . \\
+\frac{\partial r_{N}}{\partial t^x} & \frac{\partial r_{N}}{\partial t^y} & \frac{\partial r_{N}}{\partial t^z} & \frac{\partial r_{N}}{\partial \phi^x} & \frac{\partial r_{N}}{\partial \phi^y} & \frac{\partial r_{N}}{\partial \phi^z} & \frac{\partial r_{N}}{\partial a} & \frac{\partial r_{N}}{\partial b} & 0 & 0 & . & . & . & \frac{\partial r_{N}}{\partial \rho_{N}} 
+\end{bmatrix}
+$$
+
+
 ### Photometric Error (Plane)
 
 #### Plane [a, b, c, d]
@@ -484,4 +530,4 @@ $$
 
 [^Engel18]: Engel, Jakob, Vladlen Koltun, and Daniel Cremers. "Direct Sparse Odometry." IEEE Transactions on Pattern Analysis and Machine Intelligence 40.3 (2018): 611-625.
 
-[^Barfoot17]: Timothy D Barfoot. State Estimation for Robotics. Cambridge University Press, 2017.
+[^Barfoot17]: Timothy D Barfoot. State Estimation for Robotics. Cambridge University Press, 2017.

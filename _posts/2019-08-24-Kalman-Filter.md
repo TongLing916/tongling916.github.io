@@ -87,6 +87,7 @@ class KalmanFilter():
     # - x   :  State vector (n x 1)
     # - P   :  State covariance matrix (n x n)
     # ===========================================================
+
     def __init__(self, x0, P0):
         self.x = x0
         self.P = P0
@@ -107,6 +108,7 @@ class KalmanFilter():
     # - uk    :  Control variable of known inputs (optional) (n x 1)
     # - Bk    :  Control matrix (optional) (n x n)
     # ===========================================================
+
     def prediction(self, Ak, Rk, uk=0, Bk=0):
         if Bk == 0:
             Bk = np.zeros(1)
@@ -131,6 +133,7 @@ class KalmanFilter():
     # - Ck   :  Measurement matrix
     # - Qk   :  Measurement covariance noise matrix Qk = E{v v^T}
     # ===========================================================
+    
     def update(self, zk, Ck, Qk):               
         temp1 = np.dot(self.P, Ck.T)
         temp2 = np.dot(np.dot(Ck, self.P), Ck.T) + Qk
@@ -153,7 +156,7 @@ The extended Kalman filter (EKF) calculates an approximation to the true belief.
 
 #### Linearization
 
-THe key idea underlying the EKF is called __linearization__. EKFs utilize a method called (first order) Taylor expansion.
+The key idea underlying the EKF is called __linearization__. EKFs utilize a method called (first order) Taylor expansion.
 
 $$
 \begin{aligned} x_{t} &=g\left(u_{t}, x_{t-1}\right)+\varepsilon_{t} \\ z_{t} &=h\left(x_{t}\right)+\delta_{t} \end{aligned}
