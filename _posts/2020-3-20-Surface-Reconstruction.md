@@ -10,11 +10,13 @@ tags:
 
 > [Regard 3D](http://www.regard3d.org/index.php)
 
+> [CGAL](https://www.cgal.org/)
+
 ### [Open3D](https://github.com/intel-isl/Open3D)[^Zhou18]
 
 #### Abstract
 
-### [Voxblox](https://github.com/ethz-asl/voxblox)([^Oleynikova17]
+### [Voxblox](https://github.com/ethz-asl/voxblox)[^Oleynikova17]
 
 #### Abstract
 
