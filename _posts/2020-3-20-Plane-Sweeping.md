@@ -8,14 +8,6 @@ tags:
     - Technique
 ---
 
-### Accurate Multiple View 3D Reconstruction Using Patch-Based Stereo for Large-Scale Scenes [^Shen13]
-
-#### Abstract 
-
-### [PatchMatch Stereo - Stereo Matching with Slanted Support Windows](https://github.com/ivanbergonzani/patch-match-stereo) [^Bleyer11]
-
-#### Abstract
-
 ### Real-time plane-sweeping stereo with multiple sweeping directions [^Gallup07]
 
 #### Abstract
@@ -81,6 +73,3 @@ The problem of determining feature correspondences across multiple views is cons
 
 [^Williams83]: Lance Williams. Pyramidal Parametrics. In Computer Graphics (SIGGRAPH 1983 Proceedings), volume 17, pages 1–11, July 1983.
 
-[^Bleyer11]: Bleyer, Michael & Rhemann, Christoph & Rother, Carsten. (2011). PatchMatch Stereo - Stereo Matching with Slanted Support Windows. BMVC. 11. 14.1-14.11. 10.5244/C.25.14. 
-
-[^Shen13]: S. Shen, "Accurate Multiple View 3D Reconstruction Using Patch-Based Stereo for Large-Scale Scenes," in IEEE Transactions on Image Processing, vol. 22, no. 5, pp. 1901-1914, May 2013.

@@ -8,13 +8,13 @@ tags:
     - Reconstruction
 ---
 
-### Multi-view stereo: A tutorial [^Furukawa15]
-
-#### Abstract
-
 ### Efficient joint segmentation, occlusion labeling, stereo and flow estimation [^Yamaguchi14]
 
 #### Abstract
+
+### Accurate Multiple View 3D Reconstruction Using Patch-Based Stereo for Large-Scale Scenes [^Shen13]
+
+#### Abstract 
 
 ### High accuracy and visibility-consistent dense multiview stereo [^Vu11]
 
@@ -204,8 +204,6 @@ We present a multi-view stereo algorithm that addresses the extreme changes in l
 
 [^Strecha08]: Strecha, Christoph, et al. "On benchmarking camera calibration and multi-view stereo for high resolution imagery." 2008 IEEE Conference on Computer Vision and Pattern Recognition. Ieee, 2008.
 
-[^Furukawa15]: Furukawa, Yasutaka, and Carlos Hernández. "Multi-view stereo: A tutorial." Foundations and Trends® in Computer Graphics and Vision 9.1-2 (2015): 1-148.
-
 [^Furukawa09]: Furukawa, Yasutaka, et al. "Manhattan-world stereo." 2009 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2009.
 
 [^Furukawa07]: Furukawa, Yasutaka, and Jean Ponce. "Accurate, Dense, and Robust Multi-View Stereopsis." computer vision and pattern recognition (2007): 1-8.
@@ -237,3 +235,5 @@ We present a multi-view stereo algorithm that addresses the extreme changes in l
 [^Scharstein02]: D. Scharstein and R. Szeliski. A taxonomy and evaluation of dense two-frame stereo correspondence algorithms. IJCV, 47(1):7–42, 2002.
 
 [^Otto89]: G. P. Otto and T. K. W. Chau. ‘Region-growing’ algorithm for matching of terrain images. Image Vision Comput., 7(2):83–94, 1989.
+
+[^Shen13]: S. Shen, "Accurate Multiple View 3D Reconstruction Using Patch-Based Stereo for Large-Scale Scenes," in IEEE Transactions on Image Processing, vol. 22, no. 5, pp. 1901-1914, May 2013.

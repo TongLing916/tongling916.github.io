@@ -12,6 +12,10 @@ tags:
 
 #### Abstract
 
+### [Fast Cost-Volume Filtering for Visual Correspondence and Beyond](https://www.ims.tuwien.ac.at/publications/tuw-210567) [^Hosni12]
+
+#### Abstract
+
 ### Memory efficient semi-global matching [^Hirschmueller12]
 
 #### Abstract
@@ -39,6 +43,11 @@ The variant proposed by Moisan and Stival [^Moisan04] consists in introducing an
     3. The procedure to draw a new sample can be amended as soon as one set of parameters is deemed meaningful: the new sample can be drawn among the _inliers_ of this model.
 
 In this particular instantiation, we apply it to the estimation of the homography registering two images of the same scene. The homography is an 8-parameter model arising in two situations when using a pinhole camera: the scene is planar (a painting, a facade, etc.) or the viewpoint location is fixed (pure rotation around the optical center). When the homography is found, it is used to stitch the images in the coordinate frame of the second image and build a panorama. The point correspondences between images are computed by the SIFT [^Lowe04] algorithm.
+
+### [PatchMatch Stereo - Stereo Matching with Slanted Support Windows](https://github.com/ivanbergonzani/patch-match-stereo) [^Bleyer11]
+
+#### Abstract
+
 
 ### PatchMatch: A Randomized Correspondence Algorithm for Structural Image Editing [^Barnes09]
 
@@ -93,3 +102,7 @@ The algorithm has three main components.
 [^Lowe04]: D.G. Lowe. Distinctive image features from scale-invariant keypoints. International journal of computer vision, 60(2):91–110, 2004. http://dx.doi.org/10.1023/B:VISI.0000029664.99615.94.
 
 [^Remondino14]: Remondino, Fabio, et al. "State of the art in high density image matching." The photogrammetric record 29.146 (2014): 144-166.
+
+[^Bleyer11]: Bleyer, Michael & Rhemann, Christoph & Rother, Carsten. (2011). PatchMatch Stereo - Stereo Matching with Slanted Support Windows. BMVC. 11. 14.1-14.11. 10.5244/C.25.14. 
+
+[^Hosni12]: Hosni, Asmaa, et al. "Fast cost-volume filtering for visual correspondence and beyond." IEEE Transactions on Pattern Analysis and Machine Intelligence 35.2 (2012): 504-511.
