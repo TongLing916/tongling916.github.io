@@ -5,7 +5,7 @@ date:       2020-4-4
 author:     Tong
 catalog: true
 tags:
-    - Math
+    - Reconstruction
 ---
 
 ### Abstract [^Furukawa15]
