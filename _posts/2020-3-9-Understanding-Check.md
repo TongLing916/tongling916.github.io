@@ -171,30 +171,111 @@ correspondences it requires?
 ### 7. Multiple-view geometry
 
 1. Can you relate Structure from Motion to 3D reconstruction? In what they differ?
+   - __3D reconstruction from multiple views__
+     - Assumptions: K, T and R are __known__.
+     - Goal: Recover the 3D structure from images
+   - __Structure from Motion__
+     - Assumptions: none (K, T and R are __unknown__)
+     - Goal: Recover simutaneously 3D scene structure and camera poses (up to scale) from multiple images
 2. Can you define disparity in both the simplified and the general case?
+   - Simplified case: identical cameras and aligned with the x-axis
+     - Disparity: difference in image location of the projection of a 3D point on two image planes
+   - General case: non identical cameras and not aligned
 3. Can you provide a mathematical expression of depth as a function of the baseline, the disparity and the focal length?
-4. Can you apply error propagation to derive an expression for depth uncertainty? How can we improve the
-uncertainty?
+   - $$u_l - u_r = \frac{bf}{z_p}$$
+4. Can you apply error propagation to derive an expression for depth uncertainty? How can we improve the uncertainty?
 5. Can you analyze the effects of a large/small baseline?
+   - Too large:
+     - Minimum measurable depth increases
+     - Difficul search problem for close objects
+   - Too small:
+     - Large depth error
 6. What is the closest depth that a stereo camera can measure?
+   - focal length
 7. Are you able to show mathematically how to compute the intersection of two lines (linearly and non
 linearly)?
+    - Linear: Cross product (SVD)
+    - Non linear: Minimize the __Sum of Squared Reprojection Error__
 8. What is the geometric interpretation of the linear and non linear approaches and what error do they minimize?
-9. Are you able to provide a definition of epipole, epipolar line and epipolar plane?
+   - Linear: SVD
+   - Non linear: Sum of Squared Reprojection Error 
+9.  Are you able to provide a definition of epipole, epipolar line and epipolar plane?
+    - The __epipole__ is the projection of the optical center on the other camera image
+    - Given two camera centers and one image point, an __epipolar plane__ can be uniquely defined. 
+    - The intersections of the epipolar plane with the two image planes are called __epipolar lines__
 10. Are you able to draw the epipolar lines for two converging cameras, for a forward motion situation, and for a side moving camera?
+    - __Remember:__ all the epipolar lines intersect at the epipole
+    - As the position of the 3D point changes, the epipolar lines _rotate_ about the baseline
 11. Are you able to define stereo rectification and to derive mathematically the rectifying homographies?
+    - Stereo rectification warps original image planes onto a coplanar planes parallel to the baseline
+    - It works by computing two homographies, one for each input image reprojection
+    - As a result, the new __epipolar lines__ are __horizontal__ and the __scanlines__ of the left and right image __are aligned__
+    - Paper: A compact algorithm for rectification of stereo pairs
 12.  How is the disparity map computed?
+    1. For each pixel on the left image, find its corresponding point on the right image
+    2. Compute the disparity for each pair of correspondences
+    3. Visualize it in gray-scale or color coded image
 13.  How can one establish stereo correspondences with subpixel accuracy?
+    - Interpolation of intensity
 14.  Describe one or more simple ways to reject outliers in stereo correspondences.
+    - Uniqueness: only one match in right image for every point in left image
+    - Ordering: Points on __same surface__ will be in same order in both views
+    - Disparity gradient: disparity changes smoothly between points on the same surface
 15.  Is stereo vision the only way of estimating depth information? If not, are you able to list alternative options?
+    - Use deep learning (e.g. [Pyramid Stereo Matching Network](http://openaccess.thecvf.com/content_cvpr_2018/papers/Chang_Pyramid_Stereo_Matching_CVPR_2018_paper.pdf))
 
 ### 8. Multiple-view geometry 2
 
+1. What's the minimum number of correspondences required for calibrated SFM and why?
+2. Are you able to derive the epipolar constraint?
+3. Are you able to define the essential matrix?
+4. Are you able to derive the 8 point algorithm?
+5. How many rotation translation combinations can the essential matrix be decomposed into?
+6. Are you able to provide a geometrical interpretation of the epipolar constraint?
+7. Are you able to describe the relation between the essential and the fundamental matrix?
+8. Why is it important to normalize the point coordinates in the 8 point algorithm?
+9. Describe one or more possible ways to achieve this normalization.
+10. Are you able to describe the normalized 8 point algorithm?
+11. Are you able to provide quality metrics for the essential matrix estimation?
+12. Why do we need RANSAC?
+13. What is the theoretical maximum number of combinations to explore?
+14. After how many iterations can RANSAC be stopped to guarantee a given success probability
+15. What is the trend of RANSAC vs. iterations, vs . the fraction of outliers, vs. the number of points to estimate the model?
+16. How do we apply RANSAC to the 8 point algorithm, DLT, P3P?
+17. How can we reduce the number of RANSAC iterations for the SFM problem?
+
 ### 9. Multiple-view geometry 3
+
+1. Are you able to define Bundle Adjustment (via mathematical expression and illustration)?
+2. Are you able to describe hierarchical and sequential SFM for monocular VO?
+3. What are keyframes? Why do we need them and how can we select them?
+4. Are you able to define loop closure detection? Why do we need loops?
+5. Are you able to provide a list of the most popular open source VO and VSLAM algorithms?
+6. Are you able to describe the differences between feature based methods and direct methods?
 
 ### 10. Multiple-view geometry 3 continued
 
+1. How do we benchmark VO/SLAM algorithms?
+2. Along which axes can we evaluate them?
+3. Benchmarking accuracy: Can we use the end pose error? What are ATE and RTE?
+4. How can we quantify Efficiency? And Robustness?
+5. What are open research opportunities?
+
 ### 11. Optical Flow and Tracking (Lucas-Kanade)
+
+1. Are you able to illustrate tracking with block matching?
+2. Are you able to explain the underlying assumptions behind differential methods, derive their mathematical expression and the meaning of the M matrix?
+3. When is this matrix invertible and when not?
+4. What is the aperture problem and how can we overcome it?
+5. What is optical flow?
+6. Can you list pros and cons of block based vs. differential methods for tracking?
+7. Are you able to describe the working principle of KLT?
+8. Are you able to derive the main mathematical expression for KLT?
+9. What is the Hessian matrix and for which warping function does it coincide to that used for point tracking?
+10. Can you list Lukas Kanade failure cases and how to overcome them?
+11. How does one get the initial guess?
+12. Can you illustrate the coarse to fine Lucas Kanade implementation?
+13. Can you illustrate alternative tracking procedures using point features?
 
 ### 12a. Dense 3D Reconstruction
 
@@ -234,11 +315,39 @@ linearly)?
 
 ### 12b. Place recognition
 
+1. What is an inverted file index?
+2. What is a visual word?
+3. How does K means clustering work?
+4. Why do we need hierarchical clustering?
+5. Explain and illustrate image retrieval using Bag of Words.
+6. Discussion on place recognition: what are the open challenges and what solutions have been proposed?
+
 ### 12c. Deep Learning Tutorial
 
 ### 13. Visual inertial fusion
 
+1. Why is it recommended to use an IMU for Visual Odometry?
+2. Why not just an IMU?
+3. How does a MEMS IMU work?
+4. What is the drift of an industrial IMU?
+5. What is the IMU measurement model?
+6. What causes the bias in an IMU?
+7. How do we model the bias?
+8. How do we integrate the acceleration to get the position formula?
+9. What is the definition of loosely coupled and tightly coupled visual inertial fusions?
+10. How can we use non linear optimization based approaches to solve for visual inertial fusion?
+
 ### 14. Event based vision
+
+1. What is a DVS and how does it work?
+2. What are its pros and cons vs. standard cameras?
+3. Can we apply standard camera calibration techniques?
+4. How can we compute optical flow with a DVS?
+5. Could you intuitively explain why we can reconstruct the intensity?
+6. What is the generative model of a DVS and how to derive it?
+7. What is a DAVIS sensor?
+8. What is the focus maximization framework and how does it work? What is its advantage compared with the generative model?
+9. How can we get color events?
 
 
 ### Literature
