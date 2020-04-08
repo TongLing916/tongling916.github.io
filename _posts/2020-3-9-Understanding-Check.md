@@ -227,14 +227,34 @@ linearly)?
 ### 8. Multiple-view geometry 2
 
 1. What's the minimum number of correspondences required for calibrated SFM and why?
+   - 4n knowns
+     - n correspondences; each one $$(u_1, v_1)$$ and $$(u_2, v_2)$$
+   - 5 + 3n unknowns
+     - 5 for motion up to a scale (3 for rotation, 2 for translation)
+     - 3n = number of coordinates of the n 3D points
+   - If and only if the number of independent equations >= number of unknowns
+     - 4n >= 5 + 3n => n >= 5
 2. Are you able to derive the epipolar constraint?
+   - $$\bar{p}_{2}^{T} E \bar{p}_{1}=0$$
+   - normalized image coordinates
 3. Are you able to define the essential matrix?
+   - $$\mathrm{E}=[T]_{\times} R$$
+   - E: essential matrix
+   - T: translation vector
+   - R: rotation matrix
 4. Are you able to derive the 8 point algorithm?
+   - Each pair of point correspondences provides a linear equation
+   - SVD to solve it
+   - Degenerate configurations: when the 3D points are coplanar (Conversely, 5-point algorithm works also for coplanar points).
 5. How many rotation translation combinations can the essential matrix be decomposed into?
+   - 4 possible solutions of R and T
+   - Only one solution where points are in front of both cameras
 6. Are you able to provide a geometrical interpretation of the epipolar constraint?
+   - $$\overline{\boldsymbol{p}}_{2}^{\top} \cdot E \overline{\boldsymbol{p}}_{1}=\left\|\overline{\boldsymbol{p}}_{2}\right\|\left\|\boldsymbol{E} \overline{\boldsymbol{p}}_{1}\right\| \cos (\theta)$$
+   - This product depends on the angle $$\theta$$ between $$\overline{\boldsymbol{p}}_{1}$$ and the normal $$n=E p_{1}$$ to the epipolar plane. It is non zero when $$\overline{\boldsymbol{p}}_{1}$$, $$\overline{\boldsymbol{p}}_{2}$$, and $$T$$ are not coplanar.
 7. Are you able to describe the relation between the essential and the fundamental matrix?
 8. Why is it important to normalize the point coordinates in the 8 point algorithm?
-9. Describe one or more possible ways to achieve this normalization.
+9.  Describe one or more possible ways to achieve this normalization.
 10. Are you able to describe the normalized 8 point algorithm?
 11. Are you able to provide quality metrics for the essential matrix estimation?
 12. Why do we need RANSAC?
