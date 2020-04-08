@@ -12,7 +12,14 @@ tags:
 
 #### Abstract
 
-In this work, we study the inconsistency of EKF- based SLAM from the perspective of observability. We analytically prove that when the Jacobians of the state and measurement models are evaluated at the latest state estimates during every time step, the linearized error-state system model of the EKF- based SLAM has observable subspace of dimension higher than that of the actual, nonlinear, SLAM system. As a result, the covariance estimates of the EKF undergo reduction in directions of the state space where no information is available, which is a primary cause of inconsistency. To address this issue, a new "first estimates Jacobian" (FEJ) EKF is proposed, which is shown to perform better in terms of consistency. In the FEJ- EKF, the filter Jacobians are calculated using the first-ever available estimates for each state variable, which insures that the observable subspace of the error-state system model is of the same dimension as that of the underlying nonlinear SLAM system. The theoretical analysis is validated through extensive simulations.
+In this work, we study the inconsistency of EKF- based SLAM from the perspective of observability. We analytically prove that when the Jacobians of the state and measurement models are evaluated at the latest state estimates during every time step, the linearized error-state system model of the EKF- based SLAM has observable subspace of dimension higher than that of the actual, nonlinear, SLAM system. As a result, the covariance estimates of the EKF undergo reduction in directions of the state space where no information is available, which is a primary cause of inconsistency. To address this issue, a new "first estimates Jacobian" (FEJ) EKF is proposed, which is shown to perform better in terms of consistency. In the FEJ-EKF, the filter Jacobians are calculated using the first-ever available estimates for each state variable, which insures that the observable subspace of the error-state system model is of the same dimension as that of the underlying nonlinear SLAM system. The theoretical analysis is validated through extensive simulations.
+
+#### Introduction
+
+- The main contributions of this work are the following:
+  - Through an observability analysis, we prove that the standard EKF-SLAM employs an error-state system model that has an unobservable subspace of dimension two, even though the underlying nonlinear system model has three unobservable degrees of freedom (corresponding to the position and orientation of the global reference frame). This is a primary cause of filter inconsistency.
+  - We propose a new algorithm, termed First Estimates Jacobian (FEJ)-EKF, which improves the estimator’s consistency during SLAM. Specifically, we show analytically that when the EKF Jacobians are computed using the first-ever available estimates for each of the state variables, the error-state model has the _same_ observability properties as the underlying nonlinear model. As a result of these properties, the new FEJ-EKF outperforms, in terms of accuracy and consistency, alternative approaches to this problem [^Castellanos07].
+
 
 ### A First-Estimates Jacobian EKF for Improving SLAM Consistency [^Huang09]
 
@@ -39,4 +46,4 @@ In this work, we study the inconsistency problem of extended Kalman filter (EKF)
 
 [^Engel18]: Engel, Jakob, Vladlen Koltun, and Daniel Cremers. "Direct Sparse Odometry." IEEE Transactions on Pattern Analysis and Machine Intelligence 40.3 (2018): 611-625.
 
-
+[^Castellanos07]: J. Castellanos, R. Martinez-Cantin, J. Tardos, and J. Neira, “Robocentric map joining: Improving the consistency of EKF-SLAM,” Robotics and Autonomous Systems, vol. 55, pp. 21–29, 2007.
