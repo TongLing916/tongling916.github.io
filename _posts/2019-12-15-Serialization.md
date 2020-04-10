@@ -626,7 +626,7 @@ private:
 
 ### Versioning
 
-- We want maintain back-compatibility when the class Obj evolves. For instance, if a new data member ‘ID_’ is added, we want to read an old archive and build new Obj, with the missing data member taking the default value.
+- We want maintain back-compatibility when the class Obj evolves. For instance, if a new data member `ID_` is added, we want to read an old archive and build new Obj, with the missing data member taking the default value.
 
 ```c++
 #pragma once

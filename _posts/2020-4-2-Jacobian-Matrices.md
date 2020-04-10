@@ -12,13 +12,28 @@ tags:
 
 #### Lie Group - Lie Algebra
 
-- Lie algebra is defined as follows
+- Lie algebra / group is defined as follows. Note: `translation` in Lie Algebra is not equal to the translation $$\mathbf{t}$$ in Lie group.
 
 $$
 \xi=\left[\begin{array}{c}
 \text { translation } \\
 \text { rotation }
 \end{array}\right]
+$$
+
+$$
+\mathbf{T}=\begin{bmatrix}
+\mathbf{R} & \mathbf{t} \\
+\mathbf{0}^T & 1
+\end{bmatrix}
+$$
+
+$$
+\xi= \ln{(\mathbf{T}^{\vee})}
+$$
+
+$$
+\mathbf{T}= \exp{(\xi^{\wedge})}
 $$
 
 - Operators as introduced in sec. 7.1.8 [^Barfoot17]
@@ -70,6 +85,22 @@ $$
 -\phi_{2} & \phi_{1} & 0
 \end{array}\right] \in \mathbb{R}^{3 \times 3}, \quad \boldsymbol{\phi} \in \mathbb{R}^{3}
 $$
+
+- Adjoint ($$6 \times 6$$)
+
+$$\mathcal{T} = \text{Ad}(\mathbf{T}) = \begin{bmatrix}
+\mathbf{R} & \mathbf{t}^{\wedge}\mathbf{R} \\
+\mathbf{0} & \mathbf{R}
+ \end{bmatrix}$$
+
+$$\mathcal{T}^{-1} = \begin{bmatrix}
+\mathbf{R}^{T} & -\mathbf{R}^{T}\mathbf{t}^{\wedge} \\
+\mathbf{0} & \mathbf{R}^{T}
+ \end{bmatrix}$$
+
+$$\left(\mathbf{T}\mathbf{p}\right)^{\odot} \equiv \mathbf{T}\mathbf{p}^{\odot} \mathcal{T}^{-1}$$
+
+$$\exp{((\mathcal{T}\mathbf{x})^{\wedge})} = \mathbf{T} \exp{(\mathbf{x}^{\wedge})} \mathbf{T}^{-1}$$
 
 - Approximation of pose 
 
@@ -223,7 +254,7 @@ $$
 | $$\mathbf{p}^w$$                                                              | point position in the world coodinate system        |
 
 
-#### Camera Pose
+#### Relative Camera Pose
 
 $$
 \frac{\partial r_{ji}}{\partial \xi_{ji}} = \frac{\partial r_{ji}}{\partial \mathbf{p}_{j}} \frac{\partial \mathbf{p}_{j}}{\partial \xi_{ji}}
@@ -366,6 +397,38 @@ $$ where
 $$m_x = \omega_{h} g^j_x f_x, \quad m_y = \omega_{h} g^j_y f_y
 $$
 
+#### Absolute Camera Pose
+
+$$\frac{\partial r_{ji}}{\partial \xi_{iw}} = \frac{\partial r_{ji}}{\partial \xi_{ji}}\frac{\partial \xi_{ji}}{\partial \xi_{iw}} $$
+
+$$\frac{\partial r_{ji}}{\partial \xi_{jw}} = \frac{\partial r_{ji}}{\partial \xi_{ji}}\frac{\partial \xi_{ji}}{\partial \xi_{jw}} $$
+
+As we have computed $$\frac{\partial r_{ji}}{\partial \xi_{ji}}$$ before, we just need to compute $$\frac{\partial \xi_{ji}}{\partial \xi_{iw}}$$ and $$\frac{\partial \xi_{ji}}{\partial \xi_{jw}}$$ here.
+
+$$
+\begin{aligned}
+\frac{\partial \xi_{ji}}{\partial \xi_{iw}} &= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \delta \xi_{ji}}{ \delta \xi_{iw}} \\
+&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \xi_{ji})}^{\wedge})^{\vee}}}{ \delta \xi_{iw}} \\
+&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{jw} (\exp{(\delta \xi_{iw})}^{\wedge}\mathbf{T}_{iw})^{-1} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \xi_{iw}} \\
+&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{jw} \mathbf{T}_{iw}^{-1} \exp{(-\delta \xi_{iw})}^{\wedge} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \xi_{iw}} \\
+&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{ji} \exp{(-\delta \xi_{iw})}^{\wedge} \mathbf{T}_{ji}^{-1})^{\vee}}}{ \delta \xi_{iw}} \\
+&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\exp{(-\mathcal{T}_{ji}\delta \xi_{iw})}^{\wedge})^{\vee}}}{ \delta \xi_{iw}} \\
+&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{-\mathcal{T}_{ji}\delta \xi_{iw}}{ \delta \xi_{iw}} \\
+&= -\mathcal{T}_{ji}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\frac{\partial \xi_{ji}}{\partial \xi_{jw}} &= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{ \delta \xi_{ji}}{ \delta \xi_{jw}} \\
+&= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \xi_{ji})}^{\wedge})^{\vee}}}{ \delta \xi_{jw}} \\
+&= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \xi_{jw})}^{\wedge}\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \xi_{jw}} \\
+&= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \xi_{jw})}^{\wedge})^{\vee}}}{ \delta \xi_{jw}} \\
+&= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{\delta \xi_{jw}}{ \delta \xi_{jw}} \\
+&= \mathbf{I}
+\end{aligned}
+$$
+
 #### Affine Parameters
 
 $$
@@ -472,7 +535,7 @@ $$
 
 #### Codes
 
-| Variable used in codes          | Variable used here      | Meaning      |
+| Variable used in `CoarseInitializer`          | Variable used here      | Meaning      |
 | -------- | ----------------------------- |-------- |
 |`residual` | $$I_{j}\left[\mathbf{p}_{j}\right]-e^{a_{ji}}I_{i}[\mathbf{p}_{i}] - b_{ji}$$| 单个点的误差 |
 | `hw` | $$\omega_{h}$$ |Huber weight |
