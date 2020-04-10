@@ -15,7 +15,7 @@ tags:
 - Lie algebra / group is defined as follows. Note: `translation` in Lie Algebra is not equal to the translation $$\mathbf{t}$$ in Lie group.
 
 $$
-\xi=\left[\begin{array}{c}
+\boldsymbol{\xi}=\left[\begin{array}{c}
 \text { translation } \\
 \text { rotation }
 \end{array}\right]
@@ -29,11 +29,11 @@ $$
 $$
 
 $$
-\xi= \ln{(\mathbf{T}^{\vee})}
+\boldsymbol{\xi}= \ln{(\mathbf{T}^{\vee})}
 $$
 
 $$
-\mathbf{T}= \exp{(\xi^{\wedge})}
+\mathbf{T}= \exp{(\boldsymbol{\xi}^{\wedge})}
 $$
 
 - Operators as introduced in sec. 7.1.8 [^Barfoot17]
@@ -100,7 +100,7 @@ $$\mathcal{T}^{-1} = \begin{bmatrix}
 
 $$\left(\mathbf{T}\mathbf{p}\right)^{\odot} \equiv \mathbf{T}\mathbf{p}^{\odot} \mathcal{T}^{-1}$$
 
-$$\exp{((\mathcal{T}\mathbf{x})^{\wedge})} = \mathbf{T} \exp{(\mathbf{x}^{\wedge})} \mathbf{T}^{-1}$$
+$$\exp{((\mathcal{T}\boldsymbol{\xi})^{\wedge})} = \mathbf{T} \exp{(\boldsymbol{\xi}^{\wedge})} \mathbf{T}^{-1}$$
 
 - Approximation of pose 
 
@@ -115,13 +115,36 @@ $$
 \end{aligned}
 $$
 
+- $$\mathbf{Sim}(3)$$
+
+$$
+\boldsymbol{\xi}^{s}=\left[\begin{array}{c}
+\text { translation } \\
+\text { rotation } \\
+\text {scale}
+\end{array}\right]
+$$
+
+$$
+\mathbf{S} = \begin{bmatrix}
+s\mathbf{R} & \mathbf{t} \\
+\mathbf{0}^{T} & 1 
+ \end{bmatrix}
+$$
+
+$$\mathcal{T}^s = \text{Ad}(\mathbf{S}) = \begin{bmatrix}
+s\mathbf{R} & \mathbf{t}^{\wedge}\mathbf{R} & -\mathbf{t}\\
+\mathbf{0} & \mathbf{R} & \mathbf{0} \\
+\mathbf{0}^T & \mathbf{0}^T & 1
+ \end{bmatrix}$$
+
+
 | Variable                                | Meaning                 |
 | --------------------------------------- | ----------------------- |
 | $$\mathbf{p} \in \mathbb{R}^{4}$$       | homogeneous coordinates |
 | $$\varepsilon \in \mathbb{R}^{3}$$      | $$3\times 1$$ vector    |
 | $$\eta$$                                | scalar                  |
 | $$\boldsymbol{\xi} \in \mathbb{R}^{6}$$ | lie algebra (e.g. pose) |
-
 
 #### Huber Cost Function [^Hartley04]
 
@@ -185,8 +208,8 @@ $$
 E_{\mathbf{p} j}:=\sum_{\mathbf{p} \in \mathcal{N}_{\mathrm{p}}} w_{\mathbf{p}}\left\|\left(I_{j}\left[\mathbf{p}^{\prime}\right]-b_{j}\right)-\frac{t_{j} e^{a_{j}}}{t_{i} e^{a_{i}}}\left(I_{i}[\mathbf{p}]-b_{i}\right)\right\|_{\gamma}
 $$
 
-| Variable                                                                                | Meaning                                                                    |
-| --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Variable                 | Meaning                                        |
+| ---------------------------------- | --------------------- |
 | $$\mathbf{p}$$                                                                          | pixel position                                                             |
 | $$\mathbf{p}^{\prime}$$                                                                 | projected pixel position of $$\mathbf{p}$$                                 |
 | $$\mathcal{N}_{\mathrm{p}}$$                                                            | residual pattern (8 pixels)                                                |
@@ -211,7 +234,7 @@ r_{ji} &= \left\|I_{j}\left[\mathbf{p}_{j}\right]-e^{a_{ji}}I_{i}[\mathbf{p}_{i}
 \end{aligned}
 $$
 
-| Variable                                              | Meaning                                      |
+| Variable                                              | Meaning          |
 | ----------------------------------------------------- | -------------------------------------------- |
 | $$e^{a_{ji}} = \frac{t_{j}}{t_{i}}e^{a_{j} - a_{i}}$$ | $$a_{ji}$$ is an affine tranfer parameter from $$i$$ to $$j$$ |
 | $$b_{ji} = b_{j} - e^{a_{ji}}b_{i}$$                  | $$b_{ji}$$ is an affine tranfer parameter from $$i$$ to $$j$$ |
@@ -245,8 +268,8 @@ $$
 $$
 
 
-| Variable                                                                      | Meaning                                             |
-| ----------------------------------------------------------------------------- | --------------------------------------------------- |
+| Variable       | Meaning                 |
+| ------------------------ | --------------------------------------------------- |
 | $$\rho_{j}$$                                                                  | point inverse depth wrt. image $$j$$                |
 | $$\mathbf{p}_{j}$$                                                            | pixel position in image $$j$$                       |
 | $$\mathbf{p}^n_j = \mathbf{K}^{-1} \mathbf{p}_{j} = \rho_{j} \mathbf{p}^c_j$$ | point position in the normalized plane              |
@@ -257,7 +280,7 @@ $$
 #### Relative Camera Pose
 
 $$
-\frac{\partial r_{ji}}{\partial \xi_{ji}} = \frac{\partial r_{ji}}{\partial \mathbf{p}_{j}} \frac{\partial \mathbf{p}_{j}}{\partial \xi_{ji}}
+\frac{\partial r_{ji}}{\partial \boldsymbol{\xi}_{ji}} = \frac{\partial r_{ji}}{\partial \mathbf{p}_{j}} \frac{\partial \mathbf{p}_{j}}{\partial \boldsymbol{\xi}_{ji}}
 $$
 
 The first part can be computed as follows
@@ -268,7 +291,7 @@ g^j_x & g^j_y
 \end{bmatrix}
 $$
 
-| Variable  | Meaning                                              |
+| Variable  | Meaning                  |
 | --------- | ---------------------------------------------------- |
 | $$g^j_x$$ | gradient in image $$j$$ in x-direction (u-direction) |
 | $$g^j_y$$ | gradient in image $$j$$ in y-direction (v-direction) |
@@ -276,7 +299,7 @@ $$
 For the second part, we have 
 
 $$
-\frac{\partial \mathbf{p}_{j}}{\partial \xi_{ji}} = \frac{\partial \mathbf{p}_{j}}{\partial \mathbf{p}^n_j} \frac{\partial \mathbf{p}^n_j}{\partial \xi_{ji}}
+\frac{\partial \mathbf{p}_{j}}{\partial \boldsymbol{\xi}_{ji}} = \frac{\partial \mathbf{p}_{j}}{\partial \mathbf{p}^n_j} \frac{\partial \mathbf{p}^n_j}{\partial \boldsymbol{\xi}_{ji}}
 $$
 
 According the [preparation](#preparation)
@@ -300,8 +323,8 @@ Then, we compute
 
 $$
 \begin{aligned}
-\frac{\partial \mathbf{p}^n_j}{\partial \xi_{ji}} &= \frac{\partial (\rho_{j}\mathbf{p}^c_j)}{\partial \xi_{ji}} \\
-&= \frac{\partial \mathbf{p}^c_j}{\partial \xi_{ji}} \rho_{j} +\mathbf{p}^c_j \frac{\partial \rho_{j}}{\partial \xi_{ji}} 
+\frac{\partial \mathbf{p}^n_j}{\partial \boldsymbol{\xi}_{ji}} &= \frac{\partial (\rho_{j}\mathbf{p}^c_j)}{\partial \boldsymbol{\xi}_{ji}} \\
+&= \frac{\partial \mathbf{p}^c_j}{\partial \boldsymbol{\xi}_{ji}} \rho_{j} +\mathbf{p}^c_j \frac{\partial \rho_{j}}{\partial \boldsymbol{\xi}_{ji}} 
 \end{aligned}
 $$
 
@@ -309,12 +332,12 @@ where
 
 $$
 \begin{aligned}
-\frac{\partial \mathbf{p}^c_j}{\partial \xi_{ji}} &= \frac{\partial (\mathbf{T}_{ji}\mathbf{p}^c_i)}{\partial \xi_{ji}} \\
-&= \lim_{\delta \xi \rightarrow 0} \frac{\exp{(\delta\xi^{\wedge})}\exp{(\xi_{ji}^{\wedge})}\mathbf{p}^c_i -\exp{(\xi_{ji}^{\wedge})}\mathbf{p}^c_i }{\delta \xi} \\
-&= \lim_{\delta \xi \rightarrow 0} \frac{(\mathbf{I} + \delta \xi^{\wedge})\exp{(\xi_{ji}^{\wedge})}\mathbf{p}^c_i -\exp{(\xi_{ji}^{\wedge})}\mathbf{p}^c_i }{\delta \xi}\\
-&= \lim_{\delta \xi \rightarrow 0} \frac{\delta \xi^{\wedge}\exp{(\xi_{ji}^{\wedge})}\mathbf{p}^c_i }{\delta \xi}\\
-&= \lim_{\delta \xi \rightarrow 0} \frac{(\exp{(\xi_{ji}^{\wedge})}\mathbf{p}^c_i)^{\odot}\delta \xi }{\delta \xi}\\
-&= (\exp{(\xi_{ji}^{\wedge})}\mathbf{p}^c_i)^{\odot} \\
+\frac{\partial \mathbf{p}^c_j}{\partial \boldsymbol{\xi}_{ji}} &= \frac{\partial (\mathbf{T}_{ji}\mathbf{p}^c_i)}{\partial \boldsymbol{\xi}_{ji}} \\
+&= \lim_{\delta \boldsymbol{\xi} \rightarrow 0} \frac{\exp{(\delta\boldsymbol{\xi}^{\wedge})}\exp{(\boldsymbol{\xi}_{ji}^{\wedge})}\mathbf{p}^c_i -\exp{(\boldsymbol{\xi}_{ji}^{\wedge})}\mathbf{p}^c_i }{\delta \boldsymbol{\xi}} \\
+&= \lim_{\delta \boldsymbol{\xi} \rightarrow 0} \frac{(\mathbf{I} + \delta \boldsymbol{\xi}^{\wedge})\exp{(\boldsymbol{\xi}_{ji}^{\wedge})}\mathbf{p}^c_i -\exp{(\boldsymbol{\xi}_{ji}^{\wedge})}\mathbf{p}^c_i }{\delta \boldsymbol{\xi}}\\
+&= \lim_{\delta \boldsymbol{\xi} \rightarrow 0} \frac{\delta \boldsymbol{\xi}^{\wedge}\exp{(\boldsymbol{\xi}_{ji}^{\wedge})}\mathbf{p}^c_i }{\delta \boldsymbol{\xi}}\\
+&= \lim_{\delta \boldsymbol{\xi} \rightarrow 0} \frac{(\exp{(\boldsymbol{\xi}_{ji}^{\wedge})}\mathbf{p}^c_i)^{\odot}\delta \boldsymbol{\xi} }{\delta \boldsymbol{\xi}}\\
+&= (\exp{(\boldsymbol{\xi}_{ji}^{\wedge})}\mathbf{p}^c_i)^{\odot} \\
 &= (\mathbf{p}^c_j)^{\odot} \\
 &= \begin{bmatrix}
 1 & 0 & 0 & 0 & z^c_j & -y^c_j\\ 
@@ -327,8 +350,8 @@ $$
 
 $$
 \begin{aligned}
-\frac{\partial \rho_{j}}{\partial \xi_{ji}} &= \frac{\partial \frac{1}{z^c_j}}{\partial \xi_{ji}} \\
-&= \frac{\partial \frac{1}{z^c_j}}{\partial z^c_j}\frac{\partial z^c_j}{\partial \xi_{ji}} \\
+\frac{\partial \rho_{j}}{\partial \boldsymbol{\xi}_{ji}} &= \frac{\partial \frac{1}{z^c_j}}{\partial \boldsymbol{\xi}_{ji}} \\
+&= \frac{\partial \frac{1}{z^c_j}}{\partial z^c_j}\frac{\partial z^c_j}{\partial \boldsymbol{\xi}_{ji}} \\
 &= -\frac{1}{(z^c_j)^2}\begin{bmatrix}
 0 & 0 & 1 & y^c_j & -x^c_j & 0 
 \end{bmatrix} \\
@@ -342,8 +365,8 @@ Thus,
 
 $$
 \begin{aligned}
-\frac{\partial \mathbf{p}^n_j}{\partial \xi_{ji}} &= \frac{\partial (\rho_{j}\mathbf{p}^c_j)}{\partial \xi_{ji}} \\
-&= \frac{\partial \mathbf{p}^c_j}{\partial \xi_{ji}} \rho_{j} +\frac{\partial \rho_{j}}{\partial \xi_{ji}} \mathbf{p}^c_j \\
+\frac{\partial \mathbf{p}^n_j}{\partial \boldsymbol{\xi}_{ji}} &= \frac{\partial (\rho_{j}\mathbf{p}^c_j)}{\partial \boldsymbol{\xi}_{ji}} \\
+&= \frac{\partial \mathbf{p}^c_j}{\partial \boldsymbol{\xi}_{ji}} \rho_{j} +\frac{\partial \rho_{j}}{\partial \boldsymbol{\xi}_{ji}} \mathbf{p}^c_j \\
 &= \begin{bmatrix}
 \rho_{j} & 0 & 0 & 0 & 1 & -y^n_j\\ 
 0 & \rho_{j} & 0 & -1 & 0 & x^n_j\\ 
@@ -365,8 +388,8 @@ Therefore,
 
 $$
 \begin{aligned}
-\frac{\partial r_{ji}}{\partial \xi_{ji}} &= \frac{\partial r_{ji}}{\partial \mathbf{p}_{j}} \frac{\partial \mathbf{p}_{j}}{\partial \xi_{ji}} \\
-&= \frac{\partial r_{ji}}{\partial \mathbf{p}_{j}} \frac{\partial \mathbf{p}_{j}}{\partial \mathbf{p}^n_{j}} \frac{\partial \mathbf{p}^n_{j}}{\partial \xi_{ji}} \\
+\frac{\partial r_{ji}}{\partial \boldsymbol{\xi}_{ji}} &= \frac{\partial r_{ji}}{\partial \mathbf{p}_{j}} \frac{\partial \mathbf{p}_{j}}{\partial \boldsymbol{\xi}_{ji}} \\
+&= \frac{\partial r_{ji}}{\partial \mathbf{p}_{j}} \frac{\partial \mathbf{p}_{j}}{\partial \mathbf{p}^n_{j}} \frac{\partial \mathbf{p}^n_{j}}{\partial \boldsymbol{\xi}_{ji}} \\
 &= \omega_{h}
 \begin{bmatrix}
 g^j_x & g^j_y
@@ -399,32 +422,32 @@ $$
 
 #### Absolute Camera Pose
 
-$$\frac{\partial r_{ji}}{\partial \xi_{iw}} = \frac{\partial r_{ji}}{\partial \xi_{ji}}\frac{\partial \xi_{ji}}{\partial \xi_{iw}} $$
+$$\frac{\partial r_{ji}}{\partial \boldsymbol{\xi}_{iw}} = \frac{\partial r_{ji}}{\partial \boldsymbol{\xi}_{ji}}\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{iw}} $$
 
-$$\frac{\partial r_{ji}}{\partial \xi_{jw}} = \frac{\partial r_{ji}}{\partial \xi_{ji}}\frac{\partial \xi_{ji}}{\partial \xi_{jw}} $$
+$$\frac{\partial r_{ji}}{\partial \boldsymbol{\xi}_{jw}} = \frac{\partial r_{ji}}{\partial \boldsymbol{\xi}_{ji}}\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{jw}} $$
 
-As we have computed $$\frac{\partial r_{ji}}{\partial \xi_{ji}}$$ before, we just need to compute $$\frac{\partial \xi_{ji}}{\partial \xi_{iw}}$$ and $$\frac{\partial \xi_{ji}}{\partial \xi_{jw}}$$ here.
+As we have computed $$\frac{\partial r_{ji}}{\partial \boldsymbol{\xi}_{ji}}$$ before, we just need to compute $$\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{iw}}$$ and $$\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{jw}}$$ here.
 
 $$
 \begin{aligned}
-\frac{\partial \xi_{ji}}{\partial \xi_{iw}} &= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \delta \xi_{ji}}{ \delta \xi_{iw}} \\
-&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \xi_{ji})}^{\wedge})^{\vee}}}{ \delta \xi_{iw}} \\
-&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{jw} (\exp{(\delta \xi_{iw})}^{\wedge}\mathbf{T}_{iw})^{-1} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \xi_{iw}} \\
-&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{jw} \mathbf{T}_{iw}^{-1} \exp{(-\delta \xi_{iw})}^{\wedge} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \xi_{iw}} \\
-&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{ji} \exp{(-\delta \xi_{iw})}^{\wedge} \mathbf{T}_{ji}^{-1})^{\vee}}}{ \delta \xi_{iw}} \\
-&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{ \ln{(\exp{(-\mathcal{T}_{ji}\delta \xi_{iw})}^{\wedge})^{\vee}}}{ \delta \xi_{iw}} \\
-&= \lim_{\delta \xi_{iw} \rightarrow 0} \frac{-\mathcal{T}_{ji}\delta \xi_{iw}}{ \delta \xi_{iw}} \\
+\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{iw}} &= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{ \delta \boldsymbol{\xi}_{ji}}{ \delta \boldsymbol{\xi}_{iw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \boldsymbol{\xi}_{ji})}^{\wedge})^{\vee}}}{ \delta \boldsymbol{\xi}_{iw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{jw} (\exp{(\delta \boldsymbol{\xi}_{iw})}^{\wedge}\mathbf{T}_{iw})^{-1} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \boldsymbol{\xi}_{iw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{jw} \mathbf{T}_{iw}^{-1} \exp{(-\delta \boldsymbol{\xi}_{iw})}^{\wedge} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \boldsymbol{\xi}_{iw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{ \ln{(\mathbf{T}_{ji} \exp{(-\delta \boldsymbol{\xi}_{iw})}^{\wedge} \mathbf{T}_{ji}^{-1})^{\vee}}}{ \delta \boldsymbol{\xi}_{iw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{ \ln{(\exp{(-\mathcal{T}_{ji}\delta \boldsymbol{\xi}_{iw})}^{\wedge})^{\vee}}}{ \delta \boldsymbol{\xi}_{iw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{-\mathcal{T}_{ji}\delta \boldsymbol{\xi}_{iw}}{ \delta \boldsymbol{\xi}_{iw}} \\
 &= -\mathcal{T}_{ji}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-\frac{\partial \xi_{ji}}{\partial \xi_{jw}} &= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{ \delta \xi_{ji}}{ \delta \xi_{jw}} \\
-&= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \xi_{ji})}^{\wedge})^{\vee}}}{ \delta \xi_{jw}} \\
-&= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \xi_{jw})}^{\wedge}\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \xi_{jw}} \\
-&= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \xi_{jw})}^{\wedge})^{\vee}}}{ \delta \xi_{jw}} \\
-&= \lim_{\delta \xi_{jw} \rightarrow 0} \frac{\delta \xi_{jw}}{ \delta \xi_{jw}} \\
+\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{jw}} &= \lim_{\delta \boldsymbol{\xi}_{jw} \rightarrow 0} \frac{ \delta \boldsymbol{\xi}_{ji}}{ \delta \boldsymbol{\xi}_{jw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \boldsymbol{\xi}_{ji})}^{\wedge})^{\vee}}}{ \delta \boldsymbol{\xi}_{jw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \boldsymbol{\xi}_{jw})}^{\wedge}\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1} (\mathbf{T}_{jw}\mathbf{T}_{iw}^{-1})^{-1})^{\vee}}}{ \delta \boldsymbol{\xi}_{jw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw} \rightarrow 0} \frac{ \ln{(\exp{(\delta \boldsymbol{\xi}_{jw})}^{\wedge})^{\vee}}}{ \delta \boldsymbol{\xi}_{jw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw} \rightarrow 0} \frac{\delta \boldsymbol{\xi}_{jw}}{ \delta \boldsymbol{\xi}_{jw}} \\
 &= \mathbf{I}
 \end{aligned}
 $$
@@ -458,8 +481,8 @@ $$\begin{aligned}
 \end{aligned}
 $$
 
-| Variable                                                                 | Meaning                                |
-| ------------------------------------------------------------------------ | -------------------------------------- |
+| Variable  | Meaning    |
+| ------------------- | -------------------------------------- |
 | $$\mathbf{p}^n_{j} = \begin{bmatrix} x^n_j \\ y^n_j \\ 1 \end{bmatrix}$$ | point position in the normalized plane |
 | $$\mathbf{M} = \mathbf{R}_{ji}\mathbf{K}^{-1}$$                          |                                        |
 | $$\mathbf{t}_{ji} = \begin{bmatrix} t^x \\ t^y \\ t^z \end{bmatrix}$$    | translation from $$i$$ to $$j$$        |
@@ -585,7 +608,61 @@ $$
 
 ### Pose Graph Error
 
-#### Similarity Sim(3)
+#### SE(3)
+
+- Residual
+$$\mathbf{r}_{ji} = \ln{(\bar{\mathbf{T}}_{ji} \mathbf{T}_{iw} \mathbf{T}_{jw}^{-1})^{\vee}}$$
+
+| Variable  | Meaning    |
+| ------------------- | -------------------------------------- |
+| $$\mathbf{r}_{ji} \in \mathbb{R}^{6}$$ | single residual, `3` for translation, `3` for rotation |
+|$$\bar{\mathbf{T}}_{ji}$$ |  measurement $$\mathbf{SE}(3)$$    |
+| $$\mathbf{T}_{iw}, \mathbf{T}_{jw}$$    |    variables to optimize (Lie group) |
+| $$\boldsymbol{\xi}_{iw}, \boldsymbol{\xi}_{jw}$$    |    variables to optimize (Lie algebra) |
+
+#### Sim(3)
+
+- Residual
+$$\mathbf{r}_{ji} = \ln{(\bar{\mathbf{S}}_{ji} \mathbf{S}_{iw} \mathbf{S}_{jw}^{-1})^{\vee}}$$
+
+| Variable  | Meaning    |
+| ------------------- | -------------------------------------- |
+| $$\mathbf{r}_{ji} \in \mathbb{R}^{7}$$ | single residual, `3` for translation, `3` for rotation, `1` for scale |
+|$$\bar{\mathbf{S}}_{ji}$$ |  measurement $$\mathbf{Sim}(3)$$    |
+| $$\mathbf{S}_{iw}, \mathbf{S}_{jw}$$    |    variables to optimize   (Lie group)  |
+| $$\boldsymbol{\xi}_{iw}^{s}, \boldsymbol{\xi}_{jw}^{s}$$    |    variables to optimize   (Lie algebra)  |
+
+- $$\frac{\partial \mathbf{r}_{ji}}{\partial \boldsymbol{\xi}_{iw}}$$
+
+$$
+\begin{aligned}
+\frac{\partial  \mathbf{r}_{ji}}{\partial \boldsymbol{\xi}_{iw}^{s}} &= \lim_{\delta \boldsymbol{\xi}_{iw}^{s} \rightarrow 0} \frac{ \delta  \mathbf{r}_{ji}}{ \delta \boldsymbol{\xi}_{iw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw}^{s} \rightarrow 0} \frac{ \ln{(\exp{(\delta \mathbf{r}_{ji})}^{\wedge})^{\vee}}}{ \delta \boldsymbol{\xi}_{iw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw}^{s} \rightarrow 0} \frac{ \ln{(\bar{\mathbf{S}}_{ji} \exp{(\delta \boldsymbol{\xi}_{iw}^{s})^{\wedge}}\mathbf{S}_{iw} \mathbf{S}_{jw}^{-1}(\bar{\mathbf{S}}_{ji} \mathbf{S}_{iw} \mathbf{S}_{jw}^{-1})^{-1})^{\vee}}}{ \delta \boldsymbol{\xi}_{iw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw}^{s} \rightarrow 0} \frac{ \ln{(\bar{\mathbf{S}}_{ji} \exp{(\delta \boldsymbol{\xi}_{iw}^{s})^{\wedge}}\mathbf{S}_{iw}\mathbf{S}_{jw}^{-1} \mathbf{S}_{jw} \mathbf{S}_{iw}^{-1}\bar{\mathbf{S}}_{ji}^{-1})^{\vee}}}{ \delta \boldsymbol{\xi}_{iw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw}^{s} \rightarrow 0} \frac{ \ln{(\bar{\mathbf{S}}_{ji} \exp{(\delta \boldsymbol{\xi}_{iw}^{s})^{\wedge}}\bar{\mathbf{S}}_{ji}^{-1})}}{ \delta \boldsymbol{\xi}_{iw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw}^{s} \rightarrow 0} \frac{ \ln{( \exp{(\mathcal{T}^{s}\delta \boldsymbol{\xi}_{iw}^{s})^{\wedge}})}^{\vee}}{ \delta \boldsymbol{\xi}_{iw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw}^{s} \rightarrow 0} \frac{ \mathcal{T}^{s}\delta \boldsymbol{\xi}_{iw}^{s}}{ \delta \boldsymbol{\xi}_{iw}^{s}} \\
+&= \mathcal{T}^{s} \\ 
+&= \mathbf{Ad}(\bar{\mathbf{S}}_{ji})
+\end{aligned}
+$$
+
+- $$\frac{\partial\mathbf{r}_{ji}}{\partial \boldsymbol{\xi}_{jw}^{s}}$$
+
+$$
+\begin{aligned}
+\frac{\partial  \mathbf{r}_{ji}}{\partial \boldsymbol{\xi}_{jw}^{s}} &= \lim_{\delta \boldsymbol{\xi}_{jw}^{s} \rightarrow 0} \frac{ \delta  \mathbf{r}_{ji}}{ \delta \boldsymbol{\xi}_{jw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw}^{s} \rightarrow 0} \frac{ \ln{(\exp{(\delta \mathbf{r}_{ji})}^{\wedge})^{\vee}}}{ \delta \boldsymbol{\xi}_{jw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw}^{s} \rightarrow 0} \frac{ \ln{(\bar{\mathbf{S}}_{ji} \mathbf{S}_{iw} (\exp{(\delta \boldsymbol{\xi}_{jw}^{s})^{\wedge}}\mathbf{S}_{jw})^{-1}(\bar{\mathbf{S}}_{ji} \mathbf{S}_{iw} \mathbf{S}_{jw}^{-1})^{-1})^{\vee}}}{ \delta \boldsymbol{\xi}_{jw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw}^{s} \rightarrow 0} \frac{ \ln{(\bar{\mathbf{S}}_{ji} \mathbf{S}_{iw}\mathbf{S}_{jw}^{-1} \exp{(-\delta \boldsymbol{\xi}_{jw}^{s})^{\wedge}}(\bar{\mathbf{S}}_{ji} \mathbf{S}_{iw} \mathbf{S}_{jw}^{-1})^{-1})^{\vee}}}{ \delta \boldsymbol{\xi}_{jw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw}^{s} \rightarrow 0} \frac{ \ln{(\exp{(-\mathcal{T}^{s}\delta \boldsymbol{\xi}_{jw}^{s})^{\wedge}})^{\vee}}}{ \delta \boldsymbol{\xi}_{jw}^{s}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{jw}^{s} \rightarrow 0} \frac{-\mathcal{T}^{s}\delta \boldsymbol{\xi}_{jw}^{s}}{ \delta \boldsymbol{\xi}_{jw}^{s}} \\
+&= -\mathcal{T}^{s} \\
+&= -\mathbf{Ad}(\bar{\mathbf{S}}_{ji} \mathbf{S}_{iw}\mathbf{S}_{jw}^{-1})
+\end{aligned}
+$$
+
 
 ### Literature
 
