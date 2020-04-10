@@ -253,13 +253,31 @@ linearly)?
    - $$\overline{\boldsymbol{p}}_{2}^{\top} \cdot E \overline{\boldsymbol{p}}_{1}=\left\|\overline{\boldsymbol{p}}_{2}\right\|\left\|\boldsymbol{E} \overline{\boldsymbol{p}}_{1}\right\| \cos (\theta)$$
    - This product depends on the angle $$\theta$$ between $$\overline{\boldsymbol{p}}_{1}$$ and the normal $$n=E p_{1}$$ to the epipolar plane. It is non zero when $$\overline{\boldsymbol{p}}_{1}$$, $$\overline{\boldsymbol{p}}_{2}$$, and $$T$$ are not coplanar.
 7. Are you able to describe the relation between the essential and the fundamental matrix?
+   - $$\mathbf{F} = \mathbf{K}^{-T}_{2} \mathbf{E} \mathbf{K}^{-1}_{1}$$
 8. Why is it important to normalize the point coordinates in the 8 point algorithm?
+   - Orders of magnitude difference between column of data matrix --> least squares yield poor results
+   - Poor numerical conditioning, which makes results very sensitive to noise
 9.  Describe one or more possible ways to achieve this normalization.
-10. Are you able to describe the normalized 8 point algorithm?
+    - Transform image coordinates so that they are in the range ~ `[-1, 1] x [-1, 1]`
+    - Hartley proposed to rescale the two point sets such that the centroid of each set is 0 and the mean standard deviation $$\sqrt{2}$$, so that the "average" point is equal to $$\begin{bmatrix}0 & 0 & 1\end{bmatrix}^{T}$$ (in homogeneous coordinates)
+    - This can be done for every point as follows $$\widehat{p}^{i}=\frac{\sqrt{2}}{\sigma}\left(p^{i}-\mu\right)$$
+    - where $$\mu=\left(\mu_{x}, \mu_{y}\right)=\frac{1}{N} \sum_{i=1}^{n} p^{i}$$ is the centroid and $$\sigma=\frac{1}{N} \sum_{i=1}^{n}\left\|p^{i}-\mu\right\|^{2}$$ is the mean standard deviation of the point set.
+    - This transformation can be expressed in matrix form using homogeneous coordinates $$\widehat{p^{i}}=\left[\begin{array}{ccc}\frac{\sqrt{2}}{\sigma} & 0 & -\frac{\sqrt{2}}{\sigma} \mu_{x} \\0 & \frac{\sqrt{2}}{\sigma} & -\frac{\sqrt{2}}{\sigma} \mu_{y} \\0 & 0 & 1\end{array}\right] p^{i}$$
+10. Are you able to describe the normalized 8 point algorithm[^Hartley97]?
+    1. __Normalize__ point correspondences: $$\widehat{p_{1}}=B_{1} p_{1}, \quad \widehat{p_{2}}=B_{2} p_{2}$$
+    2. Estimate __normalized__ $$\widehat{F}$$ with 8-point algorithm using normalized coordinates $$\widehat{p}_{1}, \widehat{p_{2}}$$
+    3. Compute __unnormalized__ $$\mathbf{F}$$ from $$\widehat{F}$$: $$\mathrm{F}=\mathrm{B}_{2}^{\top} \widehat{\mathrm{F}} \mathrm{B}_{1}$$
 11. Are you able to provide quality metrics for the essential matrix estimation?
-12. Why do we need RANSAC?
+    - __Algebraic error__: defined directly by the Epipolar Constraint: $$e r r=\sum_{i=1}^{N}\left({\bar{p}_{2}^{i}}^{T} \boldsymbol{E} \bar{p}_{1}^{i}\right)^{2}$$
+    - __Direcitonal Error__: sum of __squared consines of the angle from the epipolar plane__ $$\operatorname{err}=\sum_{i}\left(\cos \left(\theta_{i}\right)\right)^{2}$$, where $$\cos (\theta)=\frac{\boldsymbol{p}^{T}_{2} \cdot \boldsymbol{E} \boldsymbol{p}_{1}}{\left\|\boldsymbol{p}_{2}\right\|\left\|\boldsymbol{E} \boldsymbol{p}_{1}\right\|}$$
+    - __Epipolar Line Distance__: sum of __squared epipolar-line-to-point distances__ $$e r r=\sum_{i=1}^{N} d^{2}\left(p_{1}^{i}, l_{1}^{i}\right)+d^{2}\left(p_{2}^{i}, l_{2}^{i}\right)$$ 
+      - Cheaper than reprojection error because it does not require point triangulation
+    - __Reprojeciton Error__: sum of the __squared reprojection errors__ $$e r r=\sum_{i=1}^{N}\left\|p_{1}^{i}-\pi_{1}\left(P^{i}\right)\right\|^{2}+\left\|p_{2}^{i}-\pi_{2}\left(P^{i}, R, T\right)\right\|^{2}$$
+      - Computation is expensive because it requires point triangulation.
+      - However, it is the most popular because __more accurate__.
+12. Why do we need RANSAC[^Fischler81]?
 13. What is the theoretical maximum number of combinations to explore?
-14. After how many iterations can RANSAC be stopped to guarantee a given success probability
+14. After how many iterations can RANSAC be stopped to guarantee a given success probability?
 15. What is the trend of RANSAC vs. iterations, vs . the fraction of outliers, vs. the number of points to estimate the model?
 16. How do we apply RANSAC to the 8 point algorithm, DLT, P3P?
 17. How can we reduce the number of RANSAC iterations for the SFM problem?
@@ -373,3 +391,7 @@ linearly)?
 ### Literature
 
 [^Lindeberg94]: Lindeberg, Scale-space theory: A basic tool for analysing structures at different scales, Journal of Applied Statistics, 1994.
+
+[^Fischler81]: M. A.Fischler and R. C.Bolles. Random sample consensus: A paradigm for model fitting with applications to image analysis and automated cartography. Graphics and Image Processing, 1981.
+
+[^Hartley97]: Hartley, In defense of the eight-point algorithm, PAMI’97.
