@@ -84,10 +84,6 @@ City environments often lack textured areas, contain repetitive structures, stro
 
 - Our technique avoids expensive voxelization of space, operates directly on 3D reconstructed points through an effective kd-tree representation. As the result, a textured triangulated surface mesh of an observed environment is obtained.
 
-### Global stereo reconstruction under second order smoothness priors [^Woodford08]
-
-#### Abstract 
-
 ### Multi-View Stereo via Graph Cuts on the Dual of an Adaptive Tetrahedral Mesh [^Sinha07]
 
 #### Abstract 
@@ -195,8 +191,6 @@ We present a multi-view stereo algorithm that addresses the extreme changes in l
 [^Boykov01]: Boykov, Yuri, Olga Veksler, and Ramin Zabih. "Fast approximate energy minimization via graph cuts." IEEE Transactions on pattern analysis and machine intelligence 23.11 (2001): 1222-1239.
 
 [^Micusik09]: Micusik, Branislav, and Jana Kosecka. "Piecewise planar city 3D modeling from street view panoramic sequences." 2009 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2009.
-
-[^Woodford08]: Woodford, O. J., Torr, P. H. S., Reid, I. D., & Fitzgibbon, A. W. (2008). Global stereo reconstruction under second order smoothness priors. 2008 IEEE Conference on Computer Vision and Pattern Recognition. 
 
 [^Vu11]: Vu, Hoang-Hiep, et al. "High accuracy and visibility-consistent dense multiview stereo." IEEE transactions on pattern analysis and machine intelligence 34.5 (2011): 889-901.
 
