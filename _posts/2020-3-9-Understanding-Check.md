@@ -28,9 +28,8 @@ tags:
 ### 3. Image Formation 2: camera calibration algorithms
 
 1. Describe the general PnP problem and derive the behavior of its solutions?
-2. Explain the working principle of the P3P algorithm?
-Explain and derive the DLT? What is the minimum number of point
-correspondences it requires?
+2. Explain the working principle of the P3P algorithm? 
+3. Explain and derive the DLT? What is the minimum number of point correspondences it requires?
 3. Define central and non central omnidirectional cameras?
 4. What kind of mirrors ensure central projection?
 
@@ -276,26 +275,67 @@ linearly)?
       - Computation is expensive because it requires point triangulation.
       - However, it is the most popular because __more accurate__.
 12. Why do we need RANSAC[^Fischler81]?
+    - RANSAC is the __standard method for model fitting in the presence of outliers__.
 13. What is the theoretical maximum number of combinations to explore?
+    - N(N-1)/2 for computation of a line
 14. After how many iterations can RANSAC be stopped to guarantee a given success probability?
+    - $$k=\frac{\log (1-p)}{\log \left(1-w^{s}\right)}$$
+    - where $$k$$ is the maximum number of iterations, $$p$$ is the probability of success, and $$w$$ is the fraction of inliers ($$1-w$$ is the fraction of outliers), $$s$$ is the number required to estimate a model.
 15. What is the trend of RANSAC vs. iterations, vs . the fraction of outliers, vs. the number of points to estimate the model?
+    - $$k$$ is exponential in the number of points $$s$$ necessary to estimate the model
 16. How do we apply RANSAC to the 8 point algorithm, DLT, P3P?
 17. How can we reduce the number of RANSAC iterations for the SFM problem?
+    - Use __motion constraints__.
+    - Wheeled vehicles, like cars, follow locally planar circular motion about the Instantaneous Center of Rotation (ICR).[^Scaramuzza11]
 
 ### 9. Multiple-view geometry 3
 
 1. Are you able to define Bundle Adjustment (via mathematical expression and illustration)?
+   - Non-linear, simultaneous refinement of structure and motion.
+   - Minimize the sum of squared reprojection errors.
+   - Levenberg-Marquardt is more robust than Gauss-Newton to local minima.
+   - In order to not get stuck in local minima, the __initialization should be close the minimum__.
+   - To prevent that large reprojection erros can negatively influence the optimization, a robust cost function (__Huber__ or __Tukey__) is used to penalize wrong matches.
 2. Are you able to describe hierarchical and sequential SFM for monocular VO?
+   - __Hierarchical SFM__
+     1. Extract and match features between nearby frames
+     2. Identify clusters consisting of 3 nearby frames
+     3. Compute SFM for 3 views.
+        1. Compute SFM between 1 and 2 and build point cloud
+        2. Then merge the third view by running 3-point RANSAC between point cloud and the third view
+     4. Merge clusters pairwise and refine (BA) both structure and motion
+   - __Sequential SFM (Visual Odometry)__
+     1. Initialize structure and motion from 2 views (__bootstrapping__)
+     2. For each additional view
+        1. Determine pose (__localization__)
+        2. Extend structure, i.e., extract and triangulate new features (__mapping__)
+        3. Refine structure and motion through Bundle Adjustment (BA) (__optimization__)
 3. What are keyframes? Why do we need them and how can we select them?
+   - When frames are taken at nearby positions compared to the scene distance, 3D points will exibit large uncertainty
+   - One way to avoid this consists of __skipping frames__ until the average uncertainty of the 3D points decreases below a certain threshold. The selected frames are called __keyframes__.
+   - __Rule of the thumb__: add a keyframe when $$\frac{\text{keyframe distance}}{\text{average depth}} > \text{threshold} (10-20\%)$$
 4. Are you able to define loop closure detection? Why do we need loops?
+   - __Loop detection__ to avoid map duplication
+   - __Loop correction__ to compensate the acccumulated drift
 5. Are you able to provide a list of the most popular open source VO and VSLAM algorithms?
 6. Are you able to describe the differences between feature based methods and direct methods?
 
 ### 10. Multiple-view geometry 3 continued
 
 1. How do we benchmark VO/SLAM algorithms?
+   - [Devon Island](http://asrl.utias.utoronto.ca/datasets/devon-island-rover-navigation/): Stereo + D-GPS + inclinometer + sun sensor
+   - [KITTI](www.cvlibs.net/datasets/kitti/): Automobile, Laser + stereo + GPS
+   - [EuRoC](https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets): MAV with synchronized IMU and stereo
+   - [Blackbird](https://github.com/mit-fast/Blackbird-Dataset): MAV indoor aggressive flight with rendered images and real dynamics + IMU
+   - [MVSEC](https://daniilidis-group.github.io/mvsec/): Events, frame, lidar, GPS, IMU from cars, drones, and motorcycles
+   - [UZH Drone Racing](http://rpg.ifi.uzh.ch/uzh-fpv.html): MAV aggressive flight, standard + event cameras, IMU, indoors and outdoors
 2. Along which axes can we evaluate them?
+   - Robustness (HDR, motion blur, low texture)
+   - Efficiency (speed, memory, CPU load)
+   - Accuracy (ATE, RTE)
 3. Benchmarking accuracy: Can we use the end pose error? What are ATE and RTE?
+   - ATE: Absolute Trajectory Error
+   - RTE: Relative Trajectory Error
 4. How can we quantify Efficiency? And Robustness?
 5. What are open research opportunities?
 
@@ -395,3 +435,5 @@ linearly)?
 [^Fischler81]: M. A.Fischler and R. C.Bolles. Random sample consensus: A paradigm for model fitting with applications to image analysis and automated cartography. Graphics and Image Processing, 1981.
 
 [^Hartley97]: Hartley, In defense of the eight-point algorithm, PAMI’97.
+
+[^Scaramuzza11]: Scaramuzza, 1 Point RANSAC Structure from Motion for Vehicle Mounted Cameras by Exploiting Non holonomic Constraints , International Journal of Computer Vision, 2011.
