@@ -81,7 +81,7 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
   - Given a 3D volume partitioned into a 3D grid of voxels, the volume is iteratively carved out by removing voxels that are not photo-consistent.
   - The __main contribution__ of the work was the proposal of a geometric constraint on the camera centers such that there exists an __ordinal visibility constraint__ on all the 3D voxels in the scene. That is, starting from an initial bounding volume, one can visit all the voxels in an order that guarantees that any potential occluder voxel is always visited before its potential occluded voxel.
 - Visibility estimate for large image collections typically happen in two phases
-  - In the first phase, visibility is estimated _coarsely_ by clustering the initial set of images and reducing the large-scale MVS problem into a sequence of small sub-problems. [^Yasutaka10a] [^Yasutaka10b] [^Hernandez04] [^Goesele07]
+  - In the first phase, visibility is estimated _coarsely_ by clustering the initial set of images and reducing the large-scale MVS problem into a sequence of small sub-problems. [^Furukawa10a] [^Furukawa10b] [^Hernandez04] [^Goesele07]
   - In the second phase, more fine-scale visibility estimation is conducted per 3D point basis.
     - One popular approach is to use the current reconstructed geometry to compute occlusions (e.g., a z-buffer testing), select which views see which parts of the geometry, and iterate visibility estimation and reconstruction.
     - Another popular solutions is to rely on robust photo-consistency statistics without explicitly estimating occlusion.
@@ -134,7 +134,7 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 
 - A common characteristic of point-cloud reconstruction algorithms is that they make use of an __spatial consistency assumption__ and __grows or expand__ the point-cloud on the surface of the scene during the reconstruction process. 
 
-- This article focuses on the work [^Yasutaka10a]. 
+- This article focuses on the work [^Furukawa10a]. 
   - The algorithm also follows a __greedy expansion__ approach, 
   - but one __key difference__ is that it iterates between the expansion and the filtering steps after reconstructing an initial seed of patches via feature matching. 
   - The __filtering__ step analyzes consistency of patches across all the views and removes falsely reconstructed ones.
@@ -163,15 +163,39 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 
 #### 3.3 Volumetric data fusion
 
+- __Volumetric surface extraction__ is flexible and the input 3D information can come from many different sources such as photo-consistency volumes, depthmaps, MVS point clouds, laser scanned 3D points, or any combination of those. It is a challenging task to fuse such diverse set of 3D measurements into a single clean mesh model with the right topology.
+- A standard yet powerful solution is to accumulate evidence in a 3D voxel grid and extract a surface model via Marching Cube algorithm.
+  - One formulation is to compute a __signed distance function__ field over the voxel grid, then pose a surface reconstruction as zero iso-surface extraction. [^Curless96] [^Zach07]
+  - The other formulation is to pose as a 3D binary segmentation problem, where the boundary of the two segments can be extracted as a surface model. [^Zach07] [^Furukawa09] [^Hernandez07] [^Sinha07] [^Vogiatzis05]
+- __Volumetric Graph-Cuts on a Voxel Grid__
+  - Given a bounding box that contains the solution surface, the space is discretized with a voxel grid. 
+  - The objective is to find the __optimal label assignment__ ("interior" or "exterior") to all the voxels that minimizes the following cost function: $$E\left(\left\{k_{v}\right\}\right)=\sum_{v} \Phi\left(k_{v}\right)+\sum_{(v, w) \in \mathcal{N}} \Psi\left(k_{v}, k_{w}\right)$$
+  - The first term (_unary term_) is the summation of per voxel cost over the entire domain, where $$\Phi\left(k_{v}\right)$$ encodes the cost of assigning a label to voxel $$v$$.
+  - The second term (pairwise _interaction term_) is the summation over all the pairs of adjacent voxels denoted as $$\mathcal{N}$$.
+  - Possibility: a constant _ballooning term_ as the unary term
+  - The optimization can be solved exactly and efficiently with a graph-cuts algorithm, as long as each pairwise term is submodular. [^Kolmogorov04]
+  - One __limitation__ of the use of a voxel grid is that the memory allocation quickly becomes very expensive. 
+    - One effective solution is an __octree__ data structure.
+  - Due to the __shrinkage bias__, the reconstruction with the constant balloning term failes in reconstructing deep concavities in various parts of the model.
+- A __better alternative__ than uniform voxel grid is to first reconstruct a sparse 3D point cloud of scene, then use the 3D points as nodes of the space discretization grid.
+  - 3D Delaunay triangulation [^Labatut07]
+  - __Explicit regularization__ term to penalize __label change__ 
+    - It is usually __necessary__ at every pair of adjacent cells for a uniform voxel grid structure.
+    - In the case of of a 3D Delaunay triangulation, explicit regularization in the pairwise term is __not crucial__.
+  - If the 3D evidence is weak, this technique will miss thin structures due to the MRF regularization.
+    - Solution: add a step to reinforce the evidence of structure by analyzing the gradient of exterior evidence. [^Jancosek11]
+
 #### 3.4 MVS Mesh Refinement
 
 ### Literature
 
 [^Furukawa15]: Furukawa, Yasutaka, and Carlos Hernández. "Multi-view stereo: A tutorial." Foundations and Trends® in Computer Graphics and Vision 9.1-2 (2015): 1-148.
 
-[^Yasutaka10a]: Yasutaka Furukawa and Jean Ponce. Accurate, dense, and robust multi-view stereopsis. IEEE Transactions on Pattern Analysis and Machine Intelligence, 32(8):1362–1376, August 2010.
+[^Furukawa09]: Yasutaka Furukawa, Brian Curless, Steven M. Seitz, and Richard Szeliski. Reconstructing building interiors from images. In IEEE International Conference on Computer Vision, 2009.
 
-[^Yasutaka10b]: Yasutaka Furukawa, Brian Curless, Steven M. Seitz, and Richard Szeliski. Towards Internet-scale multiview stereo. In IEEE Conference on Computer Vision and Pattern Recognition, 2010.
+[^Furukawa10a]: Yasutaka Furukawa and Jean Ponce. Accurate, dense, and robust multi-view stereopsis. IEEE Transactions on Pattern Analysis and Machine Intelligence, 32(8):1362–1376, August 2010.
+
+[^Furukawa10b]: Yasutaka Furukawa, Brian Curless, Steven M. Seitz, and Richard Szeliski. Towards Internet-scale multiview stereo. In IEEE Conference on Computer Vision and Pattern Recognition, 2010.
 
 [^Scharstein02]: D. Scharstein and R. Szeliski. A taxonomy and evaluation of dense two-frame stereo correspondence algorithms. International Journal of Computer Vision, 47(1/2/3) 7–42, 2002.
 
@@ -189,18 +213,34 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 
 [^Hernandez04]: Carlos Hernández and Francis Schmitt. Silhouette and stereo fusion for 3d object modeling. Computer Vision and Image Understanding, 96(3):367–392, 2004.
 
-[^Goesele07]: M. Goesele, N. Snavely, B. Curless, H. Hoppe, and S.M. Seitz. Multi-view stereo for community photo collections. In IEEE International Conference on Computer Vision, pages 1–8, 2007.
+[^Hernandez07]: Carlos Hernández, George Vogiatzis, and Roberto Cipolla. Probabilistic visibility for multi-view stereo. In IEEE Conference on Computer Vision and Pattern Recognition, 2007.
 
 [^Goesele06]: Michael Goesele, Brian Curless, and Steven M. Seitz. Multi-view stereo revisited. In IEEE Conference on Computer Vision and Pattern Recognition, pages 2402–2409, 2006.
 
+[^Goesele07]: M. Goesele, N. Snavely, B. Curless, H. Hoppe, and S.M. Seitz. Multi-view stereo for community photo collections. In IEEE International Conference on Computer Vision, pages 1–8, 2007.
+
 [^Hu12]: Xiaoyan Hu and P. Mordohai. A quantitative evaluation of confidence measures for stereo vision. IEEE Transactions on Pattern Analysis and Machine Intelligence, 34(11):2121–2133, Nov 2012.
+
+[^Vogiatzis05]: George Vogiatzis, P.H.S. Torr, and Roberto Cipolla. Multi-view stereo via volumetric graph-cuts. In IEEE Conference on Computer Vision and Pattern Recognition, 2005.
 
 [^Vogiatzis07]: G. Vogiatzis, C. Hernández, P. H S Torr, and R. Cipolla. Multi-view stereo via volumetric graph-cuts and occlusion robust photo-consistency. IEEE Transactions on Pattern Analysis and Machine Intelligence, 29(12):2241–2246, 2007.
 
 [^Kolmogorov01]: V. Kolmogorov and R. Zabih. Computing visual correspondence with occlusions using graph cuts. In IEEE International Conference on Computer Vision, volume 2, pages 508–515 vol.2, 2001.
+
+[^Kolmogorov04]: V. Kolmogorov and R. Zabih. What energy functions can be minimized via graph cuts? IEEE Transactions on Pattern Analysis and Machine Intelligence, 26(2):147–159, 2004.
 
 [^Campbell08]: Neill D.F. Campbell, George Vogiatzis, Carlos Hernández, and Roberto Cipolla. Using multiple hypotheses to improve depth-maps for multi-view stereo. In 10th European Conference on Computer Vision, volume 5302 of LNCS, pages 766–779, 2008.
 
 [^Gallup07]: David Gallup, Jan-Michael Frahm, Philippos Mordohai, Qingxiong Yang, and Marc Pollefeys. Real-time plane-sweeping stereo with multiple sweeping directions. In IEEE Conference on Computer Vision and Pattern Recognition, 2007.
 
 [^Woodford08]: Woodford, O. J., Torr, P. H. S., Reid, I. D., & Fitzgibbon, A. W. (2008). Global stereo reconstruction under second order smoothness priors. 2008 IEEE Conference on Computer Vision and Pattern Recognition. 
+
+[^Curless96]: Brian Curless and Marc Levoy. A volumetric method for building complex models from range images. In ACM SIGGRAPH, 1996.
+
+[^Zach07]: C. Zach, T. Pock, and H. Bischof. A globally optimal algorithm for robust tv-l 1 range image integration. In IEEE International Conference on Computer Vision, 2007.
+
+[^Sinha07]: S.N. Sinha, P. Mordohai, and M. Pollefeys. Multi-view stereo via graph cuts on the dual of an adaptive tetrahedral mesh. In IEEE International Conference on Computer Vision, pages 1–8, 2007.
+
+[^Labatut07]: Patrick Labatut, Jean-Philippe Pons, and Renaud Keriven. Efficient multi-view reconstruction of large-scale scenes using interest points, delaunay triangulation and graph cuts. In IEEE International Conference on Computer Vision, 2007.
+
+[^Jancosek11]: M. Jancosek and T. Pajdla. Multi-view reconstruction preserving weakly-supported surfaces. In IEEE Conference on Computer Vision and Pattern Recognition, 2011.
