@@ -99,6 +99,7 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
   - [Middlebury](http://vision.middlebury.edu/mview/data/)
   - [ETH3D](https://www.eth3d.net/overview)
   - [KITTI](www.cvlibs.net/datasets/kitti/)
+  - [DenseMVS](https://icwww.epfl.ch/multiview/denseMVS.html)
   
 > [Robust Vision Challenge](http://robustvision.net/submit.php) 
 
@@ -181,11 +182,41 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
   - 3D Delaunay triangulation [^Labatut07]
   - __Explicit regularization__ term to penalize __label change__ 
     - It is usually __necessary__ at every pair of adjacent cells for a uniform voxel grid structure.
-    - In the case of of a 3D Delaunay triangulation, explicit regularization in the pairwise term is __not crucial__.
+    - In the case of a 3D Delaunay triangulation, explicit regularization in the pairwise term is __not crucial__.
   - If the 3D evidence is weak, this technique will miss thin structures due to the MRF regularization.
     - Solution: add a step to reinforce the evidence of structure by analyzing the gradient of exterior evidence. [^Jancosek11]
 
 #### 3.4 MVS Mesh Refinement
+
+- Mesh refinement algorithms move the location of each vertex $$v_i$$ one by one or simultaneously, while minimizing an objective function defined over the mesh model.
+- The object function $$E(\{v_i\})$$ typically consists of 
+  - a data term $$E_p$$, which is based on a photometric consistency measure
+  - a regularization term $$E_r$$, which measures the smoothness of the mesh.
+  - Optionally, when image silhouettes are given as input, silhouette consistency measure $$E_s$$ to enforce that the mesh is consistent with the image silhouettes
+- Gradient descent is usually the method of optimization.
+  - In practice, the gradients of $$E_p$$ and $$E_s$$ are usually projected along the surface normal.
+  - The regularization term $$E_r$$ is used to prefer uniform vertex distribution, and the direct derivative is calculated with respect to $$x_i$$, $$y_i$$, and $$z_i$$.
+- Photometric consistency term
+  - Three examples: [^Furukawa10a] [^Hernandez04] [^Vu12]
+  - Different from many methods that use tangent planes or front-parallel surface approximations, the use of __triangulated mesh__ model for photometric consistency evaluation has several advantages:
+    - First, the core texture reprojection (i.e., morphing) operations can be effectively and easily performed over an entire mesh by GPUs.
+    - Second, it can handle sharp edge structure such as staircases property.
+- Regularization term
+  -  __Mesh Laplacian__ and __Mesh Bi-Laplacian__ are often used to define the regularization force. [^Botsch08]
+  -  Laplacian becomes zero when the surface is planar.
+  -  Bi-Laplician becomes zero when the surface has constant or uniform curvature.
+- Sihouette consistency term
+  - Silhouettes often delineate a foreground object from background. 
+  - Example: [^Hernandez04]
+
+### 4 Multi-view Stereo and Structure Priors
+
+#### 4.1 Departure from Depthmap to Planemap
+
+#### 4.2 Departure from Planes to Geometric Primitives
+
+#### 4.3 Image Classification for Structure Priors
+
 
 ### Literature
 
@@ -244,3 +275,7 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 [^Labatut07]: Patrick Labatut, Jean-Philippe Pons, and Renaud Keriven. Efficient multi-view reconstruction of large-scale scenes using interest points, delaunay triangulation and graph cuts. In IEEE International Conference on Computer Vision, 2007.
 
 [^Jancosek11]: M. Jancosek and T. Pajdla. Multi-view reconstruction preserving weakly-supported surfaces. In IEEE Conference on Computer Vision and Pattern Recognition, 2011.
+
+[^Vu12]: H-H. Vu, P. Labatut, R. Keriven, and J.-P Pons. High accuracy and visibility-consistent dense multi-view stereo. IEEE Transactions on Pattern Analysis and Machine Intelligence, 34(5):889–901, May 2012.
+
+[^Botsch08]: Mario Botsch and Olga Sorkine. On linear variational surface deformation methods. IEEE Transactions on Visualization and Computer Graphics, 14(1):213–230, 2008.

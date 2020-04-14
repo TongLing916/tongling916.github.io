@@ -88,9 +88,9 @@ The method proposed in this work is a generalization of the method proposed in [
 
 [^Xiao14]: Xiao, Jianxiong, and Yasutaka Furukawa. "Reconstructing the World's Museums." International Journal of Computer Vision 110.3 (2014): 243-258.
 
-[^Jancosek14]: Jancosek, Michal, and Tomas Pajdla. "Exploiting visibility information in surface reconstruction to preserve weakly supported surfaces." International scholarly research notices 2014 (2014).
-
 [^Waechter14]: Waechter, Michael, Nils Moehrle, and Michael Goesele. "Let there be color! Large-scale texturing of 3D reconstructions." European conference on computer vision. Springer, Cham, 2014.
+
+[^Jancosek14]: Jancosek, Michal, and Tomas Pajdla. "Exploiting visibility information in surface reconstruction to preserve weakly supported surfaces." International scholarly research notices 2014 (2014).
 
 [^Jancosek11]: M. Jancosek and T. Pajdla, “Multi-view reconstruction preserving weakly-supported surfaces,” in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR ’11), pp. 3121–3128, June 2011.
 
