@@ -211,18 +211,54 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 
 ### 4 Multi-view Stereo and Structure Priors
 
+- Our world is redundant with textureless and highly non-Lambertian objects that make MVS algorithms fail.
+- Strong structural regularities 
+  - planarity
+  - orthogonality
+- Change the definition of labels to enforce high-level structure priors such planarity, while still keeping the __submodularity__ to enable the simple application of graph-cuts technique.
+
 #### 4.1 Departure from Depthmap to Planemap
+
+- Manhattan-world stereo [^Furukawa09b]
+  - The MRF formulation is used to estimate a plane ID per pixel, which is called a planemap as opposed to a depthmap.
+  - The __data term__ measures visibility inconsistency between a plane hypothesis at a pixel and all of the input 3D points.
+  - The __smoothness term__ enforces spatial consistency. The penalty is down-weighted in the presence of image edges, where depth discontinuity is reasonable.
+  - Given the MRF formulation, the $$\alpha$$-expansion algorithm is used to minimize the energy and estimate a planemap. [^Boykov04] [^Boykov01]
+- Extended work allowing planes of arbitrary orientations [^Sinha09]
 
 #### 4.2 Departure from Planes to Geometric Primitives
 
+- They [^Zebedin08] estimate an elevation model or a height field representation of cities, which is formulated as a 2D MRF problem in a top down view. 
+- The formulation is very similar to the piecewise planar stereo algorithms in the previous section, where an MRF is used to assign a primitive ID, but with two key differences:
+  - The first difference is that the domain is discretized by a grid of much larger rectangular cells based on the 3D line segments reconstructed by a multi-view line matching algorithm [^Baillard99]. A primitive ID is assigned to each cell, which has additional data-aware regularization effects.
+  - The second difference is the handling of surfaces of revolution as geometric primitives, which may not be effective for arbitrary scenes.
+
 #### 4.3 Image Classification for Structure Priors
 
+- Image classification techniques can be employed to label an image into planar and non-planar regions, where structure priors (i.e., piecewise planarity) are enforced only for regions with planar classification. [^Gallup10]
+  - They train a classifier based on the color and texture features to distinguish planar and non-planar surfaces, where both a simple k-nearest neighbor classifier and SVM classifier were tested and produced similar results.
+
+### 5 Software, Best Practices, and Successful Applications
+
+### 6 Limitations and Future Directions
+
+- Limitations
+  - Lack of texture
+  - Thin structures
+  - Non-Lambertian surfaces
+- Open Problems
+  - Aerial and ground fusion
+  - Inverse CAD
+  - Semantic modeling
+  - Dynamic scene modeling
 
 ### Literature
 
 [^Furukawa15]: Furukawa, Yasutaka, and Carlos Hernández. "Multi-view stereo: A tutorial." Foundations and Trends® in Computer Graphics and Vision 9.1-2 (2015): 1-148.
 
 [^Furukawa09]: Yasutaka Furukawa, Brian Curless, Steven M. Seitz, and Richard Szeliski. Reconstructing building interiors from images. In IEEE International Conference on Computer Vision, 2009.
+
+[^Furukawa09b]: Furukawa, Yasutaka, et al. "Manhattan-world stereo." 2009 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2009.
 
 [^Furukawa10a]: Yasutaka Furukawa and Jean Ponce. Accurate, dense, and robust multi-view stereopsis. IEEE Transactions on Pattern Analysis and Machine Intelligence, 32(8):1362–1376, August 2010.
 
@@ -264,6 +300,8 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 
 [^Gallup07]: David Gallup, Jan-Michael Frahm, Philippos Mordohai, Qingxiong Yang, and Marc Pollefeys. Real-time plane-sweeping stereo with multiple sweeping directions. In IEEE Conference on Computer Vision and Pattern Recognition, 2007.
 
+[^Gallup10]: David Gallup, Jan-Michael Frahm, and Marc Pollefeys. Piecewise planar and non-planar stereo for urban scene reconstruction. In IEEE Conference on Computer Vision and Pattern Recognition, 2010.
+
 [^Woodford08]: Woodford, O. J., Torr, P. H. S., Reid, I. D., & Fitzgibbon, A. W. (2008). Global stereo reconstruction under second order smoothness priors. 2008 IEEE Conference on Computer Vision and Pattern Recognition. 
 
 [^Curless96]: Brian Curless and Marc Levoy. A volumetric method for building complex models from range images. In ACM SIGGRAPH, 1996.
@@ -272,6 +310,8 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 
 [^Sinha07]: S.N. Sinha, P. Mordohai, and M. Pollefeys. Multi-view stereo via graph cuts on the dual of an adaptive tetrahedral mesh. In IEEE International Conference on Computer Vision, pages 1–8, 2007.
 
+[^Sinha09]: Sudipta Sinha, Drew Steedly, and Richard Szeliski. Piecewise planar stereo for image-based rendering. In IEEE International Conference on Computer Vision, 2009.
+
 [^Labatut07]: Patrick Labatut, Jean-Philippe Pons, and Renaud Keriven. Efficient multi-view reconstruction of large-scale scenes using interest points, delaunay triangulation and graph cuts. In IEEE International Conference on Computer Vision, 2007.
 
 [^Jancosek11]: M. Jancosek and T. Pajdla. Multi-view reconstruction preserving weakly-supported surfaces. In IEEE Conference on Computer Vision and Pattern Recognition, 2011.
@@ -279,3 +319,12 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 [^Vu12]: H-H. Vu, P. Labatut, R. Keriven, and J.-P Pons. High accuracy and visibility-consistent dense multi-view stereo. IEEE Transactions on Pattern Analysis and Machine Intelligence, 34(5):889–901, May 2012.
 
 [^Botsch08]: Mario Botsch and Olga Sorkine. On linear variational surface deformation methods. IEEE Transactions on Visualization and Computer Graphics, 14(1):213–230, 2008.
+
+[^Boykov04]: Yuri Boykov and Vladimir Kolmogorov. An experimental comparison of min-cut/max-flow algorithms for energy minimization in vision. IEEE Transactions on Pattern Analysis and Machine Intelligence, 26(9):1124–1137, September 2004.
+
+[^Boykov01]: Yuri Boykov, Olga Veksler, and Ramin Zabih. Fast approximate energy minimization via graph cuts. IEEE Transactions on Pattern Analysis and Machine Intelligence, 23(11):1222–1239, November 2001.
+
+[^Zebedin08]: L. Zebedin, J. Bauer, K. Karner, and H. Bischof. Fusion of feature and area-based information for urban buildings modeling from aerial imagery. In IEEE International Conference on Computer Vision, pages IV: 873–886, 2008.
+
+[^Baillard99]: C. Baillard, C. Schmid, A. Zisserman, and A. W. Fitzgibbon. Automatic line matching and 3D reconstruction of buildings from multiple views. In ISPRS Conference on Automatic Extraction of GIS Objects from Digital Imagery, pages 69–80, 1999.
+
