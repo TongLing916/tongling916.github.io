@@ -130,6 +130,37 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 
 #### 3.2 Point-cloud Reconstruction
 
+- A 3D point with a __surface normal__ estimation or a __local region__ support is referred to as an oriented point or a patch.
+
+- A common characteristic of point-cloud reconstruction algorithms is that they make use of an __spatial consistency assumption__ and __grows or expand__ the point-cloud on the surface of the scene during the reconstruction process. 
+
+- This article focuses on the work [^Yasutaka10a]. 
+  - The algorithm also follows a __greedy expansion__ approach, 
+  - but one __key difference__ is that it iterates between the expansion and the filtering steps after reconstructing an initial seed of patches via feature matching. 
+  - The __filtering__ step analyzes consistency of patches across all the views and removes falsely reconstructed ones.
+
+- __Key Elements__
+  - __Patch Model__: A patch $$p$$ is essentially a local tangent plane approximation of a surface, whose geometry is determined by its center $$\mathbf{c}(p)$$ and unit normal vector $$\mathbf{n}(p)$$. 
+    - The __robust__ photo-consistency function is simply evaluated by using the patch as a proxy geometry to sample pixel colors.
+    - In practice, the perpendicular direction is fixed before and throughout the optimization, where one parameter for position and two paramters for normal are optimized via a standard non-linear least squares technique.
+  - __Image-based Data Structure__
+    - Image projections of reconstructed patches in the visible images are used to help __searching or accessing neighboring patches__, then __enforcing regularization__.
+
+- __Algorithm__
+  - __Initial Feature Matching__
+    - The purpose is to generate a spares set of patches
+    - Difference-of-Gaussian (DoG) + Harris operators
+    - Search matches within two pixels from the corresponding epipolar line
+    - Triangulation to initialize a patch
+    - Patch optimization
+  - __Expansion__
+    - The __goal__ is to reconstruct at least one patch in every image cell, where they repeat taking existing patches and generating new ones in nearby empty spaces. 
+    - The process repeats until the expansion process is performed from every patch that has been reconstructed.
+  - __Filtering__
+    - Two filters are used to remove erroneous patches.
+      - The first filter relies on visibility consistency.
+      - The second filter enforces a weak form of regularization.
+
 #### 3.3 Volumetric data fusion
 
 #### 3.4 MVS Mesh Refinement
