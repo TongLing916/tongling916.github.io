@@ -556,25 +556,145 @@ where
 $$m_x = \omega_{h} g^j_x f_x, \quad m_y = \omega_{h} g^j_y f_y
 $$
 
+#### Intrinsic parameters
+
+---
+layout:     post
+title:      "Nitty Gritty About G2O"
+date:       2020-4-10
+author:     Tong
+catalog: true
+tags:
+    - SLAM
+---
+
+$$
+\frac{\partial \mathbf{p}_{j}}{\partial \mathbf{C}} = \begin{bmatrix}
+\frac{\partial u_{j}}{\partial f_{x}} & \frac{\partial u_{j}}{\partial f_{y}} & \frac{\partial u_{j}}{\partial c_{x}} & \frac{\partial u_{j}}{\partial c_{y}} \\
+\frac{\partial v_{j}}{\partial f_{x}} & \frac{\partial v_{j}}{\partial f_{y}} & \frac{\partial v_{j}}{\partial c_{x}} & \frac{\partial v_{j}}{\partial c_{y}}
+\end{bmatrix}
+$$
+
+Due to the fact that
+
+$$
+\mathbf{p}_j = \mathbf{K} \mathbf{p}^n_j = \begin{bmatrix}
+f_x x^n_j + c_x\\ 
+f_y y^n_j + c_y\\ 
+1
+\end{bmatrix}
+$$
+
+we have
+$$
+\begin{aligned}
+\frac{\partial u_{j}}{\partial f_{x}} &= x^n_j + f_x \frac{\partial x^n_j}{\partial f_{x}} \\
+\frac{\partial u_{j}}{\partial f_{y}} &= f_x \frac{\partial x^n_j}{\partial f_{y}} \\
+\frac{\partial u_{j}}{\partial c_{x}} &= f_x \frac{\partial x^n_j}{\partial c_{x}} + 1 \\
+\frac{\partial u_{j}}{\partial c_{y}} &= f_x \frac{\partial x^n_j}{\partial c_{y}} \\
+\frac{\partial v_{j}}{\partial f_{x}} &= f_y \frac{\partial y^n_j}{\partial f_{y}} \\
+\frac{\partial v_{j}}{\partial f_{y}} &= y^n_j + f_y \frac{\partial y^n_j}{\partial f_{y}} \\
+\frac{\partial v_{j}}{\partial c_{x}} &= f_y \frac{\partial y^n_j}{\partial c_{x}} \\
+\frac{\partial v_{j}}{\partial c_{y}} &= f_y \frac{\partial y^n_j}{\partial c_{y}} + 1
+\end{aligned}
+$$
+
+Now, the important thing is to compute $$\frac{\partial \mathbf{p}^{n}_{j}}{\partial \mathbf{C}}$$.
+
+Due to the fact 
+$$
+\begin{aligned}
+\mathbf{p}^{n}_{j} &= \rho_{j} \left ( \frac{1}{\rho_{i}} \mathbf{R}_{ji}\mathbf{K}^{-1}\mathbf{p}_i + \mathbf{t}_{ji}\right ) \\
+&= \frac{\rho_{j}}{\rho_{i}}\mathbf{R}_{ji}\mathbf{K}^{-1}\mathbf{p}_i + \rho_{j}\mathbf{t}_{ji} \\ 
+&= \frac{\rho_{j}}{\rho_{i}}\begin{bmatrix}r_{00} & r_{00} & r_{01} \\ r_{10} & r_{11} & r_{12} \\ r_{20} & r_{21} & r_{22}\end{bmatrix}\begin{bmatrix}
+f_{x}^{-1} & 0 & -f_{x}^{-1} c_{x} \\
+0 & f_{y}^{-1} & -f_{y}^{-1} c_{y} \\
+0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}
+u_{i} \\
+v_{i} \\
+1
+\end{bmatrix}+\rho_{j} \begin{bmatrix} t^x \\ t^y \\ t^z \end{bmatrix}
+\end{aligned}
+$$
+
+then we have 
+
+$$\begin{aligned}
+&u_{j}^{n}=\frac{\frac{\rho_{j}}{\rho_{i}}\left(r_{00} f_{x}^{-1}\left(u_{i}-c_{x}\right)+r_{01} f_{y}^{-1}\left(v_{i}-c_{y}\right)+r_{02}\right)+\rho_{j} t_{21}^{x}}{\frac{\rho_{j}}{\rho_{i}}\left(r_{20} f_{x}^{-1}\left(u_{i}-c_{x}\right)+r_{21} f_{y}^{-1}\left(v_{i}-c_{y}\right)+r_{22}\right)+\rho_{j} t_{21}^{z}}=\frac{A}{C}\\
+&v_{j}^{n}=\frac{\frac{\rho_{j}}{\rho_{i}}\left(r_{10} f_{x}^{-1}\left(u_{i}-c_{x}\right)+r_{11} f_{y}^{-1}\left(v_{i}-c_{y}\right)+r_{12}\right)+\rho_{j} t_{21}^{y}}{\frac{\rho_{j}}{\rho_{i}}\left(r_{20} f_{x}^{-1}\left(u_{i}-c_{x}\right)+r_{21} f_{y}^{-1}\left(v_{i}-c_{y}\right)+r_{22}\right)+\rho_{j} t_{21}^{z}}=\frac{B}{C}
+\end{aligned}$$
+
+Actually, $$C = 1$$, but we still need to consider this part while computing Jacobian.
+
+$$\begin{aligned}
+\frac{\partial u_{j}^{n}}{\partial f_{x}} &=\frac{\partial A}{\partial f_{x}} \frac{1}{C}+A \frac{1}{C^{2}}(-1) \frac{\partial C}{\partial f_{x}} \\
+&=\frac{\rho_{j}}{\rho_{i}} r_{00}\left(u_{i}-c_{x}\right) f_{x}^{-2}(-1) \frac{1}{C}-\frac{A}{C} \frac{1}{C} \frac{\rho_{j}}{\rho_{i}} r_{20}\left(u_{i}-c_{x}\right) f_{x}^{-2}(-1) \\
+&=\frac{1}{C}\left(\frac{\rho_{j}}{\rho_{i}} r_{00}\left(u_{i}-c_{x}\right) f_{x}^{-2}(-1)+\frac{\rho_{j}}{\rho_{i}} r_{20}\left(u_{i}-c_{x}\right) f_{x}^{-2} u_{j}^{n}\right) \\
+&=\frac{\rho_{j}}{\rho_{i}}\left(r_{20} u_{j}^{n}-r_{00}\right) f_{x}^{-2}\left(u_{i}-c_{x}\right)
+\end{aligned}$$
+
+Similarly, we have
+
+$$\begin{aligned}
+\frac{\partial u_{j}^{n}}{\partial f_{x}}&=\frac{\rho_{j}}{\rho_{i}}\left(r_{20} u_{j}^{n}-r_{00}\right) f_{x}^{-2}\left(u_{i}-c_{x}\right) \\ \frac{\partial u_{j}^{n}}{\partial f_{y}}&=\frac{\rho_{j}}{\rho_{i}}\left(r_{21} u_{j}^{n}-r_{01}\right) f_{y}^{-2}\left(v_{i}-c_{y}\right)\\
+\frac{\partial u_{j}^{n}}{\partial c_{x}}&=\frac{\rho_{j}}{\rho_{i}}\left(r_{20} u_{j}^{n}-r_{00}\right) f_{x}^{-1} \\ \frac{\partial u_{j}^{n}}{\partial c_{y}}&=\frac{\rho_{j}}{\rho_{i}}\left(r_{21} u_{j}^{n}-r_{01}\right) f_{y}^{-1}\\
+\frac{\partial v_{j}^{n}}{\partial f_{x}}&=\frac{\rho_{j}}{\rho_{i}}\left(r_{20} v_{j}^{n}-r_{10}\right) f_{x}^{-2}\left(u_{i}-c_{x}\right) \\ \frac{\partial v_{j}^{n}}{\partial f_{y}}&=\frac{\rho_{j}}{\rho_{i}}\left(r_{21} v_{j}^{n}-r_{11}\right) f_{y}^{-2}\left(v_{i}-c_{y}\right)\\
+\frac{\partial v_{j}^{n}}{\partial c_{x}}&=\frac{\rho_{j}}{\rho_{i}}\left(r_{20} v_{j}^{n}-r_{10}\right) f_{x}^{-1} \\ \frac{\partial v_{j}^{n}}{\partial c_{y}}&=\frac{\rho_{j}}{\rho_{i}}\left(r_{21} v_{j}^{n}-r_{11}\right) f_{y}^{-1}
+\end{aligned}$$
+
+Finally, we have
+
+$$\begin{aligned}
+\frac{\partial u_{j}}{\partial f_{x}} &=u_{j}^{n}+f_{x} \frac{\partial u_{j}^{n}}{\partial f_{x}} \\
+&=u_{j}^{n}+\frac{\rho_{j}}{\rho_{i}}\left(r_{20} u_{j}^{n}-r_{00}\right) f_{x}^{-1}\left(u_{i}-c_{x}\right) \\
+\frac{\partial u_{j}}{\partial f_{y}} &=f_{x} \frac{\partial u_{j}^{n}}{\partial f_{y}} \\
+&=\frac{f_{x}}{f_{y}} \frac{\rho_{j}}{\rho_{i}}\left(r_{21} u_{j}^{n}-r_{01}\right) f_{y}^{-1}\left(v_{i}-c_{y}\right) \\
+\frac{\partial u_{j}}{\partial c_{x}} &=f_{x} \frac{\partial u_{j}^{n}}{\partial c_{x}}+1 \\
+&=\frac{\rho_{j}}{\rho_{i}}\left(r_{20} u_{j}^{n}-r_{00}\right)+1 \\
+\frac{\partial u_{j}}{\partial c_{y}} &=f_{x} \frac{\partial u_{j}^{n}}{\partial c_{y}} \\
+&=\frac{f_{x}}{f_{y}} \frac{\rho_{j}}{\rho_{i}}\left(r_{21} u_{j}^{n}-r_{01}\right) \\
+\frac{\partial v_{j}}{\partial f_{x}} &=f_{y} \frac{\partial v_{j}^{n}}{\partial f_{x}} \\
+&=\frac{f_{y}}{f_{x}} \frac{\rho_{j}}{\rho_{i}}\left(r_{20} v_{j}^{n}-r_{10}\right) f_{x}^{-1}\left(u_{i}-c_{x}\right) \\
+\frac{\partial v_{j}}{\partial f_{y}} &=v_{j}^{n}+f_{y} \frac{\partial v_{j}^{n}}{\partial f_{y}} \\
+&=v_{j}^{n}+\frac{\rho_{j}}{\rho_{i}}\left(r_{21} v_{j}^{n}-r_{11}\right) f_{y}^{-1}\left(v_{i}-c_{y}\right) \\
+\frac{\partial v_{j}}{\partial c_{x}} &=f_{y} \frac{\partial v_{j}^{n}}{\partial c_{x}} \\
+&=\frac{f_{y}}{f_{x}} \frac{\rho_{j}}{\rho_{i}}\left(r_{20} v_{j}^{n}-r_{10}\right) \\
+\frac{\partial v_{j}}{\partial c_{y}} &=f_{y} \frac{\partial v_{j}^{n}}{\partial c_{y}}+1 \\
+&=\frac{\rho_{j}}{\rho_{i}}\left(r_{21} v_{j}^{n}-r_{11}\right)+1
+\end{aligned}$$
+
 #### Codes
 
 | Variable used in `CoarseInitializer`          | Variable used here      | Meaning      |
 | -------- | ----------------------------- |-------- |
-|`residual` | $$I_{j}\left[\mathbf{p}_{j}\right]-e^{a_{ji}}I_{i}[\mathbf{p}_{i}] - b_{ji}$$| 单个点的误差 |
+|`residual` | $$I_{j}\left[\mathbf{p}_{j}\right]-e^{a_{ji}}I_{i}[\mathbf{p}_{i}] - b_{ji}$$| single residual |
 | `hw` | $$\omega_{h}$$ |Huber weight |
-| `refToNew_aff_current` | $$\begin{bmatrix}a_{ji} \\ b_{ji}\end{bmatrix}$$ | 光度变化系数 |
-| `r2new_aff` | $$\begin{bmatrix}e^{a_{ji}} \\ b_{ji}\end{bmatrix}$$ |光度变化系数　|
-| `dp0` | $$\frac{\partial r_{ji}}{\partial t_{ji}^x}$$ | 对`translation`的偏导　|
-| `dp1` | $$\frac{\partial r_{ji}}{\partial t_{ji}^y}$$ | 对`translation`的偏导　|
-| `dp2` | $$\frac{\partial r_{ji}}{\partial t_{ji}^z}$$ | 对`translation`的偏导　|
-| `dp3` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^x}$$ | 对`rotation`的偏导 |
-| `dp4` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^y}$$ | 对`rotation`的偏导 |
-| `dp5` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^z}$$ | 对`rotation`的偏导 |
-| `dp6` | $$\frac{\partial r_{ji}}{\partial a_{ji}}$$ | 对光度变化系数的偏导|
-| `dp7` | $$\frac{\partial r_{ji}}{\partial b_{ji}}$$ | 对光度变化系数的偏导|
-| `dd` | $$\frac{\partial r_{ji}}{\partial \rho_{i}}$$ |对逆深度的偏导|
-| `r` | $$r_{ji}$$ | 使用Huber kernel后单个点的误差|
+| `refToNew_aff_current` | $$\begin{bmatrix}a_{ji} \\ b_{ji}\end{bmatrix}$$ | photometric affine parameters |
+| `r2new_aff` | $$\begin{bmatrix}e^{a_{ji}} \\ b_{ji}\end{bmatrix}$$ |photometric affine parameters　|
+| `dp0` | $$\frac{\partial r_{ji}}{\partial t_{ji}^x}$$ | derivative wrt. `translation`　|
+| `dp1` | $$\frac{\partial r_{ji}}{\partial t_{ji}^y}$$ | derivative wrt. `translation`　|
+| `dp2` | $$\frac{\partial r_{ji}}{\partial t_{ji}^z}$$ | derivative wrt. `translation`　|
+| `dp3` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^x}$$ | derivative wrt. `rotation` |
+| `dp4` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^y}$$ | derivative wrt. `rotation` |
+| `dp5` | $$\frac{\partial r_{ji}}{\partial \phi_{ji}^z}$$ | derivative wrt. `rotation` |
+| `dp6` | $$\frac{\partial r_{ji}}{\partial a_{ji}}$$ | derivative wrt. photometric affine parameters|
+| `dp7` | $$\frac{\partial r_{ji}}{\partial b_{ji}}$$ | derivative wrt. photometric affine parameters|
+| `dd` | $$\frac{\partial r_{ji}}{\partial \rho_{i}}$$ |derivative wrt. inverse depth i|
+| `r` | $$r_{ji}$$ | single residual after applying Huber kernel|
 
+
+| Variable used in `RawResidualJacobian`| Variable used here | Meaning|
+| - | - |-|
+|`resF` ||  |
+|`Jpdxi` | $$\frac{\partial\mathbf{p}_j}{\partial\boldsymbol{\xi_{ji}}}$$| derivative of pixel `j` wrt. `relative pose`|
+|`Jpdc` |$$\frac{\partial\mathbf{p}_j}{\partial\begin{bmatrix} f_{x} \\ f_{y} \\ c_{x} \\ c_{y}\end{bmatrix}}$$| derivative of pixel `j` wrt. `intrinsic parameters`|
+|`Jpdd` |$$\frac{\partial\mathbf{p}_j}{\partial \rho_{i}}$$| derivative of pixel `j` wrt. `inverse depth i`|
+|`JIdx` |$$\frac{\partial r_{ji}}{\partial\mathbf{p}_j}$$| derivative of residual wrt. pixel `j`|
+|`JabF` |$$\frac{\partial r_{ji}}{\partial \begin{bmatrix} a_{ji} \\ b_{ji}\end{bmatrix}}$$| derivative of residual wrt. `photometric affine paramters`|
+|`JIdx2` |$$(\frac{\partial r_{ji}}{\partial\mathbf{p}_j})^{T}\frac{\partial r_{ji}}{\partial\mathbf{p}_j}$$| |
+|`JabJIdx` |$$(\frac{\partial r_{ji}}{\partial \begin{bmatrix} a_{ji} \\ b_{ji}\end{bmatrix}})^{T}\frac{\partial r_{ji}}{\partial\mathbf{p}_j}$$| |
+|`Jab2` |$$(\frac{\partial r_{ji}}{\partial \begin{bmatrix} a_{ji} \\ b_{ji}\end{bmatrix}})^{T}\frac{\partial r_{ji}}{\partial \begin{bmatrix} a_{ji} \\ b_{ji}\end{bmatrix}}$$| |
 
 #### Complete Jacobian
 
