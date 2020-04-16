@@ -342,18 +342,51 @@ linearly)?
 ### 11. Optical Flow and Tracking (Lucas-Kanade)
 
 1. Are you able to illustrate tracking with block matching?
+   - Search for the corresponding patch in a $$D \times D$$ region around the point to track
+   - Use SSD, SAD, or NCC
 2. Are you able to explain the underlying assumptions behind differential methods, derive their mathematical expression and the meaning of the M matrix?
+   - Brightness constancy: The intensity of the pixels around the point to track in image $$I_0$$ should be the same of its corresponding pixels in image $$I_1$$
+   - Temporal consistency: The motion between two frames must be small (1-2 pixels at the most)
+   - Spatial coherency: Neighboring pixels belonging to the same surface and therefore undergo similar motion
+   - Method: find the motion vector $$(u, v)$$ that minimizes the sum of squared differences (SSD)
+   - M matrix is the same as the one in Harris detector. 
 3. When is this matrix invertible and when not?
+   - $$\text{det}(M)$$ should be non zero, which means that its eigenvalues should be large (i.e., not a flat region, not an edge)
+   - In practice, it __should be a corner or more generally contain texture!__
 4. What is the aperture problem and how can we overcome it?
+   - Look at the local brightness chnages __through a small aperture__
+   - We __cannot always determine__ the motion direction -> __Infinite motion solutions__ may exist
+   - Solution: increase aperture size
 5. What is optical flow?
+   - Optical flow is the pattern of apparent motion of objects in a visual scene caused by the relative motion between the observer and the scene.
 6. Can you list pros and cons of block based vs. differential methods for tracking?
+   - Block-based method
+     - Pros: __Robust__ to large motions
+     - Cons: Can be __computationally expensive__ ($$D \times D$$ validations need to be made for a single point for track)
+   - Differential method
+     - Pros: Much more __efficient__ than block-based methods.
+     - Cons: Works only for __small motions__. For larger motion, multi-scale implementations are used but are more expensive.
 7. Are you able to describe the working principle of KLT?
+   - Uses the Gauss-Newton method for minimization, that is:
+     - Applies a first-order approximation of the warp
+     - Attempts to minimize the SSD iteratively
 8. Are you able to derive the main mathematical expression for KLT?
-9. What is the Hessian matrix and for which warping function does it coincide to that used for point tracking?
+   - NO :P
+9.  What is the Hessian matrix and for which warping function does it coincide to that used for point tracking?
 10. Can you list Lukas Kanade failure cases and how to overcome them?
+    - If the initial estimate is too far, then the linear approximation does not longer hold.
+      - Solution: pyramidal implementations
+    - Deviations from the mathematical model: object deformations, illumination changes, etc.
+    - Occlusions
+      - Solution: Update the template with the last image
 11. How does one get the initial guess?
+    - Start at rest
+    - Use SIFT to find the object and then track it
 12. Can you illustrate the coarse to fine Lucas Kanade implementation?
 13. Can you illustrate alternative tracking procedures using point features?
+    - Step 1: Keypoint detection and matching
+      - Invariant to scale, rotation, perspective
+    - Step 2: Geometric verification (RANSAC)
 
 ### 12a. Dense 3D Reconstruction
 
