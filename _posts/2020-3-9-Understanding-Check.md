@@ -434,7 +434,7 @@ linearly)?
    2. Extract fetures and descriptors from each image and map them into the descriptor space
    3. Cluster the descriptor space into K clusters
    4. The centroid of each cluster is a __visual word__. (A visual word is the __centroid__ of a cluster of similar features)
-3. How does K means clustering work?
+3. How does [K means clustering](http://shabal.in/visuals/kmeans/1.html) work?
    1. Randomly initialize k cluster centers
    2. Iterate until convergence
       - Assign each data point to the nearest center
