@@ -427,11 +427,24 @@ linearly)?
 ### 12b. Place recognition
 
 1. What is an inverted file index?
+   - We want to find all images in which a feature occurs
+   - Inverted File Index lists all visual words in the vocabulary
 2. What is a visual word?
+   1. Collect a large enough dataset
+   2. Extract fetures and descriptors from each image and map them into the descriptor space
+   3. Cluster the descriptor space into K clusters
+   4. The centroid of each cluster is a __visual word__. (A visual word is the __centroid__ of a cluster of similar features)
 3. How does K means clustering work?
+   1. Randomly initialize k cluster centers
+   2. Iterate until convergence
+      - Assign each data point to the nearest center
+      - Recomptue each cluster center as the mean of all points assigned to it
 4. Why do we need hierarchical clustering?
+   - With hierarchical clustering, we do __NOT__ need to compare every feature in the query image against all features in the vocabulary.
 5. Explain and illustrate image retrieval using Bag of Words.
 6. Discussion on place recognition: what are the open challenges and what solutions have been proposed?
+   - Problem: Visual vocabulary discards the spatial relationships between features.
+   - Solution: This can be overcome using __geometric verification__.
 
 ### 12c. Deep Learning Tutorial
 

@@ -407,10 +407,10 @@ $$
 $$
 \mathbf{H}_{12} = \begin{bmatrix}
 (\frac{\partial r}{\partial \mathbf{C}})^{T} \frac{\partial r}{\partial \rho}
-& (\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}})^{T} \frac{\partial r}{\partial \rho}
-& (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}{\partial \rho}
-& (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac{\partial r}{\partial \rho}
-& (\frac{\partial r}{\partial \mathbf{a}_{j}} )^{T} \frac{\partial r}{\partial \rho}
+\\ (\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}})^{T} \frac{\partial r}{\partial \rho}
+\\ (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}{\partial \rho}
+\\ (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac{\partial r}{\partial \rho}
+\\ (\frac{\partial r}{\partial \mathbf{a}_{j}} )^{T} \frac{\partial r}{\partial \rho}
 \end{bmatrix}
 $$
 
@@ -418,6 +418,9 @@ $$
 \mathbf{H}_{22} = 
 \begin{bmatrix}
     (\frac{\partial r}{\partial \rho})^{T} \frac{\partial r}{\partial \rho}
+\end{bmatrix} =
+\begin{bmatrix}
+    (\frac{\partial r}{\partial \rho})^{2}
 \end{bmatrix}
 $$
 
@@ -435,6 +438,22 @@ $$
 \\ (\frac{\partial r}{\partial \rho})^{T}
 \end{bmatrix} r
 \end{aligned}
+$$
+
+$$
+\mathbf{b}_{1} = \begin{bmatrix}
+r(\frac{\partial r}{\partial \mathbf{C}})^{T} 
+\\ r(\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}})^{T} 
+\\ r(\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} 
+\\ r(\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} 
+\\ r(\frac{\partial r}{\partial \mathbf{a}_{j}})^{T}
+\end{bmatrix} 
+$$
+
+$$
+\mathbf{b}_{2} = \begin{bmatrix}
+r (\frac{\partial r}{\partial \rho})^{T} 
+\end{bmatrix}
 $$
 
 #### Implementation
@@ -465,4 +484,116 @@ $$
 \end{aligned}
 $$
 
+And their tranposes are 
+
+$$
+\begin{aligned}
+(\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}})^{T} &= (\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{iw}})^{T}(\frac{\partial r}{\partial \boldsymbol{\xi}_{ji}})^{T}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+(\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} &= (\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{jw}})^{T}(\frac{\partial r}{\partial \boldsymbol{\xi}_{ji}})^{T} 
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+(\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} &= (\frac{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}}{\partial \mathbf{a}_{i}})^{T}(\frac{\partial r}{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}})^{T} 
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+(\frac{\partial r}{\partial \mathbf{a}_{j}})^{T} &= (\frac{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}}{\partial \mathbf{a}_{j}})^{T}(\frac{\partial r}{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}})^{T}
+\end{aligned}
+$$
+
+
 Details about these Jacobians can be found in this [post](http://www.lingtong.de/2020/04/17/DSO-Jacobians/).
+
+#### Schur Complement
+
+$$(\mathbf{H}_{11}-\mathbf{H}_{12} \mathbf{H}_{22}^{-1} \mathbf{H}_{12}^{T})\delta \mathbf{x}_{1} = -(\mathbf{b}_{1}-\mathbf{H}_{12} \mathbf{H}_{22}^{-1} \mathbf{b}_{2})$$
+
+$$
+\begin{aligned}
+    \mathbf{H}_{\text{sc}} &= \mathbf{H}_{12} \mathbf{H}_{22}^{-1} \mathbf{H}_{12}^{T} \\
+    &= \begin{bmatrix}
+        (\frac{\partial r}{\partial \mathbf{C}})^{T} \frac{\partial r}      {\partial \rho}
+        \\ (\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}})^{T} \frac     {\partial r}{\partial \rho}
+        \\ (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}        {\partial \rho}
+        \\ (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac     {\partial r}{\partial \rho}
+        \\ (\frac{\partial r}{\partial \mathbf{a}_{j}} )^{T} \frac{\partial r}       {\partial \rho}
+        \end{bmatrix}
+        \begin{bmatrix}
+            (\frac{\partial r}{\partial \rho})^{-2}
+        \end{bmatrix}
+        \begin{bmatrix}
+            (\frac{\partial r}{\partial \rho})^{T} \frac{\partial r}{\partial \mathbf{C}}
+            & (\frac{\partial r}{\partial \rho})^{T}\frac{\partial r}   {\partial      \boldsymbol{\xi}_{iw}} 
+            & (\frac{\partial r}{\partial \rho})^{T} \frac{\partial r}  {\partial         \mathbf{a}_{i}} 
+            & (\frac{\partial r}{\partial \rho})^{T} \frac{\partial r}  {\partial         \boldsymbol{\xi}_{jw}} 
+            & (\frac{\partial r}{\partial \rho})^{T} \frac{\partial r}  {\partial         \mathbf{a}_{j}}      
+        \end{bmatrix} \\
+    &= \begin{bmatrix}
+        (\frac{\partial r}{\partial \mathbf{C}})^{T} \frac{\partial r}{\partial \mathbf{C}} &
+        (\frac{\partial r}{\partial \mathbf{C}})^{T} \frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}} & 
+        (\frac{\partial r}{\partial \mathbf{C}})^{T} \frac{\partial r}{\partial \mathbf{a}_{i}} &
+        (\frac{\partial r}{\partial \mathbf{C}})^{T} \frac{\partial r}{\partial \boldsymbol{\xi}_{jw}} &
+        (\frac{\partial r}{\partial \mathbf{C}})^{T} \frac{\partial r}{\partial  \mathbf{a}_{j}}
+        \\ 
+        (\frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}})^{T} \frac{\partial r}{\partial \mathbf{C}} &
+        (\frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}})^{T} \frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}} & 
+        (\frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}})^{T} \frac{\partial r}{\partial \mathbf{a}_{i}} &
+        (\frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}})^{T} \frac{\partial r}{\partial \boldsymbol{\xi}_{jw}} &
+        (\frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}})^{T} \frac{\partial r}{\partial  \mathbf{a}_{j}}
+        \\
+        (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}{\partial \mathbf{C}} &
+        (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}} & 
+        (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}{\partial \mathbf{a}_{i}} &
+        (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}{\partial \boldsymbol{\xi}_{jw}} &
+        (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}{\partial  \mathbf{a}_{j}}
+        \\
+        (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac{\partial r}{\partial \mathbf{C}} &
+        (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}} & 
+        (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac{\partial r}{\partial \mathbf{a}_{i}} &
+        (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac{\partial r}{\partial \boldsymbol{\xi}_{jw}} &
+        (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac{\partial r}{\partial  \mathbf{a}_{j}}
+        \\
+        (\frac{\partial r}{\partial \mathbf{a}_{j}})^{T} \frac{\partial r}{\partial \mathbf{C}} &
+        (\frac{\partial r}{\partial \mathbf{a}_{j}})^{T} \frac{\partial r}{\partial  \boldsymbol{\xi}_{iw}} & 
+        (\frac{\partial r}{\partial \mathbf{a}_{j}})^{T} \frac{\partial r}{\partial \mathbf{a}_{i}} &
+        (\frac{\partial r}{\partial \mathbf{a}_{j}})^{T} \frac{\partial r}{\partial \boldsymbol{\xi}_{jw}} &
+        (\frac{\partial r}{\partial \mathbf{a}_{j}})^{T} \frac{\partial r}{\partial  \mathbf{a}_{j}}
+        \end{bmatrix}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\mathbf{b}_{\text{sc}} &= \mathbf{H}_{12} \mathbf{H}_{22}^{-1} \mathbf{b}_{2} \\ 
+&= \begin{bmatrix}
+        (\frac{\partial r}{\partial \mathbf{C}})^{T} \frac{\partial r}      {\partial \rho}
+        \\ (\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}})^{T} \frac     {\partial r}{\partial \rho}
+        \\ (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} \frac{\partial r}        {\partial \rho}
+        \\ (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} \frac     {\partial r}{\partial \rho}
+        \\ (\frac{\partial r}{\partial \mathbf{a}_{j}} )^{T} \frac{\partial r}       {\partial \rho}
+    \end{bmatrix}
+    \begin{bmatrix}
+        (\frac{\partial r}{\partial \rho})^{-2}
+    \end{bmatrix}
+    \begin{bmatrix}
+        r (\frac{\partial r}{\partial \rho})^{T} 
+    \end{bmatrix} \\ 
+    &= \begin{bmatrix}
+        (\frac{\partial r}{\partial \mathbf{C}})^{T} r
+        \\ (\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}})^{T} r
+        \\ (\frac{\partial r}{\partial \mathbf{a}_{i}})^{T} r
+        \\ (\frac{\partial r}{\partial \boldsymbol{\xi}_{jw}})^{T} r
+        \\ (\frac{\partial r}{\partial \mathbf{a}_{j}} )^{T} r
+    \end{bmatrix}
+\end{aligned}
+$$
+
