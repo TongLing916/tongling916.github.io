@@ -237,6 +237,7 @@ $$
 | Variable                                              | Meaning          |
 | ----------------------------------------------------- | -------------------------------------------- |
 | $$e^{a_{ji}} = \frac{t_{j}}{t_{i}}e^{a_{j} - a_{i}}$$ | $$a_{ji}$$ is an affine tranfer parameter from $$i$$ to $$j$$ |
+|$$a_{ji} = \ln(\frac{t_{j}}{t_{i}}) + a_{j} - a_{i}$$|$$a_{ji}$$ is an affine tranfer parameter from $$i$$ to $$j$$ |
 | $$b_{ji} = b_{j} - e^{a_{ji}}b_{i}$$                  | $$b_{ji}$$ is an affine tranfer parameter from $$i$$ to $$j$$ |
 | $$\omega_{h}$$                                        | Huber weight, considered a constant          |
 
@@ -557,16 +558,6 @@ $$m_x = \omega_{h} g^j_x f_x, \quad m_y = \omega_{h} g^j_y f_y
 $$
 
 #### Intrinsic parameters
-
----
-layout:     post
-title:      "Nitty Gritty About G2O"
-date:       2020-4-10
-author:     Tong
-catalog: true
-tags:
-    - SLAM
----
 
 $$
 \frac{\partial \mathbf{p}_{j}}{\partial \mathbf{C}} = \begin{bmatrix}
