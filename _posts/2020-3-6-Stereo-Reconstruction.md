@@ -88,10 +88,6 @@ City environments often lack textured areas, contain repetitive structures, stro
 
 #### Abstract 
 
-### Accurate, Dense, and Robust Multi-View Stereopsis [^Furukawa07]
-
-#### Abstract 
-
 ### Stereo Processing by Semiglobal Matching and Mutual Information[^Hirschmuller07]
 
 #### Abstract
@@ -199,8 +195,6 @@ We present a multi-view stereo algorithm that addresses the extreme changes in l
 [^Strecha08]: Strecha, Christoph, et al. "On benchmarking camera calibration and multi-view stereo for high resolution imagery." 2008 IEEE Conference on Computer Vision and Pattern Recognition. Ieee, 2008.
 
 [^Furukawa09]: Furukawa, Yasutaka, et al. "Manhattan-world stereo." 2009 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2009.
-
-[^Furukawa07]: Furukawa, Yasutaka, and Jean Ponce. "Accurate, Dense, and Robust Multi-View Stereopsis." computer vision and pattern recognition (2007): 1-8.
 
 [^Faugeras02]: Faugeras, Olivier, and Renaud Keriven. Variational principles, surface evolution, PDE's, level set methods and the stereo problem. IEEE, 2002.
 
