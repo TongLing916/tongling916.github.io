@@ -448,6 +448,29 @@ linearly)?
 
 ### 12c. Deep Learning Tutorial
 
+1. Machine learning keywords
+   - __Loss__: Quantify how good $$\theta$$ are
+   - __Optimization__: The process of finding $$\theta$$ that minimize the loss
+   - __Function__: Problem modelling -> Deep networks are highly non-linear $$f(x, \theta)$$
+2. Supervised learning
+   - Find function $$f(x, \theta)$$ that intimitates a ground truth signal, where $$\theta$$ are function paramters or weights.
+   - It is assumed that we have access to both input data or __images__ and __ground truth labels__.
+3. Unsupervised learning
+   - We only have access to input data or __images__.
+4. Comparison
+   - Performance
+     - Supervised: Usually better for the same dataset size.
+     - Unsupervised: Usually worse, but can outperform supervised methods due to larger data availability.
+   - Data availability
+     - Supervised: Low, due to manual labelling.
+     - Unsupervised: High, no labelling required.
+   - Traning
+     - Supervised: Simple, ground truth gives a strong supervision signal.
+     - Unsupervised: Sometimes difficult, loss functions have to be engineered to get good results.
+   - Generalizability
+     - Supervised: Good, although sometimes the network learns to blindly copy the labels provided, leading to poor generalizability.
+     - Unsupervised: Better, since unsupervised losses often encode the task in a more fundamental way.
+
 ### 13. Visual inertial fusion
 
 1. Why is it recommended to use an IMU for Visual Odometry?
