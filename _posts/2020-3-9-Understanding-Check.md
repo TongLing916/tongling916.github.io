@@ -474,14 +474,42 @@ linearly)?
 ### 13. Visual inertial fusion
 
 1. Why is it recommended to use an IMU for Visual Odometry?
+   - Monocular vision is scale ambiguous.
+   - Pure vision is not robust enough.
+     - Low texture
+     - High dynamic range
+     - High speed motion
 2. Why not just an IMU?
+   - Pure IMU integration will lead to large drift
 3. How does a MEMS IMU work?
+   - Accelerometer: A spring like structure connects the device to a seismic mass vibrating in a capacitve divider. A capacitive divider converts the displacement of the seismic mass into an electric signal. Damping is created by the gas sealed in the device.
+   - Gyroscope: MEMS gyroscopes measure the Coriolis forces acting on MEMS vibrating structures (tuning forks, vibrating wheels, or resonant solids)
 4. What is the drift of an industrial IMU?
+   - 1s: 15 mm
+   - 10s: 1.5 m
+   - 60s: 53 m
+   - 1hr: 190 km
 5. What is the IMU measurement model?
 6. What causes the bias in an IMU?
+   - The derivative of the bias is white Gaussian noise (so-called random walk)
 7. How do we model the bias?
+   - The biases are usually estimated with the other states
+     - can change every time the IMU is started
+     - can change due to temperature change, mechanical pressure, etc.
+     - [IMU Noise Model](https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model)
 8. How do we integrate the acceleration to get the position formula?
-9. What is the definition of loosely coupled and tightly coupled visual inertial fusions?
+   - Depends on initial position and velocity
+   - The rotation $$R(t)$$ is computed from the gyroscope
+9.  What is the definition of loosely coupled and tightly coupled visual inertial fusions?
+    - Loosely coupled
+      - Treats VO and IMU as two separate (not coupled) black boxes.
+        - Each black box estimates pose and velocity from visual (up to a scale) and inertial data (absolute scale)
+    - Tightly coupled
+      - Makes use of the raw sensors’ measurements:
+        - 2D features
+        - IMU readings
+        - More accurate
+        - More implementation effort
 10. How can we use non linear optimization based approaches to solve for visual inertial fusion?
 
 ### 14. Event based vision
