@@ -110,6 +110,135 @@ $$\mathbf{b} = \mathbf{J}^T\mathbf{e}$$
 
 ### [Example - DSO](http://www.lingtong.de/2020/04/17/DSO-Schur-Complement/) [^Engel18]
 
+### Visualization [^Sola16]
+
+- Schur complement
+
+```MATLAB
+% Data Generation
+N = 20; % nbr of poses, and number of landmarks
+
+% I. Problem construction: factors
+J = []; % start with empty Jacobian
+k = 0;  % index for factors
+
+% 1. motion
+for n = 1:N-1    % index for poses
+  k = k+1;       % add one factor
+  J(k,n) = rand; % we simulate a non−zero block with just one scalar
+  J(k,n+1) = rand;
+end
+
+% 2. landmark observations
+f = 0;                   % index for landmarks
+for n=1:N                % index for poses
+  f = f+1;               % add one landmark
+  jj = [0 randperm(5)];  % random sort a few recent landmarks
+  m = randi(4);          % nbr. of landmark measurements
+  for j = jj(1:m)        % measure m of the recent landmarks
+    if j < f
+      k = k+1;           % add one factor
+      J(k,n) = rand;     % use state n
+      J(k,N+f-j) = rand; % use a recent landmark
+    end
+  end
+end
+
+% Visualization
+Jp = J(:, pr);          % Jacobian wrt. poses
+Jl = J(:, lr);          % Jacobian wrt. landmarks
+H = J'*J;               % Hessian matrix
+pr = 1:N;               % poses
+lr = N+1:N+f;           % landmarks
+Hpp = H(pr,pr);         % poses Hessian
+Hpl = H(pr,lr);         % cross Hessian
+Hll = H(lr,lr);         % landmarks Hessian
+Hsc = Hpl / Hll * Hpl'; % Schur complement
+Spp = Hpp - Hsc;        % Schur complement of Hpp
+
+figure(1), set(1,'name','Hessians')
+subplot(3,3,1), spy(J), title 'J'
+subplot(3,3,2), spy(Jp), title 'J_{pose}'
+subplot(3,3,3), spy(Jl), title 'J_{landmarks}'
+subplot(3,3,4), spy(H), title 'H'
+subplot(3,3,5), spy(Hpp), title 'H_{11}'
+subplot(3,3,6), spy(Hpl), title 'H_{12}'
+subplot(3,3,7), spy(Hll), title 'H_{22}'
+subplot(3,3,8), spy(Hsc), title 'H_{sc}'
+subplot(3,3,9), spy(Spp), title 'H_{11} - H_{sc}'
+```
+
+- QR vs. Cholesky vs. Cholesky with Schur complement
+
+```MATLAB
+% Comparing: QR vs. Cholesky vs. Cholesky with Schur complement
+N = 20; % nbr of poses, and number of landmarks
+
+% I. Problem construction: factors
+J = []; % start with empty Jacobian
+k = 0; % index for factors
+
+% 1. motion
+for n = 1:N-1 % index for poses
+  k = k+1; % add one factor
+  J(k,n) = rand; % we simulate a non−zero block with just one scalar
+  J(k,n+1) = rand;
+end
+
+% 2. landmark observations
+f = 0; % index for landmarks
+for n=1:N % index for poses
+  f = f+1; % add one landmark
+  jj = [0 randperm(5)]; % random sort a few recent landmarks
+  m = randi(4); % nbr. of landmark measurements
+  for j = jj(1:m) % measure m of the recent landmarks
+    if j < f
+      k = k+1; % add one factor
+      J(k,n) = rand; % use state n
+      J(k,N+f-j) = rand; % use a recent landmark
+    end
+  end
+end
+
+% II. Factorizing and plotting
+% 1. QR
+p = colamd(J); % column reordering
+A = J(:,p); % reordered J
+[~,Rj] = qr(J,0);
+[~,Ra] = qr(A,0);
+figure(1), set(1,'name','QR')
+subplot(2,2,1), spy(J), title 'A = \Omega^{T/2} J'
+subplot(2,2,2), spy(Rj), title 'R'
+subplot(2,2,3), spy(A), title 'A^{\prime}'
+subplot(2,2,4), spy(Ra), title 'R^{\prime}'
+
+% 2. Cholesky
+H = J'*J; % Hessian matrix
+p = colamd(H); % column reordering
+figure(2), set(2,'name','Cholesky')
+subplot(2,2,1), spy(H), title 'H = J^T \Omega J'
+subplot(2,2,2), spy(chol(H)), title 'R'
+subplot(2,2,3), spy(H(p,p)), title 'H^{\prime}'
+subplot(2,2,4), spy(chol(H(p,p))), title 'R^{\prime}'
+
+% 3. Cholesky + Schur
+pr = 1:N; % poses
+lr = N+1:N+f; % landmarks
+Hpp = H(pr,pr); % poses Hessian
+Hpl = H(pr,lr); % cross Hessian
+Hll = H(lr,lr); % landmarks Hessian
+Spp = Hpp - Hpl / Hll * Hpl'; % Schur complement of Hpp
+p = colamd(Spp); % column reordering
+
+figure(3), set(3,'name','Schur + Cholesky')
+subplot(2,3,1), spy(Spp), title 'S_{PP}'
+subplot(2,3,2), spy(chol(Spp)), title 'R_{PP}'
+subplot(2,3,4), spy(Spp(p,p)), title 'S_{PP}^{\prime}'
+subplot(2,3,5), spy(chol(Spp(p,p))), title 'R_{PP}^{\prime}'
+subplot(2,3,3), spy(Hll), title 'H_{LL}'
+subplot(2,3,6), spy(inv(Hll)), title 'H_{LL}^{−1}'
+```
+
 
 ### Literature
 
@@ -118,3 +247,5 @@ $$\mathbf{b} = \mathbf{J}^T\mathbf{e}$$
 [^Barfoot17]: Timothy D Barfoot. State Estimation for Robotics. Cambridge University Press, 2017.
 
 [^Hartley04]: R. Hartley and A. Zisserman, Multiple View Geometry in Computer Vision, 2nd ed. Cambridge University Press, 2004.
+
+[^Sola16]: Sola, Joan. "Course on SLAM." Institut de Robotica i Informatica Industrial (IRI) (2016).
