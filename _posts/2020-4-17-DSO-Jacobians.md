@@ -277,11 +277,11 @@ $$
 In the real implementation of DSO, the derivative wrt. the absolute photometric values are computed in a __weird__ way as follows
 
 $$
-\frac{\partial r_{ji}}{\partial \begin{bmatrix} a_{i} \\ b_{i}\end{bmatrix}} = \frac{\partial r_{ji}}{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}}\frac{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}}{\partial \begin{bmatrix} a_{i} \\ b_{i}\end{bmatrix}}
-$$
-
-$$
-\frac{\partial r_{ji}}{\partial \begin{bmatrix} a_{j} \\ b_{j}\end{bmatrix}} = \frac{\partial r_{ji}}{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}}\frac{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}}{\partial \begin{bmatrix} a_{j} \\ b_{j}\end{bmatrix}}
+\begin{aligned}
+\frac{\partial r_{ji}}{\partial \begin{bmatrix} a_{i} \\ b_{i}\end{bmatrix}} 
+&= \frac{\partial r_{ji}}{\partial \mathbf{a}_{ji}}\frac{\partial \mathbf{a}_{ji}}{\partial \begin{bmatrix} a_{i} \\ b_{i}\end{bmatrix}} \\ 
+&= \frac{\partial r_{ji}}{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}}\frac{\partial \begin{bmatrix} -e^{a_{ji}} \\ -b_{ji}\end{bmatrix}}{\partial \begin{bmatrix} a_{i} \\ b_{i}\end{bmatrix}}
+\end{aligned}
 $$
 
 Since 
