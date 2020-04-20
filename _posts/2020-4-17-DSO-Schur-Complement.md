@@ -10,7 +10,7 @@ tags:
 
 > [Direct sparse odometry](https://vision.in.tum.de/research/vslam/dso)
 
-> Foreknowledge for Lie groups and Lie algebra can be found [here](http://www.lingtong.de/2020/04/02/Schur-Complement/)
+> Foreknowledge about Schur complement can be found [here](http://www.lingtong.de/2020/04/02/Schur-Complement/)
 
 ### Initialization
 
