@@ -283,7 +283,7 @@ $$
 
 #### Preparation
 
-For convenience, we consider only __one__ residual wrt. two frames in the following sections. 
+For convenience, we consider only __one__ residual (which is DEFINITELY __IMPOSSIBLE__) wrt. two frames in the following sections. 
 
 As introduced [here](http://www.lingtong.de/2020/04/02/Jacobian-Matrices/), we have 
 
