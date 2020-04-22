@@ -510,7 +510,56 @@ linearly)?
         - IMU readings
         - More accurate
         - More implementation effort
-10. How can we use non linear optimization based approaches to solve for visual inertial fusion?
+10. How can we do visual inertial (VIO) fusion?
+    - Closed-form solution [^Martinelli12][^Martinelli14][^Kaiser17]
+      - Can be used to initialize filters and smoothers
+    - Filtering approach
+      - Only updates the __most reccent state__. (e.g., extended Kalman filter)
+    - Fixed-lag smoothing
+      - Optimizes __window__ of states
+        - Marginalization 
+        - Nonlinear least squares optimization
+    - Full smoothing
+      - Optimizes __all__ states
+        - Nonlinear least squares optimization
+11. Comparison of different VIO fusion paradigms
+    - Filtering
+      - Pro
+        - Fastest
+      - Con
+        - 1 linearization
+        - Accumulation of linearization errors
+        - Gaussian approximation of marginalized states
+    - Fixed-lag smoothing
+      - Pro
+        - Re-linearizes
+        - Fast
+      - Con
+        - Accumulation of linearization errors
+        - Gaussian approximation of marginalized states
+    - Full smoothing
+      - Pro
+        - Re-linearizes
+        - Sparse matrices
+        - Highest accuracy
+      - Con
+        - Slow (but fast with GTSAM)
+12. Marginalizing states vs. dropping states
+    - Dropping states: loss of information, not optimal
+    - Marginalization: optimal if there is no linearization error, but introduces fill-in, causing performance penalty.
+13. How IMU pre-integration?
+    - Standard: evaluate __errror in global frame__
+      - __Repeat integration__ when preivous state changes!
+    - Preintegration: evaluate __relative errors__
+      - Preintegration of IMU deltas possible with __no initial condition required__
+14. Full smoothing: SVO + GTSAM & IMU Pre-Integration [^Forster17]
+    - Keeps all the frames (from the start of the trajectory)
+    - To make the optimization efficient
+      - it makes graph sparser using keyframes
+      - pre-integrates the IMU data between keyframes
+    - Optimization solved using factor graphs (GTSAM)
+      - Very fast because it only optimizes the poses that are affected by a new observation
+15. How can we do camera IMU extrinsic calibration and synchronization?
 
 ### 14. Event based vision
 
@@ -534,3 +583,11 @@ linearly)?
 [^Hartley97]: Hartley, In defense of the eight-point algorithm, PAMI’97.
 
 [^Scaramuzza11]: Scaramuzza, 1 Point RANSAC Structure from Motion for Vehicle Mounted Cameras by Exploiting Non holonomic Constraints , International Journal of Computer Vision, 2011.
+
+[^Martinelli12]: Martinelli , Vision and IMU data fusion: Closed form solutions for attitude, speed, absolute scale, and bias determination, TRO’12.
+
+[^Martinelli14]: Martinelli , Closed form solution of visual inertial structure from motion, Int. Journal of Comp. Vision, JCV’14.
+
+[^Kaiser17]: Kaiser , Martinelli , Fontana , Scaramuzza , Simultaneous state initialization and gyroscope bias calibration in visual inertial aided navigation, IEEE RAL’17.
+
+[^Forster17]: Forster, Carlone, Dellaert, Scaramuzza, On Manifold Preintegration for Real Time Visual Inertial Odometry, IEEE Transactions on Robotics (TRO), Feb. 2017.
