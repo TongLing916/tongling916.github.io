@@ -559,7 +559,9 @@ linearly)?
       - pre-integrates the IMU data between keyframes
     - Optimization solved using factor graphs (GTSAM)
       - Very fast because it only optimizes the poses that are affected by a new observation
-15. How can we do camera IMU extrinsic calibration and synchronization?
+15. What is camera IMU extrinsic calibration and synchronization?
+    - Goal: estimate the rigid-body transformation $$\mathbf{T}_{BC}$$ and delay $$t_{d}$$ between a camera and an IMU rigidly attached. Assume that the camera has already been intrinsically calibrated.
+    - Software: [Kalibr](https://github.com/ethz-asl/kalibr/wiki/camera-imu-calibration)
 
 ### 14. Event based vision
 
