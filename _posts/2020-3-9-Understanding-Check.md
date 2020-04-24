@@ -566,15 +566,48 @@ linearly)?
 ### 14. Event based vision
 
 1. What is a DVS and how does it work?
+   - Dynamic Vision Sensor
+   - A __traditional camera__ outputs frames at __fixed time intervals__. By contrast, a __DVS__ outputs __asynchronous events__ at __microsecond resolution__. An event is generated each time a single pixel detects a change of intensity (event: $$t, (x, y), \text{sign}(\frac{dI(x,y)}{dt})$$)
+   - __Asynchronous__: all pixels are independent from one another
+   - Implements __level-crossing__ sampling rather than uniform time sampling
+   - Reacts to __logarithmic__ brightness changes
 2. What are its pros and cons vs. standard cameras?
+   - Event camera 
+     - Pro
+       - High update rate (asynchronous) 1 MHz
+       - High dynamic range (140 dB)
+       - No motion blur
+     - Con
+       - Not for static motion (event camera is a high pass filter)
+       - No absolute intensity (but reconstructable up to a constant)
+   - Standard camera
+     - Pro
+       - For static motion
+       - Absolute intensity
+     - Con
+       - Low update rate (synchronous)
+       - Low dynamic range (60 dB)
+       - Motion blur
 3. Can we apply standard camera calibration techniques?
+   - Standard __pinhole camera model__ still valid
+   - Standard passive calibration patterns cannot be used
+   - __Blinking patterns__
+   - [Github](https://github.com/uzh-rpg/rpg_dvs_ros)
 4. How can we compute optical flow with a DVS?
+   - Space time domain
 5. Could you intuitively explain why we can reconstruct the intensity?
+   - Pixel intensity equal to the sum of positive (+1) and negative (-1) events in a given time interval
 6. What is the generative model of a DVS and how to derive it?
+  - An event is triggered at a __single pixel__ if $$\log I(\boldsymbol{x}, t)-\log I(\boldsymbol{x}, t-\Delta t)=\pm C$$
 7. What is a DAVIS sensor?
+   - Events + Images + IMU
+   - Combines an __event and a standard__ camera in __the same pixel array__ (-> the same pixel can both trigger events and integrate light intensity)
 8. What is the focus maximization framework and how does it work? What is its advantage compared with the generative model?
+   - The __generative event model__ or its first order approximation __requires__ knowledge of the contrast sensitivity $$C$$. Unfortunately, $$C$$ is __scene dependent__ and might differ from pixel to pixel.
+   - Focus maximization framework: warp spatio-temporal volume of events to __maximize focus__ (e.g., sharpness) of the resulting image
 9. How can we get color events?
-
+   -  Each pixel is sensitive to either red, green or blue light.
+   -  Transmits __brightness changes__ in each color channel
 
 ### Literature
 
