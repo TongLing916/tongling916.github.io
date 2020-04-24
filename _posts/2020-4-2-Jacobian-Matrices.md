@@ -184,12 +184,12 @@ $$
 The coefficient $$\omega_{h} = \sqrt{\lambda (2 - \lambda)}$$ will be called __Huber weight__ in the following sections.
 
 
-### Reprojection Error
+### [Reprojection Error](https://github.com/raulmur/ORB_SLAM2/blob/master/Thirdparty/g2o/g2o/types/types_six_dof_expmap.cpp#L103) (Pinhole)
 
 The reprojection error is defined as follows
 
 $$
-\mathbf{r} = \mathbf{p}_{i} - \mathbf{K}\mathbf{T}_{iw}\mathbf{x} = \mathbf{p}_{i} - \mathbf{K}\mathbf{p}^{c}
+\mathbf{r} = \mathbf{p} - \mathbf{K}\mathbf{T}_{iw}\mathbf{x} = \mathbf{p} - \mathbf{K}\mathbf{p}_{c}
 $$
 
 __Note__: In the cost function above, there is an implicit conversion to ensure the last element of homogeneous pixel coordinates to be one.
@@ -197,33 +197,33 @@ __Note__: In the cost function above, there is an implicit conversion to ensure 
 | Variable                                                                                | Meaning                                          |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------ |
 | $$\mathbf{r}= \begin{bmatrix}\delta u \\ \delta v\end{bmatrix}$$                        | reprojection error                               |
-| $$\mathbf{p}_{i}=\begin{bmatrix} u \\ v\end{bmatrix}$$                                  | corresponding pixel                              |
+| $$\mathbf{p}=\begin{bmatrix} u \\ v\end{bmatrix}$$                                      | corresponding pixel                              |
 | $$\mathbf{K}=\begin{bmatrix}f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}$$ | calibration matrix                               |
 | $$\mathbf{T}_{iw} = \begin{bmatrix}\mathbf{R} & \mathbf{t}\end{bmatrix}$$               | camera pose (__to optimize__)                    |
 | $$\mathbf{x}$$                                                                          | 3D point (__to optimize__)                       |
-| $$\mathbf{p}^{c} = \begin{bmatrix}x^{c} \\ y^{c} \\ z^{c}\end{bmatrix}$$                | 3D point in the camera $$i$$'s coordinate system |
+| $$\mathbf{p}_{c} = \begin{bmatrix}x_{c} \\ y_{c} \\ z_{c}\end{bmatrix}$$                | 3D point in the camera $$i$$'s coordinate system |
 
 #### 3D point
 
 $$
-\frac{\partial \mathbf{r}}{\partial \mathbf{x}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}^{c}} \frac{\partial \mathbf{p}^{c}}{\partial \mathbf{x}}
+\frac{\partial \mathbf{r}}{\partial \mathbf{x}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}_{c}} \frac{\partial \mathbf{p}_{c}}{\partial \mathbf{x}}
 $$
 
 Since
 $$
 \frac{1}{\rho} \begin{bmatrix}
     \hat{u} \\ \hat{v} \\ 1
-\end{bmatrix} = \mathbf{K}\mathbf{p}^{c} = \begin{bmatrix}f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}\begin{bmatrix}x^{c} \\ y^{c} \\ z^{c}\end{bmatrix} = \begin{bmatrix}f_x x^{c} + c_x z^{c}  \\ f_y y^{c} + c_y z^{c} \\ z^{c}\end{bmatrix}
+\end{bmatrix} = \mathbf{K}\mathbf{p}_{c} = \begin{bmatrix}f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}\begin{bmatrix}x_{c} \\ y_{c} \\ z_{c}\end{bmatrix} = \begin{bmatrix}f_x x_{c} + c_x z_{c}  \\ f_y y_{c} + c_y z_{c} \\ z_{c}\end{bmatrix}
 $$, where $$\rho$$ is the inverse depth of the 3D point, we have then 
 
 $$
-\mathbf{r} = \begin{bmatrix}u - f_x \frac{x^{c}}{z^{c}} - c_x \\ v - f_y \frac{y^{c}}{z^{c}} - c_y\end{bmatrix}
+\mathbf{r} = \begin{bmatrix}u - f_x \frac{x_{c}}{z_{c}} - c_x \\ v - f_y \frac{y_{c}}{z_{c}} - c_y\end{bmatrix}
 $$
 
 Therefore,
 
 $$
- \frac{\partial \mathbf{r}}{\partial \mathbf{p}^{c}} = \begin{bmatrix}
+ \frac{\partial \mathbf{r}}{\partial \mathbf{p}_{c}} = \begin{bmatrix}
      -\frac{f_x}{z_c} & 0 & \frac{f_x x_c}{z_c^{2}} \\
      0 & -\frac{f_y}{z_c} & \frac{f_y y_c}{z_c^{2}}
  \end{bmatrix}
@@ -232,13 +232,13 @@ $$
 Besides,
 
 $$
-\frac{\partial \mathbf{p}^{c}}{\partial \mathbf{x}} = \frac{\partial (\mathbf{R}\mathbf{x} + \mathbf{t})}{\partial \mathbf{x}} = \mathbf{R}
+\frac{\partial \mathbf{p}_{c}}{\partial \mathbf{x}} = \frac{\partial (\mathbf{R}\mathbf{x} + \mathbf{t})}{\partial \mathbf{x}} = \mathbf{R}
 $$
 
 All in all, 
 
 $$
-\frac{\partial \mathbf{r}}{\partial \mathbf{x}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}^{c}} \frac{\partial \mathbf{p}^{c}}{\partial \mathbf{x}} = \begin{bmatrix}
+\frac{\partial \mathbf{r}}{\partial \mathbf{x}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}_{c}} \frac{\partial \mathbf{p}_{c}}{\partial \mathbf{x}} = \begin{bmatrix}
      -\frac{f_x}{z_c} & 0 & \frac{f_x x_c}{z_c^{2}} \\
      0 & -\frac{f_y}{z_c} & \frac{f_y y_c}{z_c^{2}}
  \end{bmatrix}\mathbf{R}
@@ -247,18 +247,100 @@ $$
 #### Absolute camera pose
 
 $$
-\frac{\partial \mathbf{r}}{\partial \boldsymbol{\xi}_{iw}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}^{c}} \frac{\partial \mathbf{p}^{c}}{\partial \boldsymbol{\xi}_{iw}}
+\frac{\partial \mathbf{r}}{\partial \boldsymbol{\xi}_{iw}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}_{c}} \frac{\partial \mathbf{p}_{c}}{\partial \boldsymbol{\xi}_{iw}}
 $$
 
 $$
 \begin{aligned}
-\frac{\partial \mathbf{r}}{\partial \boldsymbol{\xi}_{iw}} &= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{\exp{(\delta \boldsymbol{\xi}_{iw})}^{\wedge}\mathbf{T}_{iw}\mathbf{x} - \mathbf{T}_{iw}\mathbf{x}}{\delta \boldsymbol{\xi}_{iw}} \\ 
+\frac{\partial \mathbf{p}_{c}}{\partial \boldsymbol{\xi}_{iw}} &= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{\exp{(\delta \boldsymbol{\xi}_{iw})}^{\wedge}\mathbf{T}_{iw}\mathbf{x} - \mathbf{T}_{iw}\mathbf{x}}{\delta \boldsymbol{\xi}_{iw}} \\ 
 &= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{(\mathbf{I} + \delta \boldsymbol{\xi}_{iw}^{\wedge})\mathbf{T}_{iw}\mathbf{x} - \mathbf{T}_{iw}\mathbf{x}}{\delta \boldsymbol{\xi}_{iw}} \\
 &= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{\delta \boldsymbol{\xi}_{iw}^{\wedge}\mathbf{T}_{iw}\mathbf{x}}{\delta \boldsymbol{\xi}_{iw}} \\
 &= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{(\mathbf{T}_{iw}\mathbf{x})^{\odot}\delta \boldsymbol{\xi}_{iw}}{\delta \boldsymbol{\xi}_{iw}} \\
 &= (\mathbf{T}_{iw}\mathbf{x})^{\odot}
 \end{aligned}
 $$
+
+### [Reprojection Error](https://github.com/lsyads/fisheye-ORB-SLAM/blob/master/Thirdparty/g2o/g2o/types/types_six_dof_expmap.cpp#L141) ([EUCM](http://www.lingtong.de/2020/03/26/Camera-Model/#extended-unified-camera-model-))
+
+The reprojection error is defined as follows
+
+$$
+\mathbf{r} = \mathbf{p} - \pi(\mathbf{T}_{iw}\mathbf{x}) = \mathbf{p} - \pi(\mathbf{p}_{c})
+$$
+
+$$
+\pi(\mathbf{p}_{c})=\begin{bmatrix}
+\hat{u} \\
+\hat{v}
+\end{bmatrix}=\begin{bmatrix}
+f_{x} & 0 \\
+0 & f_{y}
+\end{bmatrix}
+\begin{bmatrix}
+x_{c} /(\alpha \rho+(1-\alpha) z_{c}) \\
+y_{c} /(\alpha \rho+(1-\alpha) z_{c})
+\end{bmatrix}
++
+\begin{bmatrix}
+c_{x} \\
+c_{y}
+\end{bmatrix}
+$$
+
+$$
+\mathbf{q}=\begin{bmatrix}
+x_{c} /(\alpha \rho+(1-\alpha) z_{c}) \\
+y_{c} /(\alpha \rho+(1-\alpha) z_{c}) \\
+1
+\end{bmatrix}
+$$
+
+$$\rho=\sqrt{\beta\left(x^{2}+y^{2}\right)+z^{2}}$$
+
+| Variable                                                                  | Meaning                                    |
+| ------------------------------------------------------------------------- | ------------------------------------------ |
+| $$\mathbf{r}= \begin{bmatrix}\delta u \\ \delta v\end{bmatrix}$$          | reprojection error                         |
+| $$\mathbf{p}=\begin{bmatrix} u \\ v\end{bmatrix}$$                        | corresponding pixel in image $$i$$         |
+| $$\pi(\cdot)$$                                                            | calibration function                       |
+| $$\mathbf{T}_{iw} = \begin{bmatrix}\mathbf{R} & \mathbf{t}\end{bmatrix}$$ | camera pose (__to optimize__)              |
+| $$\mathbf{x}$$                                                            | 3D point (__to optimize__)                 |
+| $$\mathbf{p}_{c} = \begin{bmatrix}x_{c} \\ y_{c} \\ z_{c}\end{bmatrix}$$  | 3D point in the camera's coordinate system |
+
+#### 3D point
+
+$$
+\frac{\partial \mathbf{r}}{\partial \mathbf{x}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}_{c}} \frac{\partial \mathbf{p}_{c}}{\partial \mathbf{x}}
+$$
+
+$$
+\begin{aligned}
+  \frac{\partial \mathbf{r}}{\partial \mathbf{p}_{c}} &= \frac{\partial \mathbf{r}}{\partial \mathbf{q}} \frac{\partial \mathbf{q}}{\partial \mathbf{p}_{c}} = \frac{\partial \mathbf{q}}{\partial \mathbf{p}_{c}} \\ 
+  &= -\begin{bmatrix}
+      f_x & 0 \\ 0 & f_y
+  \end{bmatrix}
+  \begin{bmatrix}
+\frac{1}{\eta}-\frac{\alpha \beta x_{c}^{2}}{\eta^{2} \rho} & -\frac{\alpha \beta x_{c} y_{c}}{\eta^{2} \rho} & -\frac{x_{c}\left(1-\alpha+\left(\alpha z_{c}\right) / \rho\right)}{\eta^{2}} \\
+-\frac{\alpha \beta x_{c} y_{c}}{\eta^{2} \rho} & \frac{1}{\eta}-\frac{\alpha \beta y_{c}^{2}}{\eta^{2} \rho} & -\frac{y_{c}\left(1-\alpha+\left(\alpha z_{c}\right) / \rho\right)}{\eta^{2}}
+\end{bmatrix}  
+\end{aligned}
+$$
+
+Besides,
+
+$$
+\frac{\partial \mathbf{p}_{c}}{\partial \mathbf{x}} = \frac{\partial (\mathbf{R}\mathbf{x} + \mathbf{t})}{\partial \mathbf{x}} = \mathbf{R}
+$$
+
+#### Absolute camera pose
+
+$$
+\frac{\partial \mathbf{r}}{\partial \boldsymbol{\xi}_{iw}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}_{c}} \frac{\partial \mathbf{p}_{c}}{\partial \boldsymbol{\xi}_{iw}}
+$$
+
+$$
+\frac{\partial \mathbf{p}_{c}}{\partial \boldsymbol{\xi}_{iw}} = (\mathbf{T}_{iw}\mathbf{x})^{\odot}
+$$
+
 
 ### Photometric Error (3D Point)
 
@@ -285,24 +367,24 @@ $$
 - Residual
 $$\mathbf{r}_{ji} = \ln{(\bar{\mathbf{T}}_{ji} \mathbf{T}_{iw} \mathbf{T}_{jw}^{-1})^{\vee}}$$
 
-| Variable  | Meaning    |
-| ------------------- | -------------------------------------- |
-| $$\mathbf{r}_{ji} \in \mathbb{R}^{6}$$ | single residual, `3` for translation, `3` for rotation |
-|$$\bar{\mathbf{T}}_{ji}$$ |  measurement $$\mathbf{SE}(3)$$    |
-| $$\mathbf{T}_{iw}, \mathbf{T}_{jw}$$    |    variables to optimize (Lie group) |
-| $$\boldsymbol{\xi}_{iw}, \boldsymbol{\xi}_{jw}$$    |    variables to optimize (Lie algebra) |
+| Variable                                         | Meaning                                                |
+| ------------------------------------------------ | ------------------------------------------------------ |
+| $$\mathbf{r}_{ji} \in \mathbb{R}^{6}$$           | single residual, `3` for translation, `3` for rotation |
+| $$\bar{\mathbf{T}}_{ji}$$                        | measurement $$\mathbf{SE}(3)$$                         |
+| $$\mathbf{T}_{iw}, \mathbf{T}_{jw}$$             | variables to optimize (Lie group)                      |
+| $$\boldsymbol{\xi}_{iw}, \boldsymbol{\xi}_{jw}$$ | variables to optimize (Lie algebra)                    |
 
 #### Sim(3)
 
 - Residual
 $$\mathbf{r}_{ji} = \ln{(\bar{\mathbf{S}}_{ji} \mathbf{S}_{iw} \mathbf{S}_{jw}^{-1})^{\vee}}$$
 
-| Variable  | Meaning    |
-| ------------------- | -------------------------------------- |
-| $$\mathbf{r}_{ji} \in \mathbb{R}^{7}$$ | single residual, `3` for translation, `3` for rotation, `1` for scale |
-|$$\bar{\mathbf{S}}_{ji}$$ |  measurement $$\mathbf{Sim}(3)$$    |
-| $$\mathbf{S}_{iw}, \mathbf{S}_{jw}$$    |    variables to optimize   (Lie group)  |
-| $$\boldsymbol{\xi}_{iw}^{s}, \boldsymbol{\xi}_{jw}^{s}$$    |    variables to optimize   (Lie algebra)  |
+| Variable                                                 | Meaning                                                               |
+| -------------------------------------------------------- | --------------------------------------------------------------------- |
+| $$\mathbf{r}_{ji} \in \mathbb{R}^{7}$$                   | single residual, `3` for translation, `3` for rotation, `1` for scale |
+| $$\bar{\mathbf{S}}_{ji}$$                                | measurement $$\mathbf{Sim}(3)$$                                       |
+| $$\mathbf{S}_{iw}, \mathbf{S}_{jw}$$                     | variables to optimize   (Lie group)                                   |
+| $$\boldsymbol{\xi}_{iw}^{s}, \boldsymbol{\xi}_{jw}^{s}$$ | variables to optimize   (Lie algebra)                                 |
 
 - $$\frac{\partial \mathbf{r}_{ji}}{\partial \boldsymbol{\xi}_{iw}}$$
 
