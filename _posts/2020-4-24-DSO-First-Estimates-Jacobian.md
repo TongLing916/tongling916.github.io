@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "First Estimates Jacobian"
-date:       2020-4-2
+date:       2020-4-24
 author:     Tong
 catalog: true
 tags:
@@ -33,7 +33,7 @@ In this work, we study the inconsistency of EKF-based SLAM from the perspective 
 
 In this work, we study the inconsistency problem of extended Kalman filter (EKF)-based simultaneous localization and mapping (SLAM) from the perspective of observability. We analytically prove that when the Jacobians of the process and measurement models are evaluated at the latest state estimates during every time step, the linearized error-state system employed in the EKF has an observable subspace of dimension higher than that of the actual, non-linear, SLAM system. As a result, the covariance estimates of the EKF undergo reduction in directions of the state space where no information is available, which is a primary cause of the inconsistency. Based on these theoretical results, we propose a general framework for improving the consistency of EKF-based SLAM. In this framework, the EKF linearization points are selected in a way that ensures that the resulting linearized system model has an observable subspace of appropriate dimension. We describe two algorithms that are instances of this paradigm. In the first, termed observability constrained (OC)-EKF, the linearization points are selected so as to minimize their expected errors (i.e. the difference between the linearization point and the true state) under the observability constraints. In the second, the filter Jacobians are calculated using the first-ever available estimates for all state variables. This latter approach is termed first-estimates Jacobian (FEJ)-EKF. The proposed algorithms have been tested both in simulation and experimentally, and are shown to significantly outperform the standard EKF both in terms of accuracy and consistency.
 
-### Direct Sparse Odometry [^Engel18]
+### Example - Direct Sparse Odometry [^Engel18]
 
 ### Literature
 
