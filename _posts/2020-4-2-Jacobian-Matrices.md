@@ -186,9 +186,79 @@ The coefficient $$\omega_{h} = \sqrt{\lambda (2 - \lambda)}$$ will be called __H
 
 ### Reprojection Error
 
-#### Camera Pose
+The reprojection error is defined as follows
 
-#### 3D Point
+$$
+\mathbf{r} = \mathbf{p}_{i} - \mathbf{K}\mathbf{T}_{iw}\mathbf{x} = \mathbf{p}_{i} - \mathbf{K}\mathbf{p}^{c}
+$$
+
+__Note__: In the cost function above, there is an implicit conversion to ensure the last element of homogeneous pixel coordinates to be one.
+
+| Variable                                                                                | Meaning                                          |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| $$\mathbf{r}= \begin{bmatrix}\delta u \\ \delta v\end{bmatrix}$$                        | reprojection error                               |
+| $$\mathbf{p}_{i}=\begin{bmatrix} u \\ v\end{bmatrix}$$                                  | corresponding pixel                              |
+| $$\mathbf{K}=\begin{bmatrix}f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}$$ | calibration matrix                               |
+| $$\mathbf{T}_{iw} = \begin{bmatrix}\mathbf{R} & \mathbf{t}\end{bmatrix}$$               | camera pose (__to optimize__)                    |
+| $$\mathbf{x}$$                                                                          | 3D point (__to optimize__)                       |
+| $$\mathbf{p}^{c} = \begin{bmatrix}x^{c} \\ y^{c} \\ z^{c}\end{bmatrix}$$                | 3D point in the camera $$i$$'s coordinate system |
+
+#### 3D point
+
+$$
+\frac{\partial \mathbf{r}}{\partial \mathbf{x}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}^{c}} \frac{\partial \mathbf{p}^{c}}{\partial \mathbf{x}}
+$$
+
+Since
+$$
+\frac{1}{\rho} \begin{bmatrix}
+    \hat{u} \\ \hat{v} \\ 1
+\end{bmatrix} = \mathbf{K}\mathbf{p}^{c} = \begin{bmatrix}f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}\begin{bmatrix}x^{c} \\ y^{c} \\ z^{c}\end{bmatrix} = \begin{bmatrix}f_x x^{c} + c_x z^{c}  \\ f_y y^{c} + c_y z^{c} \\ z^{c}\end{bmatrix}
+$$, where $$\rho$$ is the inverse depth of the 3D point, we have then 
+
+$$
+\mathbf{r} = \begin{bmatrix}u - f_x \frac{x^{c}}{z^{c}} - c_x \\ v - f_y \frac{y^{c}}{z^{c}} - c_y\end{bmatrix}
+$$
+
+Therefore,
+
+$$
+ \frac{\partial \mathbf{r}}{\partial \mathbf{p}^{c}} = \begin{bmatrix}
+     -\frac{f_x}{z_c} & 0 & \frac{f_x x_c}{z_c^{2}} \\
+     0 & -\frac{f_y}{z_c} & \frac{f_y y_c}{z_c^{2}}
+ \end{bmatrix}
+$$
+
+Besides,
+
+$$
+\frac{\partial \mathbf{p}^{c}}{\partial \mathbf{x}} = \frac{\partial (\mathbf{R}\mathbf{x} + \mathbf{t})}{\partial \mathbf{x}} = \mathbf{R}
+$$
+
+All in all, 
+
+$$
+\frac{\partial \mathbf{r}}{\partial \mathbf{x}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}^{c}} \frac{\partial \mathbf{p}^{c}}{\partial \mathbf{x}} = \begin{bmatrix}
+     -\frac{f_x}{z_c} & 0 & \frac{f_x x_c}{z_c^{2}} \\
+     0 & -\frac{f_y}{z_c} & \frac{f_y y_c}{z_c^{2}}
+ \end{bmatrix}\mathbf{R}
+$$
+
+#### Absolute camera pose
+
+$$
+\frac{\partial \mathbf{r}}{\partial \boldsymbol{\xi}_{iw}} = \frac{\partial \mathbf{r}}{\partial \mathbf{p}^{c}} \frac{\partial \mathbf{p}^{c}}{\partial \boldsymbol{\xi}_{iw}}
+$$
+
+$$
+\begin{aligned}
+\frac{\partial \mathbf{r}}{\partial \boldsymbol{\xi}_{iw}} &= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{\exp{(\delta \boldsymbol{\xi}_{iw})}^{\wedge}\mathbf{T}_{iw}\mathbf{x} - \mathbf{T}_{iw}\mathbf{x}}{\delta \boldsymbol{\xi}_{iw}} \\ 
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{(\mathbf{I} + \delta \boldsymbol{\xi}_{iw}^{\wedge})\mathbf{T}_{iw}\mathbf{x} - \mathbf{T}_{iw}\mathbf{x}}{\delta \boldsymbol{\xi}_{iw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{\delta \boldsymbol{\xi}_{iw}^{\wedge}\mathbf{T}_{iw}\mathbf{x}}{\delta \boldsymbol{\xi}_{iw}} \\
+&= \lim_{\delta \boldsymbol{\xi}_{iw} \rightarrow 0} \frac{(\mathbf{T}_{iw}\mathbf{x})^{\odot}\delta \boldsymbol{\xi}_{iw}}{\delta \boldsymbol{\xi}_{iw}} \\
+&= (\mathbf{T}_{iw}\mathbf{x})^{\odot}
+\end{aligned}
+$$
 
 ### Photometric Error (3D Point)
 
