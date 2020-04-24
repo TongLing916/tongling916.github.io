@@ -11,43 +11,139 @@ tags:
 ### 1. Introduction to Computer Vision and Visual Odometry
 
 1. Provide a definition of Visual Odometry?
+   - VO is the process of incrementally estimating the pose of the vehicle by examining the changes that motion induces on the images of its onboard cameras.
 2. Explain the most important differences between VO, VSLAM and SFM?
-3. Describe the needed assumptions for VO?
-4. Illustrate its building blocks
+   - SFM is more general than VO and tackles the problem of 3D reconstruction and 6DOF pose estimation from __unordered image sets__
+   - VO is a __particular case__ of SFM
+   - VO focuses on estimating the 6DoF motion of the camera __sequentially__ (as a new frame arrives) and in __real time__.
+   - Visual Odometry
+     - Focus on incremental estimation
+     - Guarantees local consistency
+   - Visual SLAM
+     - SLAM = visual odometry + loop detection & closure
+     - Guarantees global consistency
+4. Describe the needed assumptions for VO?
+   - Sufficient illumination in the environment
+   - Dominance of the static scene over moving objects
+   - Enough texture to allow apparent motion to be extracted
+   - Sufficient scene overlap between consecutive frames
+5. Illustrate its building blocks
+   1. Image sequence
+   2. Feature detection
+   3. Feature matching (tracking)
+   4. Motion estimation
+      - 2D-2D
+      - 3D-3D
+      - 3D-2D
+   5. Local optimization
 
 ### 2. Image Formation 1: perspective projection and camera models
 
 1. Explain what a blur circle is?
+   - For a fixed film distance from the lens, there is a specific distance between the object and the lens, at which the object appears “in focus” in the image.
+   - Other points project to a “blur circle” (circle of confusion) in the image
 2. Derive the thin lens equation and perform the pinhole approximation?
+   - Thin lens equation: $$\frac{1}{f} = \frac{1}{z} + \frac{1}{e}$$
+   - Pinhole approximation: $$h^{\prime} = \frac{f}{z} h$$
 3. Define vanishing points and lines?
-4. Prove that parallel lines intersect at vanishing points?
-5. Explain how to build an Ames room?
-6. Derive a relation between the field of view and the focal length?
-7. Explain the perspective projection equation, including lens distortion and world to camera projection?
+   - Parallel lines in the world intersect in the image at a “vanishing point”
+   - Parallel planes in the world intersect in the image at a “vanishing line”
+1. Prove that parallel lines intersect at vanishing points?
+2. Explain how to build an Ames room?
+3. Derive a relation between the field of view and the focal length?
+   - Field of View (FOV): Angular measure of portion of 3D space seen by the camera.
+   - As focal length gets smaller, image becomes more _wide angle_.
+     - More world points project onto the finite image plane.
+   - As focal length gets larger, image becomes more _narrow angle_.
+     - Smaller part of the world projects onto the finite image plane.
+4. Explain the perspective projection equation, including lens distortion and world to camera projection?
 
 ### 3. Image Formation 2: camera calibration algorithms
 
 1. Describe the general PnP problem and derive the behavior of its solutions?
+   - Given known 3D landmarks positions in the world frame and given their image correspondences in the camera frame, determine the 6DOF pose of the camera in the world frame (including the intrinsinc parameters if uncalibrated)
+   - Calibrated camera
+     - Work for any 3D points configurations
+     - Minimum number of points: 3
+   - Uncalibrated camera
+     - Direct Linear Transform (DLT)
+     - Minimum number of points: 4 if coplanar, 6 if non coplanar
 2. Explain the working principle of the P3P algorithm? 
+   - Carnot's Theorem
+   - With 3 points, there are at most 4 valid (positive) solutions. A fourth point can be used to disambiguate the solutions.
 3. Explain and derive the DLT? What is the minimum number of point correspondences it requires?
-3. Define central and non central omnidirectional cameras?
-4. What kind of mirrors ensure central projection?
+   - Our goal is to compute K, R, and T that satisfy the perspective projection equation
+   - Minimum 6 point correspondences
+   - SVD. The solution is the eigenvector corresponding to the smallest eigenvalues of the matrix $$Q^{T}Q$$
+4. Define central and non central omnidirectional cameras?
+   - Central catadioptric cameras
+     - Rays do not intersect in a single point
+     - Pro
+       - we can apply standard algorithms valid for perspective geometry
+       - we can unwarp parts of an image into a perspective one
+       - we can transform image points into a normalized vectors on the unit sphere
+   - Non central catadioptric cameras
+     - Rays do not intersect in a single point
+5. What kind of mirrors ensure central projection?
+   - Mirror must be __surface of revolution of a conic__.
 
 ### 4. Filtering & Edge detection
 
 1. Explain the differences between convolution and correlation?
-2. Explain the differences between a box filter and a Gaussian filter
+   - Convolution
+     - $$G[x, y]=\sum_{u=-k}^{k} \sum_{v=-k}^{k} F[x-u, y-v] H[u, v]$$
+     - Nice properties
+       - Linearity
+       - Associativity
+       - Commutativity
+   - Cross-Correlation
+     - $$G[x, y]=\sum_{u=-k}^{k} \sum_{v=-k}^{k} F[x+u, y+v] H[u, v]$$
+     - Properties
+       - Linearity, but no associativity and commutativity
+2. Explain the differences between a box filter and a Gaussian filter?
+   - Gaussian filter: weighted
 3. Explain why should one increase the size of the kernel of a Gaussian filter if is large (i.e. close to the size of the filter kernel?
+   - $$\sigma$$ is called “scale ” of the Gaussian kernel, and controls the amount of smoothing.
 4. Explain when would we need a median & bilateral filter?
-5. Explain how to handle boundary issues?
-6. Explain the working principle of edge detection with a 1D signal?
-7. Explain how noise does affect this procedure?
-8. Explain the differential property of convolution?
-9. Show how to compute the first derivative of an image intensity function along 𝑥and 𝑦
-10. Explain why the Laplacian of Gaussian operator is useful?
-11. List the properties of smoothing and derivative filters
-12. Illustrate the Canny edge detection algorithm?
-13. Explain what non maxima suppression is and how it is implemented?
+   - Median filter (non-linear filter)
+     - Removes spikes: good for "impluse noise" and "salt & pepper noise"
+     - Preserve strong edges but remove small (weak) edges.
+   - Bilateral filter
+     - Gaussian filters do not preserve strong egdes (discontinuites). This is because they apply the same kernel everywhere.
+     - __Bilateral filters__ solve this by adapting the kernel locally to the intensity profile, so they are patch content dependent: they only average pixels with similar brightness. Basically, the weighted average discards the influence of pixels with different brightness (across the discontinuity), while all the pixels that are on the same size of the discontinuity are smoothed kernel everywhere.
+1. Explain how to handle boundary issues?
+   - Boudary issue: The filter window falls off th edges of the image.
+   - Solutions: Need to pad the image borders
+     - Zero padding (black)
+     - Wrap around
+     - Copy edge
+     - Reflect across edge
+2. Explain the working principle of edge detection with a 1D signal?
+   - An edge is a place of rapid change in the image intensity function.
+3. Explain how noise does affect this procedure?
+4. Explain the differential property of convolution?
+   - $$\frac{\partial}{\partial x}(I * H)=I * \frac{\partial H}{\partial x}$$
+5.  Show how to compute the first derivative of an image intensity function along x and y?
+   - Prewitt filter
+   - Sobel filter
+6.  Explain why the Laplacian of Gaussian operator is useful?
+   - $$\frac{\partial^{2}}{\partial x^{2}}(I * H)=I * \frac{\partial^{2} H}{\partial x^{2}}$$
+   - Zero crossings of bottom graph is the edge.
+7.  List the properties of smoothing and derivative filters.
+   - Smoothing filter
+     - has positive values
+     - sums to 1 -> perserve brightness of constant regions
+     - removes "high-frequency" components: "low-pass" filter
+   - Derivative filter
+     - has opposite signs used to get high response in regions of high contrast
+     - sums to 0 -> no response in constant regions
+     - highlights "high-frequency" components: "high-pass" filter
+8.  Illustrate the Canny edge detection algorithm?
+   1. Take a grayscale image. If not grayscale (i.e. RGB), convert it into a grayscale by replacing each pixel by the mean value of its R, G, B components.
+   2. Convolve the image I with x and y derivatives of Gaussian filter.
+   3. Threshold it (i.e., set to 0 all pixels whose value is below a given threshold)
+   4. Take local maximum along gradient direction
+9.  Explain what non maxima suppression is and how it is implemented?
 
 ### 5. Point Feature Detectors, Part 1
 
