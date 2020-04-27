@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Nitty Gritty About G2O"
+title:      "G2O - Nitty Gritty"
 date:       2020-4-10
 author:     Tong
 catalog: true
