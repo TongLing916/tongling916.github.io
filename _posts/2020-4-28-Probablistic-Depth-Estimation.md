@@ -84,6 +84,9 @@ double tau = computeTau(T_ref_cur, it->ftr->f, z, px_error_angle);
 ```
 
 ```c++
+/// Compute the uncertainty of the measurement.
+/// @param f - Unit-bearing vector of the feature.
+/// @param z - Depth
 double DepthFilter::computeTau(
       const SE3& T_ref_cur,
       const Vector3d& f,
