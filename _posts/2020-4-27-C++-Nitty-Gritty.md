@@ -10,7 +10,32 @@ tags:
 
 ### [numeric_limits](https://en.cppreference.com/w/cpp/types/numeric_limits/min)
 
-1. `std::numeric_limits<float>::min()` returns the minimum positive normalized value. To find the value that has no values less than it, use `std::numeric_limits<float>::lowest()`. 
+- `std::numeric_limits<float>::min()` returns the minimum positive normalized value. To find the value that has no values less than it, use `std::numeric_limits<float>::lowest()`. 
+
+### accumulate
+
+- The type of the initial value is very __important__.
+
+```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+  vector<float> v{0.1f, 0.2f, 0.3f};
+  cout << accumulate(v.begin(), v.end(), 0) << endl;    // Output: 0
+  cout << accumulate(v.begin(), v.end(), 0.f) << endl;  // Output: 0.6
+  return 0;
+}
+```
+
+### Comparator
+
+> https://stackoverflow.com/questions/32263560/errorinvalid-comparator-when-sorting-using-custom-comparison-function
+
+- `std::sort` requires a [__strict weak ordering__](https://en.cppreference.com/w/cpp/named_req/Compare). For a strict weak ordering, `comp(x, x)` must be false.
 
 ### Circular Dependency
 
