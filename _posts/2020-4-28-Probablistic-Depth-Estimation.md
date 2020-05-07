@@ -143,7 +143,7 @@ void DepthFilter::updateSeed(const float x, const float tau2, Seed* seed)
 }
 ```
 
-### Create Point
+#### Create Point
 
 ```c++
 // if the seed has converged, we initialize a new candidate point and remove the seed
