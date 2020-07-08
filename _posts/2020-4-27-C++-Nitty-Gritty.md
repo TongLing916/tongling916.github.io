@@ -832,3 +832,20 @@ public:
 	}
 };
 ```
+
+### [`emplace_back` vs. `push_back`](https://en.cppreference.com/w/cpp/container/vector/emplace_back)
+
+> [Why would I ever use push_back instead of emplace_back?](https://stackoverflow.com/questions/10890653/why-would-i-ever-use-push-back-instead-of-emplace-back)
+
+```c++
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+  vector<vector<int>> res;
+  res.push_back({1, 2, 3});     // Correct
+  res.emplace_back({1, 2, 3});  // Wrong: Compile Error
+  return 0;
+}
+```
