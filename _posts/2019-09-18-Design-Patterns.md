@@ -482,8 +482,6 @@ Singleton* Singleton::Instance()
 }  
 ```
 
-//_
-
 * Instance使用惰性初始化，它的返回值直到被第一次访问时才创建和保存。
 
 * 构造器是protected。试图直接实例化Singleton的客户将得到又给编译时的错误信息。这就保证了仅有一个实例可以被创建。
