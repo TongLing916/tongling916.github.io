@@ -24,53 +24,52 @@ tags:
 
 ```c++
 // ORB-SLAM2: https://github.com/raulmur/ORB_SLAM2
-// To ensure that the centroid of the points is (0,0) and their average distance from the origin is square root 2.
-void Initializer::Normalize(const vector<cv::KeyPoint> &vKeys, vector<cv::Point2f> &vNormalizedPoints, cv::Mat &T)
-{
-    float meanX = 0;
-    float meanY = 0;
-    const int N = vKeys.size();
+// To ensure that the centroid of the points is (0,0) and their average distance
+// from the origin is square root 2.
+void Initializer::Normalize(const vector<cv::KeyPoint> &vKeys,
+                            vector<cv::Point2f> &vNormalizedPoints,
+                            cv::Mat &T) {
+  float meanX = 0;
+  float meanY = 0;
+  const int N = vKeys.size();
 
-    vNormalizedPoints.resize(N);
+  vNormalizedPoints.resize(N);
 
-    for(int i=0; i<N; i++)
-    {
-        meanX += vKeys[i].pt.x;
-        meanY += vKeys[i].pt.y;
-    }
+  for (int i = 0; i < N; i++) {
+    meanX += vKeys[i].pt.x;
+    meanY += vKeys[i].pt.y;
+  }
 
-    meanX = meanX/N;
-    meanY = meanY/N;
+  meanX = meanX / N;
+  meanY = meanY / N;
 
-    float meanDevX = 0;
-    float meanDevY = 0;
+  float meanDevX = 0;
+  float meanDevY = 0;
 
-    for(int i=0; i<N; i++)
-    {
-        vNormalizedPoints[i].x = vKeys[i].pt.x - meanX;
-        vNormalizedPoints[i].y = vKeys[i].pt.y - meanY;
+  for (int i = 0; i < N; i++) {
+    vNormalizedPoints[i].x = vKeys[i].pt.x - meanX;
+    vNormalizedPoints[i].y = vKeys[i].pt.y - meanY;
 
-        meanDevX += fabs(vNormalizedPoints[i].x);
-        meanDevY += fabs(vNormalizedPoints[i].y);
-    }
+    meanDevX += fabs(vNormalizedPoints[i].x);
+    meanDevY += fabs(vNormalizedPoints[i].y);
+  }
 
-    meanDevX = meanDevX/N;
-    meanDevY = meanDevY/N;
+  meanDevX = meanDevX / N;
+  meanDevY = meanDevY / N;
 
-    float sX = 1.0/meanDevX;
-    float sY = 1.0/meanDevY;
+  float sX = 1.0 / meanDevX;
+  float sY = 1.0 / meanDevY;
 
-    for(int i=0; i<N; i++)
-    {
-        vNormalizedPoints[i].x = vNormalizedPoints[i].x * sX;
-        vNormalizedPoints[i].y = vNormalizedPoints[i].y * sY;
-    }
+  for (int i = 0; i < N; i++) {
+    vNormalizedPoints[i].x = vNormalizedPoints[i].x * sX;
+    vNormalizedPoints[i].y = vNormalizedPoints[i].y * sY;
+  }
 
-	// x_normalized = T * x
-    T = cv::Mat::eye(3,3,CV_32F);
-    T.at<float>(0,0) = sX;
-    T.at<float>(1,1) = sY;
-    T.at<float>(0,2) = -meanX*sX;
-    T.at<float>(1,2) = -meanY*sY;
+  // x_normalized = T * x
+  T = cv::Mat::eye(3, 3, CV_32F);
+  T.at<float>(0, 0) = sX;
+  T.at<float>(1, 1) = sY;
+  T.at<float>(0, 2) = -meanX * sX;
+  T.at<float>(1, 2) = -meanY * sY;
 }
 ```
