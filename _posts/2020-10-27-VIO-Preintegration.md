@@ -10,6 +10,8 @@ tags:
 
 ### Motivation[^Forster16]
 
+### Mid-Propagation
+
 ### Error Propagation 
 
 ### Literature

@@ -87,6 +87,8 @@ The basic idea is to match the up-to-scale visual structure with IMU preintegrat
 - Why don't we estimate accelerometer bias?
    - Usually small value compared to gravity's magnitude --> Hard to estimate.
    - We think that it has only small influence.
+- Failure cases
+  - Pure rotation: Not able to do SfM.
 
 ### [ORB-SLAM3](https://github.com/UZ-SLAMLab/ORB_SLAM3) [^Campos20]
 
