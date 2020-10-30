@@ -237,3 +237,42 @@ Eigen::MatrixXd H1(dim, dim);
 // OK
 Eigen::Matrix<double, dim, dim> H2;
 ```
+
+### [Inverse Of a selfadjoint matrix](https://www.alexejgossmann.com/generalized_inverse/)
+
+- A matrix $$H$$ is [selfadjoint](https://eigen.tuxfamily.org/dox/classEigen_1_1SelfAdjointEigenSolver.html) if it equals its adjoint. For real matrices, this means that the matrix is symmetric: it equals its transpose, e.g., Hessian matrix.
+
+- [Relation beween matrix inversion and eigenvalues](https://www.quora.com/What-is-the-relation-of-a-matrix-inversion-and-eigenvalues)
+
+- For a Hessian matrix (symmetric) arising from a normal equation, we have
+$$
+H = QDQ^{T},\quad H^{-1} = QD^{-1}Q^{T}
+$$
+
+- If $$H$$ is not invertible (determinant is zero), we will compute its pseudoinverse.
+
+```c++
+  const double eps = 1e-8;
+  Eigen::MatrixXd J(3, 3);
+  J << 2, 1, 1, 0, 2, 3, 4, 5, 1;
+  Eigen::MatrixXd H = J.transpose() * J;
+  H.noalias() = 0.5 * (H + H.transpose());  // Ensure symmetry
+
+  const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> saes(H);
+  const Eigen::MatrixXd H_inv =
+      saes.eigenvectors() *
+      Eigen::VectorXd((saes.eigenvalues().array() > eps)
+                          .select(saes.eigenvalues().array().inverse(), 0))
+          .asDiagonal() *
+      saes.eigenvectors().transpose();
+
+  LOG(WARNING) << "Determinant of H: " << H.determinant();
+  LOG(WARNING) << "Inverse H\n" << H.inverse();
+  LOG(WARNING) << "Pseudoinverse H\n"
+               << H.completeOrthogonalDecomposition().pseudoInverse();
+  LOG(WARNING) << "Inverse H (eigen-decomposition)\n" << H_inv;
+```
+
+### [Solve least squares problems](https://eigen.tuxfamily.org/dox/group__LeastSquares.html)
+
+- Check [semi-definite](https://stackoverflow.com/questions/35227131/eigen-check-if-matrix-is-positive-semi-definite)
