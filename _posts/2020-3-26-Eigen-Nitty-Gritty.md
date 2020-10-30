@@ -193,3 +193,47 @@ std::vector<Eigen::Vector2d>
 
 
 
+### Initialization
+
+```c++
+int dim = 15;
+
+// OK
+Eigen::MatrixXd H1(dim, dim);
+
+// Bad (Compilation fails)
+Eigen::Matrix<double, dim, dim> H2;
+```
+
+
+```c++
+int dim = 15;
+
+// OK
+Eigen::MatrixXd H1(dim, dim);
+
+// Bad (Compilation fails)
+Eigen::Matrix<double, dim, dim> H2;
+```
+
+
+```c++
+const int dim = 15;
+
+// OK
+Eigen::MatrixXd H1(dim, dim);
+
+// OK
+Eigen::Matrix<double, dim, dim> H2;
+```
+
+
+```c++
+constexpr int dim = 15;
+
+// OK
+Eigen::MatrixXd H1(dim, dim);
+
+// OK
+Eigen::Matrix<double, dim, dim> H2;
+```
