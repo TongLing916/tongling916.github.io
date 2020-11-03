@@ -417,7 +417,9 @@ $$
 
 ### Visual Residual
 
-
+### Discussion
+   
+1. How do we balance contributions (weights) of IMU, visual and prior residuals?
 
 ### Literature
 

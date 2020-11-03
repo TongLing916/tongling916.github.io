@@ -14,6 +14,10 @@ tags:
 
 ### Error Propagation 
 
+### Discussion
+
+1. How do we estimate the initial covariance?
+
 ### Literature
 
 [^Forster16]: Forster, Christian, et al. "On-Manifold Preintegration for Real-Time Visual--Inertial Odometry." IEEE Transactions on Robotics 33.1 (2016): 1-21..
