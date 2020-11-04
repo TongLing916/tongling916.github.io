@@ -17,6 +17,7 @@ tags:
 ### Discussion
 
 1. How do we estimate the initial covariance?
+2. When do we need preintegration? (VINS-Mono vs. MSCKF)
 
 ### Literature
 
