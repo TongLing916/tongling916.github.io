@@ -24,6 +24,9 @@ tags:
 1. Why don't we estimate extrinsic parameter $$\mathbf{p}_{bc}$$?
 
 
+### [Kalibr](https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model)
+
+
 ### Literature
 
 [^Yang19]: Yang, Yulin; Geneva, Patrick; Eckenhoff, Kevin; Huang, Guoquan. "Degenerate Motion Analysis for Aided INS with Online Spatial and Temporal Sensor Calibration." 2019 RAL.
