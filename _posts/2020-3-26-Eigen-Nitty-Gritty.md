@@ -251,6 +251,8 @@ $$
 
 - If $$H$$ is not invertible (determinant is zero), we will compute its pseudoinverse.
 
+- Note that the `saes.eigenvalues()` are in __ascending__ order (from small to large).
+
 ```c++
   const double eps = 1e-8;
   Eigen::MatrixXd J(3, 3);
