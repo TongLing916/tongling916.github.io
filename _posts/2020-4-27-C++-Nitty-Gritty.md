@@ -849,3 +849,7 @@ int main() {
   return 0;
 }
 ```
+
+### [Operator Overloading](https://en.cppreference.com/w/cpp/language/operators)
+
+1. `operator[]` can __only__ have one argument, while `operator()` can have multiple.
