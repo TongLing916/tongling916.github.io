@@ -61,7 +61,7 @@ $$
 \color{red}{\mathbf{q}_{\text{wb}_{t}} = \mathbf{q}_{\text{wb}_{i}} \otimes \mathbf{q}_{\text{b}_{i} \text{b}_{t}}}.
 $$
 
-__Why is this formula useful and effective?__
+__Why is this equation useful and effective?__
 
 Our previous integrations are converted into the following ones, 
 
@@ -98,7 +98,24 @@ $$
     &= \mathbf{p}_{\text{wb}_{i}} + \mathbf{v}^{\text{w}}_{i} \Delta t - \frac{1}{2} \mathbf{g}^{\text{w}} \Delta t^{2} + \int\int_{t \in [i, j]}(\mathbf{q}_{\text{wb}_{i}} \otimes \mathbf{q}_{\text{b}_{i} \text{b}_{t}}\mathbf{a}^{\text{b}_{t}}) dt^{2} \\
     &= \mathbf{p}_{\text{wb}_{i}} + \mathbf{v}^{\text{w}}_{i} \Delta t - \frac{1}{2} \mathbf{g}^{\text{w}} \Delta t^{2} + \mathbf{q}_{\text{wb}_{i}} \int\int_{t \in [i, j]}(\mathbf{q}_{\text{b}_{i} \text{b}_{t}}\mathbf{a}^{\text{b}_{t}}) dt^{2} \\
     &= \mathbf{p}_{\text{wb}_{i}} + \mathbf{v}^{\text{w}}_{i} \Delta t - \frac{1}{2} \mathbf{g}^{\text{w}} \Delta t^{2} + \mathbf{q}_{\text{wb}_{i}} \color{red}{\boldsymbol{\alpha}_{\text{b}_{i} \text{b}_{j}}}
-\end{aligned}
+\end{aligned},
+$$
+
+where 
+
+$$
+\mathbf{q}_{\text{b}_{i} \text{b}_{j}} = \int_{t \in [i, j]} (\mathbf{q}_{\text{b}_{i} \text{b}_{t}} \otimes 
+    \begin{bmatrix}
+        0 \\ \frac{1}{2} \boldsymbol{\omega}^{\text{b}_{t}}
+    \end{bmatrix}) dt
+$$
+
+$$
+\boldsymbol{\beta}_{\text{b}_{i} \text{b}_{j}} = \int_{t \in [i, j]} (\mathbf{q}_{\text{b}_{i} \text{b}_{t}}\mathbf{a}^{\text{b}_{t}})dt
+$$
+
+$$
+\boldsymbol{\alpha}_{\text{b}_{i} \text{b}_{j}} = \int\int_{t \in [i, j]}(\mathbf{q}_{\text{b}_{i} \text{b}_{t}}\mathbf{a}^{\text{b}_{t}}) dt^{2}
 $$
 
 The preintegration $$\mathbf{q}_{\text{b}_{i} \text{b}_{j}}$$, $$\boldsymbol{\beta}_{\text{b}_{i} \text{b}_{j}}$$, and $$\boldsymbol{\alpha}_{\text{b}_{i} \text{b}_{j}}$$ are only related to IMU measurements, which __do not change__ with the update of orientation.
@@ -122,7 +139,7 @@ $$
 \end{bmatrix}
 $$
 
-Besides, the preintegration residual can be represented by 
+Besides, the [preintegration residual](https://tongling916.github.io/2020/10/26/VIO-Optimization/#inertial-residual) can be represented by 
 $$
 \mathbf{r}_{\mathcal{B}}(\mathbf{x}_{i}, \mathbf{x}_{j})= 
 \begin{bmatrix}
@@ -143,7 +160,42 @@ $$
 
 ### Mid-Propagation
 
-Now, we are concerned about the computation of preintegration values. 
+Now, we are concerned about the computation of preintegration values. Due to the fact that we can only obtain discrete IMU measurements, we need to find a way to propagte measurements from timestamp $$i$$ to $$j$$ (Note that there could be multiple measurements between $$i$$ and $$j$$).
+
+The authors of VINS-Mono[^Qin17] use mid-point propagation[^Sola17] for the computation.
+
+For example, assumed that we need to propagate IMU measurements from $$k$$ to $$k+1$$ (elapsed time: $$\delta t$$) into preintegration, we compute the values as follows,
+
+$$
+\begin{aligned}
+    \bar{\boldsymbol{\omega}}^{\text{b}_{k}} &= \frac{1}{2}(\boldsymbol{\omega}^{\text{b}_{k}} + \boldsymbol{\omega}^{\text{b}_{k+1}}) \\
+    &= \frac{1}{2}((\tilde{\boldsymbol{\omega}}
+    ^{\text{b}_{k}} - \mathbf{b}^{\text{g}}_{k}) + (\tilde{\boldsymbol{\omega}}
+    ^{\text{b}_{k+1}} - \mathbf{b}^{\text{g}}_{k}))
+\end{aligned}
+$$
+
+$$
+\color{red}{\mathbf{q}_{\text{b}_{i}\text{b}_{k+1}}} = \mathbf{q}_{\text{b}_{i}\text{b}_{k}} \otimes \begin{bmatrix}
+    1 \\ \frac{1}{2}\bar{\boldsymbol{\omega}}^{\text{b}_{k}} \delta t
+\end{bmatrix}
+$$
+
+$$
+\begin{aligned}
+    \bar{\mathbf{a}}^{\text{b}_{i}} &= \frac{1}{2}(\mathbf{q}_{\text{b}_{i}\text{b}_{k}}\mathbf{a}^{\text{b}_{k}} + \mathbf{q}_{\text{b}_{i}\text{b}_{k+1}}\mathbf{a}^{\text{b}_{k+1}}) \\
+    &= \frac{1}{2}(\mathbf{q}_{\text{b}_{i}\text{b}_{k}}(\tilde{\mathbf{a}}^{\text{b}_{k}} - \textbf{b}^{\text{a}}_{k}) + \mathbf{q}_{\text{b}_{i}\text{b}_{k+1}}(\tilde{\mathbf{a}}^{\text{b}_{k+1}} - \textbf{b}^{\text{a}}_{k}))
+\end{aligned}
+$$
+
+$$
+\color{red}{\boldsymbol{\beta}_{\text{b}_{i}\text{b}_{k+1}}} = \boldsymbol{\beta}_{\text{b}_{i}\text{b}_{k}} + \bar{\mathbf{a}}^{\text{b}_{i}} \delta t
+$$
+
+$$
+\color{red}{\boldsymbol{\alpha}_{\text{b}_{i}\text{b}_{k+1}}} = \boldsymbol{\alpha}_{\text{b}_{i}\text{b}_{k}} +\boldsymbol{\beta}_{\text{b}_{i}\text{b}_{k}} \delta t + \frac{1}{2}\bar{\mathbf{a}}^{\text{b}_{i}} \delta t^2
+$$
+
 
 ### Error Propagation 
 
@@ -157,3 +209,5 @@ Now, we are concerned about the computation of preintegration values.
 [^Forster16]: Forster, Christian, et al. "On-Manifold Preintegration for Real-Time Visual--Inertial Odometry." IEEE Transactions on Robotics 33.1 (2016): 1-21.
 
 [^Sola17]: Sola, Joan. "Quaternion kinematics for the error-state Kalman filter." arXiv preprint arXiv:1711.02508 (2017).
+
+[^Qin17]: Qin, Tong, and Shaojie Shen. "Robust initialization of monocular visual-inertial estimation on aerial robots." 2017 IROS.
