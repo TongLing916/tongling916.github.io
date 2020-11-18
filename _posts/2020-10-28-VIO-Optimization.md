@@ -147,10 +147,10 @@ $$
 \begin{aligned}
 \boldsymbol{\alpha}_{b_{i} b_{j}} &=\boldsymbol{\alpha}_{b_{i} b_{j}}+\mathbf{J}_{b_{i}^{\text{a}}}^{\alpha} \delta \mathbf{b}_{i}^{a}+\mathbf{J}_{b_{i}^{g}}^{\alpha} \delta \mathbf{b}_{i}^{g} \\
 \boldsymbol{\beta}_{b_{i} b_{j}} &=\boldsymbol{\beta}_{b_{i} b_{j}}+\mathbf{J}_{b_{i}^{\text{a}}}^{\beta} \delta \mathbf{b}_{i}^{a}+\mathbf{J}_{b_{i}^{g}}^{\beta} \delta \mathbf{b}_{i}^{g} \\
-\mathbf{q}_{b_{i} b_{j}} &=\mathbf{q}_{b_{i} b_{j}} \otimes\left[\begin{array}{c}
-1 \\
+\mathbf{q}_{b_{i} b_{j}} &=\mathbf{q}_{b_{i} b_{j}} \otimes \begin{bmatrix}
+   1 \\
 \frac{1}{2} \mathbf{J}_{b_{i}^{g}}^{q} \delta \mathbf{b}_{i}^{g}
-\end{array}\right]
+\end{bmatrix}
 \end{aligned}.
 $$
 
