@@ -8,7 +8,14 @@ tags:
     - VIO
 ---
 
+> [Kalibr](https://github.com/ethz-asl/kalibr/wiki)
+
 ### Goal
+
+1. Extrinsics
+2. Time delay
+
+### [IMU Noise](https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model)
 
 ### [Degenerate Motion](http://udel.edu/~pgeneva/downloads/papers/r05.pdf)[^Yang19]
 
@@ -22,9 +29,6 @@ tags:
 ### [VINS Mono](https://github.com/HKUST-Aerial-Robotics/VINS-Mono)[^Qin17]
 
 1. Why don't we estimate extrinsic parameter $$\mathbf{p}_{bc}$$?
-
-
-### [Kalibr](https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model)
 
 
 ### Literature

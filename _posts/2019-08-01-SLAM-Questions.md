@@ -38,6 +38,11 @@ tags:
 24. RANSAC在选择最佳模型的时候用的判断准则是什么?
 25. 除了RANSAC之外，还有什么鲁棒估计的方法？
 26. 3D地图点是怎么存储的？表达方式？
+    - Point cloud
+    - 3D voxel grid (e.g. [octomap](https://octomap.github.io/))
+    - 2.5D maps (extended elevation maps)
+    - Surface map (multi-level surface map)
+    - Mesh (TSDF)
 27. 给你$m$相机$n$个点的bundle adjustment。当我们在仿真的时候，在迭代的时候，相机的位姿会很快的接近真值。而地图点却不能很快的收敛这是为什么呢？
 28. LM算法里面那个$\lambda$是如何变化的呢？
 29. 说一下3D空间的位姿如何去表达?
