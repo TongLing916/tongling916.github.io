@@ -108,7 +108,7 @@ $$\mathbf{b} = \mathbf{J}^T\mathbf{e}$$
 
 - $$LDL^T$$ Decomposition [^Hartley04]
 
-### [Example - DSO](http://www.lingtong.de/2020/04/17/DSO-Schur-Complement/) [^Engel18]
+### [Example - DSO](http://tongling916.github.io/2020/04/17/DSO-Schur-Complement/) [^Engel18]
 
 ### Visualization [^Sola16]
 

@@ -34,7 +34,7 @@ void stitchDoubleInternal(MatXX* H, VecX* b, const EnergyFunctional* const EF,
                           int tid);
 ```
 
-- Actually, this matrix computes [$$\mathbf{H}_{11}$$](http://www.lingtong.de/2020/04/17/DSO-Schur-Complement/#hessian) and [$$\mathbf{b}_{1}$$](http://www.lingtong.de/2020/04/17/DSO-Schur-Complement/#b), but there are some equations to mention,
+- Actually, this matrix computes [$$\mathbf{H}_{11}$$](http://tongling916.github.io/2020/04/17/DSO-Schur-Complement/#hessian) and [$$\mathbf{b}_{1}$$](http://tongling916.github.io/2020/04/17/DSO-Schur-Complement/#b), but there are some equations to mention,
   - $$\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}} = \frac{\partial r}{\partial \boldsymbol{\xi}_{ji}}\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{iw}}$$
   - $$\frac{\partial r}{\partial \boldsymbol{\xi}_{iw}} = \frac{\partial r}{\partial \boldsymbol{\xi}_{ji}}\frac{\partial \boldsymbol{\xi}_{ji}}{\partial \boldsymbol{\xi}_{iw}}$$
   - 
@@ -56,4 +56,4 @@ void stitchDoubleMT(IndexThreadReduce<Vec10>* red, MatXX& H, VecX& b,
                     const bool MT);
 ```
 
-- Basically, this matrix computes [$$\mathbf{H}_{11}$$](http://www.lingtong.de/2020/04/17/DSO-Schur-Complement/#hessian) and [$$\mathbf{b}_{1}$$](http://www.lingtong.de/2020/04/17/DSO-Schur-Complement/#b). Most of work will be done in `void stitchDoubleInternal()`. After that, this function will copy some existing elements over diagonal (due to the symmetric property).
+- Basically, this matrix computes [$$\mathbf{H}_{11}$$](http://tongling916.github.io/2020/04/17/DSO-Schur-Complement/#hessian) and [$$\mathbf{b}_{1}$$](http://tongling916.github.io/2020/04/17/DSO-Schur-Complement/#b). Most of work will be done in `void stitchDoubleInternal()`. After that, this function will copy some existing elements over diagonal (due to the symmetric property).

@@ -10,13 +10,13 @@ tags:
 
 > [Direct sparse odometry](https://vision.in.tum.de/research/vslam/dso)
 
-> Foreknowledge about Schur complement can be found [here](http://www.lingtong.de/2020/04/02/Schur-Complement/)
+> Foreknowledge about Schur complement can be found [here](http://tongling916.github.io/2020/04/02/Schur-Complement/)
 
 ### Initialization
 
 #### Preparation
 
-As introduced [here](http://www.lingtong.de/2020/04/02/Jacobian-Matrices/), we have 
+As introduced [here](http://tongling916.github.io/2020/04/02/Jacobian-Matrices/), we have 
 
 $$
 \mathbf{J}=\begin{bmatrix}
@@ -285,7 +285,7 @@ $$
 
 For convenience, we consider only __one__ residual (which is DEFINITELY __IMPOSSIBLE__) wrt. two frames in the following sections. 
 
-As introduced [here](http://www.lingtong.de/2020/04/02/Jacobian-Matrices/), we have 
+As introduced [here](http://tongling916.github.io/2020/04/02/Jacobian-Matrices/), we have 
 
 $$
 \mathbf{J}=\begin{bmatrix}
@@ -511,7 +511,7 @@ $$
 $$
 
 
-Details about these Jacobians can be found in this [post](http://www.lingtong.de/2020/04/17/DSO-Jacobians/).
+Details about these Jacobians can be found in this [post](http://tongling916.github.io/2020/04/17/DSO-Jacobians/).
 
 #### Schur Complement
 

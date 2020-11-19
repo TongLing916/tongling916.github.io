@@ -260,7 +260,7 @@ $$
 \end{aligned}
 $$
 
-### [Reprojection Error](https://github.com/lsyads/fisheye-ORB-SLAM/blob/master/Thirdparty/g2o/g2o/types/types_six_dof_expmap.cpp#L141) ([EUCM](http://www.lingtong.de/2020/03/26/Camera-Model/#extended-unified-camera-model-))
+### [Reprojection Error](https://github.com/lsyads/fisheye-ORB-SLAM/blob/master/Thirdparty/g2o/g2o/types/types_six_dof_expmap.cpp#L141) ([EUCM](http://tongling916.github.io/2020/03/26/Camera-Model/#extended-unified-camera-model-))
 
 The reprojection error is defined as follows
 
@@ -354,7 +354,7 @@ $$
 
 #### Inverse Depth
 
-### [Photometric Error (DSO)](http://www.lingtong.de/2020/04/17/DSO-Jacobians/)
+### [Photometric Error (DSO)](http://tongling916.github.io/2020/04/17/DSO-Jacobians/)
 
 ### Photometric Error (Plane)
 

@@ -2313,7 +2313,7 @@ Explanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and su
 
 #### Train of Thought
 
-See [560. Subarray Sum Equals K](http://lingtong.de/2019/07/21/Hash-Table/#560-Subarray-Sum-Equals-K).
+See [560. Subarray Sum Equals K](http://tongling916.github.io/2019/07/21/Hash-Table/#560-Subarray-Sum-Equals-K).
 
 * Running sum from first element to index i : sum_i. If we mod k, it will be some format like : `sum_i = k * x + modk_1`
 * Running sum from first element to index j : sum_j. If we mod k, it will be some format like : `sum_j = k * y + modk_2`

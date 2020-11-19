@@ -10,7 +10,7 @@ tags:
 
 > [Direct sparse odometry](https://vision.in.tum.de/research/vslam/dso)
 
-> Foreknowledge about Lie groups and Lie algebra can be found [here](http://www.lingtong.de/2020/04/02/Jacobian-Matrices/)
+> Foreknowledge about Lie groups and Lie algebra can be found [here](http://tongling916.github.io/2020/04/02/Jacobian-Matrices/)
 
 ### Photometric Error
 

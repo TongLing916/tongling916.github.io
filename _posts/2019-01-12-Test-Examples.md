@@ -58,7 +58,7 @@ rosbag play --pause /home/tong/Datasets/ORB_SLAM_Example/Example.bag
 ./Examples/Monocular/mono_kitti Vocabulary/ORBvoc.txt Examples/Monocular/KITTI00-02.yaml /home/tong/Datasets/kitti/sequences/00/
 {% endhighlight %}
 
-#### [Summit Dataset][dataset-summit]
+#### Summit Dataset
 {% highlight bash %}
 ./Examples/Monocular/mono_summit Vocabulary/ORBvoc.txt Examples/Monocular/SUMMIT.yaml /home/tong/Datasets/summit/2018_12_03/axis_camera/mono/
 {% endhighlight %}
@@ -109,7 +109,7 @@ mode=0
 ./bin/run_dso_euroc preset=0 files=/home/tong/Datasets/euroc/MH_01_easy/mav0/cam0/
 {% endhighlight %}
 
-#### [Summit Dataset][dataset-summit]
+#### Summit Dataset
 {% highlight bash %}
 ./bin/run_dso_summit preset=0 files=/home/tong/Datasets/summit/2018_12_03/axis_camera/ calib=./examples/Summit/axis_camera.txt
 {% endhighlight %}
@@ -174,6 +174,5 @@ python Desktop/LearningSLAM/error_plotter/evaluate_ate_scale.py Desktop/ground_t
 [dataset-kitti]: http://www.cvlibs.net/datasets/kitti/eval_odometry.php
 [dataset-euroc]: https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets
 [github-tum-mono]: https://github.com/tum-vision/mono_dataset_code
-[dataset-summit]: http://lingtong.de/2018/12/08/ROS-Summit-Commands/
 [github-evo]: https://github.com/MichaelGrupp/evo
 [tools-tum-rgbd]: https://vision.in.tum.de/data/datasets/rgbd-dataset/tools
