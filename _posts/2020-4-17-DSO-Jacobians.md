@@ -535,4 +535,4 @@ $$
 
 #### Sliding Window Optimization
 
-Suppose that we have totally `M` frames, `N` points, `L` residuals, then our Jacobian is a $$L \times (4 + 8 * M + N)$$ matrix, because a camera has `4` intrinsic paramters ($$f_x, f_y, c_x, c_y$$), every frame has a pose (`6` DoF) and `2` photometric parameters ($$a, b$$), and every point has `1` inverse depth wrt. its host frame (in which it was first time observed).
+Suppose that we have totally `M` frames, `N` points, `L` residuals, then our Jacobian is a $$L \times (4 + 8 * M + N)$$ matrix, because a camera has `4` intrinsic parameters ($$f_x, f_y, c_x, c_y$$), every frame has a pose (`6` DoF) and `2` photometric parameters ($$a, b$$), and every point has `1` inverse depth wrt. its host frame (in which it was first time observed).

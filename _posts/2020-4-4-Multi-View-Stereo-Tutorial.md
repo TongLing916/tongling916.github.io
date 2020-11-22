@@ -16,7 +16,7 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 
 1. All the MVS algorithms described in the following chapters assume the same input: 
    1. a set of images.
-   2. their corresponding camera paramters (pose and intrinsic parameters).
+   2. their corresponding camera parameters (pose and intrinsic parameters).
 2. An MVS algorithm is only as good as the quality of the input images and camera parameters.
 3. __MVS pipeline__
    1. Collect images.
@@ -143,7 +143,7 @@ This tutorial presents a hands-on view of the field of multi-view stereo with a 
 - __Key Elements__
   - __Patch Model__: A patch $$p$$ is essentially a local tangent plane approximation of a surface, whose geometry is determined by its center $$\mathbf{c}(p)$$ and unit normal vector $$\mathbf{n}(p)$$. 
     - The __robust__ photo-consistency function is simply evaluated by using the patch as a proxy geometry to sample pixel colors.
-    - In practice, the perpendicular direction is fixed before and throughout the optimization, where one parameter for position and two paramters for normal are optimized via a standard non-linear least squares technique.
+    - In practice, the perpendicular direction is fixed before and throughout the optimization, where one parameter for position and two parameters for normal are optimized via a standard non-linear least squares technique.
   - __Image-based Data Structure__
     - Image projections of reconstructed patches in the visible images are used to help __searching or accessing neighboring patches__, then __enforcing regularization__.
 

@@ -301,11 +301,11 @@ $$\mathbf{x}_1 = \begin{bmatrix}\mathbf{C} \\ \boldsymbol{\xi}_{iw} \\ \mathbf{a
 | Variable | Meaning | 
 | - | - |
 | $$r$$ | single residual|
-| $$\mathbf{C}=\begin{bmatrix}f_{x} \\ f_{y} \\ c_{x} \\ c_{y} \end{bmatrix}$$ | intrinsic paramters (`4 x 1`)|
+| $$\mathbf{C}=\begin{bmatrix}f_{x} \\ f_{y} \\ c_{x} \\ c_{y} \end{bmatrix}$$ | intrinsic parameters (`4 x 1`)|
 | $$\boldsymbol{\xi}_{iw}$$ | pose $$\mathbf{T}_{iw}$$ of frame i (`6 x 1`)|
-| $$\mathbf{a}_{i}=\begin{bmatrix}a_{i} \\ b_{i}\end{bmatrix}$$ | photometric paramters of frame i (`2 x 1`)|
+| $$\mathbf{a}_{i}=\begin{bmatrix}a_{i} \\ b_{i}\end{bmatrix}$$ | photometric parameters of frame i (`2 x 1`)|
 | $$\boldsymbol{\xi}_{jw}$$ | pose $$\mathbf{T}_{jw}$$ of frame j (`6 x 1`)|
-| $$\mathbf{a}_{j}=\begin{bmatrix}a_{j} \\ b_{j}\end{bmatrix}$$ | photometric paramters of frame j (`2 x 1`)|
+| $$\mathbf{a}_{j}=\begin{bmatrix}a_{j} \\ b_{j}\end{bmatrix}$$ | photometric parameters of frame j (`2 x 1`)|
 | $$\rho$$ | inverse depth (`1 x 1`)|
 
 #### Hessian

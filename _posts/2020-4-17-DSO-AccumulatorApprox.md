@@ -90,7 +90,7 @@ void updateTopRight(const float* const x4, const float* const x6,
 ```c++
 /** \brief Compute the bottom right part of Hessian
  *
- * Compute the Hessian and b ONLY related to photometric affine paramters
+ * Compute the Hessian and b ONLY related to photometric affine parameters
 */
 void updateBotRight(const float a00, const float a01, const float a02,
                     const float a11, const float a12,

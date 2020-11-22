@@ -549,7 +549,7 @@ linearly)?
    - __Optimization__: The process of finding $$\theta$$ that minimize the loss
    - __Function__: Problem modelling -> Deep networks are highly non-linear $$f(x, \theta)$$
 2. Supervised learning
-   - Find function $$f(x, \theta)$$ that intimitates a ground truth signal, where $$\theta$$ are function paramters or weights.
+   - Find function $$f(x, \theta)$$ that intimitates a ground truth signal, where $$\theta$$ are function parameters or weights.
    - It is assumed that we have access to both input data or __images__ and __ground truth labels__.
 3. Unsupervised learning
    - We only have access to input data or __images__.

@@ -8,7 +8,9 @@ tags:
     - SLAM
 ---
 
-> <<Probablistic Robotics>>
+> [Probablistic Robotics](https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf)
+
+> [Kalman Filter](https://www.kalmanfilter.net/default.aspx)
 
 ### Bayes Filter
 
