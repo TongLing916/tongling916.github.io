@@ -8,6 +8,12 @@ tags:
     - SLAM
 ---
 
+### Wiki
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/computation_lie_1.jpg)
+
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/computation_lie_2.jpg)
+
 ### Convention
 
 #### Lie Group - Lie Algebra
@@ -417,6 +423,8 @@ $$
 \end{aligned}
 $$
 
+
+### [Preintegration Error](https://tongling916.github.io/2020/10/26/VIO-Optimization/#inertial-residual)
 
 ### Literature
 
