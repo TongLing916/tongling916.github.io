@@ -5,7 +5,7 @@ date:       2020-11-20
 author:     Tong
 catalog: true
 tags:
-    - VIO
+    - SLAM
 ---
 
 > [Chinese Blog](https://zhuanlan.zhihu.com/p/268908000)
