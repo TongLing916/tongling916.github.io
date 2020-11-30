@@ -8,6 +8,10 @@ tags:
     - SLAM
 ---
 
+### [Storage orders](https://eigen.tuxfamily.org/dox/group__TopicStorageOrders.html)
+
+- The default in Eigen is column-major. 
+
 ### [Aliasing](http://eigen.tuxfamily.org/dox/group__TopicAliasing.html)
 
 #### Summary
@@ -278,3 +282,70 @@ $$
 ### [Solve least squares problems](https://eigen.tuxfamily.org/dox/group__LeastSquares.html)
 
 - Check [semi-definite](https://stackoverflow.com/questions/35227131/eigen-check-if-matrix-is-positive-semi-definite)
+- Check [invertibility](https://eigen.tuxfamily.org/dox/classEigen_1_1FullPivLU.html) (the determinant is often __not__ a good way of checking if a matrix is [invertible](https://eigen.tuxfamily.org/dox/group__TutorialLinearAlgebra.html).)
+
+```c++
+// Jx = -r
+// (Normal equation) J^T J x = -J^T r
+class NormalEquationSolver {
+ public:
+  static VecX Solve(const MatXX& J, const VecX& r,
+                    const METHOD& method = LDLT) {
+    CHECK_GT(J.cols(), 0);
+    CHECK_GT(J.rows(), 0);
+    CHECK_EQ(J.rows(), r.rows());
+
+    switch (method) {
+      case INVERSE: {
+        // ~0.063 ms with invertibility check
+        // ~0.029 ms without invertibility check
+        const MatXX H = J.transpose() * J;
+        const MatXX b = -J.transpose() * r;
+        Eigen::FullPivLU<MatXX> lu(H);
+        lu.setThreshold(1e-6);
+        if (!lu.isInvertible()) {
+          LOG(ERROR) << "H is not invertible! Something wrong? det(H)="
+                     << H.determinant();
+          break;
+        }
+        return H.inverse() * b;
+      }
+
+      case PSEUDO_INVERSE: {
+        // ~0.048 ms
+        const MatXX H = J.transpose() * J;
+        const MatXX b = -J.transpose() * r;
+        return H.completeOrthogonalDecomposition().pseudoInverse() * b;
+      }
+
+      case LDLT: {
+        // ~0.013 ms (fastest)
+        const MatXX H = J.transpose() * J;
+        const MatXX b = -J.transpose() * r;
+        return H.ldlt().solve(b);
+      }
+
+      case QR: {
+        // ~0.022 ms
+        return J.colPivHouseholderQr().solve(-r);
+      }
+
+      case SVD: {
+        // ~0.077 ms (most accurate and reliable)
+        return J.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(-r);
+      }
+
+      case PCG: {
+        LOG(WARNING) << "NOT IMPLEMENTED YET! Use PCG instead :)";
+        break;
+      }
+
+      default:
+        break;
+    }
+    return (J.transpose() * J).ldlt().solve(-J.transpose() * r);
+  }
+};
+```
+
+
