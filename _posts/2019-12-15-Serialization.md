@@ -5,7 +5,7 @@ date:       2019-12-15
 author:     Tong
 catalog: true
 tags:
-    - Language
+    - C++
 ---
 
 > <http://www.ocoudert.com/blog/2011/07/09/a-practical-guide-to-c-serialization/>

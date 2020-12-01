@@ -5,14 +5,24 @@ date:       2020-4-27
 author:     Tong
 catalog: true
 tags:
-    - Language
+    - C++
 ---
+
+### [Rule of Three](https://stackoverflow.com/questions/4172722/what-is-the-rule-of-three)
+
+### [Copy-and-Swap Idiom](https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom)
+
+### [`explicit`](https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean/121163#121163)
+
+### [`initialization list`](https://stackoverflow.com/questions/12697625/how-the-try-catch-in-initialization-list-works)
+
+### [public friend swap member function](https://stackoverflow.com/questions/5695548/public-friend-swap-member-function)
 
 ### [numeric_limits](https://en.cppreference.com/w/cpp/types/numeric_limits/min)
 
 - `std::numeric_limits<float>::min()` returns the minimum positive normalized value. To find the value that has no values less than it, use `std::numeric_limits<float>::lowest()`. 
 
-### accumulate
+### `accumulate`
 
 - The type of the initial value is very __important__.
 
@@ -36,6 +46,11 @@ int main() {
 > https://stackoverflow.com/questions/32263560/errorinvalid-comparator-when-sorting-using-custom-comparison-function
 
 - `std::sort` requires a [__strict weak ordering__](https://en.cppreference.com/w/cpp/named_req/Compare). For a strict weak ordering, `comp(x, x)` must be false.
+
+
+### Thread safe
+
+1. [Is `std::shared_ptr` thread-safe?](https://stackoverflow.com/questions/9127816/stdshared-ptr-thread-safety-explained)
 
 ### Circular Dependency
 
@@ -981,9 +996,10 @@ void someCode() {
 }
 ```
 
-
 ### [enable_if](https://en.cppreference.com/w/cpp/types/enable_if)
 
 > [enable_if](https://docs.microsoft.com/en-us/cpp/standard-library/enable-if-class?view=msvc-160)
 
 ### [SFINAE](https://en.cppreference.com/w/cpp/language/sfinae) - Substitution Failure Is Not An Error
+
+###
