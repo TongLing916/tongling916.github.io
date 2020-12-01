@@ -853,3 +853,137 @@ int main() {
 ### [Operator Overloading](https://en.cppreference.com/w/cpp/language/operators)
 
 1. `operator[]` can __only__ have one argument, while `operator()` can have multiple.
+
+### [new](https://en.cppreference.com/w/cpp/language/new)
+
+#### `new`
+
+> [new operator](https://docs.microsoft.com/en-us/cpp/cpp/new-operator-cpp?view=msvc-160)
+
+- Call `operator new` and corresponding constructors
+- Cannot be overloaded
+
+#### `operator new`
+
+> [operator new](https://en.cppreference.com/w/cpp/memory/new/operator_new)
+
+- Allocate memory but does not call constructor
+- Can be overloaded
+
+```c++
+#include <cstdio>
+#include <cstdlib>
+#include <new>
+// replacement of a minimal set of functions:
+void* operator new(std::size_t sz) {
+    std::printf("global op new called, size = %zu\n", sz);
+    void *ptr = std::malloc(sz);
+    if (ptr)
+        return ptr;
+    else
+        throw std::bad_alloc{};
+}
+void operator delete(void* ptr) noexcept
+{
+    std::puts("global op delete called");
+    std::free(ptr);
+}
+int main() {
+     int* p1 = new int;
+     delete p1;
+ 
+     int* p2 = new int[10]; // guaranteed to call the replacement in C++11
+     delete[] p2;
+}
+```
+
+```c++
+#include <iostream>
+// class-specific allocation functions
+struct X {
+    static void* operator new(std::size_t sz)
+    {
+        std::cout << "custom new for size " << sz << '\n';
+        return ::operator new(sz);
+    }
+    static void* operator new[](std::size_t sz)
+    {
+        std::cout << "custom new[] for size " << sz << '\n';
+        return ::operator new(sz);
+    }
+};
+int main() {
+     X* p1 = new X;
+     delete p1;
+     X* p2 = new X[10];
+     delete[] p2;
+}
+```
+
+
+#### `placement new`
+
+> [What are uses of placement new](https://stackoverflow.com/questions/362953/what-are-uses-of-the-c-construct-placement-new)
+
+> [What is “placement new” and why would I use it?](https://isocpp.org/wiki/faq/dtors#placement-new)
+
+- `Placement new` allows you to construct an object in memory that's already allocated.
+
+
+```c++
+// pre-allocated buffer
+char *buf  = new char[sizeof(string)]; 
+
+// placement new
+string *p = new (buf) string("hi");    
+
+// ordinary heap allocation
+string *q = new string("hi");          
+```
+
+```c++
+#include <stdexcept>
+#include <iostream>
+struct X {
+    X() { throw std::runtime_error(""); }
+    // custom placement new
+    static void* operator new(std::size_t sz, bool b) {
+        std::cout << "custom placement new called, b = " << b << '\n';
+        return ::operator new(sz);
+    }
+    // custom placement delete
+    static void operator delete(void* ptr, bool b)
+    {
+        std::cout << "custom placement delete called, b = " << b << '\n';
+        ::operator delete(ptr);
+    }
+};
+int main() {
+   try {
+     X* p1 = new (true) X;
+   } catch(const std::exception&) { }
+}
+```
+
+
+```c++
+#include <new>        // Must #include this to use "placement new"
+
+#include "Fred.h"     // Declaration of class Fred
+
+void someCode() {
+  char memory[sizeof(Fred)];     // Line #1
+  void* place = memory;          // Line #2
+  Fred* f = new(place) Fred();   // Line #3 (see "DANGER" below)
+  // The pointers f and place will be equal
+  // ...
+  f->~Fred();   // Explicitly call the destructor for the placed object
+}
+```
+
+
+### [enable_if](https://en.cppreference.com/w/cpp/types/enable_if)
+
+> [enable_if](https://docs.microsoft.com/en-us/cpp/standard-library/enable-if-class?view=msvc-160)
+
+### [SFINAE](https://en.cppreference.com/w/cpp/language/sfinae) - Substitution Failure Is Not An Error

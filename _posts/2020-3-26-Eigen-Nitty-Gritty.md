@@ -336,7 +336,7 @@ class NormalEquationSolver {
       }
 
       case PCG: {
-        LOG(WARNING) << "NOT IMPLEMENTED YET! Use PCG instead :)";
+        LOG(WARNING) << "NOT IMPLEMENTED YET! Use LDLT instead :)";
         break;
       }
 
