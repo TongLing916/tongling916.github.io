@@ -418,7 +418,7 @@ Child Only!
 
 ### Error with multiple definitions of function
 
-#### Problematic source code
+- Problematic source code
 
 ```c++
 // main.cpp
@@ -486,16 +486,16 @@ void print(const std::string& s) {
 }
 ```
 
-#### Error Info
+- Error Info
 
 ```bash
 multiple definition of 'print()'
 ```
 
 
-#### [Reason](https://stackoverflow.com/questions/17904643/error-with-multiple-definitions-of-function)
+- [Reason](https://stackoverflow.com/questions/17904643/error-with-multiple-definitions-of-function)
 
-#### Solution 1: `static`
+- Solution 1: `static`
 
 ```c++
 // main.cpp
@@ -563,7 +563,7 @@ static void print(const std::string& s) {
 }
 ```
 
-#### Solution 2: `inline`
+- Solution 2: `inline`
 
 ```c++
 // main.cpp
@@ -630,7 +630,7 @@ inline void print(const std::string& s) {
 }
 ```
 
-#### Solution 3: separate declaration and definition
+- Solution 3: separate declaration and definition
 
 ```c++
 // main.cpp
@@ -707,7 +707,7 @@ void Common::print(const std::string& s) {
 }
 ```
 
-#### Solution 4: `namespace`
+- Solution 4: `namespace`
 
 ```c++
 // main.cpp
@@ -776,7 +776,7 @@ namespace {
 }
 ```
 
-#### Solution 5: multiple classes in one file
+- Solution 5: multiple classes in one file
 
 ```c++
 // main.cpp
@@ -831,7 +831,7 @@ void print(const std::string& s) {
 }
 ```
 
-#### Solution 6: `class` + `static`
+- Solution 6: `class` + `static`
 
 ```c++
 // main.cpp
