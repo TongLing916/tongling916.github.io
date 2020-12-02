@@ -10,13 +10,66 @@ tags:
 
 ### [Rule of Three](https://stackoverflow.com/questions/4172722/what-is-the-rule-of-three)
 
+- __Rule of three__: If you need to explicitly declare either the destructor, copy constructor or copy assignment operator yourself, you probably need to explicitly declare all three of them.
+- __Rule of five__: From C++11 on, an object has 2 extra special member functions: the move constructor and move assignment. The rule of five states to implement these functions as well.
+- __Rule of zero__: The zero part of the rule states that you are allowed to not write any of the special member functions when creating your class.
+
 ### [Copy-and-Swap Idiom](https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom)
+
+> [public friend swap member function](https://stackoverflow.com/questions/5695548/public-friend-swap-member-function)
+
+- Assignment, at its heart, is two steps: 
+  1. __tearing down the object's old state.__
+  2. __building its new state as a copy of some other object's state__.
+
+```c++
+class dumb_array {
+ public:
+  // (default) constructor
+  dumb_array(std::size_t size = 0)
+      : mSize(size), mArray(mSize ? new int[mSize]() : nullptr) {}
+
+  // copy-constructor
+  dumb_array(const dumb_array& other)
+      : mSize(other.mSize), mArray(mSize ? new int[mSize] : nullptr), {
+    // note that this is non-throwing, because of the data
+    // types being used; more attention to detail with regards
+    // to exceptions must be given in a more general case, however
+    std::copy(other.mArray, other.mArray + mSize, mArray);
+  }
+
+  // destructor
+  ~dumb_array() { delete[] mArray; }
+
+  friend void swap(dumb_array& first, dumb_array& second) {
+    // enable ADL (not necessary in our case, but good practice)
+    using std::swap;
+
+    // by swapping the members of two objects,
+    // the two objects are effectively swapped
+    swap(first.mSize, second.mSize);
+    swap(first.mArray, second.mArray);
+  }
+
+  // move constructor
+  // initialize via default constructor, C++11 only
+  dumb_array(dumb_array&& other) noexcept : dumb_array() { swap(*this, other); }
+
+  dumb_array& operator=(dumb_array other) {
+    swap(*this, other);
+
+    return *this;
+  }
+
+ private:
+  std::size_t mSize;
+  int* mArray;
+};
+```
 
 ### [`explicit`](https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean/121163#121163)
 
 ### [`initialization list`](https://stackoverflow.com/questions/12697625/how-the-try-catch-in-initialization-list-works)
-
-### [public friend swap member function](https://stackoverflow.com/questions/5695548/public-friend-swap-member-function)
 
 ### [numeric_limits](https://en.cppreference.com/w/cpp/types/numeric_limits/min)
 
@@ -51,6 +104,7 @@ int main() {
 ### Thread safe
 
 1. [Is `std::shared_ptr` thread-safe?](https://stackoverflow.com/questions/9127816/stdshared-ptr-thread-safety-explained)
+2. [`std::atomic(std::shared_ptr)`](https://en.cppreference.com/w/cpp/memory/shared_ptr/atomic2)
 
 ### Circular Dependency
 
@@ -1001,5 +1055,3 @@ void someCode() {
 > [enable_if](https://docs.microsoft.com/en-us/cpp/standard-library/enable-if-class?view=msvc-160)
 
 ### [SFINAE](https://en.cppreference.com/w/cpp/language/sfinae) - Substitution Failure Is Not An Error
-
-###
