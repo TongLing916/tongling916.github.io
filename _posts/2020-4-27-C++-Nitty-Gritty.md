@@ -67,15 +67,15 @@ class dumb_array {
 };
 ```
 
-### [`explicit`](https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean/121163#121163)
+### [explicit](https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean/121163#121163)
 
-### [`initialization list`](https://stackoverflow.com/questions/12697625/how-the-try-catch-in-initialization-list-works)
+### [initialization list](https://stackoverflow.com/questions/12697625/how-the-try-catch-in-initialization-list-works)
 
 ### [numeric_limits](https://en.cppreference.com/w/cpp/types/numeric_limits/min)
 
 - `std::numeric_limits<float>::min()` returns the minimum positive normalized value. To find the value that has no values less than it, use `std::numeric_limits<float>::lowest()`. 
 
-### `accumulate`
+### [accumulate](https://en.cppreference.com/w/cpp/algorithm/accumulate)
 
 - The type of the initial value is very __important__.
 
@@ -94,11 +94,11 @@ int main() {
 }
 ```
 
-### Comparator
+### [Comparator](https://en.cppreference.com/w/cpp/named_req/Compare)
 
-> https://stackoverflow.com/questions/32263560/errorinvalid-comparator-when-sorting-using-custom-comparison-function
+> [Error: "invalid comparator" when sorting using custom comparison function](https://stackoverflow.com/questions/32263560/errorinvalid-comparator-when-sorting-using-custom-comparison-function)
 
-- `std::sort` requires a [__strict weak ordering__](https://en.cppreference.com/w/cpp/named_req/Compare). For a strict weak ordering, `comp(x, x)` must be false.
+- `std::sort` requires a [strict weak ordering](https://en.cppreference.com/w/cpp/named_req/Compare). For a strict weak ordering, `comp(x, x)` must be false.
 
 
 ### Thread safe
@@ -418,7 +418,7 @@ Child Only!
 
 ### Error with multiple definitions of function
 
-#### Problematic source code
+- Problematic source code
 
 ```c++
 // main.cpp
@@ -486,16 +486,16 @@ void print(const std::string& s) {
 }
 ```
 
-#### Error Info
+- Error Info
 
 ```bash
 multiple definition of 'print()'
 ```
 
 
-#### [Reason](https://stackoverflow.com/questions/17904643/error-with-multiple-definitions-of-function)
+- [Reason](https://stackoverflow.com/questions/17904643/error-with-multiple-definitions-of-function)
 
-#### Solution 1: `static`
+- Solution 1: `static`
 
 ```c++
 // main.cpp
@@ -563,7 +563,7 @@ static void print(const std::string& s) {
 }
 ```
 
-#### Solution 2: `inline`
+- Solution 2: `inline`
 
 ```c++
 // main.cpp
@@ -630,7 +630,7 @@ inline void print(const std::string& s) {
 }
 ```
 
-#### Solution 3: separate declaration and definition
+- Solution 3: separate declaration and definition
 
 ```c++
 // main.cpp
@@ -707,7 +707,7 @@ void Common::print(const std::string& s) {
 }
 ```
 
-#### Solution 4: `namespace`
+- Solution 4: `namespace`
 
 ```c++
 // main.cpp
@@ -776,7 +776,7 @@ namespace {
 }
 ```
 
-#### Solution 5: multiple classes in one file
+- Solution 5: multiple classes in one file
 
 ```c++
 // main.cpp
@@ -831,7 +831,7 @@ void print(const std::string& s) {
 }
 ```
 
-#### Solution 6: `class` + `static`
+- Solution 6: `class` + `static`
 
 ```c++
 // main.cpp
@@ -925,16 +925,12 @@ int main() {
 
 ### [new](https://en.cppreference.com/w/cpp/language/new)
 
-#### `new`
-
-> [new operator](https://docs.microsoft.com/en-us/cpp/cpp/new-operator-cpp?view=msvc-160)
+#### [new operator](https://docs.microsoft.com/en-us/cpp/cpp/new-operator-cpp?view=msvc-160)
 
 - Call `operator new` and corresponding constructors
 - Cannot be overloaded
 
-#### `operator new`
-
-> [operator new](https://en.cppreference.com/w/cpp/memory/new/operator_new)
+#### [operator new]((https://en.cppreference.com/w/cpp/memory/new/operator_new))
 
 - Allocate memory but does not call constructor
 - Can be overloaded
@@ -992,7 +988,7 @@ int main() {
 
 #### `placement new`
 
-> [What are uses of placement new](https://stackoverflow.com/questions/362953/what-are-uses-of-the-c-construct-placement-new)
+> [What are uses of placement new?](https://stackoverflow.com/questions/362953/what-are-uses-of-the-c-construct-placement-new)
 
 > [What is “placement new” and why would I use it?](https://isocpp.org/wiki/faq/dtors#placement-new)
 
