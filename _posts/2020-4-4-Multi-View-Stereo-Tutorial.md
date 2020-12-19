@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Multi-View Stereo: A Tutorial"
+title:      "[Paper] Multi-View Stereo: A Tutorial"
 date:       2020-4-4
 author:     Tong
 catalog: true

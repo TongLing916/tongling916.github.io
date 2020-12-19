@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Important Jacobians in SLAM"
+title:      "[Cheatsheet] Jacobians in SLAM"
 date:       2020-4-2
 author:     Tong
 catalog: true

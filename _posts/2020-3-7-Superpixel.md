@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Superpixel"
+title:      "[Paper] Superpixel"
 date:       2020-3-7
 author:     Tong
 catalog: true
