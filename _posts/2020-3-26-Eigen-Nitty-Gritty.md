@@ -131,7 +131,87 @@ $$
   LOG(WARNING) << "Inverse H (eigen-decomposition)\n" << H_inv;
 ```
 
+### Inverse matrix
+
+```c++
+#include <iostream>
+
+#include <glog/logging.h>
+#include <Eigen/Dense>
+
+int main() {
+  FLAGS_alsologtostderr = true;
+  FLAGS_colorlogtostderr = true;
+
+  Eigen::Matrix3d H;
+  H << 30, 10, 20, 0, 40, 10, 0, 0, 30;
+  H = H.selfadjointView<Eigen::Upper>();
+
+  std::cout << "H: det(H) = " << H.determinant() << std::endl
+            << H << std::endl
+            << std::endl;
+
+  {
+    std::cout << "Inverse H" << std::endl
+              << H.inverse() << std::endl
+              << std::endl;
+  }
+
+  {
+    // NOTE: Do not use pseudoInverse() to solve Ax=b
+    // https://eigen.tuxfamily.org/dox/classEigen_1_1CompleteOrthogonalDecomposition.html#a3c89639299720ce089435d26d6822d6f
+    const Eigen::MatrixXd H_pinv =
+        H.completeOrthogonalDecomposition().pseudoInverse();
+    std::cout << "Pseudoinverse H" << std::endl
+              << H_pinv << std::endl
+              << std::endl;
+  }
+
+  {
+    // NOTE: H must selfadjoint
+    // https://eigen.tuxfamily.org/dox/classEigen_1_1SelfAdjointEigenSolver.html
+    constexpr double eps = 1e-8;
+    const Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> saes(H);
+    const Eigen::MatrixXd H_inv =
+        saes.eigenvectors() *
+        Eigen::VectorXd((saes.eigenvalues().array() > eps)
+                            .select(saes.eigenvalues().array().inverse(), 0))
+            .asDiagonal() *
+        saes.eigenvectors().transpose();
+    std::cout << "Inverse H (eigen-decomposition)" << std::endl
+              << H_inv << std::endl
+              << std::endl;
+  }
+
+  {
+    // NOTE: H must be pos. def.
+    // http://eigen.tuxfamily.org/dox/classEigen_1_1LLT.html
+    Eigen::MatrixXd Hinv = Eigen::MatrixXd::Identity(H.rows(), H.cols());
+    H.llt().solveInPlace(Hinv);
+    std::cout << "Inverse H (LLT)" << std::endl
+              << Hinv << std::endl
+              << std::endl;
+  }
+
+  {
+    // NOTE: H must be pos. or neg. semi. def.
+    // http://eigen.tuxfamily.org/dox/classEigen_1_1LDLT.html
+    Eigen::MatrixXd Hinv = Eigen::MatrixXd::Identity(H.rows(), H.cols());
+    H.ldlt().solveInPlace(Hinv);
+    std::cout << "Inverse H (LDLT)" << std::endl
+              << Hinv << std::endl
+              << std::endl;
+  }
+
+  return 0;
+}
+```
+
 ### [Solve least squares problems](https://eigen.tuxfamily.org/dox/group__LeastSquares.html)
+
+> [Solving linear systems with Eigen (and OpenCV)](https://www.patrikhuber.ch/blog/2015/01/solving-linear-systems-with-eigen/)
+
+> [Linear algebra and decompositions](https://eigen.tuxfamily.org/dox/group__TutorialLinearAlgebra.html  )
 
 - Check [semi-definite](https://stackoverflow.com/questions/35227131/eigen-check-if-matrix-is-positive-semi-definite)
 - Check [invertibility](https://eigen.tuxfamily.org/dox/classEigen_1_1FullPivLU.html) (the determinant is often __not__ a good way of checking if a matrix is [invertible](https://eigen.tuxfamily.org/dox/group__TutorialLinearAlgebra.html).)
@@ -172,6 +252,8 @@ class NormalEquationSolver {
 
       case LDLT: {
         // ~0.013 ms (fastest)
+        // https://eigen.tuxfamily.org/dox/classEigen_1_1LDLT.html#aa257dd7a8acf8b347d5a22a13d6ca3e1
+        // NOTE: H must be pos. def. or neg. def.
         const MatXX H = J.transpose() * J;
         const MatXX b = -J.transpose() * r;
         return H.ldlt().solve(b);
