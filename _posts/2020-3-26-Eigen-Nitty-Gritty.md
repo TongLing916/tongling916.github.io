@@ -214,6 +214,70 @@ inline Eigen::Matrix4d InvSE3(const Eigen::Matrix4d &T) {
 }
 ```
 
+### [View](https://eigen.tuxfamily.org/dox/group__QuickRefPage.html)
+
+```c++
+  Eigen::Matrix4d Q;
+  Q << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16;
+  std::cout << Q << std::endl << std::endl;
+  //  1  2  3  4
+  //  5  6  7  8
+  //  9 10 11 12
+  // 13 14 15 16
+
+  Eigen::Matrix4d O;
+  O.setOnes();
+
+  {
+    Eigen::MatrixXd U = Q.selfadjointView<Eigen::Upper>();
+    std::cout << U << std::endl << std::endl;
+    // 1  2  3  4
+    // 2  6  7  8
+    // 3  7 11 12
+    // 4  8 12 16
+
+    Eigen::MatrixXd L = Q.selfadjointView<Eigen::Lower>();
+    std::cout << L << std::endl << std::endl;
+    //  1  5  9 13
+    //  5  6 10 14
+    //  9 10 11 15
+    // 13 14 15 16
+  }
+
+  {
+    Eigen::MatrixXd U = Q.triangularView<Eigen::Upper>();
+    std::cout << U << std::endl << std::endl;
+    // 1  2  3  4
+    // 0  6  7  8
+    // 0  0 11 12
+    // 0  0  0 16
+
+    Eigen::MatrixXd L = Q.triangularView<Eigen::Lower>();
+    std::cout << L << std::endl << std::endl;
+    //  1  0  0  0
+    //  5  6  0  0
+    //  9 10 11  0
+    // 13 14 15 16
+  }
+
+  {
+    Eigen::Matrix4d Q1 = Q, Q2 = Q;
+    Q1.triangularView<Eigen::Upper>() = O;
+    std::cout << Q1 << std::endl << std::endl;
+    //  1  1  1  1
+    //  5  1  1  1
+    //  9 10  1  1
+    // 13 14 15  1
+
+    Q2.triangularView<Eigen::Lower>() = O;
+    std::cout << Q2 << std::endl;
+    // 1  2  3  4
+    // 1  1  7  8
+    // 1  1  1 12
+    // 1  1  1  1
+  }
+```
+
 
 ### [Aliasing](http://eigen.tuxfamily.org/dox/group__TopicAliasing.html)
 
