@@ -133,6 +133,8 @@ $$
 
 ### Inverse matrix
 
+![](https://raw.githubusercontent.com/TongLing916/tongling916.github.io/master/img/Ax=b.jpg)
+
 ```c++
 #include <iostream>
 
